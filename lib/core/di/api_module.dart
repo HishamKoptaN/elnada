@@ -1,0 +1,66 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
+
+import '../database/shared_pref_helper.dart';
+import '../database/shared_pref_keys.dart';
+
+@singleton
+class AuthInterceptor extends Interceptor {
+  final TokenStorage tokenStorage;
+  String? _currentToken;
+  AuthInterceptor(this.tokenStorage);
+  Future<void> updateToken() async {
+    _currentToken = await tokenStorage.getToken();
+  }
+
+  @override
+  Future<void> onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
+    try {
+      final token = await tokenStorage.getToken();
+      if (token != null) {
+        options.headers['Authorization'] = 'Bearer $token';
+      }
+      super.onRequest(options, handler);
+    } catch (e) {
+      super.onRequest(options, handler);
+    }
+  }
+}
+
+@singleton
+class LoggingInterceptor extends Interceptor {
+  //! onRequest
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    log('Request[${options.method}] => PATH: ${options.path}');
+    super.onRequest(options, handler);
+  }
+
+  //! onRequest
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    log('Response[${response.statusCode}]: ${response.data}');
+    super.onResponse(response, handler);
+  }
+
+  //! onError
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    log('Error[${err.response?.statusCode}]: ${err.message}');
+    super.onError(err, handler);
+  }
+}
+
+@lazySingleton
+class TokenStorage {
+  Future<String?> getToken() async {
+    return await SharedPrefHelper.getSecuredString(
+      key: SharedPrefKeys.jwtToken,
+    );
+  }
+}
