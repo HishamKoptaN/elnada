@@ -31,7 +31,7 @@ class _DailyCollectionsApi implements DailyCollectionsApi {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'daily-collections',
+            'collections',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -60,7 +60,7 @@ class _DailyCollectionsApi implements DailyCollectionsApi {
       Options(method: 'PUT', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'daily-collections',
+            'collections',
             queryParameters: queryParameters,
             data: _data,
           )

@@ -2,7 +2,6 @@
   "version": "0.3.0",
   "configurations": [
     /* ================= DEV ================= */
-
     {
       "name": "Flutter Dev (Android)",
       "type": "dart",
@@ -41,7 +40,7 @@
         "dev",
         "--dart-define=ENV=dev"
       ],
-      "deviceId": "windows" // أو "macos" أو "linux" حسب نظامك
+      "deviceId": "windows" 
     },
     /* ================= DESKTOP PROD ================= */
     {

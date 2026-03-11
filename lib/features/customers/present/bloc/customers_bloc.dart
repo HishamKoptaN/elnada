@@ -22,7 +22,7 @@ class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
         getCustomers: (date) async {
           emit(
             CustomersState.loaded(
-              customersRes: CustomersResEntity(),
+              customersRes: const CustomersResEntity(),
               selectedDate: date,
             ),
           );
@@ -33,7 +33,7 @@ class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
             success: (res) async {
               emit(
                 CustomersState.loaded(
-                  customersRes: res ?? CustomersResEntity(),
+                  customersRes: res ?? const CustomersResEntity(),
                   selectedDate: date,
                 ),
               );
@@ -42,7 +42,7 @@ class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
               emit(CustomersState.failure(apiErrorModel: error));
               emit(
                 CustomersState.loaded(
-                  customersRes: CustomersResEntity(),
+                  customersRes: const CustomersResEntity(),
                   selectedDate: date,
                 ),
               );
@@ -86,7 +86,7 @@ class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
               emit(
                 CustomersState.loaded(
                   selectedDate: DateTime.now(),
-                  customersRes: CustomersResEntity(),
+                  customersRes: const CustomersResEntity(),
                   customerStatement:
                       res ?? const CustomerStatementReportResEntity(),
                 ),
@@ -194,6 +194,7 @@ class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
             customerDailyReportDetailsRes,
             customerStatement,
             days,
+            isEditable,
           ) {
             return {
               'type': 'loaded',
@@ -202,6 +203,7 @@ class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
               'customerDailyReportDetailsRes': customerDailyReportDetailsRes
                   ?.toJson(),
               'days': days,
+              'isEditable': isEditable,
             };
           },
       failure: (apiErrorModel) => {
@@ -222,12 +224,14 @@ class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
     required DateTime selectedDate,
     required CustomerDailyReportDetailsResEntity customerDailyReportDetailsRes,
     required CustomerStatementReportResEntity customerStatement,
-  }) => emit(
-    CustomersState.loaded(
-      customersRes: customersRes,
-      selectedDate: selectedDate,
-      customerDailyReportDetailsRes: customerDailyReportDetailsRes,
-      customerStatement: customerStatement,
-    ),
-  );
+  }) {
+    emit(
+      CustomersState.loaded(
+        customersRes: customersRes,
+        selectedDate: selectedDate,
+        customerDailyReportDetailsRes: customerDailyReportDetailsRes,
+        customerStatement: customerStatement,
+      ),
+    );
+  }
 }

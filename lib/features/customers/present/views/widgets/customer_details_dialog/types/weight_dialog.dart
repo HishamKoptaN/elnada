@@ -73,12 +73,6 @@ class WeightDialog {
                               createDailyTransactionReq: state
                                   .createDailyTransactionReq
                                   .copyWith(
-                                    productId: GenericFormzInput.dirty(
-                                      productId,
-                                    ),
-                                    customerId: GenericFormzInput.dirty(
-                                      customer.id,
-                                    ),
                                     weight: GenericFormzInput.dirty(value),
                                   ),
                             ),

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
 import '../../../../../core/di/dependency_injection.dart';
+import '../../../../../core/utils/date_helpers.dart';
 import '../../../../../core/widgets/custom_circular_progress.dart';
 import '../../../../products/domain/entities/product_entity.dart';
 import '../../../../products/present/bloc/products_bloc.dart';
@@ -12,8 +13,13 @@ import '../../../domain/entities/customer_daily_reports_res_entity.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PricesWidget extends StatelessWidget {
-  const PricesWidget({super.key, required this.prices});
+  const PricesWidget({
+    super.key,
+    required this.prices,
+    required this.selectedDate,
+  });
   final List<ProductPriceEntity> prices;
+  final DateTime selectedDate;
   @override
   Widget build(BuildContext context) {
     if (prices.isEmpty) {
@@ -40,7 +46,9 @@ class PricesWidget extends StatelessWidget {
   }) {
     return GestureDetector(
       onTap: () {
-        _showEditPriceDialog(context: context, productPrice: productPrice);
+        if (selectedDate.isToday) {
+          _showEditPriceDialog(context: context, productPrice: productPrice);
+        }
       },
       child: Container(
         decoration: BoxDecoration(
@@ -55,52 +63,30 @@ class PricesWidget extends StatelessWidget {
             ),
           ],
         ),
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: .min,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  productPrice.product?.name ?? '',
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey[700],
-                  ),
-                ),
-                SizedBox(height: 4.h),
-                if (productPrice.productDailyprice?.price != null)
-                  Text(
-                    productPrice.productDailyprice?.price ?? '',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.blue[900],
-                    ),
-                  )
-                else
-                  FaIcon(
-                    FontAwesomeIcons.plus,
-                    color: Colors.blue,
-                    size: 20.0.sp,
-                  ),
-              ],
+            Text(
+              productPrice.product?.name ?? '',
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey[700],
+              ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Image.asset(
-            //     productPrice.productId == 1
-            //         ? 'assets/icons/chick.jpg'
-            //         : 'assets/icons/mother_chick.png',
-            //     height: 50.h,
-            //     width: 40.w,
-            //     // fit: BoxFit.contain,
-            //   ),
-            // ),
+            SizedBox(height: 4.h),
+            if (productPrice.productDailyprice?.price != null)
+              Text(
+                productPrice.productDailyprice?.price ?? '',
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.blue[900],
+                ),
+              )
+            else
+              FaIcon(FontAwesomeIcons.plus, color: Colors.blue, size: 20.0.sp),
           ],
         ),
       ),

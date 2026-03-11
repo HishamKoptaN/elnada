@@ -5,7 +5,7 @@ import '../../../../../../core/utils/devices_utiles.dart' as devices;
 import '../../../../domain/entities/customer_daily_reports_res_entity.dart';
 import '../../../bloc/customers_bloc.dart';
 import '../customer_details_dialog/customer_details_dialog.dart';
-import '../employee_data_source.dart';
+import 'daily_customer_reports_data_source.dart';
 
 class CustomersDataGridWidget extends StatelessWidget {
   const CustomersDataGridWidget({
@@ -14,7 +14,7 @@ class CustomersDataGridWidget extends StatelessWidget {
     required this.employeeDataSource,
   });
   final CustomersState state;
-  final EmployeeDataSource employeeDataSource;
+  final DailyCustomerReportsDataSource employeeDataSource;
   @override
   Widget build(BuildContext context) {
     final bool isDesktop =
@@ -31,8 +31,13 @@ class CustomersDataGridWidget extends StatelessWidget {
           rowHeight: 70.h,
           source: employeeDataSource,
           columnWidthCalculationRange: ColumnWidthCalculationRange.allRows,
-          onCellTap: (details) =>
-              _handleCellTap(details, state, isDesktop, context),
+          onCellTap: (details) => _handleCellTap(
+            details: details,
+            state: state,
+            selectedDate: state.selectedDate,
+            isDesktop: isDesktop,
+            context: context,
+          ),
           columns: _buildColumns(isDesktop: isDesktop),
         ),
       ),
@@ -41,12 +46,13 @@ class CustomersDataGridWidget extends StatelessWidget {
     );
   }
 
-  void _handleCellTap(
-    DataGridCellTapDetails details,
-    CustomersState state,
-    bool isDesktop,
-    BuildContext context,
-  ) {
+  void _handleCellTap({
+    required DataGridCellTapDetails details,
+    required CustomersState state,
+    required DateTime selectedDate,
+    required bool isDesktop,
+    required BuildContext context,
+  }) {
     if (details.rowColumnIndex.rowIndex > 0) {
       final currentColumns = _buildColumns(isDesktop: isDesktop);
       final String clickedColumnName =
@@ -62,6 +68,7 @@ class CustomersDataGridWidget extends StatelessWidget {
         CustomerDetailsDialog.show(
           context: context,
           customer: customerReport.customer ?? const CustomerEntity(),
+          selectedDate: selectedDate,
           dailyReportId: customerReport.id ?? 0,
           index: originalIndex,
         );

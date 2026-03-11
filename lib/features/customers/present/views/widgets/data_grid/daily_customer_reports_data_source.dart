@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import '../../../domain/entities/customer_daily_reports_res_entity.dart';
+import '../../../../domain/entities/customer_daily_reports_res_entity.dart';
 
-class EmployeeDataSource extends DataGridSource {
-  EmployeeDataSource({required this.customers, required this.isDesktop});
+class DailyCustomerReportsDataSource extends DataGridSource {
+  DailyCustomerReportsDataSource({
+    required this.customers,
+    required this.isDesktop,
+  });
   final List<CustomerDailyReportEntity> customers;
   final bool isDesktop;
   @override
   List<DataGridRow> get rows => _customerData;
   List<DataGridRow> _customerData = [];
-  EmployeeDataSource copyWith({
+  DailyCustomerReportsDataSource copyWith({
     required List<CustomerDailyReportEntity> customers,
     required bool isDesktop,
   }) {

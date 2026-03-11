@@ -774,12 +774,12 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( DateTime selectedDate,  CustomersResEntity customersRes,  CustomerDailyReportDetailsResEntity? customerDailyReportDetailsRes,  CustomerStatementReportResEntity? customerStatement,  String? days)?  loaded,TResult Function( ApiErrorModel apiErrorModel)?  failure,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( DateTime selectedDate,  CustomersResEntity customersRes,  CustomerDailyReportDetailsResEntity? customerDailyReportDetailsRes,  CustomerStatementReportResEntity? customerStatement,  String? days,  bool isEditable)?  loaded,TResult Function( ApiErrorModel apiErrorModel)?  failure,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Loaded() when loaded != null:
-return loaded(_that.selectedDate,_that.customersRes,_that.customerDailyReportDetailsRes,_that.customerStatement,_that.days);case _Failure() when failure != null:
+return loaded(_that.selectedDate,_that.customersRes,_that.customerDailyReportDetailsRes,_that.customerStatement,_that.days,_that.isEditable);case _Failure() when failure != null:
 return failure(_that.apiErrorModel);case _:
   return orElse();
 
@@ -798,12 +798,12 @@ return failure(_that.apiErrorModel);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( DateTime selectedDate,  CustomersResEntity customersRes,  CustomerDailyReportDetailsResEntity? customerDailyReportDetailsRes,  CustomerStatementReportResEntity? customerStatement,  String? days)  loaded,required TResult Function( ApiErrorModel apiErrorModel)  failure,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( DateTime selectedDate,  CustomersResEntity customersRes,  CustomerDailyReportDetailsResEntity? customerDailyReportDetailsRes,  CustomerStatementReportResEntity? customerStatement,  String? days,  bool isEditable)  loaded,required TResult Function( ApiErrorModel apiErrorModel)  failure,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case _Loading():
 return loading();case _Loaded():
-return loaded(_that.selectedDate,_that.customersRes,_that.customerDailyReportDetailsRes,_that.customerStatement,_that.days);case _Failure():
+return loaded(_that.selectedDate,_that.customersRes,_that.customerDailyReportDetailsRes,_that.customerStatement,_that.days,_that.isEditable);case _Failure():
 return failure(_that.apiErrorModel);case _:
   throw StateError('Unexpected subclass');
 
@@ -821,12 +821,12 @@ return failure(_that.apiErrorModel);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( DateTime selectedDate,  CustomersResEntity customersRes,  CustomerDailyReportDetailsResEntity? customerDailyReportDetailsRes,  CustomerStatementReportResEntity? customerStatement,  String? days)?  loaded,TResult? Function( ApiErrorModel apiErrorModel)?  failure,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( DateTime selectedDate,  CustomersResEntity customersRes,  CustomerDailyReportDetailsResEntity? customerDailyReportDetailsRes,  CustomerStatementReportResEntity? customerStatement,  String? days,  bool isEditable)?  loaded,TResult? Function( ApiErrorModel apiErrorModel)?  failure,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Loaded() when loaded != null:
-return loaded(_that.selectedDate,_that.customersRes,_that.customerDailyReportDetailsRes,_that.customerStatement,_that.days);case _Failure() when failure != null:
+return loaded(_that.selectedDate,_that.customersRes,_that.customerDailyReportDetailsRes,_that.customerStatement,_that.days,_that.isEditable);case _Failure() when failure != null:
 return failure(_that.apiErrorModel);case _:
   return null;
 
@@ -903,7 +903,7 @@ String toString() {
 
 
 class _Loaded implements CustomersState {
-  const _Loaded({required this.selectedDate, required this.customersRes, this.customerDailyReportDetailsRes, this.customerStatement, this.days});
+  const _Loaded({required this.selectedDate, required this.customersRes, this.customerDailyReportDetailsRes, this.customerStatement, this.days, this.isEditable = true});
   
 
  final  DateTime selectedDate;
@@ -911,6 +911,7 @@ class _Loaded implements CustomersState {
  final  CustomerDailyReportDetailsResEntity? customerDailyReportDetailsRes;
  final  CustomerStatementReportResEntity? customerStatement;
  final  String? days;
+@JsonKey() final  bool isEditable;
 
 /// Create a copy of CustomersState
 /// with the given fields replaced by the non-null parameter values.
@@ -922,16 +923,16 @@ _$LoadedCopyWith<_Loaded> get copyWith => __$LoadedCopyWithImpl<_Loaded>(this, _
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Loaded&&(identical(other.selectedDate, selectedDate) || other.selectedDate == selectedDate)&&(identical(other.customersRes, customersRes) || other.customersRes == customersRes)&&(identical(other.customerDailyReportDetailsRes, customerDailyReportDetailsRes) || other.customerDailyReportDetailsRes == customerDailyReportDetailsRes)&&(identical(other.customerStatement, customerStatement) || other.customerStatement == customerStatement)&&(identical(other.days, days) || other.days == days));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Loaded&&(identical(other.selectedDate, selectedDate) || other.selectedDate == selectedDate)&&(identical(other.customersRes, customersRes) || other.customersRes == customersRes)&&(identical(other.customerDailyReportDetailsRes, customerDailyReportDetailsRes) || other.customerDailyReportDetailsRes == customerDailyReportDetailsRes)&&(identical(other.customerStatement, customerStatement) || other.customerStatement == customerStatement)&&(identical(other.days, days) || other.days == days)&&(identical(other.isEditable, isEditable) || other.isEditable == isEditable));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,selectedDate,customersRes,customerDailyReportDetailsRes,customerStatement,days);
+int get hashCode => Object.hash(runtimeType,selectedDate,customersRes,customerDailyReportDetailsRes,customerStatement,days,isEditable);
 
 @override
 String toString() {
-  return 'CustomersState.loaded(selectedDate: $selectedDate, customersRes: $customersRes, customerDailyReportDetailsRes: $customerDailyReportDetailsRes, customerStatement: $customerStatement, days: $days)';
+  return 'CustomersState.loaded(selectedDate: $selectedDate, customersRes: $customersRes, customerDailyReportDetailsRes: $customerDailyReportDetailsRes, customerStatement: $customerStatement, days: $days, isEditable: $isEditable)';
 }
 
 
@@ -942,7 +943,7 @@ abstract mixin class _$LoadedCopyWith<$Res> implements $CustomersStateCopyWith<$
   factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) = __$LoadedCopyWithImpl;
 @useResult
 $Res call({
- DateTime selectedDate, CustomersResEntity customersRes, CustomerDailyReportDetailsResEntity? customerDailyReportDetailsRes, CustomerStatementReportResEntity? customerStatement, String? days
+ DateTime selectedDate, CustomersResEntity customersRes, CustomerDailyReportDetailsResEntity? customerDailyReportDetailsRes, CustomerStatementReportResEntity? customerStatement, String? days, bool isEditable
 });
 
 
@@ -959,14 +960,15 @@ class __$LoadedCopyWithImpl<$Res>
 
 /// Create a copy of CustomersState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? selectedDate = null,Object? customersRes = null,Object? customerDailyReportDetailsRes = freezed,Object? customerStatement = freezed,Object? days = freezed,}) {
+@pragma('vm:prefer-inline') $Res call({Object? selectedDate = null,Object? customersRes = null,Object? customerDailyReportDetailsRes = freezed,Object? customerStatement = freezed,Object? days = freezed,Object? isEditable = null,}) {
   return _then(_Loaded(
 selectedDate: null == selectedDate ? _self.selectedDate : selectedDate // ignore: cast_nullable_to_non_nullable
 as DateTime,customersRes: null == customersRes ? _self.customersRes : customersRes // ignore: cast_nullable_to_non_nullable
 as CustomersResEntity,customerDailyReportDetailsRes: freezed == customerDailyReportDetailsRes ? _self.customerDailyReportDetailsRes : customerDailyReportDetailsRes // ignore: cast_nullable_to_non_nullable
 as CustomerDailyReportDetailsResEntity?,customerStatement: freezed == customerStatement ? _self.customerStatement : customerStatement // ignore: cast_nullable_to_non_nullable
 as CustomerStatementReportResEntity?,days: freezed == days ? _self.days : days // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,isEditable: null == isEditable ? _self.isEditable : isEditable // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

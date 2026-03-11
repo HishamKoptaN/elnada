@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "370986284193",
+    "project_id": "abujena-dawajen",
+    "storage_bucket": "abujena-dawajen.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:370986284193:android:2627bbb75f61bd6cbbace0",
+        "android_client_info": {
+          "package_name": "com.abujena.dawajen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVxe9bEMWnkMcOZPu2tDA4YANRa_3wIaM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

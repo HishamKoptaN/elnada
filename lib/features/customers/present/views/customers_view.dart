@@ -5,7 +5,7 @@ import 'package:shorebird_code_push/shorebird_code_push.dart';
 import '../../../../core/di/dependency_injection.dart';
 import '../bloc/customers_bloc.dart';
 import 'widgets/prices_widget.dart';
-import 'widgets/employee_data_source.dart';
+import 'widgets/data_grid/daily_customer_reports_data_source.dart';
 import 'widgets/date_header_widget.dart';
 import 'widgets/data_grid/customers_data_grid_widget.dart';
 
@@ -17,7 +17,7 @@ class CustomersView extends StatefulWidget {
 }
 
 class _CustomersViewState extends State<CustomersView> {
-  late EmployeeDataSource _employeeDataSource;
+  late DailyCustomerReportsDataSource _employeeDataSource;
   final updater = ShorebirdUpdater();
   @override
   void initState() {
@@ -34,6 +34,9 @@ class _CustomersViewState extends State<CustomersView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('1', style: TextStyle(color: Colors.black)),
+      ),
       body: BlocBuilder<CustomersBloc, CustomersState>(
         builder: (context, state) {
           final isDesktop = _isDesktop(context);
@@ -47,7 +50,7 @@ class _CustomersViewState extends State<CustomersView> {
                 loaded: (s) => s.customersRes.productDailyPrices ?? [],
               ) ??
               [];
-          _employeeDataSource = EmployeeDataSource(
+          _employeeDataSource = DailyCustomerReportsDataSource(
             customers: customers,
             isDesktop: isDesktop,
           ).copyWith(customers: customers, isDesktop: isDesktop);
@@ -57,7 +60,12 @@ class _CustomersViewState extends State<CustomersView> {
               spacing: 5.h,
               children: [
                 DateHeaderWidget(state: state),
-                PricesWidget(prices: prices),
+                PricesWidget(
+                  prices: prices,
+                  selectedDate:
+                      state.mapOrNull(loaded: (s) => s.selectedDate) ??
+                      DateTime.now(),
+                ),
                 CustomersDataGridWidget(
                   state: state,
                   employeeDataSource: _employeeDataSource,

@@ -12,12 +12,12 @@ part 'daily_collections_api.g.dart';
 abstract class DailyCollectionsApi {
   @factoryMethod
   factory DailyCollectionsApi(Dio dio) = _DailyCollectionsApi;
-  @POST(ApiConstants.dailyCollections)
+  @POST(ApiConstants.collections)
   Future<CustomerDailyReportModel> create({
     @Body()
     required CreateDailyCollectionReqModel createDailyCollectionReqModel,
   });
-  @PUT(ApiConstants.dailyCollections)
+  @PUT(ApiConstants.collections)
   Future<CustomerDailyReportModel> update({
     @Body()
     required UpdateDailyCollectionReqModel updateDailyCollectionReqModel,

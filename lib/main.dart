@@ -10,7 +10,6 @@ import 'core/app_initializer.dart';
 import 'core/app_observer.dart';
 import 'core/di/dependency_injection.dart';
 import 'package:intl/date_symbol_data_local.dart';
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {

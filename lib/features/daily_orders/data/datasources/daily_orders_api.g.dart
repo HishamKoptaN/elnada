@@ -31,7 +31,7 @@ class _DailyOrdersApi implements DailyOrdersApi {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'daily-orders',
+            'orders',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -60,7 +60,7 @@ class _DailyOrdersApi implements DailyOrdersApi {
       Options(method: 'PUT', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'daily-orders',
+            'orders',
             queryParameters: queryParameters,
             data: _data,
           )
