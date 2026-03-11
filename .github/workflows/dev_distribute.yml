@@ -1,4 +1,4 @@
-name: Dev Distribute
+name: Dev Distribute App
 on:
   push:
     branches: [dev]
@@ -15,8 +15,7 @@ jobs:
         with: { flutter-version: "3.41.4" }
       - uses: shorebirdtech/setup-shorebird@v1
 
-      - name: Shorebird Process
-        id: check_type
+      - id: check_type
         run: |
           if shorebird patch android --flavor dev --dry-run; then
              echo "is_new_release=false" >> $GITHUB_OUTPUT
@@ -37,14 +36,12 @@ jobs:
            fi
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-      - name: Save Release Flag to Cache
-        if: steps.check_type.outputs.is_new_release == 'true'
+      - if: steps.check_type.outputs.is_new_release == 'true'
         uses: actions/cache/save@v4
         with:
           path: release_flag.txt
           key: cache-release-flag-${{ github.run_id }}
-      - name: Upload Universal APK to Firebase
-        if: steps.check_type.outputs.is_new_release == 'true'
+      - if: steps.check_type.outputs.is_new_release == 'true'
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}

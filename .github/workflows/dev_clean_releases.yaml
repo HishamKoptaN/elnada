@@ -1,7 +1,7 @@
-name: Dev Cleanup
+name: Dev Clean Previous Releases
 on:
   workflow_run:
-    workflows: ["Dev Distribute"]
+    workflows: ["Stopped Dev Distribute"]
     types: [completed]
 jobs:
   cleanup:
@@ -10,24 +10,20 @@ jobs:
     environment: dev
     steps:
       - uses: actions/checkout@v4
-      - name: Restore Release Flag
-        id: restore_flag
+      - id: restore_flag
         uses: actions/cache/restore@v4
         with:
           path: release_flag.txt
           key: cache-release-flag-${{ github.event.workflow_run.id }}
-      - name: Authenticate to Google Cloud
+      - uses: google-github-actions/auth@v2
         if: steps.restore_flag.outputs.cache-hit == 'true'
-        uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.FIREBASE_ADMIN_SDK }}
-      - name: Get Access Token
-        if: steps.restore_flag.outputs.cache-hit == 'true'
+      - if: steps.restore_flag.outputs.cache-hit == 'true'
         id: get_token
         run: |
           echo "token=$(gcloud auth print-access-token)" >> $GITHUB_OUTPUT
-      - name: Run Cleanup Script
-        if: steps.restore_flag.outputs.cache-hit == 'true'
+      - if: steps.restore_flag.outputs.cache-hit == 'true'
         env:
           FIREBASE_PROJECT_NUMBER: "59179102896"
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}

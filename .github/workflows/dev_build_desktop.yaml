@@ -1,4 +1,4 @@
-name: Dev Distribute
+name: Dev Distribute Desktop
 on:
     push:
         branches: [dev]
