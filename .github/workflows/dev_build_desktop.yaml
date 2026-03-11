@@ -23,3 +23,13 @@ jobs:
                   files: build/windows/x64/runner/Release/*.msix
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - uses: softprops/action-gh-release@v2
+              with:
+                  tag_name: latest
+                  files: build/windows/x64/runner/Release/*.msix
+                  name: "Latest Desktop Build"
+                  body: "هذا الرابط يحتوي دائماً على أحدث نسخة من تطبيق الديسكتوب."
+                  prerelease: false
+                  make_latest: true
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
