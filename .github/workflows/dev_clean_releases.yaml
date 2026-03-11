@@ -1,13 +1,13 @@
-name: Dev Clean Previous Releases
+name: Clean Previous Releases
 on:
   workflow_run:
-    workflows: ["Stopped Dev Distribute"]
+    workflows: ["Deploy App (Multi-Environment)"]
     types: [completed]
 jobs:
   cleanup:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-    environment: dev
+    environment: ${{ github.event.workflow_run.head_branch }}
     steps:
       - uses: actions/checkout@v4
       - id: restore_flag
@@ -25,7 +25,7 @@ jobs:
           echo "token=$(gcloud auth print-access-token)" >> $GITHUB_OUTPUT
       - if: steps.restore_flag.outputs.cache-hit == 'true'
         env:
-          FIREBASE_PROJECT_NUMBER: "59179102896"
+          FIREBASE_PROJECT_NUMBER: ${{ vars.FIREBASE_PROJECT_NUMBER }}""
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
           GOOGLE_ACCESS_TOKEN: ${{ steps.get_token.outputs.token }}
         run: |
