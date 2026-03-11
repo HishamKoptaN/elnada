@@ -19,19 +19,26 @@ jobs:
         id: check_type
         run: |
           if shorebird patch android --flavor dev --dry-run; then
-            echo "new_release=false" > release_status.txt
-            shorebird patch android --flavor dev --target lib/main.dart -- --split-per-abi --dart-define=ENV=dev
+            echo "is_new_release=false" >> $GITHUB_OUTPUT
+            shorebird patch android --flavor dev --target lib/main.dart -- --dart-define=ENV=dev
           else
-            echo "new_release=true" > release_status.txt
-            shorebird release android --flavor dev --artifact apk --target lib/main.dart -- --dart-define=ENV=dev
+            echo "is_new_release=true" >> $GITHUB_OUTPUT
+            shorebird release android --flavor dev --dart-define=ENV=dev
           fi
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+      - name: Save Release Flag to Cache
+        if: steps.check_type.outputs.is_new_release == 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: release_flag.txt
+          key: cache-release-flag-${{ github.run_id }}    
       - name: Upload Universal APK to Firebase
+        if: steps.check_type.outputs.is_new_release == 'true'
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
-          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_ADMIN_SDK }}
           groups: "testers"
           file: build/app/outputs/flutter-apk/app-dev-release.apk
-          releaseNotes: "إصدار شامل - تحديث هوائي مفعل"
+          releaseNotes: "new"

@@ -3,7 +3,6 @@ on:
   workflow_run:
     workflows: ["Dev Distribute"]
     types: [completed]
-
 jobs:
   cleanup:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
@@ -11,24 +10,34 @@ jobs:
     environment: dev
     steps:
       - uses: actions/checkout@v4
-      - name: Download Status
-        uses: actions/download-artifact@v4
+
+      # 1. التحقق من وجود بصمة الكاش
+      - name: Restore Release Flag
+        id: restore_flag
+        uses: actions/cache/restore@v4
         with:
-          name: release-status
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: ${{ github.event.workflow_run.id }}
+          path: release_flag.txt
+          key: cache-release-flag-${{ github.event.workflow_run.id }}
 
-      - name: Check if Cleanup Needed
-        id: check
+      # 2. المصادقة مع جوجل (ضرورية لجلب التوكين)
+      - name: Authenticate to Google Cloud
+        if: steps.restore_flag.outputs.cache-hit == 'true'
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_ADMIN_SDK }}
+      - name: Get Access Token
+        if: steps.restore_flag.outputs.cache-hit == 'true'
+        id: get_token
         run: |
-          status=$(cat release_status.txt)
-          echo "status=$status" >> $GITHUB_OUTPUT
+          echo "token=$(gcloud auth print-access-token)" >> $GITHUB_OUTPUT
 
+      # 4. تشغيل السكريبت
       - name: Run Cleanup Script
-        if: steps.check.outputs.status == 'new_release=true'
+        if: steps.restore_flag.outputs.cache-hit == 'true'
         env:
           FIREBASE_PROJECT_NUMBER: "138886686943"
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+          GOOGLE_ACCESS_TOKEN: ${{ steps.get_token.outputs.token }}
         run: |
           pip install requests
           python .github/scripts/cleanup_firebase.py
