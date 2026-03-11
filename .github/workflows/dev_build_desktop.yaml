@@ -14,7 +14,7 @@ jobs:
             - run: flutter config --enable-windows-desktop
             - run: flutter pub get
             - run: flutter build windows --release --dart-define=ENV=${{ github.ref_name }}
-            - run: dart run msix:create --config msix_config.yaml
+            - run: dart run msix:create --config
             - uses: actions/upload-artifact@v4
               with:
                   path: build/windows/x64/runner/Release/*.msix
