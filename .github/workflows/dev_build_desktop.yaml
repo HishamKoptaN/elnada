@@ -12,8 +12,8 @@ jobs:
                   channel: stable
             - run: flutter config --enable-windows-desktop
             - run: flutter pub get
-            - run: flutter build windows --release --dart-define=ENV=prod
-            - run: flutter pub run msix:create --no-install-cert --config msix_config.yaml
+            - run: flutter build windows --release --dart-define=ENV=dev
+            - run: flutter pub run msix:create --config msix_config.yaml
             - uses: actions/upload-artifact@v4
               with:
                   path: build/windows/x64/runner/Release/*.msix
@@ -27,7 +27,6 @@ jobs:
               with:
                   tag_name: latest
                   files: build/windows/x64/runner/Release/*.msix
-                  name: "Latest Desktop Build"
                   body: "هذا الرابط يحتوي دائماً على أحدث نسخة من تطبيق الديسكتوب."
                   prerelease: false
                   make_latest: true
