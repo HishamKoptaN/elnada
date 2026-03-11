@@ -23,10 +23,9 @@ jobs:
           channel: stable
           cache: true
       - name: Install Shorebird
-        shell: bash
-        run: |
-          curl -proto '=https' -tlsv1.2 -sSf "https://install.shorebird.dev" | bash
-          echo "$HOME/.shorebird/bin" >> $GITHUB_PATH
+        uses: shorebirdtech/setup-shorebird@v1
+        with:
+          cache: true
       - name: Install Dependencies
         run: flutter pub get
       - name: Shorebird Build Release (APK)
