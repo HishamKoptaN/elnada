@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:auto_updater/auto_updater.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,9 +12,22 @@ import 'core/app_observer.dart';
 import 'core/di/dependency_injection.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:upgrader/upgrader.dart';
+import 'package:version/version.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final upgrader = Upgrader(
+    storeController: UpgraderStoreController(
+      onWindows: () => UpgraderAppcastStore(
+        appcastURL:
+            'https://raw.githubusercontent.com/USER/REPO/dev/appcast.xml',
+        osVersion: Version.parse('10.0.0'),
+      ),
+    ),
+    debugLogging: true,
+    languageCode: 'ar',
+  );
   try {
     await AppInitializer.initialize();
     await configureDependencies(environment: EnvConfig.config.envName);
@@ -45,6 +59,15 @@ void _handleError({
       ),
     ),
   );
+}
+
+void setupAutoUpdater() async {
+  String feedURL =
+      'https://raw.githubusercontent.com/USER/REPO/dev/appcast.xml';
+
+  await autoUpdater.setFeedURL(feedURL);
+  await autoUpdater.setScheduledCheckInterval(3600); // فحص كل ساعة
+  await autoUpdater.checkForUpdates();
 }
 
 class UpgradeManager {
