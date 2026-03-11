@@ -28,12 +28,22 @@ jobs:
           cache: true
       - name: Install Dependencies
         run: flutter pub get
-      - name: Shorebird Release
+      - name: Shorebird Build and Deploy
         run: |
-          shorebird release android --flavor dev \
-          --artifact apk \
-          --target-platform android-arm,android-arm64,android-x64 \
-          -- -t lib/main.dart --dart-define=ENV=dev
+          VERSION=$(grep 'version:' pubspec.yaml | sed 's/version: //')
+          echo "Current Version: $VERSION"
+          if shorebird patch android --flavor dev --dry-run; then
+            echo "Release exists. Starting Shorebird Patch..."
+            shorebird patch android --flavor dev \
+              --target lib/main.dart \
+              -- --dart-define=ENV=dev
+          else
+            echo "Release not found. Starting Shorebird Release..."
+            shorebird release android --flavor dev \
+              --artifact apk \
+              --target lib/main.dart \
+              --dart-define=ENV=dev
+          fi
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
       - name: Upload v7a to Firebase
