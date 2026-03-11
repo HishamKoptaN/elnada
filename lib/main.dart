@@ -34,7 +34,7 @@ Future<void> main() async {
     Bloc.observer = AppBlocObserver();
     if (kDebugMode) {}
     await initializeDateFormatting('ar', null);
-    runApp(const TahaApp());
+    runApp(TahaApp(upgrader: upgrader));
   } catch (error, stackTrace) {
     _handleError(
       error: error,

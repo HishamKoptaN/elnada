@@ -2,6 +2,9 @@ name: Distribute Desktop
 on:
     push:
         branches: [prod, dev]
+permissions:
+    contents: write
+    packages: write
 jobs:
     build_desktop:
         runs-on: windows-latest

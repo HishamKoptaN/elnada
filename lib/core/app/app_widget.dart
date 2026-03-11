@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:upgrader/upgrader.dart';
 import '../../features/customers/present/bloc/customers_bloc.dart';
 import '../../features/daily_collections/present/bloc/daily_collections_bloc.dart';
 import '../../features/daily_orders/present/bloc/daily_orders_bloc.dart';
@@ -10,9 +11,11 @@ import '../../features/return_products/present/bloc/return_products_bloc.dart';
 import '../config/app_config.dart';
 import '../di/dependency_injection.dart';
 import '../routing/app_router.dart';
+import 'global_variable.dart';
 
 class TahaApp extends StatelessWidget {
-  const TahaApp({super.key});
+  const TahaApp({super.key, required this.upgrader});
+  final Upgrader upgrader;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -42,18 +45,22 @@ class TahaApp extends StatelessWidget {
             routerConfig: AppRouter.create(),
             builder: (context, child) {
               final mediaQueryData = MediaQuery.of(context);
-              return MediaQuery(
-                data: mediaQueryData.copyWith(
-                  textScaler: TextScaler.linear(getTextScaler(width: width)),
-                ),
-                child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: SafeArea(
-                    top: true,
-                    bottom: true,
-                    left: true,
-                    right: true,
-                    child: child!,
+              return UpgradeAlert(
+                upgrader: upgrader,
+                navigatorKey: GlobalVariable.navState,
+                child: MediaQuery(
+                  data: mediaQueryData.copyWith(
+                    textScaler: TextScaler.linear(getTextScaler(width: width)),
+                  ),
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: SafeArea(
+                      top: true,
+                      bottom: true,
+                      left: true,
+                      right: true,
+                      child: child!,
+                    ),
                   ),
                 ),
               );
