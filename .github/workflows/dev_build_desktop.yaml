@@ -13,10 +13,9 @@ jobs:
             - run: flutter config --enable-windows-desktop
             - run: flutter pub get
             - run: flutter build windows --release --dart-define=ENV=prod
-            - run: flutter pub run msix:create
+            - run: flutter pub run msix:create --no-install-cert --config msix_config.yaml
             - uses: actions/upload-artifact@v4
               with:
-                  name: windows-installer
                   path: build/windows/x64/runner/Release/*.msix
             - uses: softprops/action-gh-release@v2
               if: startsWith(github.ref, 'refs/tags/')
