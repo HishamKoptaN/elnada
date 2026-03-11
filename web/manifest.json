@@ -1,11 +1,11 @@
 {
-    "name": "taha",
-    "short_name": "taha",
+    "name": "ابو جنة للدواجن",
+    "short_name": "abujena_dawajen",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "abujena_dawajen App",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

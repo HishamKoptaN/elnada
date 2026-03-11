@@ -1,4 +1,5 @@
-import '../../domain/entities/customer_entity.dart';
+import '../../../daily_orders/domain/entities/daily_product_order_entity.dart';
+import '../../domain/entities/customer_daily_reports_res_entity.dart';
 import '../models/customer_daily_reports_res_model.dart';
 
 extension CustomerDailyReportsResMapper on CustomerDailyReportsResModel {
@@ -16,12 +17,13 @@ extension CustomerDailyReportMapper on CustomerDailyReportModel {
   CustomerDailyReportEntity toEntity() {
     return CustomerDailyReportEntity(
       id: id ?? 0,
-      customer: customer?.toEntity() ?? CustomerEntity(),
-      yesterdayClosedBalance: yesterdayClosedBalance ?? 0,
+      customer: customer?.toEntity() ?? const CustomerEntity(),
+      yesterdayClosedBalance: yesterdayClosedBalance?.toString() ?? '',
       productDailyTotals:
           productDailyTotals?.map((e) => e.toEntity()).toList() ?? [],
-      collections: collections?.map((e) => e.toEntity()).toList() ?? [],
-      closingBalance: closingBalance ?? 0,
+      returns: returns?.map((e) => e.toEntity()).toList() ?? [],
+      totalCollections: totalCollections.toString(),
+      closingBalance: closingBalance.toString(),
       productOrders: productOrders?.map((e) => e.toEntity()).toList() ?? [],
     );
   }
@@ -41,9 +43,18 @@ extension CustomerMapper on CustomerModel {
 extension ProductPriceMapper on ProductPriceModel {
   ProductPriceEntity toEntity() {
     return ProductPriceEntity(
+      product: product?.toEntity() ?? const ProductEntity(),
+      productDailyprice:
+          productDailyprice?.toEntity() ?? const ProductDailyPriceEntity(),
+    );
+  }
+}
+
+extension ProductDailyPriceMapper on ProductDailyPriceModel {
+  ProductDailyPriceEntity toEntity() {
+    return ProductDailyPriceEntity(
       id: id ?? 0,
       productId: productId ?? 0,
-      productName: productName ?? '',
       price: price.toString(),
     );
   }
@@ -53,21 +64,30 @@ extension TotalTransactionMapper on ProductDailyTotalModel {
   ProductDailyTotalEntity toEntity() {
     return ProductDailyTotalEntity(
       productId: productId ?? 0,
-      totalWeight: totalWeight ?? 0.0,
-      totalAmount: totalAmount ?? 0,
+      totalWeight: totalWeight.toString(),
+      totalAmount: totalAmount.toString(),
     );
   }
 }
 
-extension CollectionMapper on CollectionModel {
-  CollectionEntity toEntity() {
-    return CollectionEntity(id: id ?? 0, amount: amount ?? 0);
+extension ProductReturnMapper on ProductReturnModel {
+  ProductReturnEntity toEntity() {
+    return ProductReturnEntity(
+      product: product?.toEntity() ?? const ProductEntity(),
+      totalWeight: totalWeight.toString(),
+    );
+  }
+}
+
+extension ProductMapper on ProductModel {
+  ProductEntity toEntity() {
+    return ProductEntity(id: id ?? 0, name: name ?? '');
   }
 }
 
 extension ProductOrdersMapper on ProductOrderModel {
-  ProductOrderEntity toEntity() {
-    return ProductOrderEntity(
+  DailyProductOrderEntity toEntity() {
+    return DailyProductOrderEntity(
       productId: productId ?? 0,
       totalCount: totalCount ?? 0,
     );

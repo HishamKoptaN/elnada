@@ -20,14 +20,14 @@ class _ProductsApi implements ProductsApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<ProductPriceModel> updateProductPrice({
+  Future<ProductDailyPriceModel> updateProductPrice({
     required UpdateProductPriceReqModel updateProductPriceReq,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = updateProductPriceReq;
-    final _options = _setStreamType<ProductPriceModel>(
+    final _options = _setStreamType<ProductDailyPriceModel>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -38,9 +38,9 @@ class _ProductsApi implements ProductsApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, Object?>>(_options);
-    late ProductPriceModel _value;
+    late ProductDailyPriceModel _value;
     try {
-      _value = ProductPriceModel.fromJson(_result.data!);
+      _value = ProductDailyPriceModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;

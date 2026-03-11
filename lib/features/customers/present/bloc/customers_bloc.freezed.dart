@@ -55,11 +55,13 @@ extension CustomersEventPatterns on CustomersEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _GetCustomers value)?  getCustomers,TResult Function( _SearchCustomers value)?  searchCustomers,TResult Function( _DisposeSearch value)?  disposeSearch,TResult Function( _PriceChanged value)?  priceChanged,TResult Function( _UpdateCustomerDailyReport value)?  updateCustomerDailyReport,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _GetCustomers value)?  getCustomers,TResult Function( _GetCustomerDailyReport value)?  getCustomerDailyReport,TResult Function( _GetCustomerStatement value)?  getCustomerStatement,TResult Function( _SearchCustomers value)?  searchCustomers,TResult Function( _DisposeSearch value)?  disposeSearch,TResult Function( _PriceChanged value)?  priceChanged,TResult Function( _UpdateCustomerDailyReport value)?  updateCustomerDailyReport,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _GetCustomers() when getCustomers != null:
-return getCustomers(_that);case _SearchCustomers() when searchCustomers != null:
+return getCustomers(_that);case _GetCustomerDailyReport() when getCustomerDailyReport != null:
+return getCustomerDailyReport(_that);case _GetCustomerStatement() when getCustomerStatement != null:
+return getCustomerStatement(_that);case _SearchCustomers() when searchCustomers != null:
 return searchCustomers(_that);case _DisposeSearch() when disposeSearch != null:
 return disposeSearch(_that);case _PriceChanged() when priceChanged != null:
 return priceChanged(_that);case _UpdateCustomerDailyReport() when updateCustomerDailyReport != null:
@@ -81,11 +83,13 @@ return updateCustomerDailyReport(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _GetCustomers value)  getCustomers,required TResult Function( _SearchCustomers value)  searchCustomers,required TResult Function( _DisposeSearch value)  disposeSearch,required TResult Function( _PriceChanged value)  priceChanged,required TResult Function( _UpdateCustomerDailyReport value)  updateCustomerDailyReport,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _GetCustomers value)  getCustomers,required TResult Function( _GetCustomerDailyReport value)  getCustomerDailyReport,required TResult Function( _GetCustomerStatement value)  getCustomerStatement,required TResult Function( _SearchCustomers value)  searchCustomers,required TResult Function( _DisposeSearch value)  disposeSearch,required TResult Function( _PriceChanged value)  priceChanged,required TResult Function( _UpdateCustomerDailyReport value)  updateCustomerDailyReport,}){
 final _that = this;
 switch (_that) {
 case _GetCustomers():
-return getCustomers(_that);case _SearchCustomers():
+return getCustomers(_that);case _GetCustomerDailyReport():
+return getCustomerDailyReport(_that);case _GetCustomerStatement():
+return getCustomerStatement(_that);case _SearchCustomers():
 return searchCustomers(_that);case _DisposeSearch():
 return disposeSearch(_that);case _PriceChanged():
 return priceChanged(_that);case _UpdateCustomerDailyReport():
@@ -106,11 +110,13 @@ return updateCustomerDailyReport(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _GetCustomers value)?  getCustomers,TResult? Function( _SearchCustomers value)?  searchCustomers,TResult? Function( _DisposeSearch value)?  disposeSearch,TResult? Function( _PriceChanged value)?  priceChanged,TResult? Function( _UpdateCustomerDailyReport value)?  updateCustomerDailyReport,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _GetCustomers value)?  getCustomers,TResult? Function( _GetCustomerDailyReport value)?  getCustomerDailyReport,TResult? Function( _GetCustomerStatement value)?  getCustomerStatement,TResult? Function( _SearchCustomers value)?  searchCustomers,TResult? Function( _DisposeSearch value)?  disposeSearch,TResult? Function( _PriceChanged value)?  priceChanged,TResult? Function( _UpdateCustomerDailyReport value)?  updateCustomerDailyReport,}){
 final _that = this;
 switch (_that) {
 case _GetCustomers() when getCustomers != null:
-return getCustomers(_that);case _SearchCustomers() when searchCustomers != null:
+return getCustomers(_that);case _GetCustomerDailyReport() when getCustomerDailyReport != null:
+return getCustomerDailyReport(_that);case _GetCustomerStatement() when getCustomerStatement != null:
+return getCustomerStatement(_that);case _SearchCustomers() when searchCustomers != null:
 return searchCustomers(_that);case _DisposeSearch() when disposeSearch != null:
 return disposeSearch(_that);case _PriceChanged() when priceChanged != null:
 return priceChanged(_that);case _UpdateCustomerDailyReport() when updateCustomerDailyReport != null:
@@ -131,10 +137,12 @@ return updateCustomerDailyReport(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( DateTime date)?  getCustomers,TResult Function( DateTime selectedDate,  String query)?  searchCustomers,TResult Function()?  disposeSearch,TResult Function( ProductPriceEntity productPrice)?  priceChanged,TResult Function( CustomerDailyReportEntity customerDailyReport)?  updateCustomerDailyReport,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( DateTime date)?  getCustomers,TResult Function( int id)?  getCustomerDailyReport,TResult Function( int customerId,  int? days)?  getCustomerStatement,TResult Function( DateTime selectedDate,  String query)?  searchCustomers,TResult Function()?  disposeSearch,TResult Function( ProductDailyPriceEntity productPrice)?  priceChanged,TResult Function( CustomerDailyReportEntity customerDailyReport)?  updateCustomerDailyReport,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GetCustomers() when getCustomers != null:
-return getCustomers(_that.date);case _SearchCustomers() when searchCustomers != null:
+return getCustomers(_that.date);case _GetCustomerDailyReport() when getCustomerDailyReport != null:
+return getCustomerDailyReport(_that.id);case _GetCustomerStatement() when getCustomerStatement != null:
+return getCustomerStatement(_that.customerId,_that.days);case _SearchCustomers() when searchCustomers != null:
 return searchCustomers(_that.selectedDate,_that.query);case _DisposeSearch() when disposeSearch != null:
 return disposeSearch();case _PriceChanged() when priceChanged != null:
 return priceChanged(_that.productPrice);case _UpdateCustomerDailyReport() when updateCustomerDailyReport != null:
@@ -156,10 +164,12 @@ return updateCustomerDailyReport(_that.customerDailyReport);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( DateTime date)  getCustomers,required TResult Function( DateTime selectedDate,  String query)  searchCustomers,required TResult Function()  disposeSearch,required TResult Function( ProductPriceEntity productPrice)  priceChanged,required TResult Function( CustomerDailyReportEntity customerDailyReport)  updateCustomerDailyReport,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( DateTime date)  getCustomers,required TResult Function( int id)  getCustomerDailyReport,required TResult Function( int customerId,  int? days)  getCustomerStatement,required TResult Function( DateTime selectedDate,  String query)  searchCustomers,required TResult Function()  disposeSearch,required TResult Function( ProductDailyPriceEntity productPrice)  priceChanged,required TResult Function( CustomerDailyReportEntity customerDailyReport)  updateCustomerDailyReport,}) {final _that = this;
 switch (_that) {
 case _GetCustomers():
-return getCustomers(_that.date);case _SearchCustomers():
+return getCustomers(_that.date);case _GetCustomerDailyReport():
+return getCustomerDailyReport(_that.id);case _GetCustomerStatement():
+return getCustomerStatement(_that.customerId,_that.days);case _SearchCustomers():
 return searchCustomers(_that.selectedDate,_that.query);case _DisposeSearch():
 return disposeSearch();case _PriceChanged():
 return priceChanged(_that.productPrice);case _UpdateCustomerDailyReport():
@@ -180,10 +190,12 @@ return updateCustomerDailyReport(_that.customerDailyReport);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( DateTime date)?  getCustomers,TResult? Function( DateTime selectedDate,  String query)?  searchCustomers,TResult? Function()?  disposeSearch,TResult? Function( ProductPriceEntity productPrice)?  priceChanged,TResult? Function( CustomerDailyReportEntity customerDailyReport)?  updateCustomerDailyReport,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( DateTime date)?  getCustomers,TResult? Function( int id)?  getCustomerDailyReport,TResult? Function( int customerId,  int? days)?  getCustomerStatement,TResult? Function( DateTime selectedDate,  String query)?  searchCustomers,TResult? Function()?  disposeSearch,TResult? Function( ProductDailyPriceEntity productPrice)?  priceChanged,TResult? Function( CustomerDailyReportEntity customerDailyReport)?  updateCustomerDailyReport,}) {final _that = this;
 switch (_that) {
 case _GetCustomers() when getCustomers != null:
-return getCustomers(_that.date);case _SearchCustomers() when searchCustomers != null:
+return getCustomers(_that.date);case _GetCustomerDailyReport() when getCustomerDailyReport != null:
+return getCustomerDailyReport(_that.id);case _GetCustomerStatement() when getCustomerStatement != null:
+return getCustomerStatement(_that.customerId,_that.days);case _SearchCustomers() when searchCustomers != null:
 return searchCustomers(_that.selectedDate,_that.query);case _DisposeSearch() when disposeSearch != null:
 return disposeSearch();case _PriceChanged() when priceChanged != null:
 return priceChanged(_that.productPrice);case _UpdateCustomerDailyReport() when updateCustomerDailyReport != null:
@@ -255,6 +267,140 @@ class __$GetCustomersCopyWithImpl<$Res>
   return _then(_GetCustomers(
 date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
 as DateTime,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _GetCustomerDailyReport implements CustomersEvent {
+  const _GetCustomerDailyReport({required this.id});
+  
+
+ final  int id;
+
+/// Create a copy of CustomersEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$GetCustomerDailyReportCopyWith<_GetCustomerDailyReport> get copyWith => __$GetCustomerDailyReportCopyWithImpl<_GetCustomerDailyReport>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GetCustomerDailyReport&&(identical(other.id, id) || other.id == id));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,id);
+
+@override
+String toString() {
+  return 'CustomersEvent.getCustomerDailyReport(id: $id)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$GetCustomerDailyReportCopyWith<$Res> implements $CustomersEventCopyWith<$Res> {
+  factory _$GetCustomerDailyReportCopyWith(_GetCustomerDailyReport value, $Res Function(_GetCustomerDailyReport) _then) = __$GetCustomerDailyReportCopyWithImpl;
+@useResult
+$Res call({
+ int id
+});
+
+
+
+
+}
+/// @nodoc
+class __$GetCustomerDailyReportCopyWithImpl<$Res>
+    implements _$GetCustomerDailyReportCopyWith<$Res> {
+  __$GetCustomerDailyReportCopyWithImpl(this._self, this._then);
+
+  final _GetCustomerDailyReport _self;
+  final $Res Function(_GetCustomerDailyReport) _then;
+
+/// Create a copy of CustomersEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? id = null,}) {
+  return _then(_GetCustomerDailyReport(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _GetCustomerStatement implements CustomersEvent {
+  const _GetCustomerStatement({required this.customerId, this.days});
+  
+
+ final  int customerId;
+ final  int? days;
+
+/// Create a copy of CustomersEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$GetCustomerStatementCopyWith<_GetCustomerStatement> get copyWith => __$GetCustomerStatementCopyWithImpl<_GetCustomerStatement>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GetCustomerStatement&&(identical(other.customerId, customerId) || other.customerId == customerId)&&(identical(other.days, days) || other.days == days));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,customerId,days);
+
+@override
+String toString() {
+  return 'CustomersEvent.getCustomerStatement(customerId: $customerId, days: $days)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$GetCustomerStatementCopyWith<$Res> implements $CustomersEventCopyWith<$Res> {
+  factory _$GetCustomerStatementCopyWith(_GetCustomerStatement value, $Res Function(_GetCustomerStatement) _then) = __$GetCustomerStatementCopyWithImpl;
+@useResult
+$Res call({
+ int customerId, int? days
+});
+
+
+
+
+}
+/// @nodoc
+class __$GetCustomerStatementCopyWithImpl<$Res>
+    implements _$GetCustomerStatementCopyWith<$Res> {
+  __$GetCustomerStatementCopyWithImpl(this._self, this._then);
+
+  final _GetCustomerStatement _self;
+  final $Res Function(_GetCustomerStatement) _then;
+
+/// Create a copy of CustomersEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? customerId = null,Object? days = freezed,}) {
+  return _then(_GetCustomerStatement(
+customerId: null == customerId ? _self.customerId : customerId // ignore: cast_nullable_to_non_nullable
+as int,days: freezed == days ? _self.days : days // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -368,7 +514,7 @@ class _PriceChanged implements CustomersEvent {
   const _PriceChanged({required this.productPrice});
   
 
- final  ProductPriceEntity productPrice;
+ final  ProductDailyPriceEntity productPrice;
 
 /// Create a copy of CustomersEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -400,11 +546,11 @@ abstract mixin class _$PriceChangedCopyWith<$Res> implements $CustomersEventCopy
   factory _$PriceChangedCopyWith(_PriceChanged value, $Res Function(_PriceChanged) _then) = __$PriceChangedCopyWithImpl;
 @useResult
 $Res call({
- ProductPriceEntity productPrice
+ ProductDailyPriceEntity productPrice
 });
 
 
-
+$ProductDailyPriceEntityCopyWith<$Res> get productPrice;
 
 }
 /// @nodoc
@@ -420,11 +566,20 @@ class __$PriceChangedCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') $Res call({Object? productPrice = null,}) {
   return _then(_PriceChanged(
 productPrice: null == productPrice ? _self.productPrice : productPrice // ignore: cast_nullable_to_non_nullable
-as ProductPriceEntity,
+as ProductDailyPriceEntity,
   ));
 }
 
-
+/// Create a copy of CustomersEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ProductDailyPriceEntityCopyWith<$Res> get productPrice {
+  
+  return $ProductDailyPriceEntityCopyWith<$Res>(_self.productPrice, (value) {
+    return _then(_self.copyWith(productPrice: value));
+  });
+}
 }
 
 /// @nodoc
@@ -470,7 +625,7 @@ $Res call({
 });
 
 
-
+$CustomerDailyReportEntityCopyWith<$Res> get customerDailyReport;
 
 }
 /// @nodoc
@@ -490,7 +645,16 @@ as CustomerDailyReportEntity,
   ));
 }
 
-
+/// Create a copy of CustomersEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CustomerDailyReportEntityCopyWith<$Res> get customerDailyReport {
+  
+  return $CustomerDailyReportEntityCopyWith<$Res>(_self.customerDailyReport, (value) {
+    return _then(_self.copyWith(customerDailyReport: value));
+  });
+}
 }
 
 /// @nodoc
@@ -610,12 +774,12 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( DateTime selectedDate,  CustomersResEntity customersRes)?  loaded,TResult Function( ApiErrorModel apiErrorModel)?  failure,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( DateTime selectedDate,  CustomersResEntity customersRes,  CustomerDailyReportDetailsResEntity? customerDailyReportDetailsRes,  CustomerStatementReportResEntity? customerStatement,  String? days)?  loaded,TResult Function( ApiErrorModel apiErrorModel)?  failure,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Loaded() when loaded != null:
-return loaded(_that.selectedDate,_that.customersRes);case _Failure() when failure != null:
+return loaded(_that.selectedDate,_that.customersRes,_that.customerDailyReportDetailsRes,_that.customerStatement,_that.days);case _Failure() when failure != null:
 return failure(_that.apiErrorModel);case _:
   return orElse();
 
@@ -634,12 +798,12 @@ return failure(_that.apiErrorModel);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( DateTime selectedDate,  CustomersResEntity customersRes)  loaded,required TResult Function( ApiErrorModel apiErrorModel)  failure,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( DateTime selectedDate,  CustomersResEntity customersRes,  CustomerDailyReportDetailsResEntity? customerDailyReportDetailsRes,  CustomerStatementReportResEntity? customerStatement,  String? days)  loaded,required TResult Function( ApiErrorModel apiErrorModel)  failure,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case _Loading():
 return loading();case _Loaded():
-return loaded(_that.selectedDate,_that.customersRes);case _Failure():
+return loaded(_that.selectedDate,_that.customersRes,_that.customerDailyReportDetailsRes,_that.customerStatement,_that.days);case _Failure():
 return failure(_that.apiErrorModel);case _:
   throw StateError('Unexpected subclass');
 
@@ -657,12 +821,12 @@ return failure(_that.apiErrorModel);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( DateTime selectedDate,  CustomersResEntity customersRes)?  loaded,TResult? Function( ApiErrorModel apiErrorModel)?  failure,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( DateTime selectedDate,  CustomersResEntity customersRes,  CustomerDailyReportDetailsResEntity? customerDailyReportDetailsRes,  CustomerStatementReportResEntity? customerStatement,  String? days)?  loaded,TResult? Function( ApiErrorModel apiErrorModel)?  failure,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Loaded() when loaded != null:
-return loaded(_that.selectedDate,_that.customersRes);case _Failure() when failure != null:
+return loaded(_that.selectedDate,_that.customersRes,_that.customerDailyReportDetailsRes,_that.customerStatement,_that.days);case _Failure() when failure != null:
 return failure(_that.apiErrorModel);case _:
   return null;
 
@@ -739,11 +903,14 @@ String toString() {
 
 
 class _Loaded implements CustomersState {
-  const _Loaded({required this.selectedDate, required this.customersRes});
+  const _Loaded({required this.selectedDate, required this.customersRes, this.customerDailyReportDetailsRes, this.customerStatement, this.days});
   
 
  final  DateTime selectedDate;
  final  CustomersResEntity customersRes;
+ final  CustomerDailyReportDetailsResEntity? customerDailyReportDetailsRes;
+ final  CustomerStatementReportResEntity? customerStatement;
+ final  String? days;
 
 /// Create a copy of CustomersState
 /// with the given fields replaced by the non-null parameter values.
@@ -755,16 +922,16 @@ _$LoadedCopyWith<_Loaded> get copyWith => __$LoadedCopyWithImpl<_Loaded>(this, _
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Loaded&&(identical(other.selectedDate, selectedDate) || other.selectedDate == selectedDate)&&(identical(other.customersRes, customersRes) || other.customersRes == customersRes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Loaded&&(identical(other.selectedDate, selectedDate) || other.selectedDate == selectedDate)&&(identical(other.customersRes, customersRes) || other.customersRes == customersRes)&&(identical(other.customerDailyReportDetailsRes, customerDailyReportDetailsRes) || other.customerDailyReportDetailsRes == customerDailyReportDetailsRes)&&(identical(other.customerStatement, customerStatement) || other.customerStatement == customerStatement)&&(identical(other.days, days) || other.days == days));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,selectedDate,customersRes);
+int get hashCode => Object.hash(runtimeType,selectedDate,customersRes,customerDailyReportDetailsRes,customerStatement,days);
 
 @override
 String toString() {
-  return 'CustomersState.loaded(selectedDate: $selectedDate, customersRes: $customersRes)';
+  return 'CustomersState.loaded(selectedDate: $selectedDate, customersRes: $customersRes, customerDailyReportDetailsRes: $customerDailyReportDetailsRes, customerStatement: $customerStatement, days: $days)';
 }
 
 
@@ -775,11 +942,11 @@ abstract mixin class _$LoadedCopyWith<$Res> implements $CustomersStateCopyWith<$
   factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) = __$LoadedCopyWithImpl;
 @useResult
 $Res call({
- DateTime selectedDate, CustomersResEntity customersRes
+ DateTime selectedDate, CustomersResEntity customersRes, CustomerDailyReportDetailsResEntity? customerDailyReportDetailsRes, CustomerStatementReportResEntity? customerStatement, String? days
 });
 
 
-
+$CustomersResEntityCopyWith<$Res> get customersRes;$CustomerDailyReportDetailsResEntityCopyWith<$Res>? get customerDailyReportDetailsRes;$CustomerStatementReportResEntityCopyWith<$Res>? get customerStatement;
 
 }
 /// @nodoc
@@ -792,15 +959,51 @@ class __$LoadedCopyWithImpl<$Res>
 
 /// Create a copy of CustomersState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? selectedDate = null,Object? customersRes = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? selectedDate = null,Object? customersRes = null,Object? customerDailyReportDetailsRes = freezed,Object? customerStatement = freezed,Object? days = freezed,}) {
   return _then(_Loaded(
 selectedDate: null == selectedDate ? _self.selectedDate : selectedDate // ignore: cast_nullable_to_non_nullable
 as DateTime,customersRes: null == customersRes ? _self.customersRes : customersRes // ignore: cast_nullable_to_non_nullable
-as CustomersResEntity,
+as CustomersResEntity,customerDailyReportDetailsRes: freezed == customerDailyReportDetailsRes ? _self.customerDailyReportDetailsRes : customerDailyReportDetailsRes // ignore: cast_nullable_to_non_nullable
+as CustomerDailyReportDetailsResEntity?,customerStatement: freezed == customerStatement ? _self.customerStatement : customerStatement // ignore: cast_nullable_to_non_nullable
+as CustomerStatementReportResEntity?,days: freezed == days ? _self.days : days // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
+/// Create a copy of CustomersState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CustomersResEntityCopyWith<$Res> get customersRes {
+  
+  return $CustomersResEntityCopyWith<$Res>(_self.customersRes, (value) {
+    return _then(_self.copyWith(customersRes: value));
+  });
+}/// Create a copy of CustomersState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CustomerDailyReportDetailsResEntityCopyWith<$Res>? get customerDailyReportDetailsRes {
+    if (_self.customerDailyReportDetailsRes == null) {
+    return null;
+  }
 
+  return $CustomerDailyReportDetailsResEntityCopyWith<$Res>(_self.customerDailyReportDetailsRes!, (value) {
+    return _then(_self.copyWith(customerDailyReportDetailsRes: value));
+  });
+}/// Create a copy of CustomersState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CustomerStatementReportResEntityCopyWith<$Res>? get customerStatement {
+    if (_self.customerStatement == null) {
+    return null;
+  }
+
+  return $CustomerStatementReportResEntityCopyWith<$Res>(_self.customerStatement!, (value) {
+    return _then(_self.copyWith(customerStatement: value));
+  });
+}
 }
 
 /// @nodoc

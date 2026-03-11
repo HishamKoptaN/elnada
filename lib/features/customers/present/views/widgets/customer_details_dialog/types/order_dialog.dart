@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_inputs/form_inputs.dart';
 import '../../../../../../../core/di/dependency_injection.dart';
 import '../../../../../../daily_orders/domain/entities/create_daily_order_req_entity.dart';
 import '../../../../../../daily_orders/present/bloc/daily_orders_bloc.dart';
-import '../../../../../domain/entities/customer_entity.dart';
+import '../../../../../domain/entities/customer_daily_reports_res_entity.dart';
 
 class OrderDialog {
   static void show({
@@ -21,7 +22,7 @@ class OrderDialog {
             createDailyOrderReq: CreateDailyOrderReqEntity(
               productId: GenericFormzInput.dirty(productId),
               customerId: GenericFormzInput.dirty(customer.id),
-              count: GenericFormzInput.dirty(""),
+              count: const GenericFormzInput.dirty(""),
             ),
           ),
         );
@@ -38,12 +39,18 @@ class OrderDialog {
             return state.maybeMap(
               loaded: (state) {
                 return AlertDialog(
-                  title: Text('إضافة طلب'),
+                  title: Text(
+                    ' طلب ${productId == 1 ? "تسمين" : "أمهات"}',
+                    style: TextStyle(fontSize: 16.sp),
+                  ),
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(' ${customer.name ?? ''}'),
-                      SizedBox(height: 16),
+                      Text(
+                        ' ${customer.name ?? ''}',
+                        style: TextStyle(fontSize: 16.sp),
+                      ),
+                      SizedBox(height: 16.h),
                       TextFormField(
                         onChanged: (value) {
                           getIt<DailyOrdersBloc>().add(
@@ -65,22 +72,24 @@ class OrderDialog {
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
                         ],
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'العدد',
                           border: OutlineInputBorder(),
                         ),
                       ),
-                      SizedBox(height: 16),
-                    ],
+                      const SizedBox(height: 16),
+                    ],  
                   ),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: Text('إلغاء'),
+                      child: Text('إلغاء', style: TextStyle(fontSize: 16.sp)),
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        getIt<DailyOrdersBloc>().add(DailyOrdersEvent.create());
+                        getIt<DailyOrdersBloc>().add(
+                          const DailyOrdersEvent.create(),
+                        );
                       },
                       style: ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(
@@ -88,9 +97,11 @@ class OrderDialog {
                               ? Colors.green
                               : Colors.grey,
                         ),
-                        foregroundColor: WidgetStatePropertyAll(Colors.white),
+                        foregroundColor: const WidgetStatePropertyAll(
+                          Colors.white,
+                        ),
                       ),
-                      child: Text('حفظ'),
+                      child: Text('حفظ', style: TextStyle(fontSize: 16.sp)),
                     ),
                   ],
                 );

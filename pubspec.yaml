@@ -1,14 +1,14 @@
-name: taha
+name: abujena_dawajen
 description: "A new Flutter project."
 publish_to: 'none'
 version: 1.0.0+1
 
 environment:
   sdk: ^3.11.0
+
 dependencies:
-  flutter:
-    sdk: flutter
   syncfusion_flutter_datagrid: ^32.2.7  
+  shorebird_code_push: ^2.0.5
   retrofit: ^4.9.0
   logger: ^2.6.0
   json_annotation: ^4.9.0
@@ -36,6 +36,9 @@ dependencies:
   internet_connection_checker_plus: ^2.9.1+2
   equatable: ^2.0.8
   intl: ^0.20.2
+  auto_updater: ^1.0.0
+  flutter:
+    sdk: flutter
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -47,6 +50,7 @@ dev_dependencies:
   flutter_launcher_icons: ^0.14.1
   flutter_native_splash: ^2.4.0
   flutter_lints: ^6.0.0
+  package_rename: ^1.7.1  
 
 flutter:
   generate: true
@@ -60,3 +64,8 @@ flutter_assets:
     output_path: lib/core/utils
     filename: app_images.dart
     field_prefix: null
+
+scripts:
+  check-length: dart scripts/check_file_length.dart
+  analyze: flutter analyze
+  format: dart format .

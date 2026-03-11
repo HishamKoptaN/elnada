@@ -1,3 +1,4 @@
+import 'package:abujena_dawajen/features/customers/domain/entities/customer_daily_report_details_res_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -5,7 +6,8 @@ import '../../../../../core/errors/api_error_model.dart';
 import '../../../../../core/networking/api_result.dart';
 import '../../data/mappers/customer_daily_reports_res_mapper.dart';
 import '../../data/models/customer_daily_reports_res_model.dart';
-import '../../domain/entities/customer_entity.dart';
+import '../../domain/entities/customer_daily_reports_res_entity.dart';
+import '../../domain/entities/customer_statement_res_entity.dart';
 import '../../domain/usecases/customers_use_cases.dart';
 part 'customers_bloc.freezed.dart';
 part 'customers_event.dart';
@@ -13,7 +15,6 @@ part 'customers_state.dart';
 
 @singleton
 class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
-  final CustomersUseCases customersUseCases;
   CustomersBloc(this.customersUseCases)
     : super(const CustomersState.initial()) {
     on<CustomersEvent>((event, emit) async {
@@ -29,7 +30,7 @@ class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
             selectedDate: date,
           );
           await result.when(
-            success: (res) {
+            success: (res) async {
               emit(
                 CustomersState.loaded(
                   customersRes: res ?? CustomersResEntity(),
@@ -37,7 +38,7 @@ class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
                 ),
               );
             },
-            failure: (error) {
+            failure: (error) async {
               emit(CustomersState.failure(apiErrorModel: error));
               emit(
                 CustomersState.loaded(
@@ -48,36 +49,58 @@ class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
             },
           );
         },
-        searchCustomers: (date, query) async {
-          // final res = await ordersUseCases.getOrders(
-          //   packageId: 1,
-          //   query: query,
-          //   page: getMore ? (_meta?.currentPage ?? 0) + 1 : 1,
-          // );
-          // await res.when(
-          //   success: (res) async {
-          //     if (!getMore) {
-          //       _searchOrders = res;
-          //     } else if (getMore) {
-          //       _searchOrders = [...?_searchOrders, ...res ?? []];
-          //     }
-          //     emitLoaded(emit: emit);
-          //   },
-          //   failure: (apiErrorModel) async {
-          //     emitFaliure(apiErrorModel: apiErrorModel, emit: emit);
-          //   },
-          // );
+        getCustomerDailyReport: (id) async {
+          await state.mapOrNull(
+            loaded: (state) async {
+              emit(state);
+              final result = await customersUseCases.getCustomerDailyReport(
+                id: id,
+              );
+              await result.when(
+                success: (res) async {
+                  emit(
+                    state.copyWith(
+                      customerDailyReportDetailsRes:
+                          res ?? const CustomerDailyReportDetailsResEntity(),
+                    ),
+                  );
+                },
+                failure: (error) async {
+                  emit(CustomersState.failure(apiErrorModel: error));
+                  emit(
+                    state.copyWith(
+                      customerDailyReportDetailsRes:
+                          state.customerDailyReportDetailsRes,
+                    ),
+                  );
+                },
+              );
+            },
+          );
         },
-        disposeSearch: () {
-          // emit(
-          //   OrdersState.loaded(
-          //     orders: _allOrders ?? [],
-          //     hasMore: _meta?.hasNextPage ?? false,
-          //     isSearching: _isSearching,
-          //   ),
-          // );
+        getCustomerStatement: (customerId, days) async {
+          final result = await customersUseCases
+              .getCustomerDailyReportStatement(id: customerId, days: days);
+          await result.when(
+            success: (res) async {
+              emit(
+                CustomersState.loaded(
+                  selectedDate: DateTime.now(),
+                  customersRes: CustomersResEntity(),
+                  customerStatement:
+                      res ?? const CustomerStatementReportResEntity(),
+                ),
+              );
+            },
+            failure: (error) async {
+              emit(CustomersState.failure(apiErrorModel: error));
+              // emit(state.copyWith(customerStatement: state.customerStatement));
+            },
+          );
         },
-        priceChanged: (price) async {
+        searchCustomers: (date, query) async {},
+        disposeSearch: () {},
+        priceChanged: (newDailyPrice) async {
           await state.mapOrNull(
             loaded: (state) {
               emit(
@@ -85,14 +108,13 @@ class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
                   customersRes: state.customersRes.copyWith(
                     productDailyPrices: state.customersRes.productDailyPrices
                         ?.map((p) {
-                          if (p.productId == price.productId) {
-                            return price;
+                          if (p.product?.id == newDailyPrice.productId) {
+                            return p.copyWith(productDailyprice: newDailyPrice);
                           }
                           return p;
                         })
                         .toList(),
                   ),
-                  selectedDate: state.selectedDate,
                 ),
               );
             },
@@ -124,6 +146,7 @@ class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
       );
     });
   }
+  final CustomersUseCases customersUseCases;
 
   @override
   CustomersState? fromJson(Map<String, dynamic> json) {
@@ -135,18 +158,17 @@ class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
         case 'loading':
           return const CustomersState.loading();
         case 'loaded':
-          final customersJson = json['customersRes'] as List<dynamic>? ?? [];
-          final customers = customersJson
-              .where((e) => e != null)
-              .map(
-                (e) => CustomerDailyReportModel.fromJson(
-                  e as Map<String, dynamic>,
-                ).toEntity(),
-              )
-              .toList();
+          final customersJson =
+              json['customersRes'] as Map<String, dynamic>? ?? {};
+          final customersModel = CustomerDailyReportsResModel.fromJson(
+            customersJson,
+          );
+          final customers = customersModel.toEntity();
           return CustomersState.loaded(
-            customersRes: CustomersResEntity(customerDailyReports: customers),
+            customersRes: customers,
             selectedDate: DateTime.parse(json['selectedDate'] as String),
+            customerDailyReportDetailsRes:
+                const CustomerDailyReportDetailsResEntity(),
           );
         case 'failure':
           final errorJson = json['error'] as Map<String, dynamic>? ?? {};
@@ -165,15 +187,23 @@ class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
     return state.when(
       initial: () => {'type': 'initial'},
       loading: () => {'type': 'loading'},
-      loaded: (selectedDate, customersRes) => {
-        'type': 'loaded',
-        'selectedDate': selectedDate.toIso8601String(),
-        'customersRes':
-            customersRes.customerDailyReports
-                ?.map((e) => e.toJson())
-                .toList() ??
-            [],
-      },
+      loaded:
+          (
+            selectedDate,
+            customersRes,
+            customerDailyReportDetailsRes,
+            customerStatement,
+            days,
+          ) {
+            return {
+              'type': 'loaded',
+              'selectedDate': selectedDate.toIso8601String(),
+              'customersRes': customersRes.toJson(),
+              'customerDailyReportDetailsRes': customerDailyReportDetailsRes
+                  ?.toJson(),
+              'days': days,
+            };
+          },
       failure: (apiErrorModel) => {
         'type': 'failure',
         'error': apiErrorModel.toJson(),
@@ -190,10 +220,14 @@ class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
     required Emitter<CustomersState> emit,
     required CustomersResEntity customersRes,
     required DateTime selectedDate,
+    required CustomerDailyReportDetailsResEntity customerDailyReportDetailsRes,
+    required CustomerStatementReportResEntity customerStatement,
   }) => emit(
     CustomersState.loaded(
       customersRes: customersRes,
       selectedDate: selectedDate,
+      customerDailyReportDetailsRes: customerDailyReportDetailsRes,
+      customerStatement: customerStatement,
     ),
   );
 }

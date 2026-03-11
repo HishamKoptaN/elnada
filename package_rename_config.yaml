@@ -1,0 +1,33 @@
+#! dart run package_rename --path="package_rename_config.yaml"
+package_rename_config:
+  android:
+    app_name: "ابو جنة للدواجن" 
+    package_name: "com.abujena.dawajen" 
+    override_old_package: true
+    lang: "ar"
+
+  ios:
+    app_name: "ابو جنة للدواجن" 
+    bundle_name: "com.abujena.dawajen"
+    package_name: "com.abujena.dawajen"
+
+  linux:
+    app_name: "ابو جنة للدواجن"
+    package_name: "com.abujena.dawajen"
+    exe_name: "abujena_dawajen"
+
+  macos:
+    app_name: "ابو جنة للدواجن"
+    package_name: "com.abujena.dawajen"
+    copyright_notice: "© 2024 IMolds"
+
+  web:
+    app_name: "ابو جنة للدواجن"
+    short_app_name: "abujena_dawajen" 
+    description: "abujena_dawajen App" # وصف التطبيق (اختياري)
+
+  windows:
+    app_name: "ابو جنة للدواجن" # اسم التطبيق
+    organization: "abujena_dawajen" # اسم المؤسسة (اختياري)
+    copyright_notice: "© 2026 abujena_dawajen" # حقوق الطبع والنشر (اختياري)
+    exe_name: "abujena_dawajen" # اسم ملف التنفيذ

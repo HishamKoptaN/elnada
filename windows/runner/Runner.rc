@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "taha" "\0"
+            VALUE "CompanyName", "abujena_dawajen" "\0"
+            VALUE "FileDescription", "ابو جنة للدواجن" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "taha" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2026 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "taha.exe" "\0"
-            VALUE "ProductName", "taha" "\0"
+            VALUE "InternalName", "ابو جنة للدواجن" "\0"
+            VALUE "LegalCopyright", "© 2026 abujena_dawajen" "\0"
+            VALUE "OriginalFilename", "abujena_dawajen.exe" "\0"
+            VALUE "ProductName", "ابو جنة للدواجن" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

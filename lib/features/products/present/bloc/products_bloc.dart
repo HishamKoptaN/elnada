@@ -4,7 +4,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../../core/errors/api_error_model.dart';
 import '../../../../core/networking/api_result.dart';
-import '../../../customers/domain/entities/customer_entity.dart';
+import '../../../customers/domain/entities/customer_daily_reports_res_entity.dart';
 import '../../../customers/present/bloc/customers_bloc.dart';
 import '../../domain/entities/product_entity.dart';
 import '../../domain/usecases/product_use_cases.dart';
@@ -38,11 +38,10 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
                 success: (res) async {
                   customersBloc.add(
                     CustomersEvent.priceChanged(
-                      productPrice: res ?? ProductPriceEntity(),
+                      productPrice: res ?? ProductDailyPriceEntity(),
                     ),
                   );
-                  emit(ProductsState.success());
-
+                  emit(const ProductsState.success());
                   emitLoaded(
                     emit: emit,
                     updateProductPriceReq: state.updateProductPriceReq,

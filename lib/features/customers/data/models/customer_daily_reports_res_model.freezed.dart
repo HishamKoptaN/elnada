@@ -297,7 +297,7 @@ as List<CustomerDailyReportModel>?,
 /// @nodoc
 mixin _$CustomerDailyReportModel {
 
-@JsonKey(name: 'id') int? get id;@JsonKey(name: 'customer') CustomerModel? get customer;@JsonKey(name: 'yesterday_closed_balance') int? get yesterdayClosedBalance;@JsonKey(name: 'product_daily_totals') List<ProductDailyTotalModel>? get productDailyTotals;@JsonKey(name: 'collections') List<CollectionModel>? get collections;@JsonKey(name: 'closing_balance') int? get closingBalance;@JsonKey(name: 'product_orders') List<ProductOrderModel>? get productOrders;
+@JsonKey(name: 'id') int? get id;@JsonKey(name: 'customer') CustomerModel? get customer;@JsonKey(name: 'yesterday_closed_balance') int? get yesterdayClosedBalance;@JsonKey(name: 'product_daily_totals') List<ProductDailyTotalModel>? get productDailyTotals;@JsonKey(name: 'returns') List<ProductReturnModel>? get returns;@JsonKey(name: 'total_collections') int? get totalCollections;@JsonKey(name: 'closing_balance') int? get closingBalance;@JsonKey(name: 'product_orders') List<ProductOrderModel>? get productOrders;
 /// Create a copy of CustomerDailyReportModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -310,16 +310,16 @@ $CustomerDailyReportModelCopyWith<CustomerDailyReportModel> get copyWith => _$Cu
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CustomerDailyReportModel&&(identical(other.id, id) || other.id == id)&&(identical(other.customer, customer) || other.customer == customer)&&(identical(other.yesterdayClosedBalance, yesterdayClosedBalance) || other.yesterdayClosedBalance == yesterdayClosedBalance)&&const DeepCollectionEquality().equals(other.productDailyTotals, productDailyTotals)&&const DeepCollectionEquality().equals(other.collections, collections)&&(identical(other.closingBalance, closingBalance) || other.closingBalance == closingBalance)&&const DeepCollectionEquality().equals(other.productOrders, productOrders));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CustomerDailyReportModel&&(identical(other.id, id) || other.id == id)&&(identical(other.customer, customer) || other.customer == customer)&&(identical(other.yesterdayClosedBalance, yesterdayClosedBalance) || other.yesterdayClosedBalance == yesterdayClosedBalance)&&const DeepCollectionEquality().equals(other.productDailyTotals, productDailyTotals)&&const DeepCollectionEquality().equals(other.returns, returns)&&(identical(other.totalCollections, totalCollections) || other.totalCollections == totalCollections)&&(identical(other.closingBalance, closingBalance) || other.closingBalance == closingBalance)&&const DeepCollectionEquality().equals(other.productOrders, productOrders));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,customer,yesterdayClosedBalance,const DeepCollectionEquality().hash(productDailyTotals),const DeepCollectionEquality().hash(collections),closingBalance,const DeepCollectionEquality().hash(productOrders));
+int get hashCode => Object.hash(runtimeType,id,customer,yesterdayClosedBalance,const DeepCollectionEquality().hash(productDailyTotals),const DeepCollectionEquality().hash(returns),totalCollections,closingBalance,const DeepCollectionEquality().hash(productOrders));
 
 @override
 String toString() {
-  return 'CustomerDailyReportModel(id: $id, customer: $customer, yesterdayClosedBalance: $yesterdayClosedBalance, productDailyTotals: $productDailyTotals, collections: $collections, closingBalance: $closingBalance, productOrders: $productOrders)';
+  return 'CustomerDailyReportModel(id: $id, customer: $customer, yesterdayClosedBalance: $yesterdayClosedBalance, productDailyTotals: $productDailyTotals, returns: $returns, totalCollections: $totalCollections, closingBalance: $closingBalance, productOrders: $productOrders)';
 }
 
 
@@ -330,7 +330,7 @@ abstract mixin class $CustomerDailyReportModelCopyWith<$Res>  {
   factory $CustomerDailyReportModelCopyWith(CustomerDailyReportModel value, $Res Function(CustomerDailyReportModel) _then) = _$CustomerDailyReportModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'id') int? id,@JsonKey(name: 'customer') CustomerModel? customer,@JsonKey(name: 'yesterday_closed_balance') int? yesterdayClosedBalance,@JsonKey(name: 'product_daily_totals') List<ProductDailyTotalModel>? productDailyTotals,@JsonKey(name: 'collections') List<CollectionModel>? collections,@JsonKey(name: 'closing_balance') int? closingBalance,@JsonKey(name: 'product_orders') List<ProductOrderModel>? productOrders
+@JsonKey(name: 'id') int? id,@JsonKey(name: 'customer') CustomerModel? customer,@JsonKey(name: 'yesterday_closed_balance') int? yesterdayClosedBalance,@JsonKey(name: 'product_daily_totals') List<ProductDailyTotalModel>? productDailyTotals,@JsonKey(name: 'returns') List<ProductReturnModel>? returns,@JsonKey(name: 'total_collections') int? totalCollections,@JsonKey(name: 'closing_balance') int? closingBalance,@JsonKey(name: 'product_orders') List<ProductOrderModel>? productOrders
 });
 
 
@@ -347,14 +347,15 @@ class _$CustomerDailyReportModelCopyWithImpl<$Res>
 
 /// Create a copy of CustomerDailyReportModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? customer = freezed,Object? yesterdayClosedBalance = freezed,Object? productDailyTotals = freezed,Object? collections = freezed,Object? closingBalance = freezed,Object? productOrders = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? customer = freezed,Object? yesterdayClosedBalance = freezed,Object? productDailyTotals = freezed,Object? returns = freezed,Object? totalCollections = freezed,Object? closingBalance = freezed,Object? productOrders = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,customer: freezed == customer ? _self.customer : customer // ignore: cast_nullable_to_non_nullable
 as CustomerModel?,yesterdayClosedBalance: freezed == yesterdayClosedBalance ? _self.yesterdayClosedBalance : yesterdayClosedBalance // ignore: cast_nullable_to_non_nullable
 as int?,productDailyTotals: freezed == productDailyTotals ? _self.productDailyTotals : productDailyTotals // ignore: cast_nullable_to_non_nullable
-as List<ProductDailyTotalModel>?,collections: freezed == collections ? _self.collections : collections // ignore: cast_nullable_to_non_nullable
-as List<CollectionModel>?,closingBalance: freezed == closingBalance ? _self.closingBalance : closingBalance // ignore: cast_nullable_to_non_nullable
+as List<ProductDailyTotalModel>?,returns: freezed == returns ? _self.returns : returns // ignore: cast_nullable_to_non_nullable
+as List<ProductReturnModel>?,totalCollections: freezed == totalCollections ? _self.totalCollections : totalCollections // ignore: cast_nullable_to_non_nullable
+as int?,closingBalance: freezed == closingBalance ? _self.closingBalance : closingBalance // ignore: cast_nullable_to_non_nullable
 as int?,productOrders: freezed == productOrders ? _self.productOrders : productOrders // ignore: cast_nullable_to_non_nullable
 as List<ProductOrderModel>?,
   ));
@@ -453,10 +454,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'customer')  CustomerModel? customer, @JsonKey(name: 'yesterday_closed_balance')  int? yesterdayClosedBalance, @JsonKey(name: 'product_daily_totals')  List<ProductDailyTotalModel>? productDailyTotals, @JsonKey(name: 'collections')  List<CollectionModel>? collections, @JsonKey(name: 'closing_balance')  int? closingBalance, @JsonKey(name: 'product_orders')  List<ProductOrderModel>? productOrders)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'customer')  CustomerModel? customer, @JsonKey(name: 'yesterday_closed_balance')  int? yesterdayClosedBalance, @JsonKey(name: 'product_daily_totals')  List<ProductDailyTotalModel>? productDailyTotals, @JsonKey(name: 'returns')  List<ProductReturnModel>? returns, @JsonKey(name: 'total_collections')  int? totalCollections, @JsonKey(name: 'closing_balance')  int? closingBalance, @JsonKey(name: 'product_orders')  List<ProductOrderModel>? productOrders)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CustomerDailyReportModel() when $default != null:
-return $default(_that.id,_that.customer,_that.yesterdayClosedBalance,_that.productDailyTotals,_that.collections,_that.closingBalance,_that.productOrders);case _:
+return $default(_that.id,_that.customer,_that.yesterdayClosedBalance,_that.productDailyTotals,_that.returns,_that.totalCollections,_that.closingBalance,_that.productOrders);case _:
   return orElse();
 
 }
@@ -474,10 +475,10 @@ return $default(_that.id,_that.customer,_that.yesterdayClosedBalance,_that.produ
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'customer')  CustomerModel? customer, @JsonKey(name: 'yesterday_closed_balance')  int? yesterdayClosedBalance, @JsonKey(name: 'product_daily_totals')  List<ProductDailyTotalModel>? productDailyTotals, @JsonKey(name: 'collections')  List<CollectionModel>? collections, @JsonKey(name: 'closing_balance')  int? closingBalance, @JsonKey(name: 'product_orders')  List<ProductOrderModel>? productOrders)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'customer')  CustomerModel? customer, @JsonKey(name: 'yesterday_closed_balance')  int? yesterdayClosedBalance, @JsonKey(name: 'product_daily_totals')  List<ProductDailyTotalModel>? productDailyTotals, @JsonKey(name: 'returns')  List<ProductReturnModel>? returns, @JsonKey(name: 'total_collections')  int? totalCollections, @JsonKey(name: 'closing_balance')  int? closingBalance, @JsonKey(name: 'product_orders')  List<ProductOrderModel>? productOrders)  $default,) {final _that = this;
 switch (_that) {
 case _CustomerDailyReportModel():
-return $default(_that.id,_that.customer,_that.yesterdayClosedBalance,_that.productDailyTotals,_that.collections,_that.closingBalance,_that.productOrders);case _:
+return $default(_that.id,_that.customer,_that.yesterdayClosedBalance,_that.productDailyTotals,_that.returns,_that.totalCollections,_that.closingBalance,_that.productOrders);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -494,10 +495,10 @@ return $default(_that.id,_that.customer,_that.yesterdayClosedBalance,_that.produ
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'customer')  CustomerModel? customer, @JsonKey(name: 'yesterday_closed_balance')  int? yesterdayClosedBalance, @JsonKey(name: 'product_daily_totals')  List<ProductDailyTotalModel>? productDailyTotals, @JsonKey(name: 'collections')  List<CollectionModel>? collections, @JsonKey(name: 'closing_balance')  int? closingBalance, @JsonKey(name: 'product_orders')  List<ProductOrderModel>? productOrders)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'customer')  CustomerModel? customer, @JsonKey(name: 'yesterday_closed_balance')  int? yesterdayClosedBalance, @JsonKey(name: 'product_daily_totals')  List<ProductDailyTotalModel>? productDailyTotals, @JsonKey(name: 'returns')  List<ProductReturnModel>? returns, @JsonKey(name: 'total_collections')  int? totalCollections, @JsonKey(name: 'closing_balance')  int? closingBalance, @JsonKey(name: 'product_orders')  List<ProductOrderModel>? productOrders)?  $default,) {final _that = this;
 switch (_that) {
 case _CustomerDailyReportModel() when $default != null:
-return $default(_that.id,_that.customer,_that.yesterdayClosedBalance,_that.productDailyTotals,_that.collections,_that.closingBalance,_that.productOrders);case _:
+return $default(_that.id,_that.customer,_that.yesterdayClosedBalance,_that.productDailyTotals,_that.returns,_that.totalCollections,_that.closingBalance,_that.productOrders);case _:
   return null;
 
 }
@@ -509,7 +510,7 @@ return $default(_that.id,_that.customer,_that.yesterdayClosedBalance,_that.produ
 @JsonSerializable()
 
 class _CustomerDailyReportModel implements CustomerDailyReportModel {
-  const _CustomerDailyReportModel({@JsonKey(name: 'id') this.id, @JsonKey(name: 'customer') this.customer, @JsonKey(name: 'yesterday_closed_balance') this.yesterdayClosedBalance, @JsonKey(name: 'product_daily_totals') final  List<ProductDailyTotalModel>? productDailyTotals, @JsonKey(name: 'collections') final  List<CollectionModel>? collections, @JsonKey(name: 'closing_balance') this.closingBalance, @JsonKey(name: 'product_orders') final  List<ProductOrderModel>? productOrders}): _productDailyTotals = productDailyTotals,_collections = collections,_productOrders = productOrders;
+  const _CustomerDailyReportModel({@JsonKey(name: 'id') this.id, @JsonKey(name: 'customer') this.customer, @JsonKey(name: 'yesterday_closed_balance') this.yesterdayClosedBalance, @JsonKey(name: 'product_daily_totals') final  List<ProductDailyTotalModel>? productDailyTotals, @JsonKey(name: 'returns') final  List<ProductReturnModel>? returns, @JsonKey(name: 'total_collections') this.totalCollections, @JsonKey(name: 'closing_balance') this.closingBalance, @JsonKey(name: 'product_orders') final  List<ProductOrderModel>? productOrders}): _productDailyTotals = productDailyTotals,_returns = returns,_productOrders = productOrders;
   factory _CustomerDailyReportModel.fromJson(Map<String, dynamic> json) => _$CustomerDailyReportModelFromJson(json);
 
 @override@JsonKey(name: 'id') final  int? id;
@@ -524,15 +525,16 @@ class _CustomerDailyReportModel implements CustomerDailyReportModel {
   return EqualUnmodifiableListView(value);
 }
 
- final  List<CollectionModel>? _collections;
-@override@JsonKey(name: 'collections') List<CollectionModel>? get collections {
-  final value = _collections;
+ final  List<ProductReturnModel>? _returns;
+@override@JsonKey(name: 'returns') List<ProductReturnModel>? get returns {
+  final value = _returns;
   if (value == null) return null;
-  if (_collections is EqualUnmodifiableListView) return _collections;
+  if (_returns is EqualUnmodifiableListView) return _returns;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(value);
 }
 
+@override@JsonKey(name: 'total_collections') final  int? totalCollections;
 @override@JsonKey(name: 'closing_balance') final  int? closingBalance;
  final  List<ProductOrderModel>? _productOrders;
 @override@JsonKey(name: 'product_orders') List<ProductOrderModel>? get productOrders {
@@ -557,16 +559,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CustomerDailyReportModel&&(identical(other.id, id) || other.id == id)&&(identical(other.customer, customer) || other.customer == customer)&&(identical(other.yesterdayClosedBalance, yesterdayClosedBalance) || other.yesterdayClosedBalance == yesterdayClosedBalance)&&const DeepCollectionEquality().equals(other._productDailyTotals, _productDailyTotals)&&const DeepCollectionEquality().equals(other._collections, _collections)&&(identical(other.closingBalance, closingBalance) || other.closingBalance == closingBalance)&&const DeepCollectionEquality().equals(other._productOrders, _productOrders));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CustomerDailyReportModel&&(identical(other.id, id) || other.id == id)&&(identical(other.customer, customer) || other.customer == customer)&&(identical(other.yesterdayClosedBalance, yesterdayClosedBalance) || other.yesterdayClosedBalance == yesterdayClosedBalance)&&const DeepCollectionEquality().equals(other._productDailyTotals, _productDailyTotals)&&const DeepCollectionEquality().equals(other._returns, _returns)&&(identical(other.totalCollections, totalCollections) || other.totalCollections == totalCollections)&&(identical(other.closingBalance, closingBalance) || other.closingBalance == closingBalance)&&const DeepCollectionEquality().equals(other._productOrders, _productOrders));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,customer,yesterdayClosedBalance,const DeepCollectionEquality().hash(_productDailyTotals),const DeepCollectionEquality().hash(_collections),closingBalance,const DeepCollectionEquality().hash(_productOrders));
+int get hashCode => Object.hash(runtimeType,id,customer,yesterdayClosedBalance,const DeepCollectionEquality().hash(_productDailyTotals),const DeepCollectionEquality().hash(_returns),totalCollections,closingBalance,const DeepCollectionEquality().hash(_productOrders));
 
 @override
 String toString() {
-  return 'CustomerDailyReportModel(id: $id, customer: $customer, yesterdayClosedBalance: $yesterdayClosedBalance, productDailyTotals: $productDailyTotals, collections: $collections, closingBalance: $closingBalance, productOrders: $productOrders)';
+  return 'CustomerDailyReportModel(id: $id, customer: $customer, yesterdayClosedBalance: $yesterdayClosedBalance, productDailyTotals: $productDailyTotals, returns: $returns, totalCollections: $totalCollections, closingBalance: $closingBalance, productOrders: $productOrders)';
 }
 
 
@@ -577,7 +579,7 @@ abstract mixin class _$CustomerDailyReportModelCopyWith<$Res> implements $Custom
   factory _$CustomerDailyReportModelCopyWith(_CustomerDailyReportModel value, $Res Function(_CustomerDailyReportModel) _then) = __$CustomerDailyReportModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'id') int? id,@JsonKey(name: 'customer') CustomerModel? customer,@JsonKey(name: 'yesterday_closed_balance') int? yesterdayClosedBalance,@JsonKey(name: 'product_daily_totals') List<ProductDailyTotalModel>? productDailyTotals,@JsonKey(name: 'collections') List<CollectionModel>? collections,@JsonKey(name: 'closing_balance') int? closingBalance,@JsonKey(name: 'product_orders') List<ProductOrderModel>? productOrders
+@JsonKey(name: 'id') int? id,@JsonKey(name: 'customer') CustomerModel? customer,@JsonKey(name: 'yesterday_closed_balance') int? yesterdayClosedBalance,@JsonKey(name: 'product_daily_totals') List<ProductDailyTotalModel>? productDailyTotals,@JsonKey(name: 'returns') List<ProductReturnModel>? returns,@JsonKey(name: 'total_collections') int? totalCollections,@JsonKey(name: 'closing_balance') int? closingBalance,@JsonKey(name: 'product_orders') List<ProductOrderModel>? productOrders
 });
 
 
@@ -594,14 +596,15 @@ class __$CustomerDailyReportModelCopyWithImpl<$Res>
 
 /// Create a copy of CustomerDailyReportModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? customer = freezed,Object? yesterdayClosedBalance = freezed,Object? productDailyTotals = freezed,Object? collections = freezed,Object? closingBalance = freezed,Object? productOrders = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? customer = freezed,Object? yesterdayClosedBalance = freezed,Object? productDailyTotals = freezed,Object? returns = freezed,Object? totalCollections = freezed,Object? closingBalance = freezed,Object? productOrders = freezed,}) {
   return _then(_CustomerDailyReportModel(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,customer: freezed == customer ? _self.customer : customer // ignore: cast_nullable_to_non_nullable
 as CustomerModel?,yesterdayClosedBalance: freezed == yesterdayClosedBalance ? _self.yesterdayClosedBalance : yesterdayClosedBalance // ignore: cast_nullable_to_non_nullable
 as int?,productDailyTotals: freezed == productDailyTotals ? _self._productDailyTotals : productDailyTotals // ignore: cast_nullable_to_non_nullable
-as List<ProductDailyTotalModel>?,collections: freezed == collections ? _self._collections : collections // ignore: cast_nullable_to_non_nullable
-as List<CollectionModel>?,closingBalance: freezed == closingBalance ? _self.closingBalance : closingBalance // ignore: cast_nullable_to_non_nullable
+as List<ProductDailyTotalModel>?,returns: freezed == returns ? _self._returns : returns // ignore: cast_nullable_to_non_nullable
+as List<ProductReturnModel>?,totalCollections: freezed == totalCollections ? _self.totalCollections : totalCollections // ignore: cast_nullable_to_non_nullable
+as int?,closingBalance: freezed == closingBalance ? _self.closingBalance : closingBalance // ignore: cast_nullable_to_non_nullable
 as int?,productOrders: freezed == productOrders ? _self._productOrders : productOrders // ignore: cast_nullable_to_non_nullable
 as List<ProductOrderModel>?,
   ));
@@ -904,7 +907,7 @@ as String?,
 /// @nodoc
 mixin _$ProductPriceModel {
 
-@JsonKey(name: 'id') int? get id;@JsonKey(name: 'product_id') int? get productId;@JsonKey(name: 'product_name') String? get productName;@JsonKey(name: 'price') double? get price;@JsonKey(name: 'created_at') String? get createdAt;@JsonKey(name: 'updated_at') String? get updatedAt;
+@JsonKey(name: 'product') ProductModel? get product;@JsonKey(name: 'productDailyprice') ProductDailyPriceModel? get productDailyprice;
 /// Create a copy of ProductPriceModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -917,16 +920,16 @@ $ProductPriceModelCopyWith<ProductPriceModel> get copyWith => _$ProductPriceMode
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductPriceModel&&(identical(other.id, id) || other.id == id)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.price, price) || other.price == price)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductPriceModel&&(identical(other.product, product) || other.product == product)&&(identical(other.productDailyprice, productDailyprice) || other.productDailyprice == productDailyprice));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,productId,productName,price,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,product,productDailyprice);
 
 @override
 String toString() {
-  return 'ProductPriceModel(id: $id, productId: $productId, productName: $productName, price: $price, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'ProductPriceModel(product: $product, productDailyprice: $productDailyprice)';
 }
 
 
@@ -937,11 +940,11 @@ abstract mixin class $ProductPriceModelCopyWith<$Res>  {
   factory $ProductPriceModelCopyWith(ProductPriceModel value, $Res Function(ProductPriceModel) _then) = _$ProductPriceModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'id') int? id,@JsonKey(name: 'product_id') int? productId,@JsonKey(name: 'product_name') String? productName,@JsonKey(name: 'price') double? price,@JsonKey(name: 'created_at') String? createdAt,@JsonKey(name: 'updated_at') String? updatedAt
+@JsonKey(name: 'product') ProductModel? product,@JsonKey(name: 'productDailyprice') ProductDailyPriceModel? productDailyprice
 });
 
 
-
+$ProductModelCopyWith<$Res>? get product;$ProductDailyPriceModelCopyWith<$Res>? get productDailyprice;
 
 }
 /// @nodoc
@@ -954,18 +957,38 @@ class _$ProductPriceModelCopyWithImpl<$Res>
 
 /// Create a copy of ProductPriceModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? productId = freezed,Object? productName = freezed,Object? price = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? product = freezed,Object? productDailyprice = freezed,}) {
   return _then(_self.copyWith(
-id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,productId: freezed == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
-as int?,productName: freezed == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
-as String?,price: freezed == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
-as double?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as String?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
-as String?,
+product: freezed == product ? _self.product : product // ignore: cast_nullable_to_non_nullable
+as ProductModel?,productDailyprice: freezed == productDailyprice ? _self.productDailyprice : productDailyprice // ignore: cast_nullable_to_non_nullable
+as ProductDailyPriceModel?,
   ));
 }
+/// Create a copy of ProductPriceModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ProductModelCopyWith<$Res>? get product {
+    if (_self.product == null) {
+    return null;
+  }
 
+  return $ProductModelCopyWith<$Res>(_self.product!, (value) {
+    return _then(_self.copyWith(product: value));
+  });
+}/// Create a copy of ProductPriceModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ProductDailyPriceModelCopyWith<$Res>? get productDailyprice {
+    if (_self.productDailyprice == null) {
+    return null;
+  }
+
+  return $ProductDailyPriceModelCopyWith<$Res>(_self.productDailyprice!, (value) {
+    return _then(_self.copyWith(productDailyprice: value));
+  });
+}
 }
 
 
@@ -1047,10 +1070,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'product_id')  int? productId, @JsonKey(name: 'product_name')  String? productName, @JsonKey(name: 'price')  double? price, @JsonKey(name: 'created_at')  String? createdAt, @JsonKey(name: 'updated_at')  String? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'product')  ProductModel? product, @JsonKey(name: 'productDailyprice')  ProductDailyPriceModel? productDailyprice)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ProductPriceModel() when $default != null:
-return $default(_that.id,_that.productId,_that.productName,_that.price,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.product,_that.productDailyprice);case _:
   return orElse();
 
 }
@@ -1068,10 +1091,10 @@ return $default(_that.id,_that.productId,_that.productName,_that.price,_that.cre
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'product_id')  int? productId, @JsonKey(name: 'product_name')  String? productName, @JsonKey(name: 'price')  double? price, @JsonKey(name: 'created_at')  String? createdAt, @JsonKey(name: 'updated_at')  String? updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'product')  ProductModel? product, @JsonKey(name: 'productDailyprice')  ProductDailyPriceModel? productDailyprice)  $default,) {final _that = this;
 switch (_that) {
 case _ProductPriceModel():
-return $default(_that.id,_that.productId,_that.productName,_that.price,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.product,_that.productDailyprice);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1088,10 +1111,10 @@ return $default(_that.id,_that.productId,_that.productName,_that.price,_that.cre
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'product_id')  int? productId, @JsonKey(name: 'product_name')  String? productName, @JsonKey(name: 'price')  double? price, @JsonKey(name: 'created_at')  String? createdAt, @JsonKey(name: 'updated_at')  String? updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'product')  ProductModel? product, @JsonKey(name: 'productDailyprice')  ProductDailyPriceModel? productDailyprice)?  $default,) {final _that = this;
 switch (_that) {
 case _ProductPriceModel() when $default != null:
-return $default(_that.id,_that.productId,_that.productName,_that.price,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.product,_that.productDailyprice);case _:
   return null;
 
 }
@@ -1103,15 +1126,11 @@ return $default(_that.id,_that.productId,_that.productName,_that.price,_that.cre
 @JsonSerializable()
 
 class _ProductPriceModel implements ProductPriceModel {
-  const _ProductPriceModel({@JsonKey(name: 'id') this.id, @JsonKey(name: 'product_id') this.productId, @JsonKey(name: 'product_name') this.productName, @JsonKey(name: 'price') this.price, @JsonKey(name: 'created_at') this.createdAt, @JsonKey(name: 'updated_at') this.updatedAt});
+  const _ProductPriceModel({@JsonKey(name: 'product') this.product, @JsonKey(name: 'productDailyprice') this.productDailyprice});
   factory _ProductPriceModel.fromJson(Map<String, dynamic> json) => _$ProductPriceModelFromJson(json);
 
-@override@JsonKey(name: 'id') final  int? id;
-@override@JsonKey(name: 'product_id') final  int? productId;
-@override@JsonKey(name: 'product_name') final  String? productName;
-@override@JsonKey(name: 'price') final  double? price;
-@override@JsonKey(name: 'created_at') final  String? createdAt;
-@override@JsonKey(name: 'updated_at') final  String? updatedAt;
+@override@JsonKey(name: 'product') final  ProductModel? product;
+@override@JsonKey(name: 'productDailyprice') final  ProductDailyPriceModel? productDailyprice;
 
 /// Create a copy of ProductPriceModel
 /// with the given fields replaced by the non-null parameter values.
@@ -1126,16 +1145,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProductPriceModel&&(identical(other.id, id) || other.id == id)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.price, price) || other.price == price)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProductPriceModel&&(identical(other.product, product) || other.product == product)&&(identical(other.productDailyprice, productDailyprice) || other.productDailyprice == productDailyprice));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,productId,productName,price,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,product,productDailyprice);
 
 @override
 String toString() {
-  return 'ProductPriceModel(id: $id, productId: $productId, productName: $productName, price: $price, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'ProductPriceModel(product: $product, productDailyprice: $productDailyprice)';
 }
 
 
@@ -1146,11 +1165,11 @@ abstract mixin class _$ProductPriceModelCopyWith<$Res> implements $ProductPriceM
   factory _$ProductPriceModelCopyWith(_ProductPriceModel value, $Res Function(_ProductPriceModel) _then) = __$ProductPriceModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'id') int? id,@JsonKey(name: 'product_id') int? productId,@JsonKey(name: 'product_name') String? productName,@JsonKey(name: 'price') double? price,@JsonKey(name: 'created_at') String? createdAt,@JsonKey(name: 'updated_at') String? updatedAt
+@JsonKey(name: 'product') ProductModel? product,@JsonKey(name: 'productDailyprice') ProductDailyPriceModel? productDailyprice
 });
 
 
-
+@override $ProductModelCopyWith<$Res>? get product;@override $ProductDailyPriceModelCopyWith<$Res>? get productDailyprice;
 
 }
 /// @nodoc
@@ -1163,13 +1182,308 @@ class __$ProductPriceModelCopyWithImpl<$Res>
 
 /// Create a copy of ProductPriceModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? productId = freezed,Object? productName = freezed,Object? price = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? product = freezed,Object? productDailyprice = freezed,}) {
   return _then(_ProductPriceModel(
+product: freezed == product ? _self.product : product // ignore: cast_nullable_to_non_nullable
+as ProductModel?,productDailyprice: freezed == productDailyprice ? _self.productDailyprice : productDailyprice // ignore: cast_nullable_to_non_nullable
+as ProductDailyPriceModel?,
+  ));
+}
+
+/// Create a copy of ProductPriceModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ProductModelCopyWith<$Res>? get product {
+    if (_self.product == null) {
+    return null;
+  }
+
+  return $ProductModelCopyWith<$Res>(_self.product!, (value) {
+    return _then(_self.copyWith(product: value));
+  });
+}/// Create a copy of ProductPriceModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ProductDailyPriceModelCopyWith<$Res>? get productDailyprice {
+    if (_self.productDailyprice == null) {
+    return null;
+  }
+
+  return $ProductDailyPriceModelCopyWith<$Res>(_self.productDailyprice!, (value) {
+    return _then(_self.copyWith(productDailyprice: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$ProductDailyPriceModel {
+
+@JsonKey(name: 'id') int? get id;@JsonKey(name: 'price') double? get price;@JsonKey(name: 'product_id') int? get productId;@JsonKey(name: 'created_at') String? get createdAt;@JsonKey(name: 'updated_at') String? get updatedAt;
+/// Create a copy of ProductDailyPriceModel
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ProductDailyPriceModelCopyWith<ProductDailyPriceModel> get copyWith => _$ProductDailyPriceModelCopyWithImpl<ProductDailyPriceModel>(this as ProductDailyPriceModel, _$identity);
+
+  /// Serializes this ProductDailyPriceModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductDailyPriceModel&&(identical(other.id, id) || other.id == id)&&(identical(other.price, price) || other.price == price)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,price,productId,createdAt,updatedAt);
+
+@override
+String toString() {
+  return 'ProductDailyPriceModel(id: $id, price: $price, productId: $productId, createdAt: $createdAt, updatedAt: $updatedAt)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ProductDailyPriceModelCopyWith<$Res>  {
+  factory $ProductDailyPriceModelCopyWith(ProductDailyPriceModel value, $Res Function(ProductDailyPriceModel) _then) = _$ProductDailyPriceModelCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'id') int? id,@JsonKey(name: 'price') double? price,@JsonKey(name: 'product_id') int? productId,@JsonKey(name: 'created_at') String? createdAt,@JsonKey(name: 'updated_at') String? updatedAt
+});
+
+
+
+
+}
+/// @nodoc
+class _$ProductDailyPriceModelCopyWithImpl<$Res>
+    implements $ProductDailyPriceModelCopyWith<$Res> {
+  _$ProductDailyPriceModelCopyWithImpl(this._self, this._then);
+
+  final ProductDailyPriceModel _self;
+  final $Res Function(ProductDailyPriceModel) _then;
+
+/// Create a copy of ProductDailyPriceModel
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? price = freezed,Object? productId = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
+  return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,productId: freezed == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
-as int?,productName: freezed == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
-as String?,price: freezed == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
-as double?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as int?,price: freezed == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
+as double?,productId: freezed == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
+as int?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ProductDailyPriceModel].
+extension ProductDailyPriceModelPatterns on ProductDailyPriceModel {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ProductDailyPriceModel value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ProductDailyPriceModel() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ProductDailyPriceModel value)  $default,){
+final _that = this;
+switch (_that) {
+case _ProductDailyPriceModel():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ProductDailyPriceModel value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ProductDailyPriceModel() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'price')  double? price, @JsonKey(name: 'product_id')  int? productId, @JsonKey(name: 'created_at')  String? createdAt, @JsonKey(name: 'updated_at')  String? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ProductDailyPriceModel() when $default != null:
+return $default(_that.id,_that.price,_that.productId,_that.createdAt,_that.updatedAt);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'price')  double? price, @JsonKey(name: 'product_id')  int? productId, @JsonKey(name: 'created_at')  String? createdAt, @JsonKey(name: 'updated_at')  String? updatedAt)  $default,) {final _that = this;
+switch (_that) {
+case _ProductDailyPriceModel():
+return $default(_that.id,_that.price,_that.productId,_that.createdAt,_that.updatedAt);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'price')  double? price, @JsonKey(name: 'product_id')  int? productId, @JsonKey(name: 'created_at')  String? createdAt, @JsonKey(name: 'updated_at')  String? updatedAt)?  $default,) {final _that = this;
+switch (_that) {
+case _ProductDailyPriceModel() when $default != null:
+return $default(_that.id,_that.price,_that.productId,_that.createdAt,_that.updatedAt);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ProductDailyPriceModel implements ProductDailyPriceModel {
+  const _ProductDailyPriceModel({@JsonKey(name: 'id') this.id, @JsonKey(name: 'price') this.price, @JsonKey(name: 'product_id') this.productId, @JsonKey(name: 'created_at') this.createdAt, @JsonKey(name: 'updated_at') this.updatedAt});
+  factory _ProductDailyPriceModel.fromJson(Map<String, dynamic> json) => _$ProductDailyPriceModelFromJson(json);
+
+@override@JsonKey(name: 'id') final  int? id;
+@override@JsonKey(name: 'price') final  double? price;
+@override@JsonKey(name: 'product_id') final  int? productId;
+@override@JsonKey(name: 'created_at') final  String? createdAt;
+@override@JsonKey(name: 'updated_at') final  String? updatedAt;
+
+/// Create a copy of ProductDailyPriceModel
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ProductDailyPriceModelCopyWith<_ProductDailyPriceModel> get copyWith => __$ProductDailyPriceModelCopyWithImpl<_ProductDailyPriceModel>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ProductDailyPriceModelToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProductDailyPriceModel&&(identical(other.id, id) || other.id == id)&&(identical(other.price, price) || other.price == price)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,price,productId,createdAt,updatedAt);
+
+@override
+String toString() {
+  return 'ProductDailyPriceModel(id: $id, price: $price, productId: $productId, createdAt: $createdAt, updatedAt: $updatedAt)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ProductDailyPriceModelCopyWith<$Res> implements $ProductDailyPriceModelCopyWith<$Res> {
+  factory _$ProductDailyPriceModelCopyWith(_ProductDailyPriceModel value, $Res Function(_ProductDailyPriceModel) _then) = __$ProductDailyPriceModelCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'id') int? id,@JsonKey(name: 'price') double? price,@JsonKey(name: 'product_id') int? productId,@JsonKey(name: 'created_at') String? createdAt,@JsonKey(name: 'updated_at') String? updatedAt
+});
+
+
+
+
+}
+/// @nodoc
+class __$ProductDailyPriceModelCopyWithImpl<$Res>
+    implements _$ProductDailyPriceModelCopyWith<$Res> {
+  __$ProductDailyPriceModelCopyWithImpl(this._self, this._then);
+
+  final _ProductDailyPriceModel _self;
+  final $Res Function(_ProductDailyPriceModel) _then;
+
+/// Create a copy of ProductDailyPriceModel
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? price = freezed,Object? productId = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
+  return _then(_ProductDailyPriceModel(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,price: freezed == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
+as double?,productId: freezed == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
+as int?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as String?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -1449,71 +1763,83 @@ as int?,
 
 
 /// @nodoc
-mixin _$CollectionModel {
+mixin _$ProductReturnModel {
 
-@JsonKey(name: 'id') int? get id;@JsonKey(name: 'amount') int? get amount;
-/// Create a copy of CollectionModel
+@JsonKey(name: 'product') ProductModel? get product;@JsonKey(name: 'total_weight') double? get totalWeight;
+/// Create a copy of ProductReturnModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$CollectionModelCopyWith<CollectionModel> get copyWith => _$CollectionModelCopyWithImpl<CollectionModel>(this as CollectionModel, _$identity);
+$ProductReturnModelCopyWith<ProductReturnModel> get copyWith => _$ProductReturnModelCopyWithImpl<ProductReturnModel>(this as ProductReturnModel, _$identity);
 
-  /// Serializes this CollectionModel to a JSON map.
+  /// Serializes this ProductReturnModel to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CollectionModel&&(identical(other.id, id) || other.id == id)&&(identical(other.amount, amount) || other.amount == amount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductReturnModel&&(identical(other.product, product) || other.product == product)&&(identical(other.totalWeight, totalWeight) || other.totalWeight == totalWeight));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,amount);
+int get hashCode => Object.hash(runtimeType,product,totalWeight);
 
 @override
 String toString() {
-  return 'CollectionModel(id: $id, amount: $amount)';
+  return 'ProductReturnModel(product: $product, totalWeight: $totalWeight)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $CollectionModelCopyWith<$Res>  {
-  factory $CollectionModelCopyWith(CollectionModel value, $Res Function(CollectionModel) _then) = _$CollectionModelCopyWithImpl;
+abstract mixin class $ProductReturnModelCopyWith<$Res>  {
+  factory $ProductReturnModelCopyWith(ProductReturnModel value, $Res Function(ProductReturnModel) _then) = _$ProductReturnModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'id') int? id,@JsonKey(name: 'amount') int? amount
+@JsonKey(name: 'product') ProductModel? product,@JsonKey(name: 'total_weight') double? totalWeight
 });
 
 
-
+$ProductModelCopyWith<$Res>? get product;
 
 }
 /// @nodoc
-class _$CollectionModelCopyWithImpl<$Res>
-    implements $CollectionModelCopyWith<$Res> {
-  _$CollectionModelCopyWithImpl(this._self, this._then);
+class _$ProductReturnModelCopyWithImpl<$Res>
+    implements $ProductReturnModelCopyWith<$Res> {
+  _$ProductReturnModelCopyWithImpl(this._self, this._then);
 
-  final CollectionModel _self;
-  final $Res Function(CollectionModel) _then;
+  final ProductReturnModel _self;
+  final $Res Function(ProductReturnModel) _then;
 
-/// Create a copy of CollectionModel
+/// Create a copy of ProductReturnModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? amount = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? product = freezed,Object? totalWeight = freezed,}) {
   return _then(_self.copyWith(
-id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,amount: freezed == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
-as int?,
+product: freezed == product ? _self.product : product // ignore: cast_nullable_to_non_nullable
+as ProductModel?,totalWeight: freezed == totalWeight ? _self.totalWeight : totalWeight // ignore: cast_nullable_to_non_nullable
+as double?,
   ));
 }
+/// Create a copy of ProductReturnModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ProductModelCopyWith<$Res>? get product {
+    if (_self.product == null) {
+    return null;
+  }
 
+  return $ProductModelCopyWith<$Res>(_self.product!, (value) {
+    return _then(_self.copyWith(product: value));
+  });
+}
 }
 
 
-/// Adds pattern-matching-related methods to [CollectionModel].
-extension CollectionModelPatterns on CollectionModel {
+/// Adds pattern-matching-related methods to [ProductReturnModel].
+extension ProductReturnModelPatterns on ProductReturnModel {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -1526,10 +1852,10 @@ extension CollectionModelPatterns on CollectionModel {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _CollectionModel value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ProductReturnModel value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _CollectionModel() when $default != null:
+case _ProductReturnModel() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -1548,10 +1874,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _CollectionModel value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ProductReturnModel value)  $default,){
 final _that = this;
 switch (_that) {
-case _CollectionModel():
+case _ProductReturnModel():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -1569,10 +1895,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _CollectionModel value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ProductReturnModel value)?  $default,){
 final _that = this;
 switch (_that) {
-case _CollectionModel() when $default != null:
+case _ProductReturnModel() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -1590,10 +1916,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'amount')  int? amount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'product')  ProductModel? product, @JsonKey(name: 'total_weight')  double? totalWeight)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _CollectionModel() when $default != null:
-return $default(_that.id,_that.amount);case _:
+case _ProductReturnModel() when $default != null:
+return $default(_that.product,_that.totalWeight);case _:
   return orElse();
 
 }
@@ -1611,10 +1937,10 @@ return $default(_that.id,_that.amount);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'amount')  int? amount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'product')  ProductModel? product, @JsonKey(name: 'total_weight')  double? totalWeight)  $default,) {final _that = this;
 switch (_that) {
-case _CollectionModel():
-return $default(_that.id,_that.amount);case _:
+case _ProductReturnModel():
+return $default(_that.product,_that.totalWeight);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1631,10 +1957,10 @@ return $default(_that.id,_that.amount);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'amount')  int? amount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'product')  ProductModel? product, @JsonKey(name: 'total_weight')  double? totalWeight)?  $default,) {final _that = this;
 switch (_that) {
-case _CollectionModel() when $default != null:
-return $default(_that.id,_that.amount);case _:
+case _ProductReturnModel() when $default != null:
+return $default(_that.product,_that.totalWeight);case _:
   return null;
 
 }
@@ -1645,72 +1971,84 @@ return $default(_that.id,_that.amount);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _CollectionModel implements CollectionModel {
-  const _CollectionModel({@JsonKey(name: 'id') this.id, @JsonKey(name: 'amount') this.amount});
-  factory _CollectionModel.fromJson(Map<String, dynamic> json) => _$CollectionModelFromJson(json);
+class _ProductReturnModel implements ProductReturnModel {
+  const _ProductReturnModel({@JsonKey(name: 'product') this.product, @JsonKey(name: 'total_weight') this.totalWeight});
+  factory _ProductReturnModel.fromJson(Map<String, dynamic> json) => _$ProductReturnModelFromJson(json);
 
-@override@JsonKey(name: 'id') final  int? id;
-@override@JsonKey(name: 'amount') final  int? amount;
+@override@JsonKey(name: 'product') final  ProductModel? product;
+@override@JsonKey(name: 'total_weight') final  double? totalWeight;
 
-/// Create a copy of CollectionModel
+/// Create a copy of ProductReturnModel
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$CollectionModelCopyWith<_CollectionModel> get copyWith => __$CollectionModelCopyWithImpl<_CollectionModel>(this, _$identity);
+_$ProductReturnModelCopyWith<_ProductReturnModel> get copyWith => __$ProductReturnModelCopyWithImpl<_ProductReturnModel>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$CollectionModelToJson(this, );
+  return _$ProductReturnModelToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CollectionModel&&(identical(other.id, id) || other.id == id)&&(identical(other.amount, amount) || other.amount == amount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProductReturnModel&&(identical(other.product, product) || other.product == product)&&(identical(other.totalWeight, totalWeight) || other.totalWeight == totalWeight));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,amount);
+int get hashCode => Object.hash(runtimeType,product,totalWeight);
 
 @override
 String toString() {
-  return 'CollectionModel(id: $id, amount: $amount)';
+  return 'ProductReturnModel(product: $product, totalWeight: $totalWeight)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$CollectionModelCopyWith<$Res> implements $CollectionModelCopyWith<$Res> {
-  factory _$CollectionModelCopyWith(_CollectionModel value, $Res Function(_CollectionModel) _then) = __$CollectionModelCopyWithImpl;
+abstract mixin class _$ProductReturnModelCopyWith<$Res> implements $ProductReturnModelCopyWith<$Res> {
+  factory _$ProductReturnModelCopyWith(_ProductReturnModel value, $Res Function(_ProductReturnModel) _then) = __$ProductReturnModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'id') int? id,@JsonKey(name: 'amount') int? amount
+@JsonKey(name: 'product') ProductModel? product,@JsonKey(name: 'total_weight') double? totalWeight
 });
 
 
-
+@override $ProductModelCopyWith<$Res>? get product;
 
 }
 /// @nodoc
-class __$CollectionModelCopyWithImpl<$Res>
-    implements _$CollectionModelCopyWith<$Res> {
-  __$CollectionModelCopyWithImpl(this._self, this._then);
+class __$ProductReturnModelCopyWithImpl<$Res>
+    implements _$ProductReturnModelCopyWith<$Res> {
+  __$ProductReturnModelCopyWithImpl(this._self, this._then);
 
-  final _CollectionModel _self;
-  final $Res Function(_CollectionModel) _then;
+  final _ProductReturnModel _self;
+  final $Res Function(_ProductReturnModel) _then;
 
-/// Create a copy of CollectionModel
+/// Create a copy of ProductReturnModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? amount = freezed,}) {
-  return _then(_CollectionModel(
-id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,amount: freezed == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
-as int?,
+@override @pragma('vm:prefer-inline') $Res call({Object? product = freezed,Object? totalWeight = freezed,}) {
+  return _then(_ProductReturnModel(
+product: freezed == product ? _self.product : product // ignore: cast_nullable_to_non_nullable
+as ProductModel?,totalWeight: freezed == totalWeight ? _self.totalWeight : totalWeight // ignore: cast_nullable_to_non_nullable
+as double?,
   ));
 }
 
+/// Create a copy of ProductReturnModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ProductModelCopyWith<$Res>? get product {
+    if (_self.product == null) {
+    return null;
+  }
 
+  return $ProductModelCopyWith<$Res>(_self.product!, (value) {
+    return _then(_self.copyWith(product: value));
+  });
+}
 }
 
 
@@ -1973,6 +2311,272 @@ class __$ProductOrderModelCopyWithImpl<$Res>
 productId: freezed == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
 as int?,totalCount: freezed == totalCount ? _self.totalCount : totalCount // ignore: cast_nullable_to_non_nullable
 as int?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$ProductModel {
+
+@JsonKey(name: "id") int? get id;@JsonKey(name: "name") String? get name;
+/// Create a copy of ProductModel
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ProductModelCopyWith<ProductModel> get copyWith => _$ProductModelCopyWithImpl<ProductModel>(this as ProductModel, _$identity);
+
+  /// Serializes this ProductModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,name);
+
+@override
+String toString() {
+  return 'ProductModel(id: $id, name: $name)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ProductModelCopyWith<$Res>  {
+  factory $ProductModelCopyWith(ProductModel value, $Res Function(ProductModel) _then) = _$ProductModelCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: "id") int? id,@JsonKey(name: "name") String? name
+});
+
+
+
+
+}
+/// @nodoc
+class _$ProductModelCopyWithImpl<$Res>
+    implements $ProductModelCopyWith<$Res> {
+  _$ProductModelCopyWithImpl(this._self, this._then);
+
+  final ProductModel _self;
+  final $Res Function(ProductModel) _then;
+
+/// Create a copy of ProductModel
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? name = freezed,}) {
+  return _then(_self.copyWith(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ProductModel].
+extension ProductModelPatterns on ProductModel {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ProductModel value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ProductModel() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ProductModel value)  $default,){
+final _that = this;
+switch (_that) {
+case _ProductModel():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ProductModel value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ProductModel() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "name")  String? name)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ProductModel() when $default != null:
+return $default(_that.id,_that.name);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "name")  String? name)  $default,) {final _that = this;
+switch (_that) {
+case _ProductModel():
+return $default(_that.id,_that.name);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "name")  String? name)?  $default,) {final _that = this;
+switch (_that) {
+case _ProductModel() when $default != null:
+return $default(_that.id,_that.name);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ProductModel implements ProductModel {
+  const _ProductModel({@JsonKey(name: "id") this.id, @JsonKey(name: "name") this.name});
+  factory _ProductModel.fromJson(Map<String, dynamic> json) => _$ProductModelFromJson(json);
+
+@override@JsonKey(name: "id") final  int? id;
+@override@JsonKey(name: "name") final  String? name;
+
+/// Create a copy of ProductModel
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ProductModelCopyWith<_ProductModel> get copyWith => __$ProductModelCopyWithImpl<_ProductModel>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ProductModelToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProductModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,name);
+
+@override
+String toString() {
+  return 'ProductModel(id: $id, name: $name)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ProductModelCopyWith<$Res> implements $ProductModelCopyWith<$Res> {
+  factory _$ProductModelCopyWith(_ProductModel value, $Res Function(_ProductModel) _then) = __$ProductModelCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: "id") int? id,@JsonKey(name: "name") String? name
+});
+
+
+
+
+}
+/// @nodoc
+class __$ProductModelCopyWithImpl<$Res>
+    implements _$ProductModelCopyWith<$Res> {
+  __$ProductModelCopyWithImpl(this._self, this._then);
+
+  final _ProductModel _self;
+  final $Res Function(_ProductModel) _then;
+
+/// Create a copy of ProductModel
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? name = freezed,}) {
+  return _then(_ProductModel(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

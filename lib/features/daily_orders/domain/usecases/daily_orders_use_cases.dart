@@ -1,9 +1,9 @@
 import 'package:injectable/injectable.dart';
-import 'package:taha/features/customers/domain/entities/customer_entity.dart';
-import 'package:taha/features/daily_orders/domain/entities/create_daily_order_req_entity.dart';
 import '../../../../../../core/networking/api_result.dart';
 import '../entities/update_daily_order_req_entity.dart';
 import '../repo/daily_orders_repo.dart';
+import '../../../customers/domain/entities/customer_daily_reports_res_entity.dart';
+import '../entities/create_daily_order_req_entity.dart';
 
 @singleton
 class DailyOrdersUseCases {

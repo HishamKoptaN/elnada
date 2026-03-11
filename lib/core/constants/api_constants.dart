@@ -1,9 +1,10 @@
 class ApiConstants {
   // Auth endpoints
   static const String customerDailyReports = 'customer-daily-reports';
-  static const String transactions = 'transactions';
   static const String products = 'products';
   static const String productsPrice = 'products/price';
+  static const String transactions = 'transactions';
+  static const String returns = 'returns';
   static const String dailyCollections = 'daily-collections';
   static const String dailyOrders = 'daily-orders';
   static const String refreshToken = 'refresh-token';

@@ -35,9 +35,10 @@ _CustomerDailyReportModel _$CustomerDailyReportModelFromJson(
   productDailyTotals: (json['product_daily_totals'] as List<dynamic>?)
       ?.map((e) => ProductDailyTotalModel.fromJson(e as Map<String, dynamic>))
       .toList(),
-  collections: (json['collections'] as List<dynamic>?)
-      ?.map((e) => CollectionModel.fromJson(e as Map<String, dynamic>))
+  returns: (json['returns'] as List<dynamic>?)
+      ?.map((e) => ProductReturnModel.fromJson(e as Map<String, dynamic>))
       .toList(),
+  totalCollections: (json['total_collections'] as num?)?.toInt(),
   closingBalance: (json['closing_balance'] as num?)?.toInt(),
   productOrders: (json['product_orders'] as List<dynamic>?)
       ?.map((e) => ProductOrderModel.fromJson(e as Map<String, dynamic>))
@@ -51,7 +52,8 @@ Map<String, dynamic> _$CustomerDailyReportModelToJson(
   'customer': instance.customer,
   'yesterday_closed_balance': instance.yesterdayClosedBalance,
   'product_daily_totals': instance.productDailyTotals,
-  'collections': instance.collections,
+  'returns': instance.returns,
+  'total_collections': instance.totalCollections,
   'closing_balance': instance.closingBalance,
   'product_orders': instance.productOrders,
 };
@@ -78,23 +80,41 @@ Map<String, dynamic> _$CustomerModelToJson(_CustomerModel instance) =>
 
 _ProductPriceModel _$ProductPriceModelFromJson(Map<String, dynamic> json) =>
     _ProductPriceModel(
-      id: (json['id'] as num?)?.toInt(),
-      productId: (json['product_id'] as num?)?.toInt(),
-      productName: json['product_name'] as String?,
-      price: (json['price'] as num?)?.toDouble(),
-      createdAt: json['created_at'] as String?,
-      updatedAt: json['updated_at'] as String?,
+      product: json['product'] == null
+          ? null
+          : ProductModel.fromJson(json['product'] as Map<String, dynamic>),
+      productDailyprice: json['productDailyprice'] == null
+          ? null
+          : ProductDailyPriceModel.fromJson(
+              json['productDailyprice'] as Map<String, dynamic>,
+            ),
     );
 
 Map<String, dynamic> _$ProductPriceModelToJson(_ProductPriceModel instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'product_id': instance.productId,
-      'product_name': instance.productName,
-      'price': instance.price,
-      'created_at': instance.createdAt,
-      'updated_at': instance.updatedAt,
+      'product': instance.product,
+      'productDailyprice': instance.productDailyprice,
     };
+
+_ProductDailyPriceModel _$ProductDailyPriceModelFromJson(
+  Map<String, dynamic> json,
+) => _ProductDailyPriceModel(
+  id: (json['id'] as num?)?.toInt(),
+  price: (json['price'] as num?)?.toDouble(),
+  productId: (json['product_id'] as num?)?.toInt(),
+  createdAt: json['created_at'] as String?,
+  updatedAt: json['updated_at'] as String?,
+);
+
+Map<String, dynamic> _$ProductDailyPriceModelToJson(
+  _ProductDailyPriceModel instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'price': instance.price,
+  'product_id': instance.productId,
+  'created_at': instance.createdAt,
+  'updated_at': instance.updatedAt,
+};
 
 _ProductDailyTotalModel _$ProductDailyTotalModelFromJson(
   Map<String, dynamic> json,
@@ -112,14 +132,19 @@ Map<String, dynamic> _$ProductDailyTotalModelToJson(
   'total_amount': instance.totalAmount,
 };
 
-_CollectionModel _$CollectionModelFromJson(Map<String, dynamic> json) =>
-    _CollectionModel(
-      id: (json['id'] as num?)?.toInt(),
-      amount: (json['amount'] as num?)?.toInt(),
+_ProductReturnModel _$ProductReturnModelFromJson(Map<String, dynamic> json) =>
+    _ProductReturnModel(
+      product: json['product'] == null
+          ? null
+          : ProductModel.fromJson(json['product'] as Map<String, dynamic>),
+      totalWeight: (json['total_weight'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$CollectionModelToJson(_CollectionModel instance) =>
-    <String, dynamic>{'id': instance.id, 'amount': instance.amount};
+Map<String, dynamic> _$ProductReturnModelToJson(_ProductReturnModel instance) =>
+    <String, dynamic>{
+      'product': instance.product,
+      'total_weight': instance.totalWeight,
+    };
 
 _ProductOrderModel _$ProductOrderModelFromJson(Map<String, dynamic> json) =>
     _ProductOrderModel(
@@ -132,3 +157,12 @@ Map<String, dynamic> _$ProductOrderModelToJson(_ProductOrderModel instance) =>
       'product_id': instance.productId,
       'total_count': instance.totalCount,
     };
+
+_ProductModel _$ProductModelFromJson(Map<String, dynamic> json) =>
+    _ProductModel(
+      id: (json['id'] as num?)?.toInt(),
+      name: json['name'] as String?,
+    );
+
+Map<String, dynamic> _$ProductModelToJson(_ProductModel instance) =>
+    <String, dynamic>{'id': instance.id, 'name': instance.name};

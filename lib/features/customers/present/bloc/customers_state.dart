@@ -7,6 +7,9 @@ abstract class CustomersState with _$CustomersState {
   const factory CustomersState.loaded({
     required DateTime selectedDate,
     required CustomersResEntity customersRes,
+    CustomerDailyReportDetailsResEntity? customerDailyReportDetailsRes,
+    CustomerStatementReportResEntity? customerStatement,
+    String? days,
   }) = _Loaded;
   const factory CustomersState.failure({required ApiErrorModel apiErrorModel}) =
       _Failure;

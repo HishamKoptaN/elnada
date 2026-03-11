@@ -51,28 +51,56 @@ class _CustomersApi implements CustomersApi {
   }
 
   @override
-  Future<CustomerDailyReportModel> updateClientField({
-    required int clientId,
-    required bool isQuranPhotographed,
+  Future<CustomerDailyReportDetailsResModel> getCustomerDailyReport({
+    required int id,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<CustomerDailyReportModel>(
-      Options(method: 'POST', headers: _headers, extra: _extra)
+    final _options = _setStreamType<CustomerDailyReportDetailsResModel>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'customers',
+            'customer-daily-reports/${id}',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, Object?>>(_options);
-    late CustomerDailyReportModel _value;
+    late CustomerDailyReportDetailsResModel _value;
     try {
-      _value = CustomerDailyReportModel.fromJson(_result.data!);
+      _value = CustomerDailyReportDetailsResModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<CustomerStatementReportDetailsResModel>
+  getCustomerDailyReportStatement({required int id, int? days}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'days': days};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<CustomerStatementReportDetailsResModel>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'customer-daily-reports/${id}/statement',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CustomerStatementReportDetailsResModel _value;
+    try {
+      _value = CustomerStatementReportDetailsResModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;

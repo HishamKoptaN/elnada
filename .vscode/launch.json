@@ -1,0 +1,61 @@
+{
+  "version": "0.3.0",
+  "configurations": [
+    /* ================= DEV ================= */
+
+    {
+      "name": "Flutter Dev (Android)",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": [
+        "--flavor",
+        "dev",
+        "--dart-define=ENV=dev",
+        "--track-widget-creation",
+        "--no-enable-impeller"
+      ],
+      "deviceId": "CPH2325",
+      "attachToExistingApp": false,
+      "showDebuggerOnStart": true
+    },
+    /* ================= PROD ================= */
+    {
+      "name": "Flutter Prod (Android)",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "flutterMode": "release",
+      "args": ["--flavor", "prod", "--dart-define=ENV=prod"]
+    },
+    /* ================= DESKTOP DEV ================= */
+    {
+      "name": "Flutter Dev (Desktop)",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": [
+        "--flavor",
+        "dev",
+        "--dart-define=ENV=dev"
+      ],
+      "deviceId": "windows" // أو "macos" أو "linux" حسب نظامك
+    },
+    /* ================= DESKTOP PROD ================= */
+    {
+      "name": "Flutter Prod (Desktop)",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "flutterMode": "release",
+      "args": [
+        "--flavor", 
+        "prod", 
+        "--dart-define=ENV=prod"
+      ],
+      "deviceId": "windows"
+    }
+  ]
+}

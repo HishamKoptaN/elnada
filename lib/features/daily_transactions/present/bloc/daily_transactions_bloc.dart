@@ -1,11 +1,13 @@
+import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:taha/features/daily_transactions/domain/entities/create_daily_transaction_req_entity.dart';
 import '../../../../../core/errors/api_error_model.dart';
 import '../../../../core/networking/api_result.dart';
+import '../../../customers/domain/entities/customer_daily_reports_res_entity.dart';
 import '../../../customers/present/bloc/customers_bloc.dart';
+import '../../domain/entities/create_daily_transaction_req_entity.dart';
 import '../../domain/usecases/daily_transactions_use_cases.dart';
 part 'daily_transactions_bloc.freezed.dart';
 part 'daily_transactions_event.dart';
@@ -77,9 +79,12 @@ class DailyTransactionsBloc
         formzSubmissionStatus:
             formzSubmissionStatus ??
             (Formz.validate([
-                  createDailyTransactionReq.customerId,
-                  createDailyTransactionReq.productId,
-                  createDailyTransactionReq.weight,
+                  createDailyTransactionReq.customerId ??
+                      GenericFormzInput.dirty(0),
+                  createDailyTransactionReq.productId ??
+                      GenericFormzInput.dirty(0),
+                  createDailyTransactionReq.weight ??
+                      GenericFormzInput.dirty(''),
                 ])
                 ? FormzSubmissionStatus.success
                 : FormzSubmissionStatus.failure),

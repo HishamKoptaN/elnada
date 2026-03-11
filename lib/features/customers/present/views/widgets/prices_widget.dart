@@ -4,36 +4,33 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
-import 'package:taha/features/products/domain/entities/product_entity.dart';
-
 import '../../../../../core/di/dependency_injection.dart';
 import '../../../../../core/widgets/custom_circular_progress.dart';
+import '../../../../products/domain/entities/product_entity.dart';
 import '../../../../products/present/bloc/products_bloc.dart';
-import '../../../domain/entities/customer_entity.dart';
+import '../../../domain/entities/customer_daily_reports_res_entity.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PricesWidget extends StatelessWidget {
-  final List<ProductPriceEntity> prices;
   const PricesWidget({super.key, required this.prices});
-
+  final List<ProductPriceEntity> prices;
   @override
   Widget build(BuildContext context) {
     if (prices.isEmpty) {
       return const Center(child: Text('لا توجد أسعار متاحة'));
     }
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: prices.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: prices.isNotEmpty ? prices.length : 1,
-        crossAxisSpacing: 1.w,
-        mainAxisSpacing: 1.h,
-        childAspectRatio: 8,
+    return SizedBox(
+      height: 70.h,
+      child: Row(
+        children: prices.map((item) {
+          return Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 1.w),
+              child: _buildPriceCard(context: context, productPrice: item),
+            ),
+          );
+        }).toList(),
       ),
-      itemBuilder: (context, index) {
-        final item = prices[index];
-        return _buildPriceCard(context: context, productPrice: item);
-      },
     );
   }
 
@@ -58,27 +55,52 @@ class PricesWidget extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: .min,
           children: [
-            Text(
-              productPrice.productName ?? '',
-              style: TextStyle(
-                fontSize: 6.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey[700],
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  productPrice.product?.name ?? '',
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey[700],
+                  ),
+                ),
+                SizedBox(height: 4.h),
+                if (productPrice.productDailyprice?.price != null)
+                  Text(
+                    productPrice.productDailyprice?.price ?? '',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.blue[900],
+                    ),
+                  )
+                else
+                  FaIcon(
+                    FontAwesomeIcons.plus,
+                    color: Colors.blue,
+                    size: 20.0.sp,
+                  ),
+              ],
             ),
-            SizedBox(height: 4.h),
-            Text(
-              productPrice.price?.toString() ?? '',
-              style: TextStyle(
-                fontSize: 6.sp,
-                fontWeight: FontWeight.w900,
-                color: Colors.blue[900],
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Image.asset(
+            //     productPrice.productId == 1
+            //         ? 'assets/icons/chick.jpg'
+            //         : 'assets/icons/mother_chick.png',
+            //     height: 50.h,
+            //     width: 40.w,
+            //     // fit: BoxFit.contain,
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -90,13 +112,15 @@ class PricesWidget extends StatelessWidget {
     required ProductPriceEntity productPrice,
   }) {
     final TextEditingController priceController = TextEditingController(
-      text: productPrice.price?.toString() ?? '',
+      text: productPrice.productDailyprice?.price?.toString() ?? '',
     );
     getIt<ProductsBloc>().add(
       ProductsEvent.dataChanged(
         updateProductPriceReq: UpdateProductPriceReqEntity(
-          productId: GenericFormzInput.dirty(productPrice.productId ?? 0),
-          price: GenericFormzInput.dirty(productPrice.price ?? ''),
+          productId: GenericFormzInput.dirty(productPrice.product?.id ?? 0),
+          price: GenericFormzInput.dirty(
+            productPrice.productDailyprice?.price?.toString() ?? '',
+          ),
         ),
       ),
     );
@@ -128,7 +152,7 @@ class PricesWidget extends StatelessWidget {
                         .hasPriceChanged(originalProductPrice: productPrice);
                     return AlertDialog(
                       title: Text(
-                        'تعديل سعر ${productPrice.productName ?? ''}',
+                        'تعديل سعر ${productPrice.product?.name ?? ''}',
                       ),
                       content: TextFormField(
                         controller: priceController,
@@ -136,7 +160,7 @@ class PricesWidget extends StatelessWidget {
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
                         ],
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'السعر',
                           border: OutlineInputBorder(),
                         ),
@@ -146,7 +170,7 @@ class PricesWidget extends StatelessWidget {
                               updateProductPriceReq: state.updateProductPriceReq
                                   .copyWith(
                                     productId: GenericFormzInput.dirty(
-                                      productPrice.productId ?? 0,
+                                      productPrice.product?.id ?? 0,
                                     ),
                                     price: GenericFormzInput.dirty(v),
                                   ),
@@ -157,13 +181,13 @@ class PricesWidget extends StatelessWidget {
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(),
-                          child: Text('إلغاء'),
+                          child: const Text('إلغاء'),
                         ),
                         TextButton(
                           onPressed: hasChanges
                               ? () {
                                   getIt<ProductsBloc>().add(
-                                    ProductsEvent.updateProductPrice(),
+                                    const ProductsEvent.updateProductPrice(),
                                   );
                                 }
                               : null,
@@ -194,8 +218,11 @@ class PricesWidget extends StatelessWidget {
                   },
                 );
               },
+              loading: (_) {
+                return const CustomCircularProgress();
+              },
               orElse: () {
-                return const SizedBox();
+                return const CustomCircularProgress();
               },
             );
           },

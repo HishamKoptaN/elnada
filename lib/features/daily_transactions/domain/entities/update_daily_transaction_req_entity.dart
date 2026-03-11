@@ -1,6 +1,6 @@
 import 'package:form_inputs/form_inputs.dart';
 
-import '../../../customers/domain/entities/customer_entity.dart';
+import '../../../customers/domain/entities/customer_daily_reports_res_entity.dart';
 
 class UpdateDailyTransactionReqEntity {
   UpdateDailyTransactionReqEntity({
@@ -33,7 +33,8 @@ class UpdateDailyTransactionReqEntity {
   }
 
   bool hasPriceChanged({required ProductPriceEntity originalProductPrice}) {
-    final String originalStr = originalProductPrice.price?.trim() ?? "";
+    final String originalStr =
+        originalProductPrice.productDailyprice?.price?.trim() ?? "";
     final String currentStr = weight.value?.trim() ?? "";
     if (originalStr == currentStr) return false;
     final double? originalNum = double.tryParse(originalStr);

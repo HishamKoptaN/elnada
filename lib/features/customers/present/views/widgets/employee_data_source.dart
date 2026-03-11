@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import '../../../domain/entities/customer_entity.dart';
+import '../../../domain/entities/customer_daily_reports_res_entity.dart';
 
 class EmployeeDataSource extends DataGridSource {
-  EmployeeDataSource({required this.customers});
-
+  EmployeeDataSource({required this.customers, required this.isDesktop});
   final List<CustomerDailyReportEntity> customers;
+  final bool isDesktop;
   @override
   List<DataGridRow> get rows => _customerData;
   List<DataGridRow> _customerData = [];
   EmployeeDataSource copyWith({
     required List<CustomerDailyReportEntity> customers,
+    required bool isDesktop,
   }) {
     _customerData = customers
         .map(
@@ -23,31 +24,51 @@ class EmployeeDataSource extends DataGridSource {
               ),
               DataGridCell<String>(
                 columnName: 'الاصل',
-                value: e.yesterdayClosedBalance?.toString() ?? '',
+                value: e.yesterdayClosedBalance ?? '',
               ),
+              if (isDesktop) ...[
+                DataGridCell<String>(
+                  columnName: 'تسمين',
+                  value:
+                      e.productDailyTotals
+                          ?.where((t) => t.productId == 1)
+                          .map((t) => '${t.totalWeight ?? 0} ')
+                          .join('\n') ??
+                      '',
+                ),
+              ],
               DataGridCell<String>(
-                columnName: 'تسمين',
+                columnName: 'مرتجع تسمين',
                 value:
-                    e.productDailyTotals
-                        ?.where((t) => t.productId == 1)
+                    e.returns
+                        ?.where((t) => t.product?.id == 1)
                         .map((t) => '${t.totalWeight ?? 0} ')
                         .join('\n') ??
                     '',
               ),
+              if (isDesktop) ...[
+                DataGridCell<String>(
+                  columnName: 'امهات',
+                  value:
+                      e.productDailyTotals
+                          ?.where((t) => t.productId == 2)
+                          .map((t) => '${t.totalWeight ?? 0} ')
+                          .join('\n') ??
+                      '',
+                ),
+              ],
               DataGridCell<String>(
-                columnName: 'امهات',
+                columnName: 'مرتجع امهات',
                 value:
-                    e.productDailyTotals
-                        ?.where((t) => t.productId == 2)
+                    e.returns
+                        ?.where((t) => t.product?.id == 2)
                         .map((t) => '${t.totalWeight ?? 0} ')
                         .join('\n') ??
                     '',
               ),
               DataGridCell<String>(
                 columnName: 'التحصيل',
-                value:
-                    e.collections?.map((c) => '${c.amount ?? 0}').join('\n') ??
-                    '',
+                value: e.totalCollections ?? '',
               ),
               DataGridCell<String>(
                 columnName: 'الصافي',
@@ -58,7 +79,7 @@ class EmployeeDataSource extends DataGridSource {
                 value:
                     e.productOrders
                         ?.where((t) => t.productId == 1)
-                        .map((t) => '${t.totalCount   ?? 0} ')
+                        .map((t) => '${t.totalCount ?? 0} ')
                         .join('\n') ??
                     '',
               ),
@@ -89,10 +110,13 @@ class EmployeeDataSource extends DataGridSource {
             case 'تسمين':
             case 'امهات':
               return Colors.orange[900]!;
+            case 'مرتجع تسمين':
+            case 'مرتجع امهات':
+              return Colors.red[600]!;
             case 'التحصيل':
               return Colors.green[700]!;
             case 'الصافي':
-              return Colors.red[900]!; 
+              return Colors.red[900]!;
             case 'طلب ت':
             case 'طلب م':
               return Colors.blue[700]!;
@@ -100,12 +124,13 @@ class EmployeeDataSource extends DataGridSource {
               return Colors.black;
           }
         }
+
         return Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Text(
             e.value.toString(),
-            style: TextStyle(fontSize: 6.sp, color: getTextColor()),
+            style: TextStyle(fontSize: 18.sp, color: getTextColor()),
           ),
         );
       }).toList(),

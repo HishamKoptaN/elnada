@@ -1,9 +1,8 @@
 import 'package:injectable/injectable.dart';
-
 import '../../../../../../core/networking/api_result.dart';
 import '../../../../../core/errors/api_error_handler.dart';
 import '../../../customers/data/mappers/customer_daily_reports_res_mapper.dart';
-import '../../../customers/domain/entities/customer_entity.dart';
+import '../../../customers/domain/entities/customer_daily_reports_res_entity.dart';
 import '../../domain/entities/product_entity.dart';
 import '../../domain/repo/product_repo.dart';
 import '../datasources/products_api.dart';
@@ -15,7 +14,7 @@ class ProductsRepoImpl implements ProductsRepo {
   ProductsRepoImpl(this.productsApi);
 
   @override
-  Future<ApiResult<ProductPriceEntity?>> updateProductPrice({
+  Future<ApiResult<ProductDailyPriceEntity?>> updateProductPrice({
     required UpdateProductPriceReqEntity updateProductPriceReq,
   }) async {
     try {

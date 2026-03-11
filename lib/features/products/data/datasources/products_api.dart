@@ -12,7 +12,7 @@ abstract class ProductsApi {
   @factoryMethod
   factory ProductsApi(Dio dio) = _ProductsApi;
   @POST(ApiConstants.productsPrice)
-  Future<ProductPriceModel> updateProductPrice({
+  Future<ProductDailyPriceModel> updateProductPrice({
     @Body() required UpdateProductPriceReqModel updateProductPriceReq,
   });
 }

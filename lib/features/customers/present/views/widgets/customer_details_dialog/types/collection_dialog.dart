@@ -6,7 +6,7 @@ import 'package:form_inputs/form_inputs.dart';
 import '../../../../../../../core/di/dependency_injection.dart';
 import '../../../../../../daily_collections/domain/entities/create_daily_collaction_req_entity.dart';
 import '../../../../../../daily_collections/present/bloc/daily_collections_bloc.dart';
-import '../../../../../domain/entities/customer_entity.dart';
+import '../../../../../domain/entities/customer_daily_reports_res_entity.dart';
 
 class CollectionDialog {
   static void show({
@@ -37,51 +37,55 @@ class CollectionDialog {
             return state.maybeMap(
               loaded: (state) {
                 return AlertDialog(
-                  title: Text('إضافة تحصيل'),
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        ' ${customer.name ?? ''}',
-                        style: TextStyle(
-                          fontSize: 6.sp,
-                          fontWeight: FontWeight.bold,
+                  title: Text('إضافة تحصيل', style: TextStyle(fontSize: 16.sp)),
+                  content: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          ' ${customer.name ?? ''}',
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 16),
-                      TextFormField(
-                        initialValue:
-                            state.createDailyCollectionReq.amount.value,
-                        onChanged: (value) {
-                          getIt<DailyCollectionsBloc>().add(
-                            DailyCollectionsEvent.dataChanged(
-                              createDailyCollectionReq: state
-                                  .createDailyCollectionReq
-                                  .copyWith(
-                                    customerId: GenericFormzInput.dirty(
-                                      customer.id,
+                        SizedBox(height: 16.h),
+                        TextFormField(
+                          initialValue:
+                              state.createDailyCollectionReq.amount.value,
+                          onChanged: (value) {
+                            getIt<DailyCollectionsBloc>().add(
+                              DailyCollectionsEvent.dataChanged(
+                                createDailyCollectionReq: state
+                                    .createDailyCollectionReq
+                                    .copyWith(
+                                      customerId: GenericFormzInput.dirty(
+                                        customer.id,
+                                      ),
+                                      amount: GenericFormzInput.dirty(value),
                                     ),
-                                    amount: GenericFormzInput.dirty(value),
-                                  ),
-                            ),
-                          );
-                        },
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        decoration: InputDecoration(
-                          labelText: 'المبلغ',
-                          border: OutlineInputBorder(),
+                              ),
+                            );
+                          },
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          decoration: InputDecoration(
+                            labelText: 'المبلغ',
+                            labelStyle: TextStyle(fontSize: 16.sp),
+                            border: OutlineInputBorder(),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 16),
-                    ],
+                        SizedBox(height: 16.h),
+                      ],
+                    ),
                   ),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: Text('إلغاء'),
+                      child: Text('إلغاء', style: TextStyle(fontSize: 16.sp)),
                     ),
                     ElevatedButton(
                       onPressed: state.createDailyCollectionReq.isValid
@@ -99,7 +103,7 @@ class CollectionDialog {
                         ),
                         foregroundColor: WidgetStatePropertyAll(Colors.white),
                       ),
-                      child: Text('حفظ'),
+                      child: Text('حفظ', style: TextStyle(fontSize: 16.sp)),
                     ),
                   ],
                 );

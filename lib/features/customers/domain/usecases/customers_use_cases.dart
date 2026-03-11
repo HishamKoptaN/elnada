@@ -1,13 +1,13 @@
 import 'package:injectable/injectable.dart';
-
 import '../../../../../../core/networking/api_result.dart';
-import '../entities/customer_entity.dart';
+import '../entities/customer_daily_report_details_res_entity.dart';
+import '../entities/customer_daily_reports_res_entity.dart';
+import '../entities/customer_statement_res_entity.dart';
 import '../repo/customers_repo.dart';
-
 @singleton
 class CustomersUseCases {
-  final CustomersRepo customersRepo;
   CustomersUseCases(this.customersRepo);
+  final CustomersRepo customersRepo;
   Future<ApiResult<CustomersResEntity>> getCustomers({
     required DateTime selectedDate,
     String? query,
@@ -18,13 +18,17 @@ class CustomersUseCases {
     );
   }
 
-  Future<ApiResult<CustomerDailyReportEntity?>> updateClientField({
-    required int clientId,
-    required bool isQuranPhotographed,
-  }) async {
-    return await customersRepo.updateClientField(
-      clientId: clientId,
-      isQuranPhotographed: isQuranPhotographed,
+
+  Future<ApiResult<CustomerDailyReportDetailsResEntity>>
+  getCustomerDailyReport({required int id}) async {
+    return await customersRepo.getCustomerDailyReport(id: id);
+  }
+
+  Future<ApiResult<CustomerStatementReportResEntity>>
+  getCustomerDailyReportStatement({required int id, int? days}) async {
+    return await customersRepo.getCustomerDailyReportStatement(
+      id: id,
+      days: days,
     );
   }
 }

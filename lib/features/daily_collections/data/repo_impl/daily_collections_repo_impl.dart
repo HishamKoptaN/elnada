@@ -2,7 +2,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../../../core/networking/api_result.dart';
 import '../../../../../core/errors/api_error_handler.dart';
 import '../../../customers/data/mappers/customer_daily_reports_res_mapper.dart';
-import '../../../customers/domain/entities/customer_entity.dart';
+import '../../../customers/domain/entities/customer_daily_reports_res_entity.dart';
 import '../../domain/entities/create_daily_collaction_req_entity.dart';
 import '../../domain/entities/update_daily_collaction_req_entity.dart';
 import '../datasources/daily_collections_api.dart';
