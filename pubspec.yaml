@@ -40,8 +40,7 @@ dependencies:
   in_app_update: ^4.2.5
   firebase_core: ^4.5.0
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  msix: ^3.16.13
   retrofit_generator: ^10.0.1
   build_runner: ^2.6.0
   json_serializable: ^6.10.0
@@ -51,7 +50,16 @@ dev_dependencies:
   flutter_native_splash: ^2.4.0
   flutter_lints: ^6.0.0
   package_rename: ^1.7.1  
-
+  flutter_test:
+    sdk: flutter
+msix_config:
+  display_name: AbuJena Dawajen 
+  publisher_display_name: AbuJena Co
+  publisher: CN=AbuJena, O=AbuJena, L=Cairo, S=Cairo, C=EG 
+  identity_name: com.abujena.dawajen
+  msix_version: 1.0.0.0
+  logo_path: assets/images/logo.png 
+  capabilities: internetClient, location    
 flutter:
   generate: true
   uses-material-design: true

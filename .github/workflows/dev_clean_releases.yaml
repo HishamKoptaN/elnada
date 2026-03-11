@@ -29,7 +29,7 @@ jobs:
       - name: Run Cleanup Script
         if: steps.restore_flag.outputs.cache-hit == 'true'
         env:
-          FIREBASE_PROJECT_NUMBER: "138886686943"
+          FIREBASE_PROJECT_NUMBER: "59179102896"
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
           GOOGLE_ACCESS_TOKEN: ${{ steps.get_token.outputs.token }}
         run: |
