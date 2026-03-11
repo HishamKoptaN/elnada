@@ -28,12 +28,12 @@ jobs:
           cache: true
       - name: Install Dependencies
         run: flutter pub get
-      - name: Shorebird Build Release (APK)
+      - name: Shorebird Release
         run: |
           shorebird release android --flavor dev \
           --artifact apk \
           --target-platform android-arm,android-arm64,android-x64 \
-          -- -t lib/main.dart --dart-define=ENV=dev --split-per-abi
+          -- --split-per-abi -t lib/main.dart --dart-define=ENV=dev
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
       - name: Upload v7a to Firebase
