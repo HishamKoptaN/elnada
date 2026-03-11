@@ -19,12 +19,22 @@ jobs:
         id: check_type
         run: |
           if shorebird patch android --flavor dev --dry-run; then
-            echo "is_new_release=false" >> $GITHUB_OUTPUT
-            shorebird patch android --flavor dev --target lib/main.dart -- --dart-define=ENV=dev
-          else
-            echo "is_new_release=true" >> $GITHUB_OUTPUT
-            shorebird release android --flavor dev --dart-define=ENV=dev
-          fi
+             echo "is_new_release=false" >> $GITHUB_OUTPUT
+             echo "new_release=false" > release_status.txt
+             shorebird patch android --flavor dev --target lib/main.dart -- --dart-define=ENV=dev
+           else
+             echo "Patch failed or native changes detected. Checking if release exists..."
+             CURRENT_VER=$(grep 'version:' pubspec.yaml | sed 's/version: //')
+             if shorebird release android --flavor dev --dry-run; then
+               echo "is_new_release=true" >> $GITHUB_OUTPUT
+               echo "new_release=true" > release_status.txt
+               shorebird release android --flavor dev --artifact apk --target lib/main.dart -- --dart-define=ENV=dev
+             else
+               echo "Error: Release $CURRENT_VER already exists and Patch is not possible due to Native changes."
+               echo "Action required: Please bump the version in pubspec.yaml"
+               exit 1
+             fi
+           fi
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
       - name: Save Release Flag to Cache
@@ -32,7 +42,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: release_flag.txt
-          key: cache-release-flag-${{ github.run_id }}    
+          key: cache-release-flag-${{ github.run_id }}
       - name: Upload Universal APK to Firebase
         if: steps.check_type.outputs.is_new_release == 'true'
         uses: wzieba/Firebase-Distribution-Github-Action@v1

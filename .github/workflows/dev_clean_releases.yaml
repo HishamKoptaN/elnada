@@ -10,16 +10,12 @@ jobs:
     environment: dev
     steps:
       - uses: actions/checkout@v4
-
-      # 1. التحقق من وجود بصمة الكاش
       - name: Restore Release Flag
         id: restore_flag
         uses: actions/cache/restore@v4
         with:
           path: release_flag.txt
           key: cache-release-flag-${{ github.event.workflow_run.id }}
-
-      # 2. المصادقة مع جوجل (ضرورية لجلب التوكين)
       - name: Authenticate to Google Cloud
         if: steps.restore_flag.outputs.cache-hit == 'true'
         uses: google-github-actions/auth@v2
@@ -30,8 +26,6 @@ jobs:
         id: get_token
         run: |
           echo "token=$(gcloud auth print-access-token)" >> $GITHUB_OUTPUT
-
-      # 4. تشغيل السكريبت
       - name: Run Cleanup Script
         if: steps.restore_flag.outputs.cache-hit == 'true'
         env:
