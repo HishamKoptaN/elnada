@@ -2,6 +2,6 @@ app_id: ca29cef4-3266-4c7e-b4b7-7f9fb6e8ee47
 flavors:
   dev: 24c92eeb-ffba-4bcf-89a5-eecca58534d9
   prod: a66ccae4-405d-4bda-8dc5-69409fbd4c65
-# shorebird release android --flavor dev -t lib/main.dart --artifact apk
+# shorebird release android --flavor dev --artifact apk
 # adb install -r "build\app\outputs\flutter-apk\app-dev-release.apk"
 # shorebird patch android --flavor dev --target lib/main.dart

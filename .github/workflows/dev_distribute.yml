@@ -33,7 +33,7 @@ jobs:
           shorebird release android --flavor dev \
           --artifact apk \
           --target-platform android-arm,android-arm64,android-x64 \
-          -- --split-per-abi -t lib/main.dart --dart-define=ENV=dev
+          -- -t lib/main.dart --dart-define=ENV=dev
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
       - name: Upload v7a to Firebase
