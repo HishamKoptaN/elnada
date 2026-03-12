@@ -6,7 +6,7 @@
             <title>تحديث جديد</title>
             <description>تحديث تجريبي لاختبار نظام التنبيهات.</description>
             <enclosure url="https://github.com/HishamKoptaN/abujena_dawajen/releases/download/latest/app-release.apk" 
-                       sparkle:version="1.2.0" 
+                       sparkle:version="1.2.0+3" 
                        sparkle:os="android" />
         </item>
     </channel>
