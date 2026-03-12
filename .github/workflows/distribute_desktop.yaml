@@ -31,17 +31,10 @@ jobs:
               with:
                   path: build/windows/x64/runner/Release/*.msix
             - uses: softprops/action-gh-release@v2
-              if: startsWith(github.ref, 'refs/tags/')
-              with:
-                  files: build/windows/x64/runner/Release/*.msix
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - uses: softprops/action-gh-release@v2
               with:
                   tag_name: desktop_msix
                   files: build/windows/x64/runner/Release/*.msix
                   body: "desktop msix"
-                  prerelease: false
                   make_latest: true
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -49,18 +42,21 @@ jobs:
               env:
                   VERSION: ${{ steps.get_version.outputs.VERSION }}
               run: |
-                  $msixFile = Get-ChildItem "build/windows/x64/runner/Release/*.msix" | Select-Object -First 1
-                  $fileName = $msixFile.Name
-                  $url = "https://github.com/${{ github.repository }}/releases/download/v$VERSION/$fileName"
+                  $msixFile = Get-ChildItem "build/windows/x64/runner/Release/*.$fileName = $msixFile.Name
+
+                  $currentVer = $env:VERSION
+                  $url = "https://github.com/${{ github.repository }}/releases/download/v$currentVer/$fileName"
 
                   $xmlPath = "desktop_appcast.xml"
-                  $content = Get-Content $xmlPath
-                  $content = $content -replace 'sparkle:version="[^"]*"',        "sparkle:version=""$VERSION"""
+                  $content = Get-Content $xmlPath -Raw
+
+                  $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""$currentVer"""
                   $content = $content -replace 'url="[^"]*"', "url=""$url"""
-                  $content | Out-File $xmlPath -Encoding utf8
+
+                  [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
 
                   git config --global user.name "github-actions[bot]"
-                  git config --global user.email "github-actions[bot]@users.noreply.       github.com"
+                  git config --global user.email "github-actions[bot]@users.noreply.github.com"
                   git add $xmlPath
-                  git commit -m "chore: update desktop appcast to $VERSION [skip ci]"
+                  git commit -m "chore: update desktop appcast to $currentVer [skip ci]"
                   git push

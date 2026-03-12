@@ -13,9 +13,11 @@ import 'core/di/dependency_injection.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:universal_io/io.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Upgrader.clearSavedSettings();
+  setupAutoUpdater();
   try {
     await AppInitializer.initialize();
     await configureDependencies(environment: EnvConfig.config.envName);
@@ -52,7 +54,7 @@ void _handleError({
 void setupAutoUpdater() async {
   if (!Platform.isWindows) return;
   String feedURL =
-      'https://raw.githubusercontent.com/USER/REPO/dev/appcast.xml';
+      'https://raw.githubusercontent.com/HishamKoptaN/elnada/${EnvConfig.config.envName}/desktop_appcast.xml';
   await autoUpdater.setFeedURL(feedURL);
   await autoUpdater.setScheduledCheckInterval(3600);
   await autoUpdater.checkForUpdates();
