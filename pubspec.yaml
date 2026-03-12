@@ -74,9 +74,9 @@ scripts:
   format: dart format .
 
 msix_config:
-  display_name: AbuJena Dawajen 
-  publisher_display_name: AbuJena Co
-  publisher: CN=AbuJena, O=AbuJena, L=Cairo, S=Cairo, C=EG 
+  display_name: AbuJena 
+  publisher_display_name: AbuJena
+  publisher: "CN=AbuJena, O=Abujena, C=EG"
   identity_name: com.abujena.dawajen
   msix_version: 1.0.0.0
   logo_path: assets/logos/logo.jpg
