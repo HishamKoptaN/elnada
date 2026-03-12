@@ -35,7 +35,7 @@ jobs:
               run: |
                   $certBytes = [System.Convert]::FromBase64String("${{ secrets.BASE64_CERTIFICATE }}")
                   [System.IO.File]::WriteAllBytes("certificate.pfx", $certBytes)
-            - run: dart run msix:create --certificate-path certificate.pfx --certificate-password ${{ secrets.CERTIFICATE_PASSWORD }} --publisher "CN=AbuJena, O=Abujena, C=EG"
+            - run: dart run msix:create --certificate-path certificate.pfx --certificate-password ${{ secrets.CERTIFICATE_PASSWORD }} --publisher "CN=AbuJena, O=Abujena, C=EG" --install-certificate false
             - id: prepare_assets
               shell: pwsh
               env:
@@ -68,8 +68,9 @@ jobs:
                   $url = "https://github.com/${{ github.repository }}/releases/download/desktop_msix/${{ env.FINAL_FILE_NAME }}"
                   $xmlPath = "desktop_appcast.xml"
                   if (-Not (Test-Path $xmlPath)) { throw "XML file not found!" }
+                  $pureVersion = "${{ steps.get_version.outputs.VERSION }}"
                   $content = Get-Content $xmlPath -Raw
-                  $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""${{ env.FINAL_VERSION }}"""
+                  $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""$pureVersion"""
                   $content = $content -replace 'url="[^"]*"', "url=""$url"""
                   [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
             - run: |
