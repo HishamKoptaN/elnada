@@ -12,10 +12,10 @@ import '../config/app_config.dart';
 import '../di/dependency_injection.dart';
 import '../routing/app_router.dart';
 import 'global_variable.dart';
+import 'package:version/version.dart';
 
 class TahaApp extends StatelessWidget {
-  const TahaApp({super.key, required this.upgrader});
-  final Upgrader upgrader;
+  const TahaApp({super.key});
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -46,7 +46,23 @@ class TahaApp extends StatelessWidget {
             builder: (context, child) {
               final mediaQueryData = MediaQuery.of(context);
               return UpgradeAlert(
-                upgrader: upgrader,
+                upgrader: Upgrader(
+                  storeController: UpgraderStoreController(
+                    onAndroid: () => UpgraderAppcastStore(
+                      appcastURL:
+                          'https://raw.githubusercontent.com/HishamKoptaN/elnada/dev/android_appcast.xml',
+                      osVersion: Version.parse('1.0.0'),
+                    ),
+                    onWindows: () => UpgraderAppcastStore(
+                      appcastURL:
+                          'https://raw.githubusercontent.com/USER/REPO/dev/appcast.xml',
+                      osVersion: Version.parse('10.0.0'),
+                    ),
+                  ),
+                  debugLogging: true,
+                  debugDisplayAlways: true,
+                  languageCode: 'ar',
+                ),
                 navigatorKey: GlobalVariable.navState,
                 child: MediaQuery(
                   data: mediaQueryData.copyWith(

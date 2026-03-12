@@ -13,28 +13,17 @@ import 'core/di/dependency_injection.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:upgrader/upgrader.dart';
-import 'package:version/version.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final upgrader = Upgrader(
-    storeController: UpgraderStoreController(
-      onWindows: () => UpgraderAppcastStore(
-        appcastURL:
-            'https://raw.githubusercontent.com/USER/REPO/dev/appcast.xml',
-        osVersion: Version.parse('10.0.0'),
-      ),
-    ),
-    debugLogging: true,
-    languageCode: 'ar',
-  );
+  await Upgrader.clearSavedSettings();
   try {
     await AppInitializer.initialize();
     await configureDependencies(environment: EnvConfig.config.envName);
     Bloc.observer = AppBlocObserver();
     if (kDebugMode) {}
     await initializeDateFormatting('ar', null);
-    runApp(TahaApp(upgrader: upgrader));
+    runApp(TahaApp());
   } catch (error, stackTrace) {
     _handleError(
       error: error,
