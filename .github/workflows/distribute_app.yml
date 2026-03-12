@@ -67,11 +67,35 @@ jobs:
         env:
           VERSION: ${{ steps.get_version.outputs.VERSION }}
         run: |
-          sed -i "s/sparkle:version=\"[^\"]*\"/sparkle:version=\"$VERSION\"/g" android_appcast.xml
-          APK_URL="https://github.com/${{ github.repository }}/releases/download/v$VERSION/app-release.apk"
-          sed -i "s|url=\"[^\"]*\"|url=\"$APK_URL\"|g" android_appcast.xml
+          $msixFile = Get-ChildItem "build/windows/x64/runner/Release/*.msix" | Select-Object -First 1
+          if ($null -eq $msixFile) { throw "MSIX file not found!" }
+          $fileName = $msixFile.Name
+          
+          $branch = "${{ github.ref_name }}"
+          $currentVer = $env:VERSION
+          
+          if ($branch -eq "prod") {
+              $tagName = "v$currentVer"
+              $xmlPath = "desktop_appcast.xml"
+          } else {
+              $tagName = "v$currentVer-dev"
+              $xmlPath = "desktop_appcast_dev.xml"
+          }
+          
+          $url = "https://github.com/${{ github.repository }}/releases/download/$tagName/$fileName"
+          
+          if (-Not (Test-Path $xmlPath)) { throw "XML file not found at $xmlPath" }
+          
+          $content = Get-Content $xmlPath -Raw
+          $content = $content -replace 'sparkle:version="[^"]*"',           "sparkle:version=""$currentVer"""
+          $content = $content -replace 'url="[^"]*"', "url=""$url"""
+          
+          [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
+          
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add android_appcast.xml
-          git commit -m "chore: update appcast to $VERSION [skip ci]"
+          git add $xmlPath
+          
+          $commitMsg = "chore: update $branch appcast to $currentVer [skip ci]"
+          git commit -m "$commitMsg"
           git push
