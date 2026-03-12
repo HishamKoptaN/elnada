@@ -3,7 +3,7 @@
     <channel>
         <item>
             <description> تحديث جديد.</description>
-            <enclosure url="https://github.com/HishamKoptaN/elnada/releases/download/v/abujena_dawajen.msix"
+            <enclosure url="https://github.com/HishamKoptaN/elnada/releases/download/v1.0.0-dev/abujena_dawajen.msix"
                        sparkle:version="1.0.0"
                        sparkle:os="windows"
                        type="application/octet-stream" />
