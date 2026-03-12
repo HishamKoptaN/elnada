@@ -12,7 +12,7 @@ import 'core/app_observer.dart';
 import 'core/di/dependency_injection.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:upgrader/upgrader.dart';
-
+import 'package:universal_io/io.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Upgrader.clearSavedSettings();
@@ -50,6 +50,7 @@ void _handleError({
 }
 
 void setupAutoUpdater() async {
+  if (!Platform.isWindows) return;
   String feedURL =
       'https://raw.githubusercontent.com/USER/REPO/dev/appcast.xml';
   await autoUpdater.setFeedURL(feedURL);
