@@ -45,18 +45,10 @@ jobs:
                   $msixFile = Get-ChildItem "build/windows/x64/runner/Release/*.msix" | Select-Object -First 1
 
                   if ($null -eq $msixFile) { throw "MSIX file not found!" }
-                  $fileName = $msixFile.Name
-
                   $branch = "${{ github.ref_name }}"
                   $currentVersion = $env:VERSION
 
-                  if ($branch -eq "prod") {
-                      $tagName = "v$currentVersion"
-                  } else {
-                      $tagName = "v$currentVersion-dev"
-                  }
-
-                  $url = "https://github.com/${{ github.repository }}/releases/download/$tagName/$fileName"
+                  $url = "https://github.com/${{ github.repository }}/releases/download/desktop_msix/$msixFile.Name"
 
                   $xmlPath = "desktop_appcast.xml"
                   if (-Not (Test-Path $xmlPath)) { throw "XML file not found at $xmlPath" }
