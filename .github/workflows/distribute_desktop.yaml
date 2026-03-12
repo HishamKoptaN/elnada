@@ -2,11 +2,9 @@ name: Distribute Desktop
 on:
     push:
         branches: [prod, dev]
-
 permissions:
     contents: write
     packages: write
-
 jobs:
     build_desktop:
         runs-on: windows-latest
@@ -30,7 +28,6 @@ jobs:
                   $version = ($line -split " ")[1].Trim()
                   $cleanVersion = ($version -split "\+")[0]
                   echo "VERSION=$cleanVersion" >> $env:GITHUB_OUTPUT
-
             - run: flutter config --enable-windows-desktop
             - run: flutter pub get
             - run: flutter build windows --release --dart-define=ENV=${{ github.ref_name }}
@@ -42,7 +39,6 @@ jobs:
               run: |
                   $msixFile = Get-ChildItem "build/windows/x64/runner/Release/*.msix" | Select-Object -First 1
                   if ($null -eq $msixFile) { throw "MSIX file not found!" }
-
                   $branch = "${{ github.ref_name }}"
                   $currentVersion = $env:VERSION
                   $fileName = $msixFile.Name
@@ -54,7 +50,6 @@ jobs:
                   }
                   echo "FINAL_FILE_NAME=$fileName" >> $env:GITHUB_ENV
                   echo "FINAL_VERSION=$currentVersion" >> $env:GITHUB_ENV
-
             - name: Upload to GitHub Release
               uses: softprops/action-gh-release@v2
               with:
@@ -72,7 +67,6 @@ jobs:
                   $content = Get-Content $xmlPath -Raw
                   $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""${{ env.FINAL_VERSION }}"""
                   $content = $content -replace 'url="[^"]*"', "url=""$url"""
-
                   [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
             - run: |
                   git config --global user.name "github-actions[bot]"

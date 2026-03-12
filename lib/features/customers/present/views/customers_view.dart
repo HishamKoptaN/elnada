@@ -35,7 +35,8 @@ class _CustomersViewState extends State<CustomersView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('5', style: TextStyle(color: Colors.black)),
+        title: const Text('2', style: TextStyle(color: Colors.black)),
+        centerTitle: true,
       ),
       body: BlocBuilder<CustomersBloc, CustomersState>(
         builder: (context, state) {
