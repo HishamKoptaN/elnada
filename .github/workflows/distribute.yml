@@ -51,8 +51,9 @@ jobs:
           releaseNotes: "new"
       - id: get_version
         run: |
-          VERSION=$(grep 'version:' pubspec.yaml | sed 's/version: //')
-          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          RAW_VERSION=$(grep '^version:' pubspec.yaml | cut -d ' ' -f 2 | xargs)
+          CLEAN_VERSION=$(echo $RAW_VERSION | cut -d '+' -f 1)
+          echo "VERSION=$CLEAN_VERSION" >> $GITHUB_OUTPUT
       - if: steps.check_type.outputs.is_new_release == 'true'
         uses: softprops/action-gh-release@v2
         with:
@@ -65,16 +66,11 @@ jobs:
       - if: steps.check_type.outputs.is_new_release == 'true'
         run: |
           VERSION=$(grep 'version:' pubspec.yaml | sed 's/version: //')
-          # رابط الـ APK المباشر من GitHub Release
           APK_URL="https://github.com/${{ github.repository }}/releases/download/       v$VERSION/app-${{ github.ref_name }}-release.apk"
-
-          # تحديث ملف الـ XML (استخدام sed لتعديل رقم الإصدار والرابط)
           sed -i "s|sparkle:version=\"[^\"]*\"|sparkle:version=\"$VERSION\"|g"        android_appcast.xml
           sed -i "s|url=\"[^\"]*\"|url=\"$APK_URL\"|g" android_appcast.xml
-           
-          # دفع التغييرات للمستودع
           git config --global user.name "GitHub Action"
-           git config --global user.email "action@github.com"
-           git add android_appcast.xml
-           git commit -m "Update Appcast to version $VERSION"
-           git push origin ${{ github.ref_name }}
+          git config --global user.email "action@github.com"
+          git add android_appcast.xml
+          git commit -m "Update Appcast to version $VERSION"
+          git push origin ${{ github.ref_name }}

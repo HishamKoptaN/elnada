@@ -71,14 +71,14 @@ class TahaApp extends StatelessWidget {
                     onAndroid: () {
                       return UpgraderAppcastStore(
                         appcastURL:
-                            'https://raw.githubusercontent.com/HishamKoptaN/elnada/${EnvConfig.config.envName}/android_appcast.xml?v=${DateTime.now().millisecondsSinceEpoch}',
+                            'https://raw.githubusercontent.com/HishamKoptaN/elnada/${EnvConfig.config.envName}/android_appcast.xml',
                         osVersion: Version.parse('1.0.0'),
                       );
                     },
                     onWindows: () {
                       return UpgraderAppcastStore(
                         appcastURL:
-                            'https://raw.githubusercontent.com/HishamKoptaN/elnada/${EnvConfig.config.envName}/android_appcast.xml',
+                            'https://raw.githubusercontent.com/HishamKoptaN/elnada/${EnvConfig.config.envName}/desktop_appcast.xml',
                         osVersion: Version.parse('10.0.0'),
                       );
                     },
