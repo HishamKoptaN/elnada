@@ -31,7 +31,11 @@ jobs:
             - run: flutter config --enable-windows-desktop
             - run: flutter pub get
             - run: flutter build windows --release --dart-define=ENV=${{ github.ref_name }}
-            - run: dart run msix:create
+            - shell: pwsh
+              run: |
+                  $certBytes = [System.Convert]::FromBase64String("${{ secrets.BASE64_CERTIFICATE }}")
+                  [System.IO.File]::WriteAllBytes("certificate.pfx", $certBytes)
+            - run: dart run msix:create --certificate-path certificate.pfx --certificate-password ${{ secrets.CERTIFICATE_PASSWORD }} --publisher "CN=AbuJena, O=Abujena, C=EG"
             - id: prepare_assets
               shell: pwsh
               env:
