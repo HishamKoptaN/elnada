@@ -9,10 +9,6 @@ class EnvConfig {
   );
   static final Env _config = _initialize();
   static Env _initialize() {
-    if (identical(0, 0.0)) {
-      print('🚀 Current Environment: $_envTag');
-    }
-
     switch (_envTag) {
       case 'prod':
         return ProdEnv();

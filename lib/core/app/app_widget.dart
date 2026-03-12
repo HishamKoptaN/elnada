@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:upgrader/upgrader.dart';
+import '../../config/env_config.dart';
 import '../../features/customers/present/bloc/customers_bloc.dart';
 import '../../features/daily_collections/present/bloc/daily_collections_bloc.dart';
 import '../../features/daily_orders/present/bloc/daily_orders_bloc.dart';
@@ -46,23 +48,50 @@ class TahaApp extends StatelessWidget {
             builder: (context, child) {
               final mediaQueryData = MediaQuery.of(context);
               return UpgradeAlert(
+                dialogStyle: UpgradeDialogStyle.cupertino,
+                onIgnore: () {
+                  return true;
+                },
+                onLater: () {
+                  return true;
+                },
+                onUpdate: () {
+                  return true;
+                },
+                shouldPopScope: () {
+                  return true;
+                },
+                showPrompt: true,
+                showIgnore: false,
+                showLater: false,
+                showReleaseNotes: true,
+                cupertinoButtonTextStyle: const TextStyle(fontSize: 7.5),
                 upgrader: Upgrader(
                   storeController: UpgraderStoreController(
-                    onAndroid: () => UpgraderAppcastStore(
-                      appcastURL:
-                          'https://raw.githubusercontent.com/HishamKoptaN/elnada/dev/android_appcast.xml',
-                      osVersion: Version.parse('1.0.0'),
-                    ),
-                    onWindows: () => UpgraderAppcastStore(
-                      appcastURL:
-                          'https://raw.githubusercontent.com/USER/REPO/dev/appcast.xml',
-                      osVersion: Version.parse('10.0.0'),
-                    ),
+                    onAndroid: () {
+                      return UpgraderAppcastStore(
+                        appcastURL:
+                            'https://raw.githubusercontent.com/HishamKoptaN/elnada/${EnvConfig.config.envName}/android_appcast.xml',
+                        osVersion: Version.parse('1.0.0'),
+                      );
+                    },
+                    onWindows: () {
+                      return UpgraderAppcastStore(
+                        appcastURL:
+                            'https://raw.githubusercontent.com/HishamKoptaN/elnada/${EnvConfig.config.envName}/android_appcast.xml',
+                        osVersion: Version.parse('10.0.0'),
+                      );
+                    },
                   ),
-                  debugLogging: true,
-                  debugDisplayAlways: true,
+                  messages: CustomMessages(),
+                  durationUntilAlertAgain: kReleaseMode
+                      ? const Duration(hours: 1)
+                      : const Duration(seconds: 10),
                   languageCode: 'ar',
+                  debugLogging: true,
+                  // debugDisplayAlways: true,
                 ),
+                barrierDismissible: false,
                 navigatorKey: GlobalVariable.navState,
                 child: MediaQuery(
                   data: mediaQueryData.copyWith(
@@ -96,4 +125,18 @@ double getTextScaler({required double width}) {
   } else {
     return 2.5;
   }
+}
+
+class CustomMessages extends UpgraderMessages {
+  @override
+  String get title => 'تحديث جديد';
+
+  @override
+  String get body => '';
+
+  @override
+  String get prompt => '';
+
+  @override
+  String get releaseNotes => '';
 }

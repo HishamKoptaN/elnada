@@ -10,7 +10,6 @@ import 'core/app/error_handler.dart';
 import 'core/app_initializer.dart';
 import 'core/app_observer.dart';
 import 'core/di/dependency_injection.dart';
-import 'package:in_app_update/in_app_update.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:upgrader/upgrader.dart';
 
@@ -23,7 +22,7 @@ Future<void> main() async {
     Bloc.observer = AppBlocObserver();
     if (kDebugMode) {}
     await initializeDateFormatting('ar', null);
-    runApp(TahaApp());
+    runApp(const TahaApp());
   } catch (error, stackTrace) {
     _handleError(
       error: error,
@@ -53,22 +52,7 @@ void _handleError({
 void setupAutoUpdater() async {
   String feedURL =
       'https://raw.githubusercontent.com/USER/REPO/dev/appcast.xml';
-
   await autoUpdater.setFeedURL(feedURL);
-  await autoUpdater.setScheduledCheckInterval(3600); // فحص كل ساعة
+  await autoUpdater.setScheduledCheckInterval(3600);
   await autoUpdater.checkForUpdates();
-}
-
-class UpgradeManager {
-  static Future<void> checkForUpdate() async {
-    try {
-      AppUpdateInfo updateInfo = await InAppUpdate.checkForUpdate();
-      if (updateInfo.updateAvailability == UpdateAvailability.updateAvailable) {
-        await InAppUpdate.performImmediateUpdate();
-        // await InAppUpdate.startFlexibleUpdate();
-      }
-    } catch (e) {
-      print("خطأ في التحقق من التحديث: $e");
-    }
-  }
 }
