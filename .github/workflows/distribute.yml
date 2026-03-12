@@ -64,13 +64,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - if: steps.check_type.outputs.is_new_release == 'true'
+        env:
+          VERSION: ${{ steps.get_version.outputs.VERSION }}
         run: |
-          VERSION=$(grep 'version:' pubspec.yaml | sed 's/version: //')
-          APK_URL="https://github.com/${{ github.repository }}/releases/download/       v$VERSION/app-${{ github.ref_name }}-release.apk"
-          sed -i "s|sparkle:version=\"[^\"]*\"|sparkle:version=\"$VERSION\"|g"        android_appcast.xml
+          sed -i "s/sparkle:version=\"[^\"]*\"/sparkle:version=\"$VERSION\"/g" android_appcast.xml
+          APK_URL="https://github.com/${{ github.repository }}/releases/download/v$VERSION/app-release.apk"
           sed -i "s|url=\"[^\"]*\"|url=\"$APK_URL\"|g" android_appcast.xml
-          git config --global user.name "GitHub Action"
-          git config --global user.email "action@github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add android_appcast.xml
-          git commit -m "Update Appcast to version $VERSION"
-          git push origin ${{ github.ref_name }}
+          git commit -m "chore: update appcast to $VERSION [skip ci]"
+          git push
