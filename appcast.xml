@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
     <channel>
-        <title>AbuJena Updates</title>
         <item>
-            <title>Version 2.0.0</title>
-            <description>تحديث تجريبي لاختبار نظام التنبيهات.</description>
-            <pubDate>Thu, 12 Mar 2026 14:00:00 +0200</pubDate>
+            <description> تحديث جديد.</description>
             <enclosure url="https://github.com/USER/REPO/releases/download/latest/AbuJena.msix"
-                       sparkle:version="2.0.0"
+                       sparkle:version="1.0.0"
                        sparkle:os="windows"
                        type="application/octet-stream" />
         </item>

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
     <channel>
-        <title>AbuJena Android Updates</title>
         <item>
             <description> تحديث جديد.</description>
             <enclosure url="https://github.com/HishamKoptaN/abujena_dawajen/releases/download/latest/app-release.apk" 
-                       sparkle:version="1.2.0+3" 
+                       sparkle:version="1.0.0" 
                        sparkle:os="android" />
         </item>
     </channel>
