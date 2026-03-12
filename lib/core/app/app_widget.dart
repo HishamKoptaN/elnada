@@ -71,7 +71,7 @@ class TahaApp extends StatelessWidget {
                     onAndroid: () {
                       return UpgraderAppcastStore(
                         appcastURL:
-                            'https://raw.githubusercontent.com/HishamKoptaN/elnada/${EnvConfig.config.envName}/android_appcast.xml',
+                            'https://raw.githubusercontent.com/HishamKoptaN/elnada/${EnvConfig.config.envName}/android_appcast.xml?v=${DateTime.now().millisecondsSinceEpoch}',
                         osVersion: Version.parse('1.0.0'),
                       );
                     },
@@ -86,7 +86,7 @@ class TahaApp extends StatelessWidget {
                   messages: CustomMessages(),
                   durationUntilAlertAgain: kReleaseMode
                       ? const Duration(hours: 1)
-                      : const Duration(seconds: 10),
+                      : const Duration(seconds: 5),
                   languageCode: 'ar',
                   debugLogging: true,
                   // debugDisplayAlways: true,
