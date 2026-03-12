@@ -1,4 +1,4 @@
-name: Clean Previous Releases
+name: Clean Old Releases
 on:
   workflow_run:
     workflows: ["Deploy App (Multi-Environment)"]
