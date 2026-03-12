@@ -4,7 +4,7 @@
         <item>
             <description> تحديث جديد.</description>
             <enclosure url="https://github.com/HishamKoptaN/elnada/releases/download/desktop_msix/abujena_dawajen_dev.msix"
-                       sparkle:version="2.0.0-dev"
+                       sparkle:version="1.0.0"
                        sparkle:os="windows"
                        type="application/octet-stream" />
         </item>
