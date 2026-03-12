@@ -2,9 +2,11 @@ name: Distribute Desktop
 on:
     push:
         branches: [prod, dev]
+
 permissions:
     contents: write
     packages: write
+
 jobs:
     build_desktop:
         runs-on: windows-latest
@@ -12,10 +14,21 @@ jobs:
         steps:
             - uses: actions/checkout@v4
               with:
-                  fetch-depth: 0
+                  fetch-depth: 1
+
+            # تفعيل التخزين المؤقت لتسريع البناء
+            - name: Cache Flutter dependencies
+              uses: actions/cache@v3
+              with:
+                  path: C:\Users\runneradmin\AppData\Local\Flutter\.pub-cache
+                  key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+
             - uses: subosito/flutter-action@v2
               with:
                   channel: stable
+                  cache: true
+
+            # استخراج رقم الإصدار من pubspec.yaml
             - id: get_version
               shell: pwsh
               run: |
@@ -23,54 +36,66 @@ jobs:
                   $version = ($line -split " ")[1].Trim()
                   $cleanVersion = ($version -split "\+")[0]
                   echo "VERSION=$cleanVersion" >> $env:GITHUB_OUTPUT
+
             - run: flutter config --enable-windows-desktop
             - run: flutter pub get
             - run: flutter build windows --release --dart-define=ENV=${{ github.ref_name }}
             - run: dart run msix:create
-            - uses: actions/upload-artifact@v4
-              with:
-                  path: build/windows/x64/runner/Release/*.msix
-            - uses: softprops/action-gh-release@v2
-              with:
-                  tag_name: desktop_msix
-                  files: build/windows/x64/runner/Release/*.msix
-                  body: "desktop msix"
-                  make_latest: true
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - shell: pwsh
+
+            # تحضير الملفات وتغيير الأسماء (قبل الرفع)
+            - id: prepare_assets
+              shell: pwsh
               env:
                   VERSION: ${{ steps.get_version.outputs.VERSION }}
               run: |
                   $msixFile = Get-ChildItem "build/windows/x64/runner/Release/*.msix" | Select-Object -First 1
-
                   if ($null -eq $msixFile) { throw "MSIX file not found!" }
+
                   $branch = "${{ github.ref_name }}"
                   $currentVersion = $env:VERSION
-
                   $fileName = $msixFile.Name
-                  if ($branch -eq "dev") {
-                      $newName = $msixFile.BaseName + "_dev" + $msixFile.Extension
-                      $newPath = Join-Path $msixFile.DirectoryName $newName
-                      Rename-Item -Path $msixFile.FullName -NewName $newName
-                      $fileName = $newName
-                      Write-Host "Renamed file to: $fileName"
-                  }
-                  $url = "https://github.com/${{ github.repository }}/releases/download/desktop_msix/$fileName"
 
+                  if ($branch -eq "dev") {
+                      $currentVersion = "$currentVersion-dev"
+                      $fileName = $msixFile.BaseName + "_dev" + $msixFile.Extension
+                      Rename-Item -Path $msixFile.FullName -NewName $fileName
+                      Write-Host "Branch is dev. Renamed file to: $fileName"
+                  }
+
+                  # تصدير المتغيرات لاستخدامها في الخطوات التالية
+                  echo "FINAL_FILE_NAME=$fileName" >> $env:GITHUB_ENV
+                  echo "FINAL_VERSION=$currentVersion" >> $env:GITHUB_ENV
+
+            # رفع الملف بالاسم الصحيح (سواء dev أو prod)
+            - name: Upload to GitHub Release
+              uses: softprops/action-gh-release@v2
+              with:
+                  tag_name: desktop_msix
+                  files: build/windows/x64/runner/Release/*.msix
+                  body: "Automated Build v${{ env.FINAL_VERSION }} for ${{ github.ref_name }}"
+                  make_latest: true
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            # تحديث ملف الـ Appcast XML بالبيانات النهائية
+            - name: Update Appcast XML
+              shell: pwsh
+              run: |
+                  $url = "https://github.com/${{ github.repository }}/releases/download/desktop_msix/${{ env.FINAL_FILE_NAME }}"
                   $xmlPath = "desktop_appcast.xml"
-                  if (-Not (Test-Path $xmlPath)) { throw "XML file not found at $xmlPath" }
+                  if (-Not (Test-Path $xmlPath)) { throw "XML file not found!" }
 
                   $content = Get-Content $xmlPath -Raw
-                  $content = $content -replace 'sparkle:version="[^"]*"',       "sparkle:version=""$currentVersion"""
+                  $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""${{ env.FINAL_VERSION }}"""
                   $content = $content -replace 'url="[^"]*"', "url=""$url"""
 
                   [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
 
+            # حفظ التغييرات في الـ XML ودفعها للفرع
+            - name: Push Appcast Changes
+              run: |
                   git config --global user.name "github-actions[bot]"
                   git config --global user.email "github-actions[bot]@users.noreply.github.com"
-                  git add $xmlPath
-
-                  $commitMsg = "chore: update $branch appcast to $currentVersion [skip ci]"
-                  git commit -m "$commitMsg"
-                  git push origin $branch
+                  git add desktop_appcast.xml
+                  git commit -m "chore: update appcast to ${{ env.FINAL_VERSION }} [skip ci]"
+                  git push origin ${{ github.ref_name }}
