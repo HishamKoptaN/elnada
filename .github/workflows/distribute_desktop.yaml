@@ -48,7 +48,15 @@ jobs:
                   $branch = "${{ github.ref_name }}"
                   $currentVersion = $env:VERSION
 
-                  $url = "https://github.com/${{ github.repository }}/releases/download/desktop_msix/$msixFile.Name"
+                  $fileName = $msixFile.Name
+                  if ($branch -eq "dev") {
+                      $newName = $msixFile.BaseName + "_dev" + $msixFile.Extension
+                      $newPath = Join-Path $msixFile.DirectoryName $newName
+                      Rename-Item -Path $msixFile.FullName -NewName $newName
+                      $fileName = $newName
+                      Write-Host "Renamed file to: $fileName"
+                  }
+                  $url = "https://github.com/${{ github.repository }}/releases/download/desktop_msix/$fileName"
 
                   $xmlPath = "desktop_appcast.xml"
                   if (-Not (Test-Path $xmlPath)) { throw "XML file not found at $xmlPath" }
