@@ -34,13 +34,6 @@ class _CustomersViewState extends State<CustomersView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '2',
-          style: TextStyle(fontSize: 5.sp, color: Colors.black),
-        ),
-        centerTitle: true,
-      ),
       body: BlocBuilder<CustomersBloc, CustomersState>(
         builder: (context, state) {
           final isDesktop = _isDesktop(context);
@@ -63,6 +56,10 @@ class _CustomersViewState extends State<CustomersView> {
             child: Column(
               spacing: 5.h,
               children: [
+                Text(
+                  '1',
+                  style: TextStyle(fontSize: 10.sp, color: Colors.black),
+                ),
                 DateHeaderWidget(state: state),
                 PricesWidget(
                   prices: prices,

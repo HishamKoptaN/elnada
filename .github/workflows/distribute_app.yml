@@ -9,10 +9,22 @@ jobs:
     environment: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
       - uses: actions/setup-java@v4
-        with: { java-version: "17", distribution: "temurin" }
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: "gradle"
+      - uses: actions/cache@v4
+        with:
+          path: ~/.config/shorebird
+          key: ${{ runner.os }}-shorebird
       - uses: subosito/flutter-action@v2
-        with: { flutter-version: "3.41.4" }
+        with:
+          flutter-version: "3.41.4"
+          cache: true
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash"
       - uses: shorebirdtech/setup-shorebird@v1
 
       - id: check_type
@@ -47,13 +59,8 @@ jobs:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_ADMIN_SDK }}
           groups: "apk"
-          file: ${{ github.ref_name == 'prod' && 'build/app/outputs/flutter-apk/app-release.apk' || format('build/app/outputs/flutter-apk/app-{0}-release.apk', github.ref_name) }}
+          file: build/app/outputs/flutter-apk/app-*.apk
           releaseNotes: "new"
-      - id: get_version
-        run: |
-          RAW_VERSION=$(grep '^version:' pubspec.yaml | cut -d ' ' -f 2 | xargs)
-          CLEAN_VERSION=$(echo $RAW_VERSION | cut -d '+' -f 1)
-          echo "VERSION=$CLEAN_VERSION" >> $GITHUB_OUTPUT
       - if: steps.check_type.outputs.is_new_release == 'true'
         uses: softprops/action-gh-release@v2
         with:
@@ -63,6 +70,11 @@ jobs:
           prerelease: ${{ github.ref_name == 'dev' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - id: get_version
+        run: |
+          RAW_VERSION=$(grep '^version:' pubspec.yaml | cut -d ' ' -f 2 | xargs)
+          CLEAN_VERSION=$(echo $RAW_VERSION | cut -d '+' -f 1)
+          echo "VERSION=$CLEAN_VERSION" >> $GITHUB_OUTPUT
       - if: steps.check_type.outputs.is_new_release == 'true'
         env:
           VERSION: ${{ steps.get_version.outputs.VERSION }}
