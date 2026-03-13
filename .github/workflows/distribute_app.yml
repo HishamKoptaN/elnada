@@ -74,14 +74,12 @@ jobs:
         if: steps.check_type.outputs.is_new_release == 'true'
         run: |
           APK_PATH=$(find build/app/outputs/flutter-apk -name "app-*-release.apk" | head -n 1)
-          
           if [ -z "$APK_PATH" ]; then
             echo "Error: APK file not found!"
             exit 1
           fi
-          
           echo "Found APK at: $APK_PATH"
-          echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT    
+          echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
       - id: get_version
         run: |
           RAW_VERSION=$(grep '^version:' pubspec.yaml | cut -d ' ' -f 2 | xargs)
