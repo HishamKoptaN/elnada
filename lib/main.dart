@@ -39,14 +39,28 @@ Future<void> main() async {
 }
 
 void initLogging() async {
-  final dir = await getApplicationSupportDirectory(); // مجلد AppData
+  final dir = await getApplicationSupportDirectory();
   final file = File('${dir.path}/log.txt');
 
-  // توجيه كل print إلى الملف
+  // تنظيف السجلات القديمة إذا أصبح الملف ضخماً (أكبر من 2 ميجابايت مثلاً)
+  if (await file.exists() && await file.length() > 2 * 1024 * 1024) {
+    await file.writeAsString(
+      '${DateTime.now()}: --- Log Reset (File size limit) ---\n',
+    );
+  }
+
+  // حفظ المرجع الأصلي للـ debugPrint إذا كنت تريد استخدامه لاحقاً
+  final DebugPrintCallback oldDebugPrint = debugPrint;
+
   debugPrint = (String? message, {int? wrapWidth}) {
-    file.writeAsStringSync(
+    // 1. استدعاء الطباعة الأصلية لتظهر في الـ Console أثناء التطوير
+    oldDebugPrint(message, wrapWidth: wrapWidth);
+
+    // 2. الكتابة في الملف بشكل غير متزامن (بدون Sync) لضمان سلاسة التطبيق
+    file.writeAsString(
       '${DateTime.now()}: $message\n',
       mode: FileMode.append,
+      flush: false, // تحسين الأداء عبر عدم إجبار النظام على المسح الفوري للقرص
     );
   };
 }
