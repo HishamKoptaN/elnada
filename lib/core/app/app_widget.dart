@@ -86,7 +86,7 @@ class TahaApp extends StatelessWidget {
                   messages: CustomMessages(),
                   durationUntilAlertAgain: kReleaseMode
                       ? const Duration(hours: 1)
-                      : const Duration(seconds: 5),
+                      : const Duration(seconds: 5000),
                   languageCode: 'ar',
                   debugLogging: true,
                   // debugDisplayAlways: true,
