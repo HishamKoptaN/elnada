@@ -35,7 +35,7 @@ jobs:
               run: |
                   $certBytes = [System.Convert]::FromBase64String("${{ secrets.BASE64_CERTIFICATE }}")
                   [System.IO.File]::WriteAllBytes("certificate.pfx", $certBytes)
-            - run: dart run msix:create --certificate-path certificate.pfx --certificate-password ${{ secrets.CERTIFICATE_PASSWORD }} --publisher "CN=AbuJena, O=Abujena, C=EG" --install-certificate false --capabilities ""
+            - run: dart run msix:create --certificate-path certificate.pfx --certificate-password ${{ secrets.CERTIFICATE_PASSWORD }} --publisher "CN=AbuJenaDawajen, O=AbuJenaDawajen, C=EG" --install-certificate false --capabilities ""
             - id: prepare_assets
               shell: pwsh
               env:
@@ -61,16 +61,13 @@ jobs:
                   $buildPath = "build/windows/x64/runner/Release"
                   $outPath = "build/windows/x64/runner/Portable"
                   New-Item -ItemType Directory -Force -Path $outPath
-
                   Copy-Item -Path "$buildPath\*" -Destination $outPath -Recurse
-
                   $zipName = "AbuJena_Dawajen_Windows.zip"
                   if ("${{ github.ref_name }}" -eq "dev") {
                       $zipName = "AbuJena_Dawajen_Windows_dev.zip"
                   }
                   Compress-Archive -Path "$outPath\*" -DestinationPath "build/windows/x64/runner/Release/$zipName"
                   echo "ZIP_NAME=$zipName" >> $env:GITHUB_ENV
-
             - name: Upload to GitHub Release
               uses: softprops/action-gh-release@v2
               with:
