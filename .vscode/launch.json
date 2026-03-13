@@ -36,8 +36,6 @@
       "program": "lib/main.dart",
       "flutterMode": "debug",
       "args": [
-        "--flavor",
-        "dev",
         "--dart-define=ENV=dev"
       ],
       "deviceId": "windows" 
@@ -50,8 +48,6 @@
       "program": "lib/main.dart",
       "flutterMode": "release",
       "args": [
-        "--flavor", 
-        "prod", 
         "--dart-define=ENV=prod"
       ],
       "deviceId": "windows"
