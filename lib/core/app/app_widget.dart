@@ -67,6 +67,7 @@ class TahaApp extends StatelessWidget {
                 showReleaseNotes: true,
                 cupertinoButtonTextStyle: const TextStyle(fontSize: 7.5),
                 upgrader: Upgrader(
+                  
                   storeController: UpgraderStoreController(
                     onAndroid: () {
                       return UpgraderAppcastStore(

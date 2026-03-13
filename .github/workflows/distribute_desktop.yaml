@@ -25,8 +25,9 @@ jobs:
               shell: pwsh
               run: |
                   $line = Get-Content pubspec.yaml | Select-String "^version: "
-                  $version = ($line -split " ")[1].Trim()
-                  $cleanVersion = ($version -split "\+")[0]
+                  $fullVersion = ($line -split " ")[1].Trim()
+                  echo "FULL_VERSION=$fullVersion" >> $env:GITHUB_OUTPUT
+                  $cleanVersion = ($fullVersion -split "\+")[0]
                   echo "VERSION=$cleanVersion" >> $env:GITHUB_OUTPUT
             - run: flutter config --enable-windows-desktop
             - run: flutter pub get
@@ -67,8 +68,7 @@ jobs:
                   }
                   Compress-Archive -Path "$outPath\*" -DestinationPath "build/windows/x64/runner/Release/$zipName"
                   echo "ZIP_NAME=$zipName" >> $env:GITHUB_ENV
-            - name: Upload to GitHub Release
-              uses: softprops/action-gh-release@v2
+            - uses: softprops/action-gh-release@v2
               with:
                   tag_name: desktop_msix
                   files: |

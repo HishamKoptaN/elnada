@@ -14,9 +14,13 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:universal_io/io.dart';
 
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Upgrader.clearSavedSettings();
+  initLogging();
   setupAutoUpdater();
   try {
     await AppInitializer.initialize();
@@ -32,6 +36,19 @@ Future<void> main() async {
       context: 'app initialization',
     );
   }
+}
+
+void initLogging() async {
+  final dir = await getApplicationSupportDirectory(); // مجلد AppData
+  final file = File('${dir.path}/log.txt');
+
+  // توجيه كل print إلى الملف
+  debugPrint = (String? message, {int? wrapWidth}) {
+    file.writeAsStringSync(
+      '${DateTime.now()}: $message\n',
+      mode: FileMode.append,
+    );
+  };
 }
 
 void _handleError({
