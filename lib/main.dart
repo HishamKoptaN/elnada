@@ -53,7 +53,7 @@ void _handleError({
 
 void setupAutoUpdater() async {
   if (!Platform.isWindows) return;
-  
+
   String feedURL =
       'https://raw.githubusercontent.com/HishamKoptaN/elnada/${EnvConfig.config.envName}/desktop_appcast.xml';
   await autoUpdater.setFeedURL(feedURL);

@@ -59,7 +59,7 @@ jobs:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_ADMIN_SDK }}
           groups: "apk"
-          file: build/app/outputs/flutter-apk/app-*.apk
+          file: ${{ github.ref_name == 'prod' && 'build/app/outputs/flutter-apk/app-prod-release.apk' || 'build/app/outputs/flutter-apk/app-dev-release.apk' }}
           releaseNotes: "new"
       - if: steps.check_type.outputs.is_new_release == 'true'
         uses: softprops/action-gh-release@v2
@@ -70,6 +70,18 @@ jobs:
           prerelease: ${{ github.ref_name == 'dev' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - id: find_apk
+        if: steps.check_type.outputs.is_new_release == 'true'
+        run: |
+          APK_PATH=$(find build/app/outputs/flutter-apk -name "app-*-release.apk" | head -n 1)
+          
+          if [ -z "$APK_PATH" ]; then
+            echo "Error: APK file not found!"
+            exit 1
+          fi
+          
+          echo "Found APK at: $APK_PATH"
+          echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT    
       - id: get_version
         run: |
           RAW_VERSION=$(grep '^version:' pubspec.yaml | cut -d ' ' -f 2 | xargs)
