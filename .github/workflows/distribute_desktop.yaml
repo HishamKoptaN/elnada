@@ -54,7 +54,6 @@ jobs:
                   }
                   echo "FINAL_FILE_NAME=$fileName" >> $env:GITHUB_ENV
                   echo "FINAL_VERSION=$currentVersion" >> $env:GITHUB_ENV
-
             - name: Prepare Portable EXE
               shell: pwsh
               run: |
