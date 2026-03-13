@@ -58,26 +58,25 @@ jobs:
             - name: Prepare Portable EXE
               shell: pwsh
               run: |
-                 $buildPath = "build/windows/x64/runner/Release"
-                 $outPath = "build/windows/x64/runner/Portable"
-                 New-Item -ItemType Directory -Force -Path $outPath
-                 
-                 Copy-Item -Path "$buildPath\*" -Destination $outPath -Recurse
-                 
-                 $zipName = "AbuJena_Dawajen_Windows.zip"
-                 if ("${{ github.ref_name }}" -eq "dev") {
-                     $zipName = "AbuJena_Dawajen_Windows_dev.zip"
-                 }
-                 Compress-Archive -Path "$outPath\*" -DestinationPath "build/windows/x64/runner/Release/$zipName"
-                 echo "ZIP_NAME=$zipName" >> $env:GITHUB_ENV
-                  
+                  $buildPath = "build/windows/x64/runner/Release"
+                  $outPath = "build/windows/x64/runner/Portable"
+                  New-Item -ItemType Directory -Force -Path $outPath
+
+                  Copy-Item -Path "$buildPath\*" -Destination $outPath -Recurse
+
+                  $zipName = "AbuJena_Dawajen_Windows.zip"
+                  if ("${{ github.ref_name }}" -eq "dev") {
+                      $zipName = "AbuJena_Dawajen_Windows_dev.zip"
+                  }
+                  Compress-Archive -Path "$outPath\*" -DestinationPath "build/windows/x64/runner/Release/$zipName"
+                  echo "ZIP_NAME=$zipName" >> $env:GITHUB_ENV
+
             - name: Upload to GitHub Release
               uses: softprops/action-gh-release@v2
               with:
                   tag_name: desktop_msix
                   files: |
-                    build/windows/x64/runner/Release/*.msix
-                    build/windows/x64/runner/Release/*.zip
+                      build/windows/x64/runner/Release/*.msix
                   body: "Automated Build v${{ env.FINAL_VERSION }} for ${{ github.ref_name }}"
                   make_latest: true
               env:
