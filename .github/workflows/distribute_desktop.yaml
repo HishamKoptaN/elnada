@@ -24,10 +24,10 @@ jobs:
             - id: get_version
               shell: pwsh
               run: |
-                 $line = Get-Content pubspec.yaml | Select-String "^version: "
-                 $fullVersion = ($line -split " ")[1].Trim()
-                 # إرسال النسخة الكاملة (مثل 2.0.0+2) للمراحل القادمة
-                 echo "FULL_VERSION=$fullVersion" >> $env:GITHUB_OUTPUT
+                  $line = Get-Content pubspec.yaml | Select-String "^version: "
+                  $fullVersion = ($line -split " ")[1].Trim()
+                  # إرسال النسخة الكاملة (مثل 2.0.0+2) للمراحل القادمة
+                  echo "FULL_VERSION=$fullVersion" >> $env:GITHUB_OUTPUT
             - run: flutter config --enable-windows-desktop
             - run: flutter pub get
             - run: flutter build windows --release --dart-define=ENV=${{ github.ref_name }}

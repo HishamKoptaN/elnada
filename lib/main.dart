@@ -19,8 +19,8 @@ import 'package:path_provider/path_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initLogging();
   await Upgrader.clearSavedSettings();
-  initLogging();
   setupAutoUpdater();
   try {
     await AppInitializer.initialize();
@@ -38,23 +38,47 @@ Future<void> main() async {
   }
 }
 
-void initLogging() async {
-  final dir = await getApplicationSupportDirectory();
-  final file = File('${dir.path}/log.txt');
-  if (await file.exists() && await file.length() > 2 * 1024 * 1024) {
-    await file.writeAsString(
-      '${DateTime.now()}: --- Log Reset (File size limit) ---\n',
-    );
+Future<void> initLogging() async {
+  try {
+    // 1. الحصول على مسار المجلد (AppData/Local في ويندوز)
+    final dir = await getApplicationSupportDirectory();
+    final file = File('${dir.path}/log.txt');
+
+    // 2. التأكد من إنشاء المجلد إذا لم يكن موجوداً
+    if (!await dir.exists()) {
+      await dir.create(recursive: true);
+    }
+
+    // 3. إدارة حجم الملف (إذا زاد عن 2 ميجابايت، ابدأ ملف جديد)
+    if (await file.exists() && await file.length() > 2 * 1024 * 1024) {
+      await file.writeAsString(
+        '${DateTime.now()}: --- السجلات قديمة (تم تصفير الملف للحفاظ على المساحة) ---\n',
+        mode: FileMode.write, // FileMode.write يمسح القديم ويكتب من جديد
+      );
+    }
+
+    // 4. حفظ النسخة الأصلية من debugPrint للطباعة في الـ Console أثناء التطوير
+    final DebugPrintCallback oldDebugPrint = debugPrint;
+
+    // 5. إعادة تعريف debugPrint لتكتب في الملف وفي الـ Console معاً
+    debugPrint = (String? message, {int? wrapWidth}) {
+      // طباعة في الـ Console (للمطور)
+      oldDebugPrint(message, wrapWidth: wrapWidth);
+
+      // كتابة في ملف log.txt (للبرودكشن)
+      file.writeAsString(
+        '${DateTime.now().toIso8601String()}: $message\n',
+        mode: FileMode.append,
+        flush: false, // تحسين الأداء
+      );
+    };
+
+    // طباعة مسار الملف لمرة واحدة عند تشغيل التطبيق (لتسهيل وصولك إليه)
+    debugPrint('🚀 نظام السجلات جاهز. المسار: ${file.path}');
+  } catch (e) {
+    // في حال فشل إنشاء السجلات (مشكلة في الصلاحيات مثلاً)
+    print('❌ فشل تهيئة نظام السجلات: $e');
   }
-  final DebugPrintCallback oldDebugPrint = debugPrint;
-  debugPrint = (String? message, {int? wrapWidth}) {
-    oldDebugPrint(message, wrapWidth: wrapWidth);
-    file.writeAsString(
-      '${DateTime.now()}: $message\n',
-      mode: FileMode.append,
-      flush: false,
-    );
-  };
 }
 
 void _handleError({
