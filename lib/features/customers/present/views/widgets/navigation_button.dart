@@ -72,7 +72,7 @@ class NavigationPreviousButton extends StatelessWidget {
         state.mapOrNull(loaded: (s) => s.selectedDate) ?? DateTime.now();
     final targetDate = currentDate.subtract(const Duration(days: 1));
     final dayName = DateFormat('EEEE', 'ar').format(targetDate);
-    final bool passed = targetDate.isBefore(DateTime(2026, 3, 3));
+    final bool passed = targetDate.isBefore(DateTime(2026, 3, 12));
     if (passed) {
       return SizedBox(width: 50.w);
     }
