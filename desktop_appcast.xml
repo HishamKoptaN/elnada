@@ -3,8 +3,8 @@
     <channel>
         <item>
             <description> تحديث جديد.</description>
-            <enclosure url="https://github.com/HishamKoptaN/elnada/releases/download/desktop_msix/abujena_dawajen.msix"
-                       sparkle:version="3.0.0+1"
+            <enclosure url="https://github.com/HishamKoptaN/elnada/releases/download/desktop_msix/abujena_dawajen_dev.msix"
+                       sparkle:version="3.0.0+3"
                        sparkle:os="windows"
                        type="application/octet-stream" />
         </item>
