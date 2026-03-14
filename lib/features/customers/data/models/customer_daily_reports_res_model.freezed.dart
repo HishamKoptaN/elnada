@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CustomerDailyReportsResModel {
 
-@JsonKey(name: 'product_daily_prices') List<ProductPriceModel>? get productDailyPrices;@JsonKey(name: 'customer_daily_reports') List<CustomerDailyReportModel>? get customerDailyReports;
+@JsonKey(name: 'can_insert_previus_day_data') bool? get canInsertPreviusDayData;@JsonKey(name: 'product_daily_prices') List<ProductPriceModel>? get productDailyPrices;@JsonKey(name: 'customer_daily_reports') List<CustomerDailyReportModel>? get customerDailyReports;
 /// Create a copy of CustomerDailyReportsResModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $CustomerDailyReportsResModelCopyWith<CustomerDailyReportsResModel> get copyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CustomerDailyReportsResModel&&const DeepCollectionEquality().equals(other.productDailyPrices, productDailyPrices)&&const DeepCollectionEquality().equals(other.customerDailyReports, customerDailyReports));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CustomerDailyReportsResModel&&(identical(other.canInsertPreviusDayData, canInsertPreviusDayData) || other.canInsertPreviusDayData == canInsertPreviusDayData)&&const DeepCollectionEquality().equals(other.productDailyPrices, productDailyPrices)&&const DeepCollectionEquality().equals(other.customerDailyReports, customerDailyReports));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(productDailyPrices),const DeepCollectionEquality().hash(customerDailyReports));
+int get hashCode => Object.hash(runtimeType,canInsertPreviusDayData,const DeepCollectionEquality().hash(productDailyPrices),const DeepCollectionEquality().hash(customerDailyReports));
 
 @override
 String toString() {
-  return 'CustomerDailyReportsResModel(productDailyPrices: $productDailyPrices, customerDailyReports: $customerDailyReports)';
+  return 'CustomerDailyReportsResModel(canInsertPreviusDayData: $canInsertPreviusDayData, productDailyPrices: $productDailyPrices, customerDailyReports: $customerDailyReports)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $CustomerDailyReportsResModelCopyWith<$Res>  {
   factory $CustomerDailyReportsResModelCopyWith(CustomerDailyReportsResModel value, $Res Function(CustomerDailyReportsResModel) _then) = _$CustomerDailyReportsResModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'product_daily_prices') List<ProductPriceModel>? productDailyPrices,@JsonKey(name: 'customer_daily_reports') List<CustomerDailyReportModel>? customerDailyReports
+@JsonKey(name: 'can_insert_previus_day_data') bool? canInsertPreviusDayData,@JsonKey(name: 'product_daily_prices') List<ProductPriceModel>? productDailyPrices,@JsonKey(name: 'customer_daily_reports') List<CustomerDailyReportModel>? customerDailyReports
 });
 
 
@@ -65,9 +65,10 @@ class _$CustomerDailyReportsResModelCopyWithImpl<$Res>
 
 /// Create a copy of CustomerDailyReportsResModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? productDailyPrices = freezed,Object? customerDailyReports = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? canInsertPreviusDayData = freezed,Object? productDailyPrices = freezed,Object? customerDailyReports = freezed,}) {
   return _then(_self.copyWith(
-productDailyPrices: freezed == productDailyPrices ? _self.productDailyPrices : productDailyPrices // ignore: cast_nullable_to_non_nullable
+canInsertPreviusDayData: freezed == canInsertPreviusDayData ? _self.canInsertPreviusDayData : canInsertPreviusDayData // ignore: cast_nullable_to_non_nullable
+as bool?,productDailyPrices: freezed == productDailyPrices ? _self.productDailyPrices : productDailyPrices // ignore: cast_nullable_to_non_nullable
 as List<ProductPriceModel>?,customerDailyReports: freezed == customerDailyReports ? _self.customerDailyReports : customerDailyReports // ignore: cast_nullable_to_non_nullable
 as List<CustomerDailyReportModel>?,
   ));
@@ -154,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_daily_prices')  List<ProductPriceModel>? productDailyPrices, @JsonKey(name: 'customer_daily_reports')  List<CustomerDailyReportModel>? customerDailyReports)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'can_insert_previus_day_data')  bool? canInsertPreviusDayData, @JsonKey(name: 'product_daily_prices')  List<ProductPriceModel>? productDailyPrices, @JsonKey(name: 'customer_daily_reports')  List<CustomerDailyReportModel>? customerDailyReports)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CustomerDailyReportsResModel() when $default != null:
-return $default(_that.productDailyPrices,_that.customerDailyReports);case _:
+return $default(_that.canInsertPreviusDayData,_that.productDailyPrices,_that.customerDailyReports);case _:
   return orElse();
 
 }
@@ -175,10 +176,10 @@ return $default(_that.productDailyPrices,_that.customerDailyReports);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_daily_prices')  List<ProductPriceModel>? productDailyPrices, @JsonKey(name: 'customer_daily_reports')  List<CustomerDailyReportModel>? customerDailyReports)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'can_insert_previus_day_data')  bool? canInsertPreviusDayData, @JsonKey(name: 'product_daily_prices')  List<ProductPriceModel>? productDailyPrices, @JsonKey(name: 'customer_daily_reports')  List<CustomerDailyReportModel>? customerDailyReports)  $default,) {final _that = this;
 switch (_that) {
 case _CustomerDailyReportsResModel():
-return $default(_that.productDailyPrices,_that.customerDailyReports);case _:
+return $default(_that.canInsertPreviusDayData,_that.productDailyPrices,_that.customerDailyReports);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +196,10 @@ return $default(_that.productDailyPrices,_that.customerDailyReports);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'product_daily_prices')  List<ProductPriceModel>? productDailyPrices, @JsonKey(name: 'customer_daily_reports')  List<CustomerDailyReportModel>? customerDailyReports)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'can_insert_previus_day_data')  bool? canInsertPreviusDayData, @JsonKey(name: 'product_daily_prices')  List<ProductPriceModel>? productDailyPrices, @JsonKey(name: 'customer_daily_reports')  List<CustomerDailyReportModel>? customerDailyReports)?  $default,) {final _that = this;
 switch (_that) {
 case _CustomerDailyReportsResModel() when $default != null:
-return $default(_that.productDailyPrices,_that.customerDailyReports);case _:
+return $default(_that.canInsertPreviusDayData,_that.productDailyPrices,_that.customerDailyReports);case _:
   return null;
 
 }
@@ -210,9 +211,10 @@ return $default(_that.productDailyPrices,_that.customerDailyReports);case _:
 @JsonSerializable()
 
 class _CustomerDailyReportsResModel implements CustomerDailyReportsResModel {
-  const _CustomerDailyReportsResModel({@JsonKey(name: 'product_daily_prices') final  List<ProductPriceModel>? productDailyPrices, @JsonKey(name: 'customer_daily_reports') final  List<CustomerDailyReportModel>? customerDailyReports}): _productDailyPrices = productDailyPrices,_customerDailyReports = customerDailyReports;
+  const _CustomerDailyReportsResModel({@JsonKey(name: 'can_insert_previus_day_data') this.canInsertPreviusDayData, @JsonKey(name: 'product_daily_prices') final  List<ProductPriceModel>? productDailyPrices, @JsonKey(name: 'customer_daily_reports') final  List<CustomerDailyReportModel>? customerDailyReports}): _productDailyPrices = productDailyPrices,_customerDailyReports = customerDailyReports;
   factory _CustomerDailyReportsResModel.fromJson(Map<String, dynamic> json) => _$CustomerDailyReportsResModelFromJson(json);
 
+@override@JsonKey(name: 'can_insert_previus_day_data') final  bool? canInsertPreviusDayData;
  final  List<ProductPriceModel>? _productDailyPrices;
 @override@JsonKey(name: 'product_daily_prices') List<ProductPriceModel>? get productDailyPrices {
   final value = _productDailyPrices;
@@ -245,16 +247,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CustomerDailyReportsResModel&&const DeepCollectionEquality().equals(other._productDailyPrices, _productDailyPrices)&&const DeepCollectionEquality().equals(other._customerDailyReports, _customerDailyReports));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CustomerDailyReportsResModel&&(identical(other.canInsertPreviusDayData, canInsertPreviusDayData) || other.canInsertPreviusDayData == canInsertPreviusDayData)&&const DeepCollectionEquality().equals(other._productDailyPrices, _productDailyPrices)&&const DeepCollectionEquality().equals(other._customerDailyReports, _customerDailyReports));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_productDailyPrices),const DeepCollectionEquality().hash(_customerDailyReports));
+int get hashCode => Object.hash(runtimeType,canInsertPreviusDayData,const DeepCollectionEquality().hash(_productDailyPrices),const DeepCollectionEquality().hash(_customerDailyReports));
 
 @override
 String toString() {
-  return 'CustomerDailyReportsResModel(productDailyPrices: $productDailyPrices, customerDailyReports: $customerDailyReports)';
+  return 'CustomerDailyReportsResModel(canInsertPreviusDayData: $canInsertPreviusDayData, productDailyPrices: $productDailyPrices, customerDailyReports: $customerDailyReports)';
 }
 
 
@@ -265,7 +267,7 @@ abstract mixin class _$CustomerDailyReportsResModelCopyWith<$Res> implements $Cu
   factory _$CustomerDailyReportsResModelCopyWith(_CustomerDailyReportsResModel value, $Res Function(_CustomerDailyReportsResModel) _then) = __$CustomerDailyReportsResModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'product_daily_prices') List<ProductPriceModel>? productDailyPrices,@JsonKey(name: 'customer_daily_reports') List<CustomerDailyReportModel>? customerDailyReports
+@JsonKey(name: 'can_insert_previus_day_data') bool? canInsertPreviusDayData,@JsonKey(name: 'product_daily_prices') List<ProductPriceModel>? productDailyPrices,@JsonKey(name: 'customer_daily_reports') List<CustomerDailyReportModel>? customerDailyReports
 });
 
 
@@ -282,9 +284,10 @@ class __$CustomerDailyReportsResModelCopyWithImpl<$Res>
 
 /// Create a copy of CustomerDailyReportsResModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? productDailyPrices = freezed,Object? customerDailyReports = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? canInsertPreviusDayData = freezed,Object? productDailyPrices = freezed,Object? customerDailyReports = freezed,}) {
   return _then(_CustomerDailyReportsResModel(
-productDailyPrices: freezed == productDailyPrices ? _self._productDailyPrices : productDailyPrices // ignore: cast_nullable_to_non_nullable
+canInsertPreviusDayData: freezed == canInsertPreviusDayData ? _self.canInsertPreviusDayData : canInsertPreviusDayData // ignore: cast_nullable_to_non_nullable
+as bool?,productDailyPrices: freezed == productDailyPrices ? _self._productDailyPrices : productDailyPrices // ignore: cast_nullable_to_non_nullable
 as List<ProductPriceModel>?,customerDailyReports: freezed == customerDailyReports ? _self._customerDailyReports : customerDailyReports // ignore: cast_nullable_to_non_nullable
 as List<CustomerDailyReportModel>?,
   ));

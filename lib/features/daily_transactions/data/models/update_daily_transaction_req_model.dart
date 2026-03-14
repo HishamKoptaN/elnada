@@ -10,6 +10,7 @@ abstract class UpdateDailyTransactionReqModel
     @JsonKey(name: 'weight') required double weight,
     @JsonKey(name: 'cage') required int cage,
     @JsonKey(name: 'discount') required double discount,
+    @JsonKey(name: 'date') required DateTime? date,
   }) = _UpdateDailyTransactionReqModel;
   factory UpdateDailyTransactionReqModel.fromJson(Map<String, Object?> json) =>
       _$UpdateDailyTransactionReqModelFromJson(json);

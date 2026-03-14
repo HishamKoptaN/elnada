@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UpdateProductPriceReqModel {
 
-@JsonKey(name: 'product_id') int get productId;@JsonKey(name: 'price') double get price;
+@JsonKey(name: 'product_id') int get productId;@JsonKey(name: 'price') double get price;@JsonKey(name: 'date') DateTime? get date;
 /// Create a copy of UpdateProductPriceReqModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $UpdateProductPriceReqModelCopyWith<UpdateProductPriceReqModel> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateProductPriceReqModel&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.price, price) || other.price == price));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateProductPriceReqModel&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.price, price) || other.price == price)&&(identical(other.date, date) || other.date == date));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,productId,price);
+int get hashCode => Object.hash(runtimeType,productId,price,date);
 
 @override
 String toString() {
-  return 'UpdateProductPriceReqModel(productId: $productId, price: $price)';
+  return 'UpdateProductPriceReqModel(productId: $productId, price: $price, date: $date)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $UpdateProductPriceReqModelCopyWith<$Res>  {
   factory $UpdateProductPriceReqModelCopyWith(UpdateProductPriceReqModel value, $Res Function(UpdateProductPriceReqModel) _then) = _$UpdateProductPriceReqModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'product_id') int productId,@JsonKey(name: 'price') double price
+@JsonKey(name: 'product_id') int productId,@JsonKey(name: 'price') double price,@JsonKey(name: 'date') DateTime? date
 });
 
 
@@ -65,11 +65,12 @@ class _$UpdateProductPriceReqModelCopyWithImpl<$Res>
 
 /// Create a copy of UpdateProductPriceReqModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? productId = null,Object? price = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? productId = null,Object? price = null,Object? date = freezed,}) {
   return _then(_self.copyWith(
 productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
 as int,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
-as double,
+as double,date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 
@@ -154,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_id')  int productId, @JsonKey(name: 'price')  double price)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_id')  int productId, @JsonKey(name: 'price')  double price, @JsonKey(name: 'date')  DateTime? date)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UpdateProductPriceReqModel() when $default != null:
-return $default(_that.productId,_that.price);case _:
+return $default(_that.productId,_that.price,_that.date);case _:
   return orElse();
 
 }
@@ -175,10 +176,10 @@ return $default(_that.productId,_that.price);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_id')  int productId, @JsonKey(name: 'price')  double price)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_id')  int productId, @JsonKey(name: 'price')  double price, @JsonKey(name: 'date')  DateTime? date)  $default,) {final _that = this;
 switch (_that) {
 case _UpdateProductPriceReqModel():
-return $default(_that.productId,_that.price);case _:
+return $default(_that.productId,_that.price,_that.date);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +196,10 @@ return $default(_that.productId,_that.price);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'product_id')  int productId, @JsonKey(name: 'price')  double price)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'product_id')  int productId, @JsonKey(name: 'price')  double price, @JsonKey(name: 'date')  DateTime? date)?  $default,) {final _that = this;
 switch (_that) {
 case _UpdateProductPriceReqModel() when $default != null:
-return $default(_that.productId,_that.price);case _:
+return $default(_that.productId,_that.price,_that.date);case _:
   return null;
 
 }
@@ -210,11 +211,12 @@ return $default(_that.productId,_that.price);case _:
 @JsonSerializable()
 
 class _UpdateProductPriceReqModel implements UpdateProductPriceReqModel {
-  const _UpdateProductPriceReqModel({@JsonKey(name: 'product_id') required this.productId, @JsonKey(name: 'price') required this.price});
+  const _UpdateProductPriceReqModel({@JsonKey(name: 'product_id') required this.productId, @JsonKey(name: 'price') required this.price, @JsonKey(name: 'date') this.date});
   factory _UpdateProductPriceReqModel.fromJson(Map<String, dynamic> json) => _$UpdateProductPriceReqModelFromJson(json);
 
 @override@JsonKey(name: 'product_id') final  int productId;
 @override@JsonKey(name: 'price') final  double price;
+@override@JsonKey(name: 'date') final  DateTime? date;
 
 /// Create a copy of UpdateProductPriceReqModel
 /// with the given fields replaced by the non-null parameter values.
@@ -229,16 +231,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateProductPriceReqModel&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.price, price) || other.price == price));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateProductPriceReqModel&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.price, price) || other.price == price)&&(identical(other.date, date) || other.date == date));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,productId,price);
+int get hashCode => Object.hash(runtimeType,productId,price,date);
 
 @override
 String toString() {
-  return 'UpdateProductPriceReqModel(productId: $productId, price: $price)';
+  return 'UpdateProductPriceReqModel(productId: $productId, price: $price, date: $date)';
 }
 
 
@@ -249,7 +251,7 @@ abstract mixin class _$UpdateProductPriceReqModelCopyWith<$Res> implements $Upda
   factory _$UpdateProductPriceReqModelCopyWith(_UpdateProductPriceReqModel value, $Res Function(_UpdateProductPriceReqModel) _then) = __$UpdateProductPriceReqModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'product_id') int productId,@JsonKey(name: 'price') double price
+@JsonKey(name: 'product_id') int productId,@JsonKey(name: 'price') double price,@JsonKey(name: 'date') DateTime? date
 });
 
 
@@ -266,11 +268,12 @@ class __$UpdateProductPriceReqModelCopyWithImpl<$Res>
 
 /// Create a copy of UpdateProductPriceReqModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? productId = null,Object? price = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? productId = null,Object? price = null,Object? date = freezed,}) {
   return _then(_UpdateProductPriceReqModel(
 productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
 as int,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
-as double,
+as double,date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 

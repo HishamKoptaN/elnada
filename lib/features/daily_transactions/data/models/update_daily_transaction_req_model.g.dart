@@ -13,6 +13,7 @@ _UpdateDailyTransactionReqModel _$UpdateDailyTransactionReqModelFromJson(
   weight: (json['weight'] as num).toDouble(),
   cage: (json['cage'] as num).toInt(),
   discount: (json['discount'] as num).toDouble(),
+  date: json['date'] == null ? null : DateTime.parse(json['date'] as String),
 );
 
 Map<String, dynamic> _$UpdateDailyTransactionReqModelToJson(
@@ -22,4 +23,5 @@ Map<String, dynamic> _$UpdateDailyTransactionReqModelToJson(
   'weight': instance.weight,
   'cage': instance.cage,
   'discount': instance.discount,
+  'date': instance.date?.toIso8601String(),
 };

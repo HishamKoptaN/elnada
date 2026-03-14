@@ -1,9 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:upgrader/upgrader.dart';
-import '../../config/env_config.dart';
 import '../../features/customers/present/bloc/customers_bloc.dart';
 import '../../features/daily_collections/present/bloc/daily_collections_bloc.dart';
 import '../../features/daily_orders/present/bloc/daily_orders_bloc.dart';
@@ -13,8 +10,6 @@ import '../../features/return_products/present/bloc/return_products_bloc.dart';
 import '../config/app_config.dart';
 import '../di/dependency_injection.dart';
 import '../routing/app_router.dart';
-import 'global_variable.dart';
-import 'package:version/version.dart';
 
 class TahaApp extends StatelessWidget {
   const TahaApp({super.key});
@@ -47,65 +42,18 @@ class TahaApp extends StatelessWidget {
             routerConfig: AppRouter.create(),
             builder: (context, child) {
               final mediaQueryData = MediaQuery.of(context);
-              return UpgradeAlert(
-                dialogStyle: UpgradeDialogStyle.cupertino,
-                onIgnore: () {
-                  return true;
-                },
-                onLater: () {
-                  return true;
-                },
-                onUpdate: () {
-                  return true;
-                },
-                shouldPopScope: () {
-                  return true;
-                },
-                showPrompt: true,
-                showIgnore: false,
-                showLater: false,
-                showReleaseNotes: true,
-                cupertinoButtonTextStyle: const TextStyle(fontSize: 7.5),
-                upgrader: Upgrader(
-                  storeController: UpgraderStoreController(
-                    onAndroid: () {
-                      return UpgraderAppcastStore(
-                        appcastURL:
-                            'https://raw.githubusercontent.com/HishamKoptaN/elnada/${EnvConfig.config.envName}/android_appcast.xml',
-                        osVersion: Version.parse('1.0.0'),
-                      );
-                    },
-                    onWindows: () {
-                      return UpgraderAppcastStore(
-                        appcastURL:
-                            'https://raw.githubusercontent.com/HishamKoptaN/elnada/${EnvConfig.config.envName}/desktop_appcast.xml',
-                        osVersion: Version.parse('10.0.0'),
-                      );
-                    },
-                  ),
-                  messages: CustomMessages(),
-                  durationUntilAlertAgain: kReleaseMode
-                      ? const Duration(hours: 1)
-                      : const Duration(seconds: 5000),
-                  languageCode: 'ar',
-                  debugLogging: true,
-                  // debugDisplayAlways: true,
+              return MediaQuery(
+                data: mediaQueryData.copyWith(
+                  textScaler: TextScaler.linear(getTextScaler(width: width)),
                 ),
-                barrierDismissible: false,
-                navigatorKey: GlobalVariable.navState,
-                child: MediaQuery(
-                  data: mediaQueryData.copyWith(
-                    textScaler: TextScaler.linear(getTextScaler(width: width)),
-                  ),
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: SafeArea(
-                      top: true,
-                      bottom: true,
-                      left: true,
-                      right: true,
-                      child: child!,
-                    ),
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: SafeArea(
+                    top: true,
+                    bottom: true,
+                    left: true,
+                    right: true,
+                    child: child!,
                   ),
                 ),
               );
@@ -125,18 +73,4 @@ double getTextScaler({required double width}) {
   } else {
     return 2.5;
   }
-}
-
-class CustomMessages extends UpgraderMessages {
-  @override
-  String get title => 'تحديث جديد';
-
-  @override
-  String get body => '';
-
-  @override
-  String get prompt => '';
-
-  @override
-  String get releaseNotes => '';
 }

@@ -9,12 +9,14 @@ class UpdateDailyTransactionReqEntity {
     required this.weight,
     required this.cage,
     required this.discount,
+    this.date,
   });
   final GenericFormzInput<int> customerId;
   final GenericFormzInput<int> productId;
   final GenericFormzInput<String> weight;
   final GenericFormzInput<String> cage;
   final GenericFormzInput<String> discount;
+  final DateTime? date;
 
   UpdateDailyTransactionReqEntity copyWith({
     GenericFormzInput<int>? customerId,
@@ -22,6 +24,7 @@ class UpdateDailyTransactionReqEntity {
     GenericFormzInput<String>? weight,
     GenericFormzInput<String>? cage,
     GenericFormzInput<String>? discount,
+    DateTime? date,
   }) {
     return UpdateDailyTransactionReqEntity(
       customerId: customerId ?? this.customerId,
@@ -29,6 +32,7 @@ class UpdateDailyTransactionReqEntity {
       weight: weight ?? this.weight,
       cage: cage ?? this.cage,
       discount: discount ?? this.discount,
+      date: date ?? this.date,
     );
   }
 

@@ -15,6 +15,7 @@ extension CreateDailyTransactionReqEntityMapper
       weight: double.tryParse(weight?.value ?? "0") ?? 0.0,
       cage: int.tryParse(cage?.value ?? "0") ?? 0,
       discount: int.tryParse(discount?.value ?? "0") ?? 0,
+      date: date,
     );
   }
 }
@@ -27,6 +28,7 @@ extension UpdateDailyTransactionReqEntityMapper
       weight: double.tryParse(weight.value ?? "0") ?? 0.0,
       cage: int.tryParse(cage.value ?? "0") ?? 0,
       discount: double.tryParse(discount.value ?? "0") ?? 0.0,
+      date: date,
     );
   }
 }

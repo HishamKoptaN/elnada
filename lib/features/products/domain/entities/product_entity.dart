@@ -3,17 +3,24 @@ import 'package:form_inputs/form_inputs.dart';
 import '../../../customers/domain/entities/customer_daily_reports_res_entity.dart';
 
 class UpdateProductPriceReqEntity {
-  UpdateProductPriceReqEntity({required this.productId, required this.price});
+  UpdateProductPriceReqEntity({
+    required this.productId,
+    required this.price,
+    this.date,
+  });
   final GenericFormzInput<int> productId;
   final GenericFormzInput<String> price;
+  final DateTime? date;
 
   UpdateProductPriceReqEntity copyWith({
     GenericFormzInput<int>? productId,
     GenericFormzInput<String>? price,
+    DateTime? date,
   }) {
     return UpdateProductPriceReqEntity(
       productId: productId ?? this.productId,
       price: price ?? this.price,
+      date: date ?? this.date,
     );
   }
 

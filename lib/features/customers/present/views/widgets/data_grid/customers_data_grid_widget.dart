@@ -12,9 +12,11 @@ class CustomersDataGridWidget extends StatelessWidget {
     super.key,
     required this.state,
     required this.employeeDataSource,
+    required this.canInsertPreviusDayData,
   });
   final CustomersState state;
   final DailyCustomerReportsDataSource employeeDataSource;
+  final bool canInsertPreviusDayData;
   @override
   Widget build(BuildContext context) {
     final bool isDesktop =
@@ -26,22 +28,25 @@ class CustomersDataGridWidget extends StatelessWidget {
     return state.maybeMap(
       loaded: (state) {
         return Expanded(
-        child: SfDataGrid(
-          headerRowHeight: 55.h,
-          columnWidthMode: ColumnWidthMode.fill,
-          rowHeight: 70.h,
-          source: employeeDataSource,
-          columnWidthCalculationRange: ColumnWidthCalculationRange.allRows,
-          onCellTap: (details) => _handleCellTap(
-            details: details,
-            state: state,
-            selectedDate: state.selectedDate,
-            isDesktop: isDesktop,
-            context: context,
+          child: SfDataGrid(
+            headerRowHeight: 55.h,
+            columnWidthMode: ColumnWidthMode.fill,
+            rowHeight: 70.h,
+            source: employeeDataSource,
+            columnWidthCalculationRange: ColumnWidthCalculationRange.allRows,
+            onCellTap: (details) {
+              _handleCellTap(
+                details: details,
+                state: state,
+                selectedDate: state.selectedDate,
+                isDesktop: isDesktop,
+                context: context,
+                canInsertPreviusDayData: canInsertPreviusDayData,
+              );
+            },
+            columns: _buildColumns(isDesktop: isDesktop),
           ),
-          columns: _buildColumns(isDesktop: isDesktop),
-        ),
-      );
+        );
       },
       orElse: () =>
           const Expanded(child: Center(child: CircularProgressIndicator())),
@@ -52,6 +57,7 @@ class CustomersDataGridWidget extends StatelessWidget {
     required DataGridCellTapDetails details,
     required CustomersState state,
     required DateTime selectedDate,
+    required bool canInsertPreviusDayData,
     required bool isDesktop,
     required BuildContext context,
   }) {
@@ -71,6 +77,7 @@ class CustomersDataGridWidget extends StatelessWidget {
           context: context,
           customer: customerReport.customer ?? const CustomerEntity(),
           selectedDate: selectedDate,
+          canInsertPreviusDayData: canInsertPreviusDayData,
           dailyReportId: customerReport.id ?? 0,
           index: originalIndex,
         );

@@ -17,9 +17,11 @@ class PricesWidget extends StatelessWidget {
     super.key,
     required this.prices,
     required this.selectedDate,
+    required this.canInsertPreviusDayData,
   });
   final List<ProductPriceEntity> prices;
   final DateTime selectedDate;
+  final bool canInsertPreviusDayData;
   @override
   Widget build(BuildContext context) {
     if (prices.isEmpty) {
@@ -32,7 +34,11 @@ class PricesWidget extends StatelessWidget {
           return Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 1.w),
-              child: _buildPriceCard(context: context, productPrice: item),
+              child: _buildPriceCard(
+                context: context,
+                productPrice: item,
+                canInsertPreviusDayData: canInsertPreviusDayData,
+              ),
             ),
           );
         }).toList(),
@@ -43,10 +49,11 @@ class PricesWidget extends StatelessWidget {
   Widget _buildPriceCard({
     required BuildContext context,
     required ProductPriceEntity productPrice,
+    required bool canInsertPreviusDayData,
   }) {
     return GestureDetector(
       onTap: () {
-        if (selectedDate.isToday) {
+        if (canInsertPreviusDayData) {
           _showEditPriceDialog(context: context, productPrice: productPrice);
         }
       },
@@ -97,9 +104,6 @@ class PricesWidget extends StatelessWidget {
     required BuildContext context,
     required ProductPriceEntity productPrice,
   }) {
-    final TextEditingController priceController = TextEditingController(
-      text: productPrice.productDailyprice?.price?.toString() ?? '',
-    );
     getIt<ProductsBloc>().add(
       ProductsEvent.dataChanged(
         updateProductPriceReq: UpdateProductPriceReqEntity(
@@ -107,6 +111,9 @@ class PricesWidget extends StatelessWidget {
           price: GenericFormzInput.dirty(
             productPrice.productDailyprice?.price?.toString() ?? '',
           ),
+          date: !selectedDate.isToday && canInsertPreviusDayData
+              ? selectedDate
+              : null,
         ),
       ),
     );
@@ -141,7 +148,9 @@ class PricesWidget extends StatelessWidget {
                         'تعديل سعر ${productPrice.product?.name ?? ''}',
                       ),
                       content: TextFormField(
-                        controller: priceController,
+                        initialValue:
+                            productPrice.productDailyprice?.price?.toString() ??
+                            '',
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
@@ -154,12 +163,7 @@ class PricesWidget extends StatelessWidget {
                           getIt<ProductsBloc>().add(
                             ProductsEvent.dataChanged(
                               updateProductPriceReq: state.updateProductPriceReq
-                                  .copyWith(
-                                    productId: GenericFormzInput.dirty(
-                                      productPrice.product?.id ?? 0,
-                                    ),
-                                    price: GenericFormzInput.dirty(v),
-                                  ),
+                                  .copyWith(price: GenericFormzInput.dirty(v)),
                             ),
                           );
                         },

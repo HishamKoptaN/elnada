@@ -14,8 +14,6 @@ part 'products_state.dart';
 
 @singleton
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
-  final ProductsUseCases productsUseCases;
-  final CustomersBloc customersBloc;
   ProductsBloc(this.productsUseCases, this.customersBloc)
     : super(const ProductsState.initial()) {
     on<ProductsEvent>((event, emit) async {
@@ -38,7 +36,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
                 success: (res) async {
                   customersBloc.add(
                     CustomersEvent.priceChanged(
-                      productPrice: res ?? ProductDailyPriceEntity(),
+                      productPrice: res ?? const ProductDailyPriceEntity(),
                     ),
                   );
                   emit(const ProductsState.success());
@@ -57,6 +55,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       );
     });
   }
+  final ProductsUseCases productsUseCases;
+  final CustomersBloc customersBloc;
   void emitFaliure({
     required Emitter<ProductsState> emit,
     required ApiErrorModel apiErrorModel,

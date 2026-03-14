@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
+import '../../../../../../../core/utils/date_helpers.dart';
 import '../../../../../../daily_transactions/domain/entities/create_daily_transaction_req_entity.dart';
 import '../../../../../../daily_transactions/present/bloc/daily_transactions_bloc.dart';
 import '../../../../../domain/entities/customer_daily_reports_res_entity.dart';
@@ -14,6 +15,8 @@ class WeightDialog {
     required BuildContext context,
     required CustomerEntity customer,
     required int productId,
+    required DateTime selectedDate,
+    required bool canInsertPreviusDayData,
     required String title,
   }) {
     showDialog(
@@ -24,6 +27,9 @@ class WeightDialog {
             createDailyTransactionReq: CreateDailyTransactionReqEntity(
               customerId: GenericFormzInput.dirty(customer.id),
               productId: GenericFormzInput.dirty(productId),
+              date: !selectedDate.isToday && canInsertPreviusDayData
+                  ? selectedDate
+                  : null,
             ),
           ),
         );
@@ -81,7 +87,7 @@ class WeightDialog {
                         decoration: InputDecoration(
                           labelText: 'الوزن',
                           labelStyle: TextStyle(fontSize: 16.sp),
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                         ),
                       ),
                       TextFormField(
@@ -93,10 +99,10 @@ class WeightDialog {
                               .toString(),
                           orElse: () => '',
                         ),
-                          decoration: InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'عدد الاقفاص',
                           labelStyle: TextStyle(fontSize: 16.sp),
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                         ),
                         keyboardType: TextInputType.number,
                         inputFormatters: [
@@ -113,7 +119,6 @@ class WeightDialog {
                             ),
                           );
                         },
-                      
                       ),
                       SizedBox(height: 16.h),
                     ],
@@ -127,7 +132,7 @@ class WeightDialog {
                       onPressed: isValid
                           ? () {
                               getIt<DailyTransactionsBloc>().add(
-                                DailyTransactionsEvent.create(),
+                                const DailyTransactionsEvent.create(),
                               );
                             }
                           : null,
@@ -135,7 +140,9 @@ class WeightDialog {
                         backgroundColor: WidgetStatePropertyAll(
                           isValid ? Colors.green : Colors.grey,
                         ),
-                        foregroundColor: WidgetStatePropertyAll(Colors.white),
+                        foregroundColor: const WidgetStatePropertyAll(
+                          Colors.white,
+                        ),
                       ),
                       child: Text('إضافة', style: TextStyle(fontSize: 16.sp)),
                     ),

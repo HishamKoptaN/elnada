@@ -6,6 +6,7 @@ extension UpdateProductPriceReqEntityMapper on UpdateProductPriceReqEntity {
     return UpdateProductPriceReqModel(
       productId: productId.value ?? 0,
       price: double.parse(price.value ?? "0"),
+      date: date,
     );
   }
 }

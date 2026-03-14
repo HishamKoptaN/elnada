@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CustomersResEntity {
 
- List<ProductPriceEntity>? get productDailyPrices; List<CustomerDailyReportEntity>? get customerDailyReports;
+ bool? get canInsertPreviusDayData; List<ProductPriceEntity>? get productDailyPrices; List<CustomerDailyReportEntity>? get customerDailyReports;
 /// Create a copy of CustomersResEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $CustomersResEntityCopyWith<CustomersResEntity> get copyWith => _$CustomersResEn
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CustomersResEntity&&const DeepCollectionEquality().equals(other.productDailyPrices, productDailyPrices)&&const DeepCollectionEquality().equals(other.customerDailyReports, customerDailyReports));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CustomersResEntity&&(identical(other.canInsertPreviusDayData, canInsertPreviusDayData) || other.canInsertPreviusDayData == canInsertPreviusDayData)&&const DeepCollectionEquality().equals(other.productDailyPrices, productDailyPrices)&&const DeepCollectionEquality().equals(other.customerDailyReports, customerDailyReports));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(productDailyPrices),const DeepCollectionEquality().hash(customerDailyReports));
+int get hashCode => Object.hash(runtimeType,canInsertPreviusDayData,const DeepCollectionEquality().hash(productDailyPrices),const DeepCollectionEquality().hash(customerDailyReports));
 
 @override
 String toString() {
-  return 'CustomersResEntity(productDailyPrices: $productDailyPrices, customerDailyReports: $customerDailyReports)';
+  return 'CustomersResEntity(canInsertPreviusDayData: $canInsertPreviusDayData, productDailyPrices: $productDailyPrices, customerDailyReports: $customerDailyReports)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $CustomersResEntityCopyWith<$Res>  {
   factory $CustomersResEntityCopyWith(CustomersResEntity value, $Res Function(CustomersResEntity) _then) = _$CustomersResEntityCopyWithImpl;
 @useResult
 $Res call({
- List<ProductPriceEntity>? productDailyPrices, List<CustomerDailyReportEntity>? customerDailyReports
+ bool? canInsertPreviusDayData, List<ProductPriceEntity>? productDailyPrices, List<CustomerDailyReportEntity>? customerDailyReports
 });
 
 
@@ -65,9 +65,10 @@ class _$CustomersResEntityCopyWithImpl<$Res>
 
 /// Create a copy of CustomersResEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? productDailyPrices = freezed,Object? customerDailyReports = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? canInsertPreviusDayData = freezed,Object? productDailyPrices = freezed,Object? customerDailyReports = freezed,}) {
   return _then(_self.copyWith(
-productDailyPrices: freezed == productDailyPrices ? _self.productDailyPrices : productDailyPrices // ignore: cast_nullable_to_non_nullable
+canInsertPreviusDayData: freezed == canInsertPreviusDayData ? _self.canInsertPreviusDayData : canInsertPreviusDayData // ignore: cast_nullable_to_non_nullable
+as bool?,productDailyPrices: freezed == productDailyPrices ? _self.productDailyPrices : productDailyPrices // ignore: cast_nullable_to_non_nullable
 as List<ProductPriceEntity>?,customerDailyReports: freezed == customerDailyReports ? _self.customerDailyReports : customerDailyReports // ignore: cast_nullable_to_non_nullable
 as List<CustomerDailyReportEntity>?,
   ));
@@ -154,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<ProductPriceEntity>? productDailyPrices,  List<CustomerDailyReportEntity>? customerDailyReports)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool? canInsertPreviusDayData,  List<ProductPriceEntity>? productDailyPrices,  List<CustomerDailyReportEntity>? customerDailyReports)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CustomersResEntity() when $default != null:
-return $default(_that.productDailyPrices,_that.customerDailyReports);case _:
+return $default(_that.canInsertPreviusDayData,_that.productDailyPrices,_that.customerDailyReports);case _:
   return orElse();
 
 }
@@ -175,10 +176,10 @@ return $default(_that.productDailyPrices,_that.customerDailyReports);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<ProductPriceEntity>? productDailyPrices,  List<CustomerDailyReportEntity>? customerDailyReports)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool? canInsertPreviusDayData,  List<ProductPriceEntity>? productDailyPrices,  List<CustomerDailyReportEntity>? customerDailyReports)  $default,) {final _that = this;
 switch (_that) {
 case _CustomersResEntity():
-return $default(_that.productDailyPrices,_that.customerDailyReports);case _:
+return $default(_that.canInsertPreviusDayData,_that.productDailyPrices,_that.customerDailyReports);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +196,10 @@ return $default(_that.productDailyPrices,_that.customerDailyReports);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<ProductPriceEntity>? productDailyPrices,  List<CustomerDailyReportEntity>? customerDailyReports)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool? canInsertPreviusDayData,  List<ProductPriceEntity>? productDailyPrices,  List<CustomerDailyReportEntity>? customerDailyReports)?  $default,) {final _that = this;
 switch (_that) {
 case _CustomersResEntity() when $default != null:
-return $default(_that.productDailyPrices,_that.customerDailyReports);case _:
+return $default(_that.canInsertPreviusDayData,_that.productDailyPrices,_that.customerDailyReports);case _:
   return null;
 
 }
@@ -210,9 +211,10 @@ return $default(_that.productDailyPrices,_that.customerDailyReports);case _:
 @JsonSerializable()
 
 class _CustomersResEntity implements CustomersResEntity {
-  const _CustomersResEntity({final  List<ProductPriceEntity>? productDailyPrices, final  List<CustomerDailyReportEntity>? customerDailyReports}): _productDailyPrices = productDailyPrices,_customerDailyReports = customerDailyReports;
+  const _CustomersResEntity({this.canInsertPreviusDayData, final  List<ProductPriceEntity>? productDailyPrices, final  List<CustomerDailyReportEntity>? customerDailyReports}): _productDailyPrices = productDailyPrices,_customerDailyReports = customerDailyReports;
   factory _CustomersResEntity.fromJson(Map<String, dynamic> json) => _$CustomersResEntityFromJson(json);
 
+@override final  bool? canInsertPreviusDayData;
  final  List<ProductPriceEntity>? _productDailyPrices;
 @override List<ProductPriceEntity>? get productDailyPrices {
   final value = _productDailyPrices;
@@ -245,16 +247,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CustomersResEntity&&const DeepCollectionEquality().equals(other._productDailyPrices, _productDailyPrices)&&const DeepCollectionEquality().equals(other._customerDailyReports, _customerDailyReports));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CustomersResEntity&&(identical(other.canInsertPreviusDayData, canInsertPreviusDayData) || other.canInsertPreviusDayData == canInsertPreviusDayData)&&const DeepCollectionEquality().equals(other._productDailyPrices, _productDailyPrices)&&const DeepCollectionEquality().equals(other._customerDailyReports, _customerDailyReports));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_productDailyPrices),const DeepCollectionEquality().hash(_customerDailyReports));
+int get hashCode => Object.hash(runtimeType,canInsertPreviusDayData,const DeepCollectionEquality().hash(_productDailyPrices),const DeepCollectionEquality().hash(_customerDailyReports));
 
 @override
 String toString() {
-  return 'CustomersResEntity(productDailyPrices: $productDailyPrices, customerDailyReports: $customerDailyReports)';
+  return 'CustomersResEntity(canInsertPreviusDayData: $canInsertPreviusDayData, productDailyPrices: $productDailyPrices, customerDailyReports: $customerDailyReports)';
 }
 
 
@@ -265,7 +267,7 @@ abstract mixin class _$CustomersResEntityCopyWith<$Res> implements $CustomersRes
   factory _$CustomersResEntityCopyWith(_CustomersResEntity value, $Res Function(_CustomersResEntity) _then) = __$CustomersResEntityCopyWithImpl;
 @override @useResult
 $Res call({
- List<ProductPriceEntity>? productDailyPrices, List<CustomerDailyReportEntity>? customerDailyReports
+ bool? canInsertPreviusDayData, List<ProductPriceEntity>? productDailyPrices, List<CustomerDailyReportEntity>? customerDailyReports
 });
 
 
@@ -282,9 +284,10 @@ class __$CustomersResEntityCopyWithImpl<$Res>
 
 /// Create a copy of CustomersResEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? productDailyPrices = freezed,Object? customerDailyReports = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? canInsertPreviusDayData = freezed,Object? productDailyPrices = freezed,Object? customerDailyReports = freezed,}) {
   return _then(_CustomersResEntity(
-productDailyPrices: freezed == productDailyPrices ? _self._productDailyPrices : productDailyPrices // ignore: cast_nullable_to_non_nullable
+canInsertPreviusDayData: freezed == canInsertPreviusDayData ? _self.canInsertPreviusDayData : canInsertPreviusDayData // ignore: cast_nullable_to_non_nullable
+as bool?,productDailyPrices: freezed == productDailyPrices ? _self._productDailyPrices : productDailyPrices // ignore: cast_nullable_to_non_nullable
 as List<ProductPriceEntity>?,customerDailyReports: freezed == customerDailyReports ? _self._customerDailyReports : customerDailyReports // ignore: cast_nullable_to_non_nullable
 as List<CustomerDailyReportEntity>?,
   ));

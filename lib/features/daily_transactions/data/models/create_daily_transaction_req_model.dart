@@ -11,6 +11,7 @@ abstract class CreateDailyTransactionReqModel
     @JsonKey(name: 'weight') required double weight,
     @JsonKey(name: 'cage') required int cage,
     @JsonKey(name: 'discount') int? discount,
+    @JsonKey(name: 'date') DateTime? date,
   }) = _CreateDailyTransactionReqModel;
   factory CreateDailyTransactionReqModel.fromJson(Map<String, Object?> json) =>
       _$CreateDailyTransactionReqModelFromJson(json);

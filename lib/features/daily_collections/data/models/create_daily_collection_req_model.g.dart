@@ -11,6 +11,7 @@ _CreateDailyCollectionReqModel _$CreateDailyCollectionReqModelFromJson(
 ) => _CreateDailyCollectionReqModel(
   customerId: (json['customer_id'] as num).toInt(),
   amount: (json['amount'] as num).toInt(),
+  date: json['date'] == null ? null : DateTime.parse(json['date'] as String),
 );
 
 Map<String, dynamic> _$CreateDailyCollectionReqModelToJson(
@@ -18,4 +19,5 @@ Map<String, dynamic> _$CreateDailyCollectionReqModelToJson(
 ) => <String, dynamic>{
   'customer_id': instance.customerId,
   'amount': instance.amount,
+  'date': instance.date?.toIso8601String(),
 };

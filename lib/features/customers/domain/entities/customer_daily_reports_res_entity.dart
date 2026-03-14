@@ -6,6 +6,7 @@ part 'customer_daily_reports_res_entity.g.dart';
 @freezed
 abstract class CustomersResEntity with _$CustomersResEntity {
   const factory CustomersResEntity({
+    bool? canInsertPreviusDayData,
     List<ProductPriceEntity>? productDailyPrices,
     List<CustomerDailyReportEntity>? customerDailyReports,
   }) = _CustomersResEntity;

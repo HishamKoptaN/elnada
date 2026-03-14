@@ -6,17 +6,21 @@ class UpdateDailyCollectionReqEntity {
   UpdateDailyCollectionReqEntity({
     required this.customerId,
     required this.amount,
+    required this.date,
   });
   final GenericFormzInput<int> customerId;
   final GenericFormzInput<String> amount;
+  final GenericFormzInput<String> date;
 
   UpdateDailyCollectionReqEntity copyWith({
     GenericFormzInput<int>? customerId,
     GenericFormzInput<String>? amount,
+    GenericFormzInput<String>? date,
   }) {
     return UpdateDailyCollectionReqEntity(
       customerId: customerId ?? this.customerId,
       amount: amount ?? this.amount,
+      date: date ?? this.date,
     );
   }
 

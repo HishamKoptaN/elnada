@@ -6,6 +6,7 @@ part 'customer_daily_reports_res_model.g.dart';
 abstract class CustomerDailyReportsResModel
     with _$CustomerDailyReportsResModel {
   const factory CustomerDailyReportsResModel({
+    @JsonKey(name: 'can_insert_previus_day_data') bool? canInsertPreviusDayData,
     @JsonKey(name: 'product_daily_prices')
     List<ProductPriceModel>? productDailyPrices,
     @JsonKey(name: 'customer_daily_reports')

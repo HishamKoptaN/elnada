@@ -8,6 +8,7 @@ part of 'customer_daily_reports_res_entity.dart';
 
 _CustomersResEntity _$CustomersResEntityFromJson(Map<String, dynamic> json) =>
     _CustomersResEntity(
+      canInsertPreviusDayData: json['canInsertPreviusDayData'] as bool?,
       productDailyPrices: (json['productDailyPrices'] as List<dynamic>?)
           ?.map((e) => ProductPriceEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -21,6 +22,7 @@ _CustomersResEntity _$CustomersResEntityFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$CustomersResEntityToJson(_CustomersResEntity instance) =>
     <String, dynamic>{
+      'canInsertPreviusDayData': instance.canInsertPreviusDayData,
       'productDailyPrices': instance.productDailyPrices,
       'customerDailyReports': instance.customerDailyReports,
     };

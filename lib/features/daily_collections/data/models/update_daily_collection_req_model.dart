@@ -8,6 +8,7 @@ abstract class UpdateDailyCollectionReqModel
   const factory UpdateDailyCollectionReqModel({
     @JsonKey(name: 'customer_id') required int customerId,
     @JsonKey(name: 'amount') required int amount,
+    @JsonKey(name: 'date') required String date,
   }) = _UpdateDailyCollectionReqModel;
   factory UpdateDailyCollectionReqModel.fromJson(Map<String, Object?> json) =>
       _$UpdateDailyCollectionReqModelFromJson(json);

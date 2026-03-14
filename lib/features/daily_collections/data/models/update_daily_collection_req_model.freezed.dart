@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UpdateDailyCollectionReqModel {
 
-@JsonKey(name: 'customer_id') int get customerId;@JsonKey(name: 'amount') int get amount;
+@JsonKey(name: 'customer_id') int get customerId;@JsonKey(name: 'amount') int get amount;@JsonKey(name: 'date') String get date;
 /// Create a copy of UpdateDailyCollectionReqModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $UpdateDailyCollectionReqModelCopyWith<UpdateDailyCollectionReqModel> get copyWi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateDailyCollectionReqModel&&(identical(other.customerId, customerId) || other.customerId == customerId)&&(identical(other.amount, amount) || other.amount == amount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateDailyCollectionReqModel&&(identical(other.customerId, customerId) || other.customerId == customerId)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.date, date) || other.date == date));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,customerId,amount);
+int get hashCode => Object.hash(runtimeType,customerId,amount,date);
 
 @override
 String toString() {
-  return 'UpdateDailyCollectionReqModel(customerId: $customerId, amount: $amount)';
+  return 'UpdateDailyCollectionReqModel(customerId: $customerId, amount: $amount, date: $date)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $UpdateDailyCollectionReqModelCopyWith<$Res>  {
   factory $UpdateDailyCollectionReqModelCopyWith(UpdateDailyCollectionReqModel value, $Res Function(UpdateDailyCollectionReqModel) _then) = _$UpdateDailyCollectionReqModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'customer_id') int customerId,@JsonKey(name: 'amount') int amount
+@JsonKey(name: 'customer_id') int customerId,@JsonKey(name: 'amount') int amount,@JsonKey(name: 'date') String date
 });
 
 
@@ -65,11 +65,12 @@ class _$UpdateDailyCollectionReqModelCopyWithImpl<$Res>
 
 /// Create a copy of UpdateDailyCollectionReqModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? customerId = null,Object? amount = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? customerId = null,Object? amount = null,Object? date = null,}) {
   return _then(_self.copyWith(
 customerId: null == customerId ? _self.customerId : customerId // ignore: cast_nullable_to_non_nullable
 as int,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
-as int,
+as int,date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
@@ -154,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'customer_id')  int customerId, @JsonKey(name: 'amount')  int amount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'customer_id')  int customerId, @JsonKey(name: 'amount')  int amount, @JsonKey(name: 'date')  String date)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UpdateDailyCollectionReqModel() when $default != null:
-return $default(_that.customerId,_that.amount);case _:
+return $default(_that.customerId,_that.amount,_that.date);case _:
   return orElse();
 
 }
@@ -175,10 +176,10 @@ return $default(_that.customerId,_that.amount);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'customer_id')  int customerId, @JsonKey(name: 'amount')  int amount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'customer_id')  int customerId, @JsonKey(name: 'amount')  int amount, @JsonKey(name: 'date')  String date)  $default,) {final _that = this;
 switch (_that) {
 case _UpdateDailyCollectionReqModel():
-return $default(_that.customerId,_that.amount);case _:
+return $default(_that.customerId,_that.amount,_that.date);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +196,10 @@ return $default(_that.customerId,_that.amount);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'customer_id')  int customerId, @JsonKey(name: 'amount')  int amount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'customer_id')  int customerId, @JsonKey(name: 'amount')  int amount, @JsonKey(name: 'date')  String date)?  $default,) {final _that = this;
 switch (_that) {
 case _UpdateDailyCollectionReqModel() when $default != null:
-return $default(_that.customerId,_that.amount);case _:
+return $default(_that.customerId,_that.amount,_that.date);case _:
   return null;
 
 }
@@ -210,11 +211,12 @@ return $default(_that.customerId,_that.amount);case _:
 @JsonSerializable()
 
 class _UpdateDailyCollectionReqModel implements UpdateDailyCollectionReqModel {
-  const _UpdateDailyCollectionReqModel({@JsonKey(name: 'customer_id') required this.customerId, @JsonKey(name: 'amount') required this.amount});
+  const _UpdateDailyCollectionReqModel({@JsonKey(name: 'customer_id') required this.customerId, @JsonKey(name: 'amount') required this.amount, @JsonKey(name: 'date') required this.date});
   factory _UpdateDailyCollectionReqModel.fromJson(Map<String, dynamic> json) => _$UpdateDailyCollectionReqModelFromJson(json);
 
 @override@JsonKey(name: 'customer_id') final  int customerId;
 @override@JsonKey(name: 'amount') final  int amount;
+@override@JsonKey(name: 'date') final  String date;
 
 /// Create a copy of UpdateDailyCollectionReqModel
 /// with the given fields replaced by the non-null parameter values.
@@ -229,16 +231,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateDailyCollectionReqModel&&(identical(other.customerId, customerId) || other.customerId == customerId)&&(identical(other.amount, amount) || other.amount == amount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateDailyCollectionReqModel&&(identical(other.customerId, customerId) || other.customerId == customerId)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.date, date) || other.date == date));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,customerId,amount);
+int get hashCode => Object.hash(runtimeType,customerId,amount,date);
 
 @override
 String toString() {
-  return 'UpdateDailyCollectionReqModel(customerId: $customerId, amount: $amount)';
+  return 'UpdateDailyCollectionReqModel(customerId: $customerId, amount: $amount, date: $date)';
 }
 
 
@@ -249,7 +251,7 @@ abstract mixin class _$UpdateDailyCollectionReqModelCopyWith<$Res> implements $U
   factory _$UpdateDailyCollectionReqModelCopyWith(_UpdateDailyCollectionReqModel value, $Res Function(_UpdateDailyCollectionReqModel) _then) = __$UpdateDailyCollectionReqModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'customer_id') int customerId,@JsonKey(name: 'amount') int amount
+@JsonKey(name: 'customer_id') int customerId,@JsonKey(name: 'amount') int amount,@JsonKey(name: 'date') String date
 });
 
 
@@ -266,11 +268,12 @@ class __$UpdateDailyCollectionReqModelCopyWithImpl<$Res>
 
 /// Create a copy of UpdateDailyCollectionReqModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? customerId = null,Object? amount = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? customerId = null,Object? amount = null,Object? date = null,}) {
   return _then(_UpdateDailyCollectionReqModel(
 customerId: null == customerId ? _self.customerId : customerId // ignore: cast_nullable_to_non_nullable
 as int,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
-as int,
+as int,date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

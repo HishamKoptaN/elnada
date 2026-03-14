@@ -66,10 +66,20 @@ class _CustomersViewState extends State<CustomersView> {
                   selectedDate:
                       state.mapOrNull(loaded: (s) => s.selectedDate) ??
                       DateTime.now(),
+                  canInsertPreviusDayData:
+                      state.mapOrNull(
+                        loaded: (s) => s.customersRes.canInsertPreviusDayData,
+                      ) ??
+                      false,
                 ),
                 CustomersDataGridWidget(
                   state: state,
                   employeeDataSource: _employeeDataSource,
+                  canInsertPreviusDayData:
+                      state.mapOrNull(
+                        loaded: (s) => s.customersRes.canInsertPreviusDayData,
+                      ) ??
+                      false,
                 ),
               ],
             ),

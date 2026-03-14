@@ -11,7 +11,6 @@ import 'core/app_initializer.dart';
 import 'core/app_observer.dart';
 import 'core/di/dependency_injection.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:upgrader/upgrader.dart';
 import 'package:universal_io/io.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
@@ -19,7 +18,6 @@ import 'package:path_provider/path_provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initLogging();
-  await Upgrader.clearSavedSettings();
   setupAutoUpdater();
   try {
     await AppInitializer.initialize();
@@ -60,9 +58,7 @@ Future<void> initLogging() async {
       );
     };
     debugPrint('🚀 نظام السجلات جاهز. المسار: ${file.path}');
-  } catch (e) {
-    print('❌ فشل تهيئة نظام السجلات: $e');
-  }
+  } catch (e) {}
 }
 
 void _handleError({
@@ -84,7 +80,6 @@ void _handleError({
 
 void setupAutoUpdater() async {
   if (!Platform.isWindows) return;
-
   String feedURL =
       'https://raw.githubusercontent.com/HishamKoptaN/elnada/${EnvConfig.config.envName}/desktop_appcast.xml';
   await autoUpdater.setFeedURL(feedURL);

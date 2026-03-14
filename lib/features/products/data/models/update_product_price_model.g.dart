@@ -11,6 +11,7 @@ _UpdateProductPriceReqModel _$UpdateProductPriceReqModelFromJson(
 ) => _UpdateProductPriceReqModel(
   productId: (json['product_id'] as num).toInt(),
   price: (json['price'] as num).toDouble(),
+  date: json['date'] == null ? null : DateTime.parse(json['date'] as String),
 );
 
 Map<String, dynamic> _$UpdateProductPriceReqModelToJson(
@@ -18,4 +19,5 @@ Map<String, dynamic> _$UpdateProductPriceReqModelToJson(
 ) => <String, dynamic>{
   'product_id': instance.productId,
   'price': instance.price,
+  'date': instance.date?.toIso8601String(),
 };

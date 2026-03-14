@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UpdateDailyTransactionReqModel {
 
-@JsonKey(name: 'customer_id') int get customerId;@JsonKey(name: 'weight') double get weight;@JsonKey(name: 'cage') int get cage;@JsonKey(name: 'discount') double get discount;
+@JsonKey(name: 'customer_id') int get customerId;@JsonKey(name: 'weight') double get weight;@JsonKey(name: 'cage') int get cage;@JsonKey(name: 'discount') double get discount;@JsonKey(name: 'date') DateTime? get date;
 /// Create a copy of UpdateDailyTransactionReqModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $UpdateDailyTransactionReqModelCopyWith<UpdateDailyTransactionReqModel> get copy
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateDailyTransactionReqModel&&(identical(other.customerId, customerId) || other.customerId == customerId)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.cage, cage) || other.cage == cage)&&(identical(other.discount, discount) || other.discount == discount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateDailyTransactionReqModel&&(identical(other.customerId, customerId) || other.customerId == customerId)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.cage, cage) || other.cage == cage)&&(identical(other.discount, discount) || other.discount == discount)&&(identical(other.date, date) || other.date == date));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,customerId,weight,cage,discount);
+int get hashCode => Object.hash(runtimeType,customerId,weight,cage,discount,date);
 
 @override
 String toString() {
-  return 'UpdateDailyTransactionReqModel(customerId: $customerId, weight: $weight, cage: $cage, discount: $discount)';
+  return 'UpdateDailyTransactionReqModel(customerId: $customerId, weight: $weight, cage: $cage, discount: $discount, date: $date)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $UpdateDailyTransactionReqModelCopyWith<$Res>  {
   factory $UpdateDailyTransactionReqModelCopyWith(UpdateDailyTransactionReqModel value, $Res Function(UpdateDailyTransactionReqModel) _then) = _$UpdateDailyTransactionReqModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'customer_id') int customerId,@JsonKey(name: 'weight') double weight,@JsonKey(name: 'cage') int cage,@JsonKey(name: 'discount') double discount
+@JsonKey(name: 'customer_id') int customerId,@JsonKey(name: 'weight') double weight,@JsonKey(name: 'cage') int cage,@JsonKey(name: 'discount') double discount,@JsonKey(name: 'date') DateTime? date
 });
 
 
@@ -65,13 +65,14 @@ class _$UpdateDailyTransactionReqModelCopyWithImpl<$Res>
 
 /// Create a copy of UpdateDailyTransactionReqModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? customerId = null,Object? weight = null,Object? cage = null,Object? discount = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? customerId = null,Object? weight = null,Object? cage = null,Object? discount = null,Object? date = freezed,}) {
   return _then(_self.copyWith(
 customerId: null == customerId ? _self.customerId : customerId // ignore: cast_nullable_to_non_nullable
 as int,weight: null == weight ? _self.weight : weight // ignore: cast_nullable_to_non_nullable
 as double,cage: null == cage ? _self.cage : cage // ignore: cast_nullable_to_non_nullable
 as int,discount: null == discount ? _self.discount : discount // ignore: cast_nullable_to_non_nullable
-as double,
+as double,date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 
@@ -156,10 +157,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'customer_id')  int customerId, @JsonKey(name: 'weight')  double weight, @JsonKey(name: 'cage')  int cage, @JsonKey(name: 'discount')  double discount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'customer_id')  int customerId, @JsonKey(name: 'weight')  double weight, @JsonKey(name: 'cage')  int cage, @JsonKey(name: 'discount')  double discount, @JsonKey(name: 'date')  DateTime? date)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UpdateDailyTransactionReqModel() when $default != null:
-return $default(_that.customerId,_that.weight,_that.cage,_that.discount);case _:
+return $default(_that.customerId,_that.weight,_that.cage,_that.discount,_that.date);case _:
   return orElse();
 
 }
@@ -177,10 +178,10 @@ return $default(_that.customerId,_that.weight,_that.cage,_that.discount);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'customer_id')  int customerId, @JsonKey(name: 'weight')  double weight, @JsonKey(name: 'cage')  int cage, @JsonKey(name: 'discount')  double discount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'customer_id')  int customerId, @JsonKey(name: 'weight')  double weight, @JsonKey(name: 'cage')  int cage, @JsonKey(name: 'discount')  double discount, @JsonKey(name: 'date')  DateTime? date)  $default,) {final _that = this;
 switch (_that) {
 case _UpdateDailyTransactionReqModel():
-return $default(_that.customerId,_that.weight,_that.cage,_that.discount);case _:
+return $default(_that.customerId,_that.weight,_that.cage,_that.discount,_that.date);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -197,10 +198,10 @@ return $default(_that.customerId,_that.weight,_that.cage,_that.discount);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'customer_id')  int customerId, @JsonKey(name: 'weight')  double weight, @JsonKey(name: 'cage')  int cage, @JsonKey(name: 'discount')  double discount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'customer_id')  int customerId, @JsonKey(name: 'weight')  double weight, @JsonKey(name: 'cage')  int cage, @JsonKey(name: 'discount')  double discount, @JsonKey(name: 'date')  DateTime? date)?  $default,) {final _that = this;
 switch (_that) {
 case _UpdateDailyTransactionReqModel() when $default != null:
-return $default(_that.customerId,_that.weight,_that.cage,_that.discount);case _:
+return $default(_that.customerId,_that.weight,_that.cage,_that.discount,_that.date);case _:
   return null;
 
 }
@@ -212,13 +213,14 @@ return $default(_that.customerId,_that.weight,_that.cage,_that.discount);case _:
 @JsonSerializable()
 
 class _UpdateDailyTransactionReqModel implements UpdateDailyTransactionReqModel {
-  const _UpdateDailyTransactionReqModel({@JsonKey(name: 'customer_id') required this.customerId, @JsonKey(name: 'weight') required this.weight, @JsonKey(name: 'cage') required this.cage, @JsonKey(name: 'discount') required this.discount});
+  const _UpdateDailyTransactionReqModel({@JsonKey(name: 'customer_id') required this.customerId, @JsonKey(name: 'weight') required this.weight, @JsonKey(name: 'cage') required this.cage, @JsonKey(name: 'discount') required this.discount, @JsonKey(name: 'date') required this.date});
   factory _UpdateDailyTransactionReqModel.fromJson(Map<String, dynamic> json) => _$UpdateDailyTransactionReqModelFromJson(json);
 
 @override@JsonKey(name: 'customer_id') final  int customerId;
 @override@JsonKey(name: 'weight') final  double weight;
 @override@JsonKey(name: 'cage') final  int cage;
 @override@JsonKey(name: 'discount') final  double discount;
+@override@JsonKey(name: 'date') final  DateTime? date;
 
 /// Create a copy of UpdateDailyTransactionReqModel
 /// with the given fields replaced by the non-null parameter values.
@@ -233,16 +235,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateDailyTransactionReqModel&&(identical(other.customerId, customerId) || other.customerId == customerId)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.cage, cage) || other.cage == cage)&&(identical(other.discount, discount) || other.discount == discount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateDailyTransactionReqModel&&(identical(other.customerId, customerId) || other.customerId == customerId)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.cage, cage) || other.cage == cage)&&(identical(other.discount, discount) || other.discount == discount)&&(identical(other.date, date) || other.date == date));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,customerId,weight,cage,discount);
+int get hashCode => Object.hash(runtimeType,customerId,weight,cage,discount,date);
 
 @override
 String toString() {
-  return 'UpdateDailyTransactionReqModel(customerId: $customerId, weight: $weight, cage: $cage, discount: $discount)';
+  return 'UpdateDailyTransactionReqModel(customerId: $customerId, weight: $weight, cage: $cage, discount: $discount, date: $date)';
 }
 
 
@@ -253,7 +255,7 @@ abstract mixin class _$UpdateDailyTransactionReqModelCopyWith<$Res> implements $
   factory _$UpdateDailyTransactionReqModelCopyWith(_UpdateDailyTransactionReqModel value, $Res Function(_UpdateDailyTransactionReqModel) _then) = __$UpdateDailyTransactionReqModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'customer_id') int customerId,@JsonKey(name: 'weight') double weight,@JsonKey(name: 'cage') int cage,@JsonKey(name: 'discount') double discount
+@JsonKey(name: 'customer_id') int customerId,@JsonKey(name: 'weight') double weight,@JsonKey(name: 'cage') int cage,@JsonKey(name: 'discount') double discount,@JsonKey(name: 'date') DateTime? date
 });
 
 
@@ -270,13 +272,14 @@ class __$UpdateDailyTransactionReqModelCopyWithImpl<$Res>
 
 /// Create a copy of UpdateDailyTransactionReqModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? customerId = null,Object? weight = null,Object? cage = null,Object? discount = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? customerId = null,Object? weight = null,Object? cage = null,Object? discount = null,Object? date = freezed,}) {
   return _then(_UpdateDailyTransactionReqModel(
 customerId: null == customerId ? _self.customerId : customerId // ignore: cast_nullable_to_non_nullable
 as int,weight: null == weight ? _self.weight : weight // ignore: cast_nullable_to_non_nullable
 as double,cage: null == cage ? _self.cage : cage // ignore: cast_nullable_to_non_nullable
 as int,discount: null == discount ? _self.discount : discount // ignore: cast_nullable_to_non_nullable
-as double,
+as double,date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 

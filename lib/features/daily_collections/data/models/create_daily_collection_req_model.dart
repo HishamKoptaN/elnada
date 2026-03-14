@@ -8,6 +8,7 @@ abstract class CreateDailyCollectionReqModel
   const factory CreateDailyCollectionReqModel({
     @JsonKey(name: 'customer_id') required int customerId,
     @JsonKey(name: 'amount') required int amount,
+    @JsonKey(name: 'date') DateTime? date,
   }) = _CreateDailyCollectionReqModel;
   factory CreateDailyCollectionReqModel.fromJson(Map<String, Object?> json) =>
       _$CreateDailyCollectionReqModelFromJson(json);

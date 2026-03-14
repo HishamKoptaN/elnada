@@ -26,8 +26,9 @@ extension CreateDailyCollectionReqEntityMapper
     on CreateDailyCollectionReqEntity {
   CreateDailyCollectionReqModel toModel() {
     return CreateDailyCollectionReqModel(
-      customerId: this.customerId.value ?? 0,
+      customerId: customerId.value ?? 0,
       amount: int.parse(amount.value ?? "0"),
+      date: date,
     );
   }
 }
@@ -36,8 +37,9 @@ extension UpdateDailyCollectionReqEntityMapper
     on UpdateDailyCollectionReqEntity {
   UpdateDailyCollectionReqModel toModel() {
     return UpdateDailyCollectionReqModel(
-      customerId: this.customerId.value ?? 0,
-      amount: int.parse(amount.value ?? ""),
+      customerId: customerId.value ?? 0,
+      amount: int.parse(amount.value ?? "0"),
+      date: date.value ?? "",
     );
   }
 }

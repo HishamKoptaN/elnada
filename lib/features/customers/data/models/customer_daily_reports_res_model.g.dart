@@ -9,6 +9,7 @@ part of 'customer_daily_reports_res_model.dart';
 _CustomerDailyReportsResModel _$CustomerDailyReportsResModelFromJson(
   Map<String, dynamic> json,
 ) => _CustomerDailyReportsResModel(
+  canInsertPreviusDayData: json['can_insert_previus_day_data'] as bool?,
   productDailyPrices: (json['product_daily_prices'] as List<dynamic>?)
       ?.map((e) => ProductPriceModel.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -20,6 +21,7 @@ _CustomerDailyReportsResModel _$CustomerDailyReportsResModelFromJson(
 Map<String, dynamic> _$CustomerDailyReportsResModelToJson(
   _CustomerDailyReportsResModel instance,
 ) => <String, dynamic>{
+  'can_insert_previus_day_data': instance.canInsertPreviusDayData,
   'product_daily_prices': instance.productDailyPrices,
   'customer_daily_reports': instance.customerDailyReports,
 };

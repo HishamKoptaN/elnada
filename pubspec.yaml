@@ -1,12 +1,11 @@
 name: abujena_dawajen
 description: "abujena dawajen"
 publish_to: 'none'
-version: 3.0.0+1
+version: 3.0.0+2
 environment:
   sdk: ^3.11.0
 dependencies:
   talker_flutter: ^5.1.15
-  upgrader: ^12.5.0
   syncfusion_flutter_datagrid: ^32.2.7  
   shorebird_code_push: ^2.0.5
   retrofit: ^4.9.0

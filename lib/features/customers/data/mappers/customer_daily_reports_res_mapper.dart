@@ -5,6 +5,7 @@ import '../models/customer_daily_reports_res_model.dart';
 extension CustomerDailyReportsResMapper on CustomerDailyReportsResModel {
   CustomersResEntity toEntity() {
     return CustomersResEntity(
+      canInsertPreviusDayData: canInsertPreviusDayData ?? false,
       productDailyPrices:
           productDailyPrices?.map((e) => e.toEntity()).toList() ?? [],
       customerDailyReports:
