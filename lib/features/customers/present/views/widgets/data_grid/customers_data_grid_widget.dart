@@ -24,7 +24,8 @@ class CustomersDataGridWidget extends StatelessWidget {
         devices.DeviceType.desktop;
 
     return state.maybeMap(
-      loaded: (state) => Expanded(
+      loaded: (state) {
+        return Expanded(
         child: SfDataGrid(
           headerRowHeight: 55.h,
           columnWidthMode: ColumnWidthMode.fill,
@@ -40,7 +41,8 @@ class CustomersDataGridWidget extends StatelessWidget {
           ),
           columns: _buildColumns(isDesktop: isDesktop),
         ),
-      ),
+      );
+      },
       orElse: () =>
           const Expanded(child: Center(child: CircularProgressIndicator())),
     );

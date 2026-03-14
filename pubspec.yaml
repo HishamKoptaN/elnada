@@ -39,7 +39,6 @@ dependencies:
   auto_updater: ^1.0.0
   flutter:
     sdk: flutter
-  firebase_core: ^4.5.0
   version: ^3.0.2
 dev_dependencies:
   msix: ^3.16.13
@@ -77,11 +76,15 @@ scripts:
 msix_config:
   display_name: AbuJena Dawajen 
   publisher_display_name: AbuJena Dawajen
-  identity_name: com.abujena.dawajen
+  identity_name: com.AbuJena.dawajen
   publisher: "CN=AbuJenaDawajen, O=AbujenaDawajen, C=EG"
   certificate_path: certificate.pfx
+  certificate_password: "1632001"
+  capabilities: internetClient
   install_certificate: false
   msix_version: 1.0.0.0
   logo_path: assets/logos/logo.jpg
-  capabilities: internetClient, location, microphone, webcam
+  vclibs: true
   build_windows: false
+  architecture: x64
+
