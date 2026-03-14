@@ -19,15 +19,6 @@
       "attachToExistingApp": false,
       "showDebuggerOnStart": true
     },
-    /* ================= PROD ================= */
-    {
-      "name": "Flutter Prod (Android)",
-      "type": "dart",
-      "request": "launch",
-      "program": "lib/main.dart",
-      "flutterMode": "release",
-      "args": ["--flavor", "prod", "--dart-define=ENV=prod"]
-    },
     /* ================= DESKTOP DEV ================= */
     {
       "name": "Flutter Dev (Desktop)",
@@ -40,17 +31,5 @@
       ],
       "deviceId": "windows" 
     },
-    /* ================= DESKTOP PROD ================= */
-    {
-      "name": "Flutter Prod (Desktop)",
-      "type": "dart",
-      "request": "launch",
-      "program": "lib/main.dart",
-      "flutterMode": "release",
-      "args": [
-        "--dart-define=ENV=prod"
-      ],
-      "deviceId": "windows"
-    }
   ]
 }
