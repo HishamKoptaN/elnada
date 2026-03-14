@@ -84,5 +84,5 @@ void setupAutoUpdater() async {
       'https://raw.githubusercontent.com/HishamKoptaN/elnada/${EnvConfig.config.envName}/desktop_appcast.xml';
   await autoUpdater.setFeedURL(feedURL);
   await autoUpdater.setScheduledCheckInterval(3600);
-  await autoUpdater.checkForUpdates();
+  await autoUpdater.checkForUpdates(inBackground: true);
 }
