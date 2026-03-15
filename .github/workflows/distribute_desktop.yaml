@@ -49,14 +49,12 @@ jobs:
             - name: Update Latest Release
               uses: softprops/action-gh-release@v2
               with:
-                  # لا ننشئ tag جديد، نستخدم الموجود
                   tag_name: latest
                   name: "Latest (${{ github.ref_name }})"
                   body: "تم تحديث هذا الإصدار تلقائياً بناءً على آخر كود. فرع: ${{ github.ref_name }}"
                   files: installers/${{ env.FINAL_FILE_NAME }}
                   make_latest: true
                   prerelease: ${{ github.ref_name == 'dev' }}
-                  # منع إنشاء tag جديد
                   draft: false
                   generate_release_notes: false
               env:

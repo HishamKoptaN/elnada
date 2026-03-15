@@ -99,7 +99,7 @@ class _CustomersViewState extends State<CustomersView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('تحديث متاح'),
+          title: const Text('تحديث متاح'),
           content: Text(
             'يتوفر إصدار جديد: $_updateStatus\n\nهل تريد تحميل التحديث الآن؟',
           ),
@@ -108,14 +108,14 @@ class _CustomersViewState extends State<CustomersView> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('لاحقاً'),
+              child: const Text('لاحقاً'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
                 _startDownload();
               },
-              child: Text('تحديث'),
+              child: const Text('تحديث'),
             ),
           ],
         );
@@ -128,25 +128,20 @@ class _CustomersViewState extends State<CustomersView> {
       setState(() {
         _updateStatus = '⬇️ جاري تحميل التحديث...';
       });
-
-      // بدء التحقق من التحديثات باستخدام auto_updater
       await autoUpdater.checkForUpdates();
-
-      // إظهار رسالة للمستخدم
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('جاري تحميل التحديث في الخلفية...'),
           duration: Duration(seconds: 2),
         ),
       );
     } catch (e) {
       setState(() {
-        _updateStatus = '❌ فشل بدء التحديث: ${e.toString()}';
+        _updateStatus = '❌ فشل بدء التحديث';
       });
-
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('فشل بدء التحديث: ${e.toString()}'),
+        const SnackBar(
+          content: Text('فشل بدء التحديث'),
           backgroundColor: Colors.red,
         ),
       );

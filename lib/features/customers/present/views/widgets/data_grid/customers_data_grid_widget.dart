@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import '../../../../../../core/utils/devices_utiles.dart' as devices;
@@ -8,7 +10,7 @@ import '../customer_details_dialog/customer_details_dialog.dart';
 import 'daily_customer_reports_data_source.dart';
 
 class CustomersDataGridWidget extends StatelessWidget {
-  const CustomersDataGridWidget({
+  CustomersDataGridWidget({
     super.key,
     required this.state,
     required this.employeeDataSource,
@@ -17,6 +19,7 @@ class CustomersDataGridWidget extends StatelessWidget {
   final CustomersState state;
   final DailyCustomerReportsDataSource employeeDataSource;
   final bool canInsertPreviusDayData;
+  final DataGridController _dataGridController = DataGridController();
   @override
   Widget build(BuildContext context) {
     final bool isDesktop =
@@ -27,29 +30,98 @@ class CustomersDataGridWidget extends StatelessWidget {
     return state.maybeMap(
       loaded: (state) {
         return Expanded(
-          child: SfDataGrid(
-            headerRowHeight: 55.h,
-            columnWidthMode: ColumnWidthMode.fill,
-            rowHeight: 70.h,
-            source: employeeDataSource,
-            columnWidthCalculationRange: ColumnWidthCalculationRange.allRows,
-            onCellTap: (details) {
-              _handleCellTap(
-                details: details,
-                state: state,
-                selectedDate: state.selectedDate,
-                isDesktop: isDesktop,
-                context: context,
-                canInsertPreviusDayData: canInsertPreviusDayData,
-              );
+          child: KeyboardListener(
+            autofocus: true,
+            focusNode: FocusNode(),
+            onKeyEvent: (KeyEvent event) {
+              if (event is KeyDownEvent &&
+                  event.logicalKey == LogicalKeyboardKey.enter) {
+                final RowColumnIndex currentCell =
+                    _dataGridController.currentCell;
+
+                if (currentCell.rowIndex > 0) {
+                  final details = DataGridCellTapDetails(
+                    rowColumnIndex: currentCell,
+                    column: _buildColumns(
+                      isDesktop: isDesktop,
+                    )[currentCell.columnIndex],
+                    kind: PointerDeviceKind.unknown,
+                    globalPosition: Offset.zero,
+                    localPosition: Offset.zero,
+                  );
+                  _handleCellTap(
+                    details: details,
+                    state: state,
+                    selectedDate: state.selectedDate,
+                    isDesktop: isDesktop,
+                    context: context,
+                    canInsertPreviusDayData: canInsertPreviusDayData,
+                  );
+                }
+              }
             },
-            columns: _buildColumns(isDesktop: isDesktop),
+            child: SfDataGrid(
+              controller: _dataGridController,
+              headerRowHeight: 55.h,
+              columnWidthMode: ColumnWidthMode.fill,
+              navigationMode: GridNavigationMode.cell,
+              selectionMode: SelectionMode.single,
+              rowHeight: 70.h,
+              source: employeeDataSource,
+              columnWidthCalculationRange: ColumnWidthCalculationRange.allRows,
+              onCurrentCellActivated:
+                  (currentRowColumnIndex, prevRowColumnIndex) {
+                    debugPrint(
+                      'الخلية الحالية: ${currentRowColumnIndex.rowIndex}',
+                    );
+                  },
+              onCellTap: (details) {
+                _handleCellTap(
+                  details: details,
+                  state: state,
+                  selectedDate: state.selectedDate,
+                  isDesktop: isDesktop,
+                  context: context,
+                  canInsertPreviusDayData: canInsertPreviusDayData,
+                );
+              },
+              columns: _buildColumns(isDesktop: isDesktop),
+            ),
           ),
         );
       },
       orElse: () =>
           const Expanded(child: Center(child: CircularProgressIndicator())),
     );
+  }
+
+  void _handleEnterKey(
+    BuildContext context,
+    int rowIndex,
+    bool isDesktop,
+    CustomersState state,
+  ) {
+    // نقوم باستدعاء CustomerDetailsDialog.show مباشرة
+    // باستخدام rowIndex الذي حصلنا عليه من _dataGridController
+    final customerReport = state.maybeMap(
+      loaded: (loadedState) =>
+          loadedState.customersRes.customerDailyReports?[rowIndex],
+      orElse: () => null,
+    );
+
+    if (customerReport != null) {
+      CustomerDetailsDialog.show(
+        context: context,
+        customer: customerReport.customer ?? const CustomerEntity(),
+        selectedDate: state.maybeMap(
+          loaded: (s) => s.selectedDate,
+          orElse: () => DateTime.now(),
+        ),
+        canInsertPreviusDayData: canInsertPreviusDayData,
+        dailyReportId: customerReport.id ?? 0,
+        index: 0, // يمكنك تحديد العمود الافتراضي هنا
+      );
+    }
   }
 
   void _handleCellTap({

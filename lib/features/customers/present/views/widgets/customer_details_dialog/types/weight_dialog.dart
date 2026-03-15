@@ -19,9 +19,13 @@ class WeightDialog {
     required bool canInsertPreviusDayData,
     required String title,
   }) {
+    final FocusNode weightFocus = FocusNode();
+    final FocusNode cageFocus = FocusNode();
+    final FocusNode buttonFocus = FocusNode();
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        Future.delayed(Duration.zero, () => weightFocus.requestFocus());
         getIt<DailyTransactionsBloc>().add(
           DailyTransactionsEvent.dataChanged(
             createDailyTransactionReq: CreateDailyTransactionReqEntity(
@@ -64,6 +68,7 @@ class WeightDialog {
                       ),
                       SizedBox(height: 16.h),
                       TextFormField(
+                        focusNode: weightFocus,
                         initialValue: state.maybeMap(
                           loaded: (s) => s
                               .createDailyTransactionReq
@@ -94,8 +99,10 @@ class WeightDialog {
                           labelStyle: TextStyle(fontSize: 16.sp),
                           border: const OutlineInputBorder(),
                         ),
+                        onFieldSubmitted: (_) => cageFocus.requestFocus(),
                       ),
                       TextFormField(
+                        focusNode: cageFocus,
                         initialValue: state.maybeMap(
                           loaded: (s) => s
                               .createDailyTransactionReq
@@ -124,6 +131,7 @@ class WeightDialog {
                             ),
                           );
                         },
+                        onFieldSubmitted: (_) => buttonFocus.requestFocus(),
                       ),
                       SizedBox(height: 16.h),
                     ],
@@ -134,6 +142,7 @@ class WeightDialog {
                       child: Text('إلغاء', style: TextStyle(fontSize: 16.sp)),
                     ),
                     ElevatedButton(
+                      focusNode: buttonFocus,
                       onPressed: isValid
                           ? () {
                               getIt<DailyTransactionsBloc>().add(

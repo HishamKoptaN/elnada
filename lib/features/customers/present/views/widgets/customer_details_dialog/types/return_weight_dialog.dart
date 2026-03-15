@@ -16,9 +16,12 @@ class ReturnWeightDialog {
     required int productId,
     required String title,
   }) {
+    final FocusNode weightFocus = FocusNode();
+    final FocusNode buttonFocus = FocusNode();
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        Future.delayed(Duration.zero, () => weightFocus.requestFocus());
         getIt<ReturnProductsBloc>().add(
           ReturnProductsEvent.dataChanged(
             returnProductWeightReq: ReturnProductWeightReqEntity(
@@ -55,6 +58,7 @@ class ReturnWeightDialog {
                       ),
                       SizedBox(height: 16.h),
                       TextFormField(
+                        focusNode: weightFocus,
                         initialValue: state.maybeMap(
                           loaded: (s) =>
                               s.returnProductWeightReq.weight?.value.toString(),
@@ -86,6 +90,7 @@ class ReturnWeightDialog {
                           labelStyle: TextStyle(fontSize: 16.sp),
                           border: const OutlineInputBorder(),
                         ),
+                        onFieldSubmitted: (_) => buttonFocus.requestFocus(),
                       ),
                       SizedBox(height: 16.h),
                     ],
@@ -96,6 +101,7 @@ class ReturnWeightDialog {
                       child: Text('إلغاء', style: TextStyle(fontSize: 16.sp)),
                     ),
                     ElevatedButton(
+                      focusNode: buttonFocus,
                       onPressed: isValid
                           ? () {
                               getIt<ReturnProductsBloc>().add(
@@ -107,7 +113,7 @@ class ReturnWeightDialog {
                         backgroundColor: WidgetStatePropertyAll(
                           isValid ? Colors.green : Colors.grey,
                         ),
-                        foregroundColor: const WidgetStatePropertyAll(
+                        foregroundColor: WidgetStatePropertyAll(
                           Colors.white,
                         ),
                       ),
