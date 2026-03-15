@@ -5,6 +5,7 @@ import 'package:shorebird_code_push/shorebird_code_push.dart';
 import 'package:auto_updater/auto_updater.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart';
+import '../../../../config/env_config.dart';
 import '../../../../core/di/dependency_injection.dart';
 import '../bloc/customers_bloc.dart';
 import 'widgets/prices_widget.dart';
@@ -32,10 +33,9 @@ class _CustomersViewState extends State<CustomersView> {
     getIt<CustomersBloc>().add(
       CustomersEvent.getCustomers(date: DateTime.now()),
     );
-    updater.readCurrentPatch().then(
-      (currentPatch) =>
-          print('The current patch number is: ${currentPatch?.number}'),
-    );
+    updater.readCurrentPatch().then((currentPatch) {
+      print('The current patch number is: ${currentPatch?.number}');
+    });
     _checkForUpdates();
     _setupAutoUpdater();
   }
@@ -47,11 +47,8 @@ class _CustomersViewState extends State<CustomersView> {
   Future<void> _setupAutoUpdater() async {
     try {
       await autoUpdater.setFeedURL(
-        'https://raw.githubusercontent.com/HishamKoptaN/elnada/refs/heads/dev/desktop_appcast.xml',
+        'https://raw.githubusercontent.com/HishamKoptaN/elnada/refs/heads/${EnvConfig.config.envName}/desktop_appcast.xml',
       );
-
-      // لا نستخدم listeners لأنها غير مدعومة في هذه المكتبة
-      // سنقوم بالتحقق يدوياً في _checkForUpdates
     } catch (e) {
       debugPrint('Error setting up auto updater: $e');
     }
@@ -62,7 +59,7 @@ class _CustomersViewState extends State<CustomersView> {
       final currentVersion = await getVersion();
       final response = await http.get(
         Uri.parse(
-          'https://raw.githubusercontent.com/HishamKoptaN/elnada/refs/heads/dev/desktop_appcast.xml',
+          'https://raw.githubusercontent.com/HishamKoptaN/elnada/refs/heads/${EnvConfig.config.envName}/desktop_appcast.xml',
         ),
       );
 
@@ -118,7 +115,7 @@ class _CustomersViewState extends State<CustomersView> {
                 Navigator.of(context).pop();
                 _startDownload();
               },
-              child: Text('تحميل'),
+              child: Text('تحديث'),
             ),
           ],
         );

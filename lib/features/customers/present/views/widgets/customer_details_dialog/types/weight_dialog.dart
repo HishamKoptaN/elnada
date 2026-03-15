@@ -57,7 +57,10 @@ class WeightDialog {
                     children: [
                       Text(
                         customer.name ?? '',
-                        style: TextStyle(fontSize: 16.sp),
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       SizedBox(height: 16.h),
                       TextFormField(

@@ -11,13 +11,11 @@ jobs:
         steps:
             - uses: actions/checkout@v4
               with:
-                  fetch-depth: 0 # مهم جداً لسحب التاريخ وتجنب مشاكل الـ push
-
+                  fetch-depth: 0
             - uses: subosito/flutter-action@v2
               with:
                   channel: stable
                   cache: true
-
             - id: get_version
               shell: pwsh
               run: |
@@ -25,7 +23,6 @@ jobs:
                   $fullVersion = ($line -split " ")[1].Trim()
                   # نستخدم النسخة الكاملة (مثلاً 1.0.0+1) لضمان تمييز التحديثات
                   echo "FULL_VERSION=$fullVersion" >> $env:GITHUB_OUTPUT
-
             - name: Update Version in ISS
               shell: pwsh
               run: |
@@ -33,16 +30,13 @@ jobs:
                   $content = Get-Content $issPath -Raw
                   $newContent = $content -replace "APP_VERSION_PLACEHOLDER", "${{ steps.get_version.outputs.FULL_VERSION }}"
                   [System.IO.File]::WriteAllText((Get-Item $issPath).FullName, $newContent)
-
             - run: flutter config --enable-windows-desktop
             - run: flutter pub get
             - run: flutter build windows --release --dart-define=ENV=${{ github.ref_name }}
-
             - name: Compile Inno Setup
               shell: pwsh
               run: |
                   & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" ./installers/abujena_setup.iss
-
             - id: prepare_assets
               shell: pwsh
               run: |
@@ -55,12 +49,16 @@ jobs:
             - name: Update Latest Release
               uses: softprops/action-gh-release@v2
               with:
+                  # لا ننشئ tag جديد، نستخدم الموجود
                   tag_name: latest
                   name: "Latest (${{ github.ref_name }})"
                   body: "تم تحديث هذا الإصدار تلقائياً بناءً على آخر كود. فرع: ${{ github.ref_name }}"
                   files: installers/${{ env.FINAL_FILE_NAME }}
                   make_latest: true
                   prerelease: ${{ github.ref_name == 'dev' }}
+                  # منع إنشاء tag جديد
+                  draft: false
+                  generate_release_notes: false
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

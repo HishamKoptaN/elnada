@@ -85,4 +85,4 @@ void setupAutoUpdater() async {
   );
   await autoUpdater.setScheduledCheckInterval(3600);
 }
- // https://raw.githubusercontent.com/HishamKoptaN/elnada/${EnvConfig.config.envName}/desktop_appcast.xml
+ // https://raw.githubusercontent.com/HishamKoptaN/elnada//desktop_appcast.xml
