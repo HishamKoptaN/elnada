@@ -39,6 +39,7 @@ dependencies:
   flutter:
     sdk: flutter
   version: ^3.0.2
+  package_info_plus: ^9.0.0
 dev_dependencies:
   msix: ^3.16.13
   retrofit_generator: ^10.0.1
