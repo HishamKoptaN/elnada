@@ -4,80 +4,90 @@ on:
         branches: [prod, dev]
 permissions:
     contents: write
+
 jobs:
     build_desktop:
         runs-on: windows-latest
-        environment: ${{ github.ref_name }}
         steps:
             - uses: actions/checkout@v4
               with:
-                  fetch-depth: 1
+                  fetch-depth: 0 # مهم جداً لسحب التاريخ وتجنب مشاكل الـ push
+
             - uses: subosito/flutter-action@v2
               with:
                   channel: stable
                   cache: true
+
             - id: get_version
               shell: pwsh
               run: |
                   $line = Get-Content pubspec.yaml | Select-String "^version: "
                   $fullVersion = ($line -split " ")[1].Trim()
-                  $pureVersion = ($fullVersion -split "\+")[0]
-                  echo "FULL_VERSION=$pureVersion" >> $env:GITHUB_OUTPUT
-            - shell: pwsh
+                  # نستخدم النسخة الكاملة (مثلاً 1.0.0+1) لضمان تمييز التحديثات
+                  echo "FULL_VERSION=$fullVersion" >> $env:GITHUB_OUTPUT
+
+            - name: Update Version in ISS
+              shell: pwsh
               run: |
                   $issPath = "installers/abujena_setup.iss"
                   $content = Get-Content $issPath -Raw
                   $newContent = $content -replace "APP_VERSION_PLACEHOLDER", "${{ steps.get_version.outputs.FULL_VERSION }}"
                   [System.IO.File]::WriteAllText((Get-Item $issPath).FullName, $newContent)
+
             - run: flutter config --enable-windows-desktop
             - run: flutter pub get
             - run: flutter build windows --release --dart-define=ENV=${{ github.ref_name }}
+
             - name: Compile Inno Setup
               shell: pwsh
               run: |
                   & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" ./installers/abujena_setup.iss
+
             - id: prepare_assets
               shell: pwsh
               run: |
+                  # سنثبت اسم الملف ليكون دائماً نفس الاسم لسهولة الاستبدال
+                  $newName = "abujena_setup_latest.exe"
                   $setupFile = Get-ChildItem "installers/*.exe" | Select-Object -First 1
-                  if ("${{ github.ref_name }}" -eq "dev") {
-                      $newName = "abujena_dawajen_dev.exe"
-                      Rename-Item -Path $setupFile.FullName -NewName $newName
-                      $fileName = $newName
-                  } else {
-                      $newName = "abujena_dawajen.exe"
-                      Rename-Item -Path $setupFile.FullName -NewName $newName
-                      $fileName = $newName
-                  }
-                  echo "FINAL_FILE_NAME=$fileName" >> $env:GITHUB_ENV
-                  echo "FILE_PATH=installers/$fileName" >> $env:GITHUB_ENV
-            - name: Create/Update Latest Release
+                  Rename-Item -Path $setupFile.FullName -NewName $newName
+                  echo "FINAL_FILE_NAME=$newName" >> $env:GITHUB_ENV
+
+            - name: Update Latest Release
               uses: softprops/action-gh-release@v2
               with:
                   tag_name: latest
-                  name: Latest Release
-                  body: "أحدث إصدار من برنامج أبو جينة للدواجن - نسخة ${{ github.ref_name }}"
+                  name: "Latest Release (${{ github.ref_name }})"
+                  body: "تم تحديث هذا الإصدار تلقائياً بناءً على آخر كود. فرع: ${{ github.ref_name }}"
                   files: installers/${{ env.FINAL_FILE_NAME }}
                   make_latest: true
+                  prerelease: ${{ github.ref_name == 'dev' }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - name: Update Appcast XML
+
+            - name: Update Appcast XML & Push
               shell: pwsh
               run: |
                   $version = "${{ steps.get_version.outputs.FULL_VERSION }}"
                   $fileName = "${{ env.FINAL_FILE_NAME }}"
-                  $url = "https://github.com/${{ github.repository }}/releases/latest/download/$fileName"
+                  $url = "https://github.com/${{ github.repository }}/releases/download/latest/$fileName"
                   $xmlPath = "desktop_appcast.xml"
+
                   if (Test-Path $xmlPath) {
                       $content = Get-Content $xmlPath -Raw
+                      # تحديث الإصدار والرابط
                       $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""$version"""
                       $content = $content -replace 'url="[^"]*"', "url=""$url"""
                       [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
+                      
+                      # إعدادات Git
                       git config --global user.name "github-actions[bot]"
                       git config --global user.email "github-actions[bot]@users.noreply.github.com"
+                      
+                      # التعامل مع تعارضات الـ Push
                       git add $xmlPath
-                      git commit -m "chore: update appcast to $version [skip ci]"
-                      # Pull latest changes before pushing to avoid conflicts
+                      git commit -m "chore: sync appcast to $version [skip ci]" || echo "No changes to commit"
+                      
+                      # المحاولة المتكررة للدفع في حال وجود تحديثات أخرى
                       git pull origin ${{ github.ref_name }} --rebase
                       git push origin ${{ github.ref_name }}
                   }
