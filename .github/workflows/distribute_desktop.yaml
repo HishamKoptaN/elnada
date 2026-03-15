@@ -2,9 +2,10 @@ name: Distribute Desktop
 on:
     push:
         branches: [prod, dev]
+
 permissions:
     contents: write
-    packages: write
+
 jobs:
     build_desktop:
         runs-on: windows-latest
@@ -13,10 +14,6 @@ jobs:
             - uses: actions/checkout@v4
               with:
                   fetch-depth: 1
-            - uses: actions/cache@v3
-              with:
-                  path: C:\Users\runneradmin\AppData\Local\Flutter\.pub-cache
-                  key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
             - uses: subosito/flutter-action@v2
               with:
                   channel: stable
@@ -26,102 +23,56 @@ jobs:
               run: |
                   $line = Get-Content pubspec.yaml | Select-String "^version: "
                   $fullVersion = ($line -split " ")[1].Trim()
-                  echo "FULL_VERSION=$fullVersion" >> $env:GITHUB_OUTPUT
+                  $pureVersion = ($fullVersion -split "\+")[0]
+                  echo "FULL_VERSION=$pureVersion" >> $env:GITHUB_OUTPUT
             - run: flutter config --enable-windows-desktop
             - run: flutter pub get
             - run: flutter build windows --release --dart-define=ENV=${{ github.ref_name }}
-            - shell: pwsh
+            - name: Compile Inno Setup
+              shell: pwsh
               run: |
-                  $certBytes = [System.Convert]::FromBase64String("${{ secrets.BASE64_CERTIFICATE }}")
-                  [System.IO.File]::WriteAllBytes("certificate.pfx", $certBytes)
-            - run: dart run msix:create --certificate-path certificate.pfx --certificate-password ${{ secrets.CERTIFICATE_PASSWORD }} --publisher "CN=AbuJenaDawajen, O=AbuJenaDawajen, C=EG" --install-certificate false --capabilities "internetClient,runFullTrust"
+                  & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" ./installers/abujena_setup.iss
             - id: prepare_assets
               shell: pwsh
-              env:
-                  VERSION: ${{ steps.get_version.outputs.FULL_VERSION }}
               run: |
-                  $msixFile = Get-ChildItem "build/windows/x64/runner/Release/*.msix" | Select-Object -First 1
-                  if ($null -eq $msixFile) { throw "MSIX file not found!" }
-                  $branch = "${{ github.ref_name }}"
-                  $currentVersion = $env:VERSION
-                  $fileName = $msixFile.Name
-                  if ($branch -eq "dev") {
-                      $currentVersion = "$currentVersion-dev"
-                      $fileName = $msixFile.BaseName + "_dev" + $msixFile.Extension
-                      Rename-Item -Path $msixFile.FullName -NewName $fileName
-                      Write-Host "Branch is dev. Renamed file to: $fileName"
+                  $setupFile = Get-ChildItem "installers/*.exe" | Select-Object -First 1
+                  $fileName = $setupFile.Name
+                  if ("${{ github.ref_name }}" -eq "dev") {
+                      $newName = $setupFile.BaseName + "_dev" + $setupFile.Extension
+                      Rename-Item -Path $setupFile.FullName -NewName $newName
+                      $fileName = $newName
                   }
                   echo "FINAL_FILE_NAME=$fileName" >> $env:GITHUB_ENV
-                  echo "FINAL_VERSION=$currentVersion" >> $env:GITHUB_ENV
-            - name: Prepare Portable EXE
-              shell: pwsh
-              run: |
-                  $buildPath = "build/windows/x64/runner/Release"
-                  $outPath = "build/windows/x64/runner/Portable"
-                  New-Item -ItemType Directory -Force -Path $outPath
-                  Copy-Item -Path "$buildPath\*" -Destination $outPath -Recurse
-                  $zipName = "AbuJena_Dawajen_Windows.zip"
-                  if ("${{ github.ref_name }}" -eq "dev") {
-                      $zipName = "AbuJena_Dawajen_Windows_dev.zip"
-                  }
-                  Compress-Archive -Path "$outPath\*" -DestinationPath "build/windows/x64/runner/Release/$zipName"
-                  echo "ZIP_NAME=$zipName" >> $env:GITHUB_ENV
-            - shell: pwsh
-              run: |
-                  $pureVersion = "${{ steps.get_version.outputs.FULL_VERSION }}"
-                  $msixUrl = "https://github.com/${{ github.repository }}/releases/download/desktop_msix/${{ env.FINAL_FILE_NAME }}"
-                  $appInstallerUrl = "https://raw.githubusercontent.com/${{ github.      repository }}/${{ github.ref_name }}/abujena.appinstaller"
-                  $xmlContent = @"
-                  <?xml version="1.0" encoding="utf-8"?>
-                  <AppInstaller
-                      xmlns="http://schemas.microsoft.com/appx/appinstaller/2018"
-                      Version="$pureVersion"
-                      Uri="$appInstallerUrl">
-                    <MainPackage
-                        Name="com.hishamkoptan.abujena"
-                        Publisher="CN=AbuJenaDawajen, O=AbuJenaDawajen, C=EG"
-                        Version="$pureVersion"
-                        Uri="$msixUrl"
-                        ProcessorArchitecture="x64"/>
-                    <UpdateSettings>
-                      <OnLaunch HoursBetweenUpdateChecks="0" />
-                      <AutomaticBackgroundTask />
-                      <ShowPrompt>false</ShowPrompt>
-                      <ForceUpdateFromAnyVersion>false</ForceUpdateFromAnyVersion>
-                    </UpdateSettings>
-                  </AppInstaller>
-                  "@
+                  echo "FILE_PATH=installers/$fileName" >> $env:GITHUB_ENV
 
-                  $xmlContent | Out-File -FilePath "abujena.appinstaller" -Encoding utf8
-            - run: |
-                  git config --global user.name "github-actions[bot]"
-                  git config --global user.email "github-actions[bot]@users.noreply.github.com"
-                  git pull origin ${{ github.ref_name }} --rebase
-                  git add abujena.appinstaller desktop_appcast.xml
-                  git commit -m "chore: update appinstaller and appcast to ${{ env.FINAL_VERSION }} [skip ci]"
-                  git push origin ${{ github.ref_name }}
+            # 5. رفع ملف الـ EXE إلى GitHub Releases
             - uses: softprops/action-gh-release@v2
               with:
-                  tag_name: desktop_msix
-                  files: |
-                      build/windows/x64/runner/Release/*.msix
-                  body: "Automated Build v${{ env.FINAL_VERSION }} for ${{ github.ref_name }}"
+                  tag_name: v${{ steps.get_version.outputs.FULL_VERSION }}
+                  files: ${{ env.FILE_PATH }}
+                  body: "تحديث آلي لبرنامج أبو جينة للدواجن - نسخة ${{ github.ref_name }}"
                   make_latest: true
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - shell: pwsh
+            - name: Update Appcast XML
+              shell: pwsh
               run: |
-                  $url = "https://github.com/${{ github.repository }}/releases/download/desktop_msix/${{ env.FINAL_FILE_NAME }}"
+                  $tag = "v${{ steps.get_version.outputs.FULL_VERSION }}"
+                  $url = "https://github.com/${{ github.repository }}/releases/download/$tag/${{ env.FINAL_FILE_NAME }}"
                   $xmlPath = "desktop_appcast.xml"
-                  if (-Not (Test-Path $xmlPath)) { throw "XML file not found!" }
-                  $pureVersion = "${{ steps.get_version.outputs.FULL_VERSION }}"
-                  $content = Get-Content $xmlPath -Raw
-                  $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""$pureVersion"""
-                  $content = $content -replace 'url="[^"]*"', "url=""$url"""
-                  [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
-            - run: |
-                  git config --global user.name "github-actions[bot]"
-                  git config --global user.email "github-actions[bot]@users.noreply.github.com"
-                  git add desktop_appcast.xml
-                  git commit -m "chore: update appcast to ${{ env.FINAL_VERSION }} [skip ci]"
-                  git push origin ${{ github.ref_name }}
+
+                  if (Test-Path $xmlPath) {
+                      $version = "${{ steps.get_version.outputs.FULL_VERSION }}"
+                      $content = Get-Content $xmlPath -Raw
+                      # تحديث الإصدار والرابط داخل ملف الـ XML
+                      $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""$version"""
+                      $content = $content -replace 'url="[^"]*"', "url=""$url"""
+                      [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
+                      
+                      # دفع التغييرات إلى المستودع
+                      git config --global user.name "github-actions[bot]"
+                      git config --global user.email "github-actions[bot]@users.noreply.github.com"
+                      git add $xmlPath
+                      git commit -m "chore: update appcast to $version [skip ci]"
+                      git push origin ${{ github.ref_name }}
+                  }
