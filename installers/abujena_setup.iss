@@ -1,5 +1,5 @@
 #define MyAppName "abujena_dawajen"
-#define MyAppVersion "1.0.0+1"
+#define MyAppVersion "APP_VERSION_PLACEHOLDER"
 #define MyAppPublisher "abujena_dawajen"
 #define MyAppExeName "abujena_dawajen.exe"
 

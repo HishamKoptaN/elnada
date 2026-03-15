@@ -23,6 +23,12 @@ jobs:
                   $fullVersion = ($line -split " ")[1].Trim()
                   $pureVersion = ($fullVersion -split "\+")[0]
                   echo "FULL_VERSION=$pureVersion" >> $env:GITHUB_OUTPUT
+            - shell: pwsh
+              run: |
+                  $issPath = "installers/abujena_setup.iss"
+                  $content = Get-Content $issPath -Raw
+                  $newContent = $content -replace "APP_VERSION_PLACEHOLDER", "${{ steps.get_version.outputs.FULL_VERSION }}"
+                  [System.IO.File]::WriteAllText((Get-Item $issPath).FullName, $newContent)
             - run: flutter config --enable-windows-desktop
             - run: flutter pub get
             - run: flutter build windows --release --dart-define=ENV=${{ github.ref_name }}
