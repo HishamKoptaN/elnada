@@ -6,8 +6,11 @@
             <enclosure url="https://github.com/HishamKoptaN/elnada/releases/download/v2.0.0/abujena_setup_v4.0.0+1_dev.exe"
                        sparkle:version="2.0.0"
                        sparkle:os="windows"
+                       length="0"
                        sparkle:arguments="/VERYSILENT /SUPPRESSMSGBOXES /NORESTART"
-                       type="application/octet-stream" />
+                       type="application/octet-stream"
+                       sparkle:installerArguments="/SILENT /SP- /RUNAFTER"/>
+            <sparkle:criticalUpdate></sparkle:criticalUpdate>
         </item>
     </channel>
 </rss>
