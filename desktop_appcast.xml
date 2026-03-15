@@ -2,9 +2,9 @@
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
     <channel>
         <item>
-            <!-- <enclosure url="https://github.com/HishamKoptaN/elnada/releases/download/v2.0.0/abujena_setup_v2.0.0_dev.exe" -->
-            <enclosure url="https://github.com/HishamKoptaN/elnada/releases/download/v2.0.0/abujena_setup_v2.0.0_dev.exe"
-                       sparkle:version="2.0.0"
+            <!-- <enclosure url="https://github.com/HishamKoptaN/elnada/releases/download/v1.0.0/abujena_setup_v1.0.0_dev.exe" -->
+            <enclosure url="https://github.com/HishamKoptaN/elnada/releases/download/v1.0.0/abujena_setup_v1.0.0_dev.exe"
+                       sparkle:version="1.0.0"
                        sparkle:os="windows"
                        length="0"
                        sparkle:arguments="/VERYSILENT /SUPPRESSMSGBOXES /NORESTART"
