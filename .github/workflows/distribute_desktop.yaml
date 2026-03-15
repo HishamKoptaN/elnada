@@ -66,6 +66,46 @@ jobs:
                   }
                   Compress-Archive -Path "$outPath\*" -DestinationPath "build/windows/x64/runner/Release/$zipName"
                   echo "ZIP_NAME=$zipName" >> $env:GITHUB_ENV
+            - shell: pwsh
+              run: |
+                  $pureVersion = "${{ steps.get_version.outputs.FULL_VERSION }}"
+                  # الرابط المباشر لملف الـ MSIX الذي تم رفعه في الـ Release
+                  $msixUrl = "https://github.com/${{ github.repository }}/releases/      download/desktop_msix/${{ env.FINAL_FILE_NAME }}"
+                  # الرابط المباشر لملف الـ appinstaller نفسه على GitHub ليعرف الويندوز       من أين يتحدث مستقبلاً
+                  $appInstallerUrl = "https://raw.githubusercontent.com/${{ github.      repository }}/${{ github.ref_name }}/abujena.appinstaller"
+
+                  $xmlContent = @"
+                  <?xml version="1.0" encoding="utf-8"?>
+                  <AppInstaller
+                      xmlns="http://schemas.microsoft.com/appx/appinstaller/2018"
+                      Version="$pureVersion"
+                      Uri="$appInstallerUrl">
+                    <MainPackage
+                        Name="com.hishamkoptan.abujena"
+                        Publisher="CN=AbuJenaDawajen, O=AbuJenaDawajen, C=EG"
+                        Version="$pureVersion"
+                        Uri="$msixUrl"
+                        ProcessorArchitecture="x64"/>
+                    <UpdateSettings>
+                      <OnLaunch HoursBetweenUpdateChecks="0" />
+                      <AutomaticBackgroundTask />
+                      <ShowPrompt>false</ShowPrompt>
+                      <ForceUpdateFromAnyVersion>false</ForceUpdateFromAnyVersion>
+                    </UpdateSettings>
+                  </AppInstaller>
+                  "@
+
+                  $xmlContent | Out-File -FilePath "abujena.appinstaller" -Encoding utf8
+
+            - run: |
+                  git config --global user.name "github-actions[bot]"
+                  git config --global user.email "github-actions[bot]@users.noreply.        github.com"
+                  # نقوم بعمل pull لتجنب الخطأ الذي حدث لك سابقاً (rejected)
+                  git pull origin ${{ github.ref_name }} --rebase
+                  # إضافة الملف الجديد وتحديث القديم (اختياري)
+                  git add abujena.appinstaller desktop_appcast.xml
+                  git commit -m "chore: update appinstaller and appcast to ${{ env.        FINAL_VERSION }} [skip ci]"
+                  git push origin ${{ github.ref_name }}
             - uses: softprops/action-gh-release@v2
               with:
                   tag_name: desktop_msix

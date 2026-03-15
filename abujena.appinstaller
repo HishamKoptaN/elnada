@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AppInstaller
+    xmlns="http://schemas.microsoft.com/appx/appinstaller/2018"
+    Version="3.0.0.0" 
+    Uri="https://raw.githubusercontent.com/HishamKoptaN/elnada/prod/abujena.appinstaller"
+    PoolSizeInBytes="0">
+  <MainPackage
+      Name="com.hishamkoptan.abujena"
+      Publisher="CN=HishamKoptan"
+      Version="3.0.0.0"
+      Uri="https://github.com/HishamKoptaN/elnada/releases/download/v3.0.0/abujena_app.msix"
+      ProcessorArchitecture="x64"/>
+  <UpdateSettings>
+    <OnLaunch HoursBetweenUpdateChecks="0" />
+    <AutomaticBackgroundTask />
+    <ForceUpdateFromAnyVersion>false</ForceUpdateFromAnyVersion>
+    <ShowPrompt>false</ShowPrompt>
+  </UpdateSettings>
+</AppInstaller>
