@@ -51,6 +51,16 @@ jobs:
                   }
                   echo "FINAL_FILE_NAME=$fileName" >> $env:GITHUB_ENV
                   echo "FILE_PATH=installers/$fileName" >> $env:GITHUB_ENV
+            - name: Create/Update Latest Release
+              uses: softprops/action-gh-release@v2
+              with:
+                  tag_name: latest
+                  name: Latest Release
+                  body: "أحدث إصدار من برنامج أبو جينة للدواجن - نسخة ${{ github.ref_name }}"
+                  files: installers/${{ env.FINAL_FILE_NAME }}
+                  make_latest: true
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Update Appcast XML
               shell: pwsh
               run: |
