@@ -12,39 +12,30 @@
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
 
 [Setup]
+; الإعدادات الأساسية
+AppId={{D3B3A5E1-72C1-4B5D-9A9A-123456789ABC}
+AppName={#MyAppName}
+AppVersion={#MyAppVersion}
+AppPublisher={#MyAppPublisher}
+DefaultDirName={autopf}\{#MyAppName}
+DisableProgramGroupPage=yes
+
+; إعدادات التحديث الصامت والسلس (تم تصحيحها)
 DisableReadyPage=yes
 DisableFinishedPage=yes
 DisableWelcomePage=yes
-UpdateReadyMemo=yes
-; إغلاق التطبيق المفتوح تلقائياً لضمان عدم تعارض الـ Memory Process
+; يخبر المثبت أن يستخدم نفس المجلد إذا كان البرنامج مثبت مسبقاً
+UsePreviousAppDir=yes
+DisableDirPage=auto
+; إغلاق التطبيقات التي تستخدم الملفات لضمان عدم فشل التحديث (مهم لـ ProcessManager)
 CloseApplications=yes
-; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
-; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{B9F09BCC-0ADC-41BD-B35A-B0FD7EAEA726}
-AppName={#MyAppName}
-AppVersion={#MyAppVersion}
-;AppVerName={#MyAppName} {#MyAppVersion}
-AppPublisher={#MyAppPublisher}
-AppPublisherURL={#MyAppURL}
-AppSupportURL={#MyAppURL}
-AppUpdatesURL={#MyAppURL}
-DefaultDirName={autopf}\{#MyAppName}
-UninstallDisplayIcon={app}\{#MyAppExeName}
-; "ArchitecturesAllowed=x64compatible" specifies that Setup cannot run
-; on anything but x64 and Windows 11 on Arm.
-ArchitecturesAllowed=x64compatible
-; "ArchitecturesInstallIn64BitMode=x64compatible" requests that the
-; install be done in "64-bit mode" on x64 or Windows 11 on Arm,
-; meaning it should use the native 64-bit Program Files directory and
-; the 64-bit view of the registry.
-ArchitecturesInstallIn64BitMode=x64compatible
-ChangesAssociations=yes
-DisableProgramGroupPage=yes
-; Uncomment the following line to run in non administrative install mode (install for current user only).
-;PrivilegesRequired=lowest
-OutputBaseFilename=mysetup
+
+; إعدادات المخرجات
+OutputDir=..\installers
+OutputBaseFilename=abujena_setup_v{#MyAppVersion}
+Compression=lzma
 SolidCompression=yes
-WizardStyle=modern dynamic
+WizardStyle=modern
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
