@@ -24,7 +24,6 @@ class CustomersDataGridWidget extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
         ) ==
         devices.DeviceType.desktop;
-
     return state.maybeMap(
       loaded: (state) {
         return Expanded(
