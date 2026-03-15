@@ -7,7 +7,7 @@
       Name="com.hishamkoptan.abujena"
       Publisher="CN=AbuJenaDawajen, O=AbuJenaDawajen, C=EG"
       Version="3.0.0+3"
-      Uri="https://github.com/HishamKoptaN/elnada/releases/      download/desktop_msix/abujena_dawajen_dev.msix"
+      Uri="https://github.com/HishamKoptaN/elnada/releases/download/desktop_msix/abujena_dawajen_dev.msix"
       ProcessorArchitecture="x64"/>
   <UpdateSettings>
     <OnLaunch HoursBetweenUpdateChecks="0" />
