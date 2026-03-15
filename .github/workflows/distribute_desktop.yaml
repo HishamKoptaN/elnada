@@ -56,8 +56,7 @@ jobs:
                   make_latest: true
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - name: Update Appcast XML
-              shell: pwsh
+            - shell: pwsh
               run: |
                   $tag = "v${{ steps.get_version.outputs.FULL_VERSION }}"
                   $url = "https://github.com/${{ github.repository }}/releases/download/$tag/${{ env.FINAL_FILE_NAME }}"
@@ -65,7 +64,6 @@ jobs:
                   if (Test-Path $xmlPath) {
                       $version = "${{ steps.get_version.outputs.FULL_VERSION }}"
                       $content = Get-Content $xmlPath -Raw
-                      # تحديث الإصدار والرابط داخل ملف الـ XML
                       $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""$version"""
                       $content = $content -replace 'url="[^"]*"', "url=""$url"""
                       [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
