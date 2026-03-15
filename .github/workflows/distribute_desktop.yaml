@@ -40,29 +40,25 @@ jobs:
               shell: pwsh
               run: |
                   $setupFile = Get-ChildItem "installers/*.exe" | Select-Object -First 1
-                  $fileName = $setupFile.Name
                   if ("${{ github.ref_name }}" -eq "dev") {
-                      $newName = $setupFile.BaseName + "_dev" + $setupFile.Extension
+                      $newName = "abujena_dawajen_dev.exe"
+                      Rename-Item -Path $setupFile.FullName -NewName $newName
+                      $fileName = $newName
+                  } else {
+                      $newName = "abujena_dawajen.exe"
                       Rename-Item -Path $setupFile.FullName -NewName $newName
                       $fileName = $newName
                   }
                   echo "FINAL_FILE_NAME=$fileName" >> $env:GITHUB_ENV
                   echo "FILE_PATH=installers/$fileName" >> $env:GITHUB_ENV
-            - uses: softprops/action-gh-release@v2
-              with:
-                  tag_name: v${{ steps.get_version.outputs.FULL_VERSION }}
-                  files: ${{ env.FILE_PATH }}
-                  body: "تحديث آلي لبرنامج أبو جينة للدواجن - نسخة ${{ github.ref_name }}"
-                  make_latest: true
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - shell: pwsh
+            - name: Update Appcast XML
+              shell: pwsh
               run: |
-                  $tag = "v${{ steps.get_version.outputs.FULL_VERSION }}"
-                  $url = "https://github.com/${{ github.repository }}/releases/download/$tag/${{ env.FINAL_FILE_NAME }}"
+                  $version = "${{ steps.get_version.outputs.FULL_VERSION }}"
+                  $fileName = "${{ env.FINAL_FILE_NAME }}"
+                  $url = "https://github.com/${{ github.repository }}/releases/latest/download/$fileName"
                   $xmlPath = "desktop_appcast.xml"
                   if (Test-Path $xmlPath) {
-                      $version = "${{ steps.get_version.outputs.FULL_VERSION }}"
                       $content = Get-Content $xmlPath -Raw
                       $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""$version"""
                       $content = $content -replace 'url="[^"]*"', "url=""$url"""
