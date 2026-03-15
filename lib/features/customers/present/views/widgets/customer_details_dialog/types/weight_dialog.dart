@@ -71,7 +71,9 @@ class WeightDialog {
                         ),
                         keyboardType: TextInputType.number,
                         inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
+                          FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d*\.?\d*'),
+                          ),
                         ],
                         onChanged: (value) {
                           getIt<DailyTransactionsBloc>().add(
