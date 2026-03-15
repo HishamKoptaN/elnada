@@ -57,7 +57,7 @@ class _CustomersViewState extends State<CustomersView> {
               spacing: 5.h,
               children: [
                 Text(
-                  '4.0.0+1',
+                  '2.0.0+1',
                   style: TextStyle(fontSize: 10.sp, color: Colors.black),
                 ),
                 DateHeaderWidget(state: state),

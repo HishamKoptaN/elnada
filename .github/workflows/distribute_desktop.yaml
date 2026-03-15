@@ -2,10 +2,8 @@ name: Distribute Desktop
 on:
     push:
         branches: [prod, dev]
-
 permissions:
     contents: write
-
 jobs:
     build_desktop:
         runs-on: windows-latest
@@ -44,8 +42,6 @@ jobs:
                   }
                   echo "FINAL_FILE_NAME=$fileName" >> $env:GITHUB_ENV
                   echo "FILE_PATH=installers/$fileName" >> $env:GITHUB_ENV
-
-            # 5. رفع ملف الـ EXE إلى GitHub Releases
             - uses: softprops/action-gh-release@v2
               with:
                   tag_name: v${{ steps.get_version.outputs.FULL_VERSION }}
@@ -60,7 +56,6 @@ jobs:
                   $tag = "v${{ steps.get_version.outputs.FULL_VERSION }}"
                   $url = "https://github.com/${{ github.repository }}/releases/download/$tag/${{ env.FINAL_FILE_NAME }}"
                   $xmlPath = "desktop_appcast.xml"
-
                   if (Test-Path $xmlPath) {
                       $version = "${{ steps.get_version.outputs.FULL_VERSION }}"
                       $content = Get-Content $xmlPath -Raw
@@ -68,8 +63,6 @@ jobs:
                       $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""$version"""
                       $content = $content -replace 'url="[^"]*"', "url=""$url"""
                       [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
-                      
-                      # دفع التغييرات إلى المستودع
                       git config --global user.name "github-actions[bot]"
                       git config --global user.email "github-actions[bot]@users.noreply.github.com"
                       git add $xmlPath
