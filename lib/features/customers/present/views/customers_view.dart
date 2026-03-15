@@ -8,6 +8,7 @@ import 'widgets/prices_widget.dart';
 import 'widgets/data_grid/daily_customer_reports_data_source.dart';
 import 'widgets/date_header_widget.dart';
 import 'widgets/data_grid/customers_data_grid_widget.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class CustomersView extends StatefulWidget {
   const CustomersView({super.key});
@@ -29,6 +30,10 @@ class _CustomersViewState extends State<CustomersView> {
       (currentPatch) =>
           print('The current patch number is: ${currentPatch?.number}'),
     );
+  }
+
+  Future<String> getVersion() async {
+    return (await PackageInfo.fromPlatform()).version;
   }
 
   @override
@@ -56,9 +61,25 @@ class _CustomersViewState extends State<CustomersView> {
             child: Column(
               spacing: 5.h,
               children: [
-                Text(
-                  '3.0.0+4',
-                  style: TextStyle(fontSize: 10.sp, color: Colors.black),
+                FutureBuilder<String>(
+                  future: getVersion(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Text(
+                        snapshot.data!,
+                        style: TextStyle(fontSize: 10.sp, color: Colors.black),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text(
+                        'Error loading version',
+                        style: TextStyle(fontSize: 10.sp, color: Colors.red),
+                      );
+                    }
+                    return Text(
+                      'Loading...',
+                      style: TextStyle(fontSize: 10.sp, color: Colors.grey),
+                    );
+                  },
                 ),
                 DateHeaderWidget(state: state),
                 PricesWidget(

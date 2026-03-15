@@ -1,7 +1,7 @@
 name: abujena_dawajen
 description: "abujena dawajen"
 publish_to: 'none'
-version: 3.0.0+4
+version: 2.0.0+1
 environment:
   sdk: ^3.11.0
 dependencies:
@@ -39,6 +39,7 @@ dependencies:
   flutter:
     sdk: flutter
   version: ^3.0.2
+  package_info_plus: ^9.0.0
 dev_dependencies:
   msix: ^3.16.13
   retrofit_generator: ^10.0.1
