@@ -12,6 +12,12 @@
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
 
 [Setup]
+DisableReadyPage=yes
+DisableFinishedPage=yes
+DisableWelcomePage=yes
+UpdateReadyMemo=yes
+; إغلاق التطبيق المفتوح تلقائياً لضمان عدم تعارض الـ Memory Process
+CloseApplications=yes
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{B9F09BCC-0ADC-41BD-B35A-B0FD7EAEA726}
