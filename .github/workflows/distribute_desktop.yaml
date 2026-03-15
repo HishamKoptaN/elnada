@@ -47,7 +47,7 @@ jobs:
               shell: pwsh
               run: |
                   # سنثبت اسم الملف ليكون دائماً نفس الاسم لسهولة الاستبدال
-                  $newName = "abujena_setup_latest.exe"
+                  $newName = "abujena_dawajen.exe"
                   $setupFile = Get-ChildItem "installers/*.exe" | Select-Object -First 1
                   Rename-Item -Path $setupFile.FullName -NewName $newName
                   echo "FINAL_FILE_NAME=$newName" >> $env:GITHUB_ENV
@@ -56,7 +56,7 @@ jobs:
               uses: softprops/action-gh-release@v2
               with:
                   tag_name: latest
-                  name: "Latest Release (${{ github.ref_name }})"
+                  name: "Latest (${{ github.ref_name }})"
                   body: "تم تحديث هذا الإصدار تلقائياً بناءً على آخر كود. فرع: ${{ github.ref_name }}"
                   files: installers/${{ env.FINAL_FILE_NAME }}
                   make_latest: true
@@ -71,23 +71,15 @@ jobs:
                   $fileName = "${{ env.FINAL_FILE_NAME }}"
                   $url = "https://github.com/${{ github.repository }}/releases/download/latest/$fileName"
                   $xmlPath = "desktop_appcast.xml"
-
                   if (Test-Path $xmlPath) {
                       $content = Get-Content $xmlPath -Raw
-                      # تحديث الإصدار والرابط
                       $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""$version"""
                       $content = $content -replace 'url="[^"]*"', "url=""$url"""
                       [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
-                      
-                      # إعدادات Git
                       git config --global user.name "github-actions[bot]"
                       git config --global user.email "github-actions[bot]@users.noreply.github.com"
-                      
-                      # التعامل مع تعارضات الـ Push
                       git add $xmlPath
                       git commit -m "chore: sync appcast to $version [skip ci]" || echo "No changes to commit"
-                      
-                      # المحاولة المتكررة للدفع في حال وجود تحديثات أخرى
                       git pull origin ${{ github.ref_name }} --rebase
                       git push origin ${{ github.ref_name }}
                   }
