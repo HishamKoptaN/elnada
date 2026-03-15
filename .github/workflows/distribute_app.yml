@@ -94,6 +94,7 @@ jobs:
           sed -i "s|url=\"[^\"]*\"|url=\"$APK_URL\"|g" android_appcast.xml
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git pull origin prod --rebase
           git add android_appcast.xml
           git commit -m "chore: update appcast to $VERSION [skip ci]"
           git push
