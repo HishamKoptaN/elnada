@@ -61,6 +61,7 @@ class CustomersDataGridWidget extends StatelessWidget {
             },
             child: SfDataGrid(
               controller: _dataGridController,
+              frozenColumnsCount: 1,
               headerRowHeight: 55.h,
               columnWidthMode: ColumnWidthMode.fill,
               navigationMode: GridNavigationMode.cell,
