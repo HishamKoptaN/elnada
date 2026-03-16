@@ -10,6 +10,7 @@ import 'types/order_dialog.dart';
 class CustomerDetailsDialog {
   static void show({
     required BuildContext context,
+    required List<ProductPriceEntity> productDailyPrices,
     required CustomerEntity customer,
     required DateTime selectedDate,
     required bool canInsertPreviusDayData,
@@ -25,15 +26,22 @@ class CustomerDetailsDialog {
         );
         break;
       case 2:
-        if (selectedDate.isToday || canInsertPreviusDayData) {
-          WeightDialog.show(
-            context: context,
-            customer: customer,
-            productId: 1,
-            title: 'إضافة وزن التسمين',
-            selectedDate: selectedDate,
-            canInsertPreviusDayData: true,
-          );
+        if (productDailyPrices.any(
+          (element) =>
+              element.product?.id == 1 &&
+              element.productDailyprice?.price != null &&
+              element.productDailyprice!.price!.isNotEmpty,
+        )) {
+          if (selectedDate.isToday || canInsertPreviusDayData) {
+            WeightDialog.show(
+              context: context,
+              customer: customer,
+              productId: 1,
+              title: 'إضافة وزن التسمين',
+              selectedDate: selectedDate,
+              canInsertPreviusDayData: true,
+            );
+          }
         }
         break;
       case 3:
@@ -47,15 +55,22 @@ class CustomerDetailsDialog {
         }
         break;
       case 4:
-        if (selectedDate.isToday || canInsertPreviusDayData) {
-          WeightDialog.show(
-            context: context,
-            customer: customer,
-            productId: 2,
-            title: 'إضافة وزن الأمهات',
-            selectedDate: selectedDate,
-            canInsertPreviusDayData: true,
-          );
+        if (productDailyPrices.any(
+          (element) =>
+              element.product?.id == 2 &&
+              element.productDailyprice?.price != null &&
+              element.productDailyprice!.price!.isNotEmpty,
+        )) {
+          if (selectedDate.isToday || canInsertPreviusDayData) {
+            WeightDialog.show(
+              context: context,
+              customer: customer,
+              productId: 2,
+              title: 'إضافة وزن الأمهات',
+              selectedDate: selectedDate,
+              canInsertPreviusDayData: true,
+            );
+          }
         }
         break;
       case 5:

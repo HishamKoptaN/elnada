@@ -36,27 +36,23 @@ class CustomerDialogContentWidget extends StatelessWidget {
           if (details.transactions != null &&
               details.transactions!.isNotEmpty) ...[
             const SectionTitleWidget(title: 'البيع'),
-            ...details.transactions!.asMap().entries.map(
-              (entry) {
-                return TransactionSectionWidget(
+            ...details.transactions!.asMap().entries.map((entry) {
+              return TransactionSectionWidget(
                 transaction: entry.value,
                 index: entry.key,
               );
-              },
-            ),
+            }),
             SizedBox(height: 12.h),
           ],
           if (details.collections != null &&
               details.collections!.isNotEmpty) ...[
             const SectionTitleWidget(title: 'التحصيل'),
-            ...details.collections!.asMap().entries.map(
-              (entry) {
-                return CollectionRowWidget(
+            ...details.collections!.asMap().entries.map((entry) {
+              return CollectionRowWidget(
                 collection: entry.value,
                 index: entry.key,
               );
-              },
-            ),
+            }),
             SizedBox(height: 12.h),
           ],
           const SectionTitleWidget(title: 'النهائي'),
@@ -72,10 +68,10 @@ class CustomerDialogContentWidget extends StatelessWidget {
       children: [
         Text(
           customer.name ?? '',
-          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 4.h),
-        Text(customer.phone ?? '', style: TextStyle(fontSize: 14.sp)),
+        Text(customer.phone ?? '', style: TextStyle(fontSize: 12.sp)),
       ],
     );
   }

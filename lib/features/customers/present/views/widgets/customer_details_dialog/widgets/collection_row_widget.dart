@@ -29,11 +29,11 @@ class CollectionRowWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('#${index + 1}', style: TextStyle(fontSize: 12.sp)),
+                Text('#${index + 1}', style: TextStyle(fontSize: 14.sp)),
                 Text(
                   '${collection.amount ?? 0}',
                   style: TextStyle(
-                    fontSize: 12.sp,
+                    fontSize: 14.sp,
                     color: Colors.green,
                     fontWeight: FontWeight.w500,
                   ),
@@ -44,7 +44,7 @@ class CollectionRowWidget extends StatelessWidget {
               SizedBox(height: 2.h),
               Text(
                 '${collection.createdAt}',
-                style: TextStyle(fontSize: 10.sp, color: Colors.grey[600]),
+                style: TextStyle(fontSize: 14.sp, color: Colors.grey[600]),
               ),
             ],
           ],

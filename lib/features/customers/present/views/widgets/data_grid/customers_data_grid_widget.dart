@@ -38,7 +38,6 @@ class CustomersDataGridWidget extends StatelessWidget {
                   event.logicalKey == LogicalKeyboardKey.enter) {
                 final RowColumnIndex currentCell =
                     _dataGridController.currentCell;
-
                 if (currentCell.rowIndex > 0) {
                   final details = DataGridCellTapDetails(
                     rowColumnIndex: currentCell,
@@ -109,6 +108,11 @@ class CustomersDataGridWidget extends StatelessWidget {
     if (customerReport != null) {
       CustomerDetailsDialog.show(
         context: context,
+        productDailyPrices: state.maybeMap(
+          loaded: (loadedState) =>
+              loadedState.customersRes.productDailyPrices ?? [],
+          orElse: () => [],
+        ),
         customer: customerReport.customer ?? const CustomerEntity(),
         selectedDate: state.maybeMap(
           loaded: (s) => s.selectedDate,
@@ -143,6 +147,11 @@ class CustomersDataGridWidget extends StatelessWidget {
       if (customerReport != null) {
         CustomerDetailsDialog.show(
           context: context,
+          productDailyPrices: state.maybeMap(
+            loaded: (loadedState) =>
+                loadedState.customersRes.productDailyPrices ?? [],
+            orElse: () => [],
+          ),
           customer: customerReport.customer ?? const CustomerEntity(),
           selectedDate: selectedDate,
           canInsertPreviusDayData: canInsertPreviusDayData,

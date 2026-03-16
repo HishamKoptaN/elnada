@@ -7,7 +7,6 @@ import 'package:formz/formz.dart';
 import '../../../../../../../core/di/dependency_injection.dart';
 import '../../../../../../daily_collections/domain/entities/daily_collection_entity.dart';
 import '../../../../../../daily_collections/domain/entities/update_daily_collection_req_entity.dart';
-import '../../../../../../daily_collections/present/bloc/daily_collections_bloc.dart';
 import '../../../../../../daily_collections/present/update_collection_bloc/update_daily_collections_bloc.dart';
 
 class UpdateCollectionDialog {

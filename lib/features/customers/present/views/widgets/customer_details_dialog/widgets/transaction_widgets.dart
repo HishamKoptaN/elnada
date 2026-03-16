@@ -38,13 +38,13 @@ class TransactionSectionWidget extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('#${index + 1}', style: TextStyle(fontSize: 12.sp)),
+                    Text('#${index + 1}', style: TextStyle(fontSize: 14.sp)),
                     if (transaction.createdAt != null) ...[
                       SizedBox(height: 2.h),
                       Text(
                         transaction.createdAt!,
                         style: TextStyle(
-                          fontSize: 10.sp,
+                          fontSize: 14.sp,
                           color: Colors.grey[600],
                         ),
                       ),
@@ -68,7 +68,7 @@ class TransactionSectionWidget extends StatelessWidget {
                 Text(
                   '${transaction.totalAmount ?? 0}',
                   style: TextStyle(
-                    fontSize: 12.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.bold,
                     color: Colors.orange[700],
                   ),

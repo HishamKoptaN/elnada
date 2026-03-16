@@ -34,7 +34,6 @@ class _CustomersViewState extends State<CustomersView> {
       CustomersEvent.getCustomers(date: DateTime.now()),
     );
     updater.readCurrentPatch().then((currentPatch) {
-      print('The current patch number is: ${currentPatch?.number}');
     });
     _checkForUpdates();
     _setupAutoUpdater();

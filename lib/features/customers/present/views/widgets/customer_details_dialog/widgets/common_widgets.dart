@@ -14,7 +14,7 @@ class InfoRowWidget extends StatelessWidget {
         children: [
           Text(
             value,
-            style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500),
+            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
           ),
         ],
       ),

@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../../core/di/dependency_injection.dart';
 import '../../../../../domain/entities/customer_daily_reports_res_entity.dart';
 import '../../../../bloc/customers_bloc.dart';
-import '../../../cards/customer_statement_page.dart';
 import '../widgets/customer_dialog_content_widget.dart';
 
 class CustomerInfoDialog {
@@ -47,27 +46,27 @@ class CustomerInfoDialog {
             ),
           ),
           actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => CustomerStatementPage(
-                      customerId: id,
-                      customerName: customer.name ?? 'عميل',
-                    ),
-                  ),
-                );
-              },
-              child: Text(
-                'كشف حساب',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  color: Colors.blue[700],
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.of(context).pop();
+            //     Navigator.of(context).push(
+            //       MaterialPageRoute(
+            //         builder: (context) => CustomerStatementPage(
+            //           customerId: id,
+            //           customerName: customer.name ?? 'عميل',
+            //         ),
+            //       ),
+            //     );
+            //   },
+            //   child: Text(
+            //     'كشف حساب',
+            //     style: TextStyle(
+            //       fontSize: 16.sp,
+            //       color: Colors.blue[700],
+            //       fontWeight: FontWeight.w500,
+            //     ),
+            //   ),
+            // ),
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text('إغلاق', style: TextStyle(fontSize: 16.sp)),

@@ -170,7 +170,9 @@ class PricesWidget extends StatelessWidget {
                       ),
                       actions: [
                         TextButton(
-                          onPressed: () => Navigator.of(context).pop(),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
                           child: const Text('إلغاء'),
                         ),
                         TextButton(
