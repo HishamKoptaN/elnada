@@ -4,7 +4,7 @@
         <item>
             <!-- <enclosure url="https://github.com/HishamKoptaN/elnada/releases/download/latest/abujena_dawajen_dev.exe" -->
             <enclosure url="https://github.com/HishamKoptaN/elnada/releases/download/latest/abujena_dawajen_dev.exe"
-                       sparkle:version="4.0.0+1"
+                       sparkle:version="5.0.0+1"
                        sparkle:os="windows"
                        length="0"
                        sparkle:arguments="/VERYSILENT /SUPPRESSMSGBOXES /NORESTART"
