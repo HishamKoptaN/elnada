@@ -56,49 +56,53 @@ class _CustomersViewState extends State<CustomersView> {
     try {
       final currentVersion = await getVersion();
       final url =
-          'https://raw.githubusercontent.com/HishamKoptaN/elnada/refs/heads/${EnvConfig.config.envName}/desktop_appcast.xml';
+          'https://raw.githubusercontent.com/HishamKoptaN/elnada/refs/heads/dev/desktop_appcast.xml';
 
-      debugPrint('🚀 جاري فحص التحديث من: $url');
+      final response = await http
+          .get(
+            Uri.parse(url),
+            headers: {
+              'User-Agent': 'AbujenaApp-Updater', // ضروري لتجنب حظر GitHub
+              'Accept': 'application/xml',
+            },
+          )
+          .timeout(const Duration(seconds: 10));
 
-      final response = await http.get(Uri.parse(url));
-
-      // فحص كود الحالة أولاً
       if (response.statusCode == 200) {
         final document = XmlDocument.parse(response.body);
         final enclosure = document.findAllElements('enclosure').first;
-        final latestVersion = enclosure.getAttribute('sparkle:version') ?? '';
-        final downloadUrl = enclosure.getAttribute('url') ?? '';
 
-        if (latestVersion.isNotEmpty && latestVersion != currentVersion) {
+        // قراءة النسخة بطريقة مرنة تتجاهل الـ namespace
+        final latestVersion = enclosure.attributes
+            .firstWhere(
+              (attr) => attr.name.local == 'version',
+              orElse: () => throw Exception('نسخة التحديث غير موجودة في الملف'),
+            )
+            .value;
+
+        debugPrint(
+          '✅ النسخة الحالية: $currentVersion | نسخة السيرفر: $latestVersion',
+        );
+
+        if (latestVersion.trim() != currentVersion.trim()) {
           setState(() {
-            _updateStatus = '🔄 تحديث متاح: $latestVersion';
-            _updateUrl = downloadUrl;
+            _updateStatus = '🔄 تحديث جديد متاح: $latestVersion';
+            _updateUrl = enclosure.getAttribute('url') ?? '';
           });
+          _showUpdateDialog(); // إظهار الديالوج تلقائياً عند اكتشاف تحديث
         } else {
           setState(() {
             _updateStatus = '✅ التطبيق محدث';
-            _updateUrl = '';
           });
         }
       } else {
-        // هنا نسجل سبب الخطأ القادم من السيرفر (مثل 404 أو 403)
-        debugPrint('❌ فشل طلب التحديث. كود الحالة: ${response.statusCode}');
-        debugPrint('📄 محتوى الرد من السيرفر: ${response.body}');
-
-        setState(() {
-          _updateStatus = '❌ فشل جلب المعلومات (خطأ ${response.statusCode})';
-          _updateUrl = '';
-        });
+        throw Exception('Server Error: ${response.statusCode}');
       }
-    } catch (e, stackTrace) {
-      // تسجيل الخطأ البرمجي كاملاً مع الـ StackTrace لمعرفة مكان الخطأ بالضبط
-      debugPrint('🚨 خطأ استثنائي أثناء التحقق من التحديث:');
-      debugPrint('Error: $e');
-      debugPrint('StackTrace: $stackTrace');
-
+    } catch (e) {
+      debugPrint('🚨 Error: $e');
       setState(() {
-        _updateStatus = '❌ خطأ في النظام: ${e.toString().split(':').last}';
-        _updateUrl = '';
+        _updateStatus =
+            '❌ فشل التحقق: ${e.toString().contains('403') ? 'صلاحيات السيرفر' : 'خطأ في الاتصال'}';
       });
     }
   }
