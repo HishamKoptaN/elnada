@@ -46,6 +46,9 @@ _CustomerDailyReportEntity _$CustomerDailyReportEntityFromJson(
   productOrders: (json['productOrders'] as List<dynamic>?)
       ?.map((e) => DailyProductOrderEntity.fromJson(e as Map<String, dynamic>))
       .toList(),
+  priceDiscounts: (json['priceDiscounts'] as List<dynamic>?)
+      ?.map((e) => PriceDiscountEntity.fromJson(e as Map<String, dynamic>))
+      .toList(),
 );
 
 Map<String, dynamic> _$CustomerDailyReportEntityToJson(
@@ -59,6 +62,7 @@ Map<String, dynamic> _$CustomerDailyReportEntityToJson(
   'returns': instance.returns,
   'closingBalance': instance.closingBalance,
   'productOrders': instance.productOrders,
+  'priceDiscounts': instance.priceDiscounts,
 };
 
 _CustomerEntity _$CustomerEntityFromJson(Map<String, dynamic> json) =>

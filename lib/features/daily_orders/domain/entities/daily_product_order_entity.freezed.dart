@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DailyProductOrderEntity {
 
-@JsonKey(name: "product_id") int? get productId;@JsonKey(name: "total_count") int? get totalCount;
+@JsonKey(name: 'product_id') int? get productId;@JsonKey(name: 'total_count') int? get totalCount;
 /// Create a copy of DailyProductOrderEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $DailyProductOrderEntityCopyWith<$Res>  {
   factory $DailyProductOrderEntityCopyWith(DailyProductOrderEntity value, $Res Function(DailyProductOrderEntity) _then) = _$DailyProductOrderEntityCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: "product_id") int? productId,@JsonKey(name: "total_count") int? totalCount
+@JsonKey(name: 'product_id') int? productId,@JsonKey(name: 'total_count') int? totalCount
 });
 
 
@@ -154,7 +154,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "product_id")  int? productId, @JsonKey(name: "total_count")  int? totalCount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_id')  int? productId, @JsonKey(name: 'total_count')  int? totalCount)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DailyProductOrderEntity() when $default != null:
 return $default(_that.productId,_that.totalCount);case _:
@@ -175,7 +175,7 @@ return $default(_that.productId,_that.totalCount);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "product_id")  int? productId, @JsonKey(name: "total_count")  int? totalCount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_id')  int? productId, @JsonKey(name: 'total_count')  int? totalCount)  $default,) {final _that = this;
 switch (_that) {
 case _DailyProductOrderEntity():
 return $default(_that.productId,_that.totalCount);case _:
@@ -195,7 +195,7 @@ return $default(_that.productId,_that.totalCount);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "product_id")  int? productId, @JsonKey(name: "total_count")  int? totalCount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'product_id')  int? productId, @JsonKey(name: 'total_count')  int? totalCount)?  $default,) {final _that = this;
 switch (_that) {
 case _DailyProductOrderEntity() when $default != null:
 return $default(_that.productId,_that.totalCount);case _:
@@ -210,11 +210,11 @@ return $default(_that.productId,_that.totalCount);case _:
 @JsonSerializable()
 
 class _DailyProductOrderEntity implements DailyProductOrderEntity {
-  const _DailyProductOrderEntity({@JsonKey(name: "product_id") this.productId, @JsonKey(name: "total_count") this.totalCount});
+  const _DailyProductOrderEntity({@JsonKey(name: 'product_id') this.productId, @JsonKey(name: 'total_count') this.totalCount});
   factory _DailyProductOrderEntity.fromJson(Map<String, dynamic> json) => _$DailyProductOrderEntityFromJson(json);
 
-@override@JsonKey(name: "product_id") final  int? productId;
-@override@JsonKey(name: "total_count") final  int? totalCount;
+@override@JsonKey(name: 'product_id') final  int? productId;
+@override@JsonKey(name: 'total_count') final  int? totalCount;
 
 /// Create a copy of DailyProductOrderEntity
 /// with the given fields replaced by the non-null parameter values.
@@ -249,7 +249,7 @@ abstract mixin class _$DailyProductOrderEntityCopyWith<$Res> implements $DailyPr
   factory _$DailyProductOrderEntityCopyWith(_DailyProductOrderEntity value, $Res Function(_DailyProductOrderEntity) _then) = __$DailyProductOrderEntityCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: "product_id") int? productId,@JsonKey(name: "total_count") int? totalCount
+@JsonKey(name: 'product_id') int? productId,@JsonKey(name: 'total_count') int? totalCount
 });
 
 

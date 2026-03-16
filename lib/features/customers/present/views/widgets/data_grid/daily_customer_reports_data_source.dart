@@ -95,6 +95,16 @@ class DailyCustomerReportsDataSource extends DataGridSource {
                         .join('\n') ??
                     '',
               ),
+              DataGridCell<String>(
+                columnName: 'فرق سعر ت',
+                value:
+                    e.productOrders
+                        ?.where((t) => t.productId == 2)
+                        .map((t) => '${t.totalCount ?? 0} ')
+                        .join('\n') ??
+                    '',
+              ),
+              const DataGridCell<String>(columnName: 'فرق سعر م', value: ''),
             ],
           ),
         )

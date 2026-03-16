@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../daily_collections/domain/entities/daily_collection_entity.dart';
-import '../types/update_collection_dialog.dart';
+import '../types/collection/update_collection_dialog.dart';
 
 class CollectionRowWidget extends StatelessWidget {
   const CollectionRowWidget({

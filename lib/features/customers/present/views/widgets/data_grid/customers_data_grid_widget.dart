@@ -6,7 +6,7 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import '../../../../../../core/utils/devices_utiles.dart' as devices;
 import '../../../../domain/entities/customer_daily_reports_res_entity.dart';
 import '../../../bloc/customers_bloc.dart';
-import '../customer_details_dialog/customer_details_dialog.dart';
+import 'customer_details_dialog.dart';
 import 'daily_customer_reports_data_source.dart';
 
 class CustomersDataGridWidget extends StatelessWidget {
@@ -100,26 +100,33 @@ class CustomersDataGridWidget extends StatelessWidget {
     bool isDesktop,
     CustomersState state,
   ) {
-    final customerReport = state.maybeMap(
-      loaded: (loadedState) =>
-          loadedState.customersRes.customerDailyReports?[rowIndex],
+    final customerDailyReport = state.maybeMap(
+      loaded: (loadedState) {
+        return loadedState.customersRes.customerDailyReports?[rowIndex];
+      },
       orElse: () => null,
     );
-    if (customerReport != null) {
+    if (customerDailyReport != null) {
       CustomerDetailsDialog.show(
         context: context,
         productDailyPrices: state.maybeMap(
-          loaded: (loadedState) =>
-              loadedState.customersRes.productDailyPrices ?? [],
-          orElse: () => [],
+          loaded: (loadedState) {
+            return loadedState.customersRes.productDailyPrices ?? [];
+          },
+          orElse: () {
+            return [];
+          },
         ),
-        customer: customerReport.customer ?? const CustomerEntity(),
+        customerDailyReport: customerDailyReport,
         selectedDate: state.maybeMap(
-          loaded: (s) => s.selectedDate,
-          orElse: () => DateTime.now(),
+          loaded: (s) {
+            return s.selectedDate;
+          },
+          orElse: () {
+            return DateTime.now();
+          },
         ),
         canInsertPreviusDayData: canInsertPreviusDayData,
-        dailyReportId: customerReport.id ?? 0,
         index: 0,
       );
     }
@@ -139,23 +146,27 @@ class CustomersDataGridWidget extends StatelessWidget {
           currentColumns[details.rowColumnIndex.columnIndex].columnName;
       final int originalIndex = _masterColumns.indexOf(clickedColumnName);
       final customerReport = state.maybeMap(
-        loaded: (loadedState) => loadedState
-            .customersRes
-            .customerDailyReports?[details.rowColumnIndex.rowIndex - 1],
+        loaded: (loadedState) {
+          return loadedState
+              .customersRes
+              .customerDailyReports?[details.rowColumnIndex.rowIndex - 1];
+        },
         orElse: () => null,
       );
       if (customerReport != null) {
         CustomerDetailsDialog.show(
           context: context,
+          customerDailyReport: customerReport,
           productDailyPrices: state.maybeMap(
-            loaded: (loadedState) =>
-                loadedState.customersRes.productDailyPrices ?? [],
-            orElse: () => [],
+            loaded: (loadedState) {
+              return loadedState.customersRes.productDailyPrices ?? [];
+            },
+            orElse: () {
+              return [];
+            },
           ),
-          customer: customerReport.customer ?? const CustomerEntity(),
           selectedDate: selectedDate,
           canInsertPreviusDayData: canInsertPreviusDayData,
-          dailyReportId: customerReport.id ?? 0,
           index: originalIndex,
         );
       }
@@ -174,6 +185,8 @@ class CustomersDataGridWidget extends StatelessWidget {
       _GridColumn('الصافي'),
       _GridColumn('طلب ت'),
       _GridColumn('طلب م'),
+      _GridColumn('فرق سعر ت'),
+      _GridColumn('فرق سعر م'),
     ];
   }
 
@@ -188,6 +201,8 @@ class CustomersDataGridWidget extends StatelessWidget {
     'الصافي',
     'طلب ت',
     'طلب م',
+    'فرق سعر ت',
+    'فرق سعر م',
   ];
 }
 

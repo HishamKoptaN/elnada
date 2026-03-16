@@ -5,7 +5,7 @@ import '../../../../../core/di/dependency_injection.dart';
 import '../../../../../core/widgets/custom_circular_progress.dart';
 import '../../bloc/customers_bloc.dart';
 import 'widgets/customer_statement_header.dart';
-import '../widgets/period_selector.dart';
+import '../widgets/date/period_selector.dart';
 
 class CustomerStatementPage extends StatefulWidget {
   const CustomerStatementPage({

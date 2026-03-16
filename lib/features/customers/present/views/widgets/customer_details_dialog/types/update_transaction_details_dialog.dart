@@ -6,7 +6,6 @@ import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
 import '../../../../../../../core/widgets/custom_circular_progress.dart';
 import '../../../../../../daily_transactions/domain/entities/daily_transaction_entity.dart';
-import '../../../../../../daily_transactions/present/bloc/daily_transactions_bloc.dart';
 import '../../../../../../transactions_details/domain/entities/update_transaction_details_req_entity.dart';
 import '../../../../../../transactions_details/present/bloc/transactions_details_bloc.dart';
 import '../../../../../../../core/di/dependency_injection.dart';

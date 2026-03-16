@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CustomerDailyReportDetailsResModel {
 
-@JsonKey(name: 'id') int? get id;@JsonKey(name: 'yesterday_closed_balance') int? get yesterdayClosedBalance;@JsonKey(name: 'transactions') List<DailyTransactionModel>? get transactions;@JsonKey(name: 'total_transactions_amount') int? get totalTransactionsAmount;@JsonKey(name: 'collections') List<CollectionModel>? get collections;@JsonKey(name: 'orders') List<ProductOrderModel>? get orders;@JsonKey(name: 'closing_balance') int? get closingBalance;@JsonKey(name: 'created_at') String? get createdAt;
+@JsonKey(name: 'id') int? get id;@JsonKey(name: 'yesterday_closed_balance') int? get yesterdayClosedBalance;@JsonKey(name: 'transactions') List<DailyTransactionModel>? get transactions;@JsonKey(name: 'total_transactions_amount') int? get totalTransactionsAmount;@JsonKey(name: 'collections') List<CollectionModel>? get collections;@JsonKey(name: 'orders') List<ProductOrderModel>? get orders;@JsonKey(name: 'closing_balance') int? get closingBalance;@JsonKey(name: 'price_discounts') List<PriceDiscountModel>? get priceDiscounts;@JsonKey(name: 'created_at') String? get createdAt;
 /// Create a copy of CustomerDailyReportDetailsResModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $CustomerDailyReportDetailsResModelCopyWith<CustomerDailyReportDetailsResModel> 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CustomerDailyReportDetailsResModel&&(identical(other.id, id) || other.id == id)&&(identical(other.yesterdayClosedBalance, yesterdayClosedBalance) || other.yesterdayClosedBalance == yesterdayClosedBalance)&&const DeepCollectionEquality().equals(other.transactions, transactions)&&(identical(other.totalTransactionsAmount, totalTransactionsAmount) || other.totalTransactionsAmount == totalTransactionsAmount)&&const DeepCollectionEquality().equals(other.collections, collections)&&const DeepCollectionEquality().equals(other.orders, orders)&&(identical(other.closingBalance, closingBalance) || other.closingBalance == closingBalance)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CustomerDailyReportDetailsResModel&&(identical(other.id, id) || other.id == id)&&(identical(other.yesterdayClosedBalance, yesterdayClosedBalance) || other.yesterdayClosedBalance == yesterdayClosedBalance)&&const DeepCollectionEquality().equals(other.transactions, transactions)&&(identical(other.totalTransactionsAmount, totalTransactionsAmount) || other.totalTransactionsAmount == totalTransactionsAmount)&&const DeepCollectionEquality().equals(other.collections, collections)&&const DeepCollectionEquality().equals(other.orders, orders)&&(identical(other.closingBalance, closingBalance) || other.closingBalance == closingBalance)&&const DeepCollectionEquality().equals(other.priceDiscounts, priceDiscounts)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,yesterdayClosedBalance,const DeepCollectionEquality().hash(transactions),totalTransactionsAmount,const DeepCollectionEquality().hash(collections),const DeepCollectionEquality().hash(orders),closingBalance,createdAt);
+int get hashCode => Object.hash(runtimeType,id,yesterdayClosedBalance,const DeepCollectionEquality().hash(transactions),totalTransactionsAmount,const DeepCollectionEquality().hash(collections),const DeepCollectionEquality().hash(orders),closingBalance,const DeepCollectionEquality().hash(priceDiscounts),createdAt);
 
 @override
 String toString() {
-  return 'CustomerDailyReportDetailsResModel(id: $id, yesterdayClosedBalance: $yesterdayClosedBalance, transactions: $transactions, totalTransactionsAmount: $totalTransactionsAmount, collections: $collections, orders: $orders, closingBalance: $closingBalance, createdAt: $createdAt)';
+  return 'CustomerDailyReportDetailsResModel(id: $id, yesterdayClosedBalance: $yesterdayClosedBalance, transactions: $transactions, totalTransactionsAmount: $totalTransactionsAmount, collections: $collections, orders: $orders, closingBalance: $closingBalance, priceDiscounts: $priceDiscounts, createdAt: $createdAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $CustomerDailyReportDetailsResModelCopyWith<$Res>  {
   factory $CustomerDailyReportDetailsResModelCopyWith(CustomerDailyReportDetailsResModel value, $Res Function(CustomerDailyReportDetailsResModel) _then) = _$CustomerDailyReportDetailsResModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'id') int? id,@JsonKey(name: 'yesterday_closed_balance') int? yesterdayClosedBalance,@JsonKey(name: 'transactions') List<DailyTransactionModel>? transactions,@JsonKey(name: 'total_transactions_amount') int? totalTransactionsAmount,@JsonKey(name: 'collections') List<CollectionModel>? collections,@JsonKey(name: 'orders') List<ProductOrderModel>? orders,@JsonKey(name: 'closing_balance') int? closingBalance,@JsonKey(name: 'created_at') String? createdAt
+@JsonKey(name: 'id') int? id,@JsonKey(name: 'yesterday_closed_balance') int? yesterdayClosedBalance,@JsonKey(name: 'transactions') List<DailyTransactionModel>? transactions,@JsonKey(name: 'total_transactions_amount') int? totalTransactionsAmount,@JsonKey(name: 'collections') List<CollectionModel>? collections,@JsonKey(name: 'orders') List<ProductOrderModel>? orders,@JsonKey(name: 'closing_balance') int? closingBalance,@JsonKey(name: 'price_discounts') List<PriceDiscountModel>? priceDiscounts,@JsonKey(name: 'created_at') String? createdAt
 });
 
 
@@ -65,7 +65,7 @@ class _$CustomerDailyReportDetailsResModelCopyWithImpl<$Res>
 
 /// Create a copy of CustomerDailyReportDetailsResModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? yesterdayClosedBalance = freezed,Object? transactions = freezed,Object? totalTransactionsAmount = freezed,Object? collections = freezed,Object? orders = freezed,Object? closingBalance = freezed,Object? createdAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? yesterdayClosedBalance = freezed,Object? transactions = freezed,Object? totalTransactionsAmount = freezed,Object? collections = freezed,Object? orders = freezed,Object? closingBalance = freezed,Object? priceDiscounts = freezed,Object? createdAt = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,yesterdayClosedBalance: freezed == yesterdayClosedBalance ? _self.yesterdayClosedBalance : yesterdayClosedBalance // ignore: cast_nullable_to_non_nullable
@@ -74,7 +74,8 @@ as List<DailyTransactionModel>?,totalTransactionsAmount: freezed == totalTransac
 as int?,collections: freezed == collections ? _self.collections : collections // ignore: cast_nullable_to_non_nullable
 as List<CollectionModel>?,orders: freezed == orders ? _self.orders : orders // ignore: cast_nullable_to_non_nullable
 as List<ProductOrderModel>?,closingBalance: freezed == closingBalance ? _self.closingBalance : closingBalance // ignore: cast_nullable_to_non_nullable
-as int?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as int?,priceDiscounts: freezed == priceDiscounts ? _self.priceDiscounts : priceDiscounts // ignore: cast_nullable_to_non_nullable
+as List<PriceDiscountModel>?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -160,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'yesterday_closed_balance')  int? yesterdayClosedBalance, @JsonKey(name: 'transactions')  List<DailyTransactionModel>? transactions, @JsonKey(name: 'total_transactions_amount')  int? totalTransactionsAmount, @JsonKey(name: 'collections')  List<CollectionModel>? collections, @JsonKey(name: 'orders')  List<ProductOrderModel>? orders, @JsonKey(name: 'closing_balance')  int? closingBalance, @JsonKey(name: 'created_at')  String? createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'yesterday_closed_balance')  int? yesterdayClosedBalance, @JsonKey(name: 'transactions')  List<DailyTransactionModel>? transactions, @JsonKey(name: 'total_transactions_amount')  int? totalTransactionsAmount, @JsonKey(name: 'collections')  List<CollectionModel>? collections, @JsonKey(name: 'orders')  List<ProductOrderModel>? orders, @JsonKey(name: 'closing_balance')  int? closingBalance, @JsonKey(name: 'price_discounts')  List<PriceDiscountModel>? priceDiscounts, @JsonKey(name: 'created_at')  String? createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CustomerDailyReportDetailsResModel() when $default != null:
-return $default(_that.id,_that.yesterdayClosedBalance,_that.transactions,_that.totalTransactionsAmount,_that.collections,_that.orders,_that.closingBalance,_that.createdAt);case _:
+return $default(_that.id,_that.yesterdayClosedBalance,_that.transactions,_that.totalTransactionsAmount,_that.collections,_that.orders,_that.closingBalance,_that.priceDiscounts,_that.createdAt);case _:
   return orElse();
 
 }
@@ -181,10 +182,10 @@ return $default(_that.id,_that.yesterdayClosedBalance,_that.transactions,_that.t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'yesterday_closed_balance')  int? yesterdayClosedBalance, @JsonKey(name: 'transactions')  List<DailyTransactionModel>? transactions, @JsonKey(name: 'total_transactions_amount')  int? totalTransactionsAmount, @JsonKey(name: 'collections')  List<CollectionModel>? collections, @JsonKey(name: 'orders')  List<ProductOrderModel>? orders, @JsonKey(name: 'closing_balance')  int? closingBalance, @JsonKey(name: 'created_at')  String? createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'yesterday_closed_balance')  int? yesterdayClosedBalance, @JsonKey(name: 'transactions')  List<DailyTransactionModel>? transactions, @JsonKey(name: 'total_transactions_amount')  int? totalTransactionsAmount, @JsonKey(name: 'collections')  List<CollectionModel>? collections, @JsonKey(name: 'orders')  List<ProductOrderModel>? orders, @JsonKey(name: 'closing_balance')  int? closingBalance, @JsonKey(name: 'price_discounts')  List<PriceDiscountModel>? priceDiscounts, @JsonKey(name: 'created_at')  String? createdAt)  $default,) {final _that = this;
 switch (_that) {
 case _CustomerDailyReportDetailsResModel():
-return $default(_that.id,_that.yesterdayClosedBalance,_that.transactions,_that.totalTransactionsAmount,_that.collections,_that.orders,_that.closingBalance,_that.createdAt);case _:
+return $default(_that.id,_that.yesterdayClosedBalance,_that.transactions,_that.totalTransactionsAmount,_that.collections,_that.orders,_that.closingBalance,_that.priceDiscounts,_that.createdAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +202,10 @@ return $default(_that.id,_that.yesterdayClosedBalance,_that.transactions,_that.t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'yesterday_closed_balance')  int? yesterdayClosedBalance, @JsonKey(name: 'transactions')  List<DailyTransactionModel>? transactions, @JsonKey(name: 'total_transactions_amount')  int? totalTransactionsAmount, @JsonKey(name: 'collections')  List<CollectionModel>? collections, @JsonKey(name: 'orders')  List<ProductOrderModel>? orders, @JsonKey(name: 'closing_balance')  int? closingBalance, @JsonKey(name: 'created_at')  String? createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'yesterday_closed_balance')  int? yesterdayClosedBalance, @JsonKey(name: 'transactions')  List<DailyTransactionModel>? transactions, @JsonKey(name: 'total_transactions_amount')  int? totalTransactionsAmount, @JsonKey(name: 'collections')  List<CollectionModel>? collections, @JsonKey(name: 'orders')  List<ProductOrderModel>? orders, @JsonKey(name: 'closing_balance')  int? closingBalance, @JsonKey(name: 'price_discounts')  List<PriceDiscountModel>? priceDiscounts, @JsonKey(name: 'created_at')  String? createdAt)?  $default,) {final _that = this;
 switch (_that) {
 case _CustomerDailyReportDetailsResModel() when $default != null:
-return $default(_that.id,_that.yesterdayClosedBalance,_that.transactions,_that.totalTransactionsAmount,_that.collections,_that.orders,_that.closingBalance,_that.createdAt);case _:
+return $default(_that.id,_that.yesterdayClosedBalance,_that.transactions,_that.totalTransactionsAmount,_that.collections,_that.orders,_that.closingBalance,_that.priceDiscounts,_that.createdAt);case _:
   return null;
 
 }
@@ -216,7 +217,7 @@ return $default(_that.id,_that.yesterdayClosedBalance,_that.transactions,_that.t
 @JsonSerializable()
 
 class _CustomerDailyReportDetailsResModel implements CustomerDailyReportDetailsResModel {
-  const _CustomerDailyReportDetailsResModel({@JsonKey(name: 'id') this.id, @JsonKey(name: 'yesterday_closed_balance') this.yesterdayClosedBalance, @JsonKey(name: 'transactions') final  List<DailyTransactionModel>? transactions, @JsonKey(name: 'total_transactions_amount') this.totalTransactionsAmount, @JsonKey(name: 'collections') final  List<CollectionModel>? collections, @JsonKey(name: 'orders') final  List<ProductOrderModel>? orders, @JsonKey(name: 'closing_balance') this.closingBalance, @JsonKey(name: 'created_at') this.createdAt}): _transactions = transactions,_collections = collections,_orders = orders;
+  const _CustomerDailyReportDetailsResModel({@JsonKey(name: 'id') this.id, @JsonKey(name: 'yesterday_closed_balance') this.yesterdayClosedBalance, @JsonKey(name: 'transactions') final  List<DailyTransactionModel>? transactions, @JsonKey(name: 'total_transactions_amount') this.totalTransactionsAmount, @JsonKey(name: 'collections') final  List<CollectionModel>? collections, @JsonKey(name: 'orders') final  List<ProductOrderModel>? orders, @JsonKey(name: 'closing_balance') this.closingBalance, @JsonKey(name: 'price_discounts') final  List<PriceDiscountModel>? priceDiscounts, @JsonKey(name: 'created_at') this.createdAt}): _transactions = transactions,_collections = collections,_orders = orders,_priceDiscounts = priceDiscounts;
   factory _CustomerDailyReportDetailsResModel.fromJson(Map<String, dynamic> json) => _$CustomerDailyReportDetailsResModelFromJson(json);
 
 @override@JsonKey(name: 'id') final  int? id;
@@ -250,6 +251,15 @@ class _CustomerDailyReportDetailsResModel implements CustomerDailyReportDetailsR
 }
 
 @override@JsonKey(name: 'closing_balance') final  int? closingBalance;
+ final  List<PriceDiscountModel>? _priceDiscounts;
+@override@JsonKey(name: 'price_discounts') List<PriceDiscountModel>? get priceDiscounts {
+  final value = _priceDiscounts;
+  if (value == null) return null;
+  if (_priceDiscounts is EqualUnmodifiableListView) return _priceDiscounts;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
 @override@JsonKey(name: 'created_at') final  String? createdAt;
 
 /// Create a copy of CustomerDailyReportDetailsResModel
@@ -265,16 +275,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CustomerDailyReportDetailsResModel&&(identical(other.id, id) || other.id == id)&&(identical(other.yesterdayClosedBalance, yesterdayClosedBalance) || other.yesterdayClosedBalance == yesterdayClosedBalance)&&const DeepCollectionEquality().equals(other._transactions, _transactions)&&(identical(other.totalTransactionsAmount, totalTransactionsAmount) || other.totalTransactionsAmount == totalTransactionsAmount)&&const DeepCollectionEquality().equals(other._collections, _collections)&&const DeepCollectionEquality().equals(other._orders, _orders)&&(identical(other.closingBalance, closingBalance) || other.closingBalance == closingBalance)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CustomerDailyReportDetailsResModel&&(identical(other.id, id) || other.id == id)&&(identical(other.yesterdayClosedBalance, yesterdayClosedBalance) || other.yesterdayClosedBalance == yesterdayClosedBalance)&&const DeepCollectionEquality().equals(other._transactions, _transactions)&&(identical(other.totalTransactionsAmount, totalTransactionsAmount) || other.totalTransactionsAmount == totalTransactionsAmount)&&const DeepCollectionEquality().equals(other._collections, _collections)&&const DeepCollectionEquality().equals(other._orders, _orders)&&(identical(other.closingBalance, closingBalance) || other.closingBalance == closingBalance)&&const DeepCollectionEquality().equals(other._priceDiscounts, _priceDiscounts)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,yesterdayClosedBalance,const DeepCollectionEquality().hash(_transactions),totalTransactionsAmount,const DeepCollectionEquality().hash(_collections),const DeepCollectionEquality().hash(_orders),closingBalance,createdAt);
+int get hashCode => Object.hash(runtimeType,id,yesterdayClosedBalance,const DeepCollectionEquality().hash(_transactions),totalTransactionsAmount,const DeepCollectionEquality().hash(_collections),const DeepCollectionEquality().hash(_orders),closingBalance,const DeepCollectionEquality().hash(_priceDiscounts),createdAt);
 
 @override
 String toString() {
-  return 'CustomerDailyReportDetailsResModel(id: $id, yesterdayClosedBalance: $yesterdayClosedBalance, transactions: $transactions, totalTransactionsAmount: $totalTransactionsAmount, collections: $collections, orders: $orders, closingBalance: $closingBalance, createdAt: $createdAt)';
+  return 'CustomerDailyReportDetailsResModel(id: $id, yesterdayClosedBalance: $yesterdayClosedBalance, transactions: $transactions, totalTransactionsAmount: $totalTransactionsAmount, collections: $collections, orders: $orders, closingBalance: $closingBalance, priceDiscounts: $priceDiscounts, createdAt: $createdAt)';
 }
 
 
@@ -285,7 +295,7 @@ abstract mixin class _$CustomerDailyReportDetailsResModelCopyWith<$Res> implemen
   factory _$CustomerDailyReportDetailsResModelCopyWith(_CustomerDailyReportDetailsResModel value, $Res Function(_CustomerDailyReportDetailsResModel) _then) = __$CustomerDailyReportDetailsResModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'id') int? id,@JsonKey(name: 'yesterday_closed_balance') int? yesterdayClosedBalance,@JsonKey(name: 'transactions') List<DailyTransactionModel>? transactions,@JsonKey(name: 'total_transactions_amount') int? totalTransactionsAmount,@JsonKey(name: 'collections') List<CollectionModel>? collections,@JsonKey(name: 'orders') List<ProductOrderModel>? orders,@JsonKey(name: 'closing_balance') int? closingBalance,@JsonKey(name: 'created_at') String? createdAt
+@JsonKey(name: 'id') int? id,@JsonKey(name: 'yesterday_closed_balance') int? yesterdayClosedBalance,@JsonKey(name: 'transactions') List<DailyTransactionModel>? transactions,@JsonKey(name: 'total_transactions_amount') int? totalTransactionsAmount,@JsonKey(name: 'collections') List<CollectionModel>? collections,@JsonKey(name: 'orders') List<ProductOrderModel>? orders,@JsonKey(name: 'closing_balance') int? closingBalance,@JsonKey(name: 'price_discounts') List<PriceDiscountModel>? priceDiscounts,@JsonKey(name: 'created_at') String? createdAt
 });
 
 
@@ -302,7 +312,7 @@ class __$CustomerDailyReportDetailsResModelCopyWithImpl<$Res>
 
 /// Create a copy of CustomerDailyReportDetailsResModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? yesterdayClosedBalance = freezed,Object? transactions = freezed,Object? totalTransactionsAmount = freezed,Object? collections = freezed,Object? orders = freezed,Object? closingBalance = freezed,Object? createdAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? yesterdayClosedBalance = freezed,Object? transactions = freezed,Object? totalTransactionsAmount = freezed,Object? collections = freezed,Object? orders = freezed,Object? closingBalance = freezed,Object? priceDiscounts = freezed,Object? createdAt = freezed,}) {
   return _then(_CustomerDailyReportDetailsResModel(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,yesterdayClosedBalance: freezed == yesterdayClosedBalance ? _self.yesterdayClosedBalance : yesterdayClosedBalance // ignore: cast_nullable_to_non_nullable
@@ -311,7 +321,8 @@ as List<DailyTransactionModel>?,totalTransactionsAmount: freezed == totalTransac
 as int?,collections: freezed == collections ? _self._collections : collections // ignore: cast_nullable_to_non_nullable
 as List<CollectionModel>?,orders: freezed == orders ? _self._orders : orders // ignore: cast_nullable_to_non_nullable
 as List<ProductOrderModel>?,closingBalance: freezed == closingBalance ? _self.closingBalance : closingBalance // ignore: cast_nullable_to_non_nullable
-as int?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as int?,priceDiscounts: freezed == priceDiscounts ? _self._priceDiscounts : priceDiscounts // ignore: cast_nullable_to_non_nullable
+as List<PriceDiscountModel>?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

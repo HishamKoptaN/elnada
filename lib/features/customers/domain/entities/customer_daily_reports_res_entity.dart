@@ -1,5 +1,7 @@
 import '../../../daily_orders/domain/entities/daily_product_order_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../price_discount/domain/entities/price_discount_entity.dart';
 part 'customer_daily_reports_res_entity.freezed.dart';
 part 'customer_daily_reports_res_entity.g.dart';
 
@@ -25,6 +27,7 @@ abstract class CustomerDailyReportEntity with _$CustomerDailyReportEntity {
     List<ProductReturnEntity>? returns,
     String? closingBalance,
     List<DailyProductOrderEntity>? productOrders,
+    List<PriceDiscountEntity>? priceDiscounts,
   }) = _CustomerDailyReportEntity;
   factory CustomerDailyReportEntity.fromJson(Map<String, Object?> json) =>
       _$CustomerDailyReportEntityFromJson(json);

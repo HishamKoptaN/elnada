@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import '../../../../../core/di/dependency_injection.dart';
-import '../../bloc/customers_bloc.dart';
+import '../../../../../../core/di/dependency_injection.dart';
+import '../../../bloc/customers_bloc.dart';
 import 'navigation_button.dart';
 
 class DateHeaderWidget extends StatelessWidget {
@@ -18,7 +18,7 @@ class DateHeaderWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.r),
-        boxShadow: [const BoxShadow(color: Colors.black12, blurRadius: 4)],
+        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 4)],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -30,7 +30,7 @@ class DateHeaderWidget extends StatelessWidget {
           ),
           DateSelectorWidget(state: state),
           if (state.mapOrNull(loaded: (s) => s.selectedDate) !=
-              DateTime(2026, 3, 4))
+              DateTime(2026, 3, 13))
             NavigationPreviousButton(
               context: context,
               state: state,

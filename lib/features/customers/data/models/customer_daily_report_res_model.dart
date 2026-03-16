@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../daily_collections/data/models/collection_model.dart';
 import '../../../daily_transactions/data/models/transaction_model.dart';
+import '../../../price_discount/data/models/price_discount_model.dart';
 part 'customer_daily_report_res_model.freezed.dart';
 part 'customer_daily_report_res_model.g.dart';
 
@@ -17,6 +18,7 @@ abstract class CustomerDailyReportDetailsResModel
     @JsonKey(name: 'collections') List<CollectionModel>? collections,
     @JsonKey(name: 'orders') List<ProductOrderModel>? orders,
     @JsonKey(name: 'closing_balance') int? closingBalance,
+    @JsonKey(name: 'price_discounts') List<PriceDiscountModel>? priceDiscounts,
     @JsonKey(name: 'created_at') String? createdAt,
   }) = _CustomerDailyReportDetailsResModel;
   factory CustomerDailyReportDetailsResModel.fromJson(

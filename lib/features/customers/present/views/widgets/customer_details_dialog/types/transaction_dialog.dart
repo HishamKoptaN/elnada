@@ -10,7 +10,7 @@ import '../../../../../../daily_transactions/present/bloc/daily_transactions_blo
 import '../../../../../domain/entities/customer_daily_reports_res_entity.dart';
 import '../../../../../../../core/di/dependency_injection.dart';
 
-class WeightDialog {
+class TransactionDialog {
   static void show({
     required BuildContext context,
     required CustomerEntity customer,

@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
-import '../../../../../../../core/di/dependency_injection.dart';
-import '../../../../../../daily_collections/domain/entities/daily_collection_entity.dart';
-import '../../../../../../daily_collections/domain/entities/update_daily_collection_req_entity.dart';
-import '../../../../../../daily_collections/present/update_collection_bloc/update_daily_collections_bloc.dart';
+import '../../../../../../../../core/di/dependency_injection.dart';
+import '../../../../../../../daily_collections/domain/entities/daily_collection_entity.dart';
+import '../../../../../../../daily_collections/domain/entities/update_daily_collection_req_entity.dart';
+import '../../../../../../../daily_collections/present/update_collection_bloc/update_daily_collections_bloc.dart';
 
 class UpdateCollectionDialog {
   static void show({

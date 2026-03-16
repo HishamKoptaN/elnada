@@ -57,6 +57,16 @@ import '../../features/daily_transactions/domain/usecases/daily_transactions_use
     as _i274;
 import '../../features/daily_transactions/present/bloc/daily_transactions_bloc.dart'
     as _i14;
+import '../../features/price_discount/data/datasources/price_discount_api.dart'
+    as _i865;
+import '../../features/price_discount/data/repo_impl/price_discount_repo_impl.dart'
+    as _i80;
+import '../../features/price_discount/domain/repo/price_discount_repo.dart'
+    as _i1013;
+import '../../features/price_discount/domain/usecases/price_discount_use_cases.dart'
+    as _i894;
+import '../../features/price_discount/present/update_collection_bloc/update_price_discount_bloc.dart'
+    as _i1068;
 import '../../features/products/data/datasources/products_api.dart' as _i38;
 import '../../features/products/data/repo_impl/products_repo_impl.dart'
     as _i249;
@@ -140,6 +150,9 @@ Future<_i174.GetIt> $initGetIt(
   gh.singleton<_i116.DailyTransactionsApi>(
     () => _i116.DailyTransactionsApi(gh<_i361.Dio>()),
   );
+  gh.singleton<_i865.PriceDiscountApi>(
+    () => _i865.PriceDiscountApi(gh<_i361.Dio>()),
+  );
   gh.singleton<_i38.ProductsApi>(() => _i38.ProductsApi(gh<_i361.Dio>()));
   gh.singleton<_i146.ReturnProductsApi>(
     () => _i146.ReturnProductsApi(gh<_i361.Dio>()),
@@ -164,6 +177,9 @@ Future<_i174.GetIt> $initGetIt(
   );
   gh.singleton<_i274.DailyTransactionsUseCases>(
     () => _i274.DailyTransactionsUseCases(gh<_i79.DailyTransactionsRepo>()),
+  );
+  gh.singleton<_i1013.PriceDiscountRepo>(
+    () => _i80.PriceDiscountRepoImpl(gh<_i865.PriceDiscountApi>()),
   );
   gh.singleton<_i179.TransactionsDetailsUseCases>(
     () =>
@@ -202,6 +218,9 @@ Future<_i174.GetIt> $initGetIt(
       gh<_i3.CustomersBloc>(),
     ),
   );
+  gh.singleton<_i894.PriceDiscountUseCases>(
+    () => _i894.PriceDiscountUseCases(gh<_i1013.PriceDiscountRepo>()),
+  );
   gh.singleton<_i243.DailyCollectionsUseCases>(
     () => _i243.DailyCollectionsUseCases(gh<_i114.DailyCollectionsRepo>()),
   );
@@ -222,6 +241,12 @@ Future<_i174.GetIt> $initGetIt(
   );
   gh.singleton<_i492.ReturnProductsUseCases>(
     () => _i492.ReturnProductsUseCases(gh<_i524.ReturnProductsRepo>()),
+  );
+  gh.singleton<_i1068.PriceDiscountBloc>(
+    () => _i1068.PriceDiscountBloc(
+      gh<_i894.PriceDiscountUseCases>(),
+      gh<_i3.CustomersBloc>(),
+    ),
   );
   gh.singleton<_i601.DailyOrdersBloc>(
     () => _i601.DailyOrdersBloc(

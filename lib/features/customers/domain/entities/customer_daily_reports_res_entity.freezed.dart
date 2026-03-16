@@ -300,7 +300,7 @@ as List<CustomerDailyReportEntity>?,
 /// @nodoc
 mixin _$CustomerDailyReportEntity {
 
- int? get id; CustomerEntity? get customer; String? get yesterdayClosedBalance; List<ProductDailyTotalEntity>? get productDailyTotals; String? get totalCollections; List<ProductReturnEntity>? get returns; String? get closingBalance; List<DailyProductOrderEntity>? get productOrders;
+ int? get id; CustomerEntity? get customer; String? get yesterdayClosedBalance; List<ProductDailyTotalEntity>? get productDailyTotals; String? get totalCollections; List<ProductReturnEntity>? get returns; String? get closingBalance; List<DailyProductOrderEntity>? get productOrders; List<PriceDiscountEntity>? get priceDiscounts;
 /// Create a copy of CustomerDailyReportEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -313,16 +313,16 @@ $CustomerDailyReportEntityCopyWith<CustomerDailyReportEntity> get copyWith => _$
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CustomerDailyReportEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.customer, customer) || other.customer == customer)&&(identical(other.yesterdayClosedBalance, yesterdayClosedBalance) || other.yesterdayClosedBalance == yesterdayClosedBalance)&&const DeepCollectionEquality().equals(other.productDailyTotals, productDailyTotals)&&(identical(other.totalCollections, totalCollections) || other.totalCollections == totalCollections)&&const DeepCollectionEquality().equals(other.returns, returns)&&(identical(other.closingBalance, closingBalance) || other.closingBalance == closingBalance)&&const DeepCollectionEquality().equals(other.productOrders, productOrders));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CustomerDailyReportEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.customer, customer) || other.customer == customer)&&(identical(other.yesterdayClosedBalance, yesterdayClosedBalance) || other.yesterdayClosedBalance == yesterdayClosedBalance)&&const DeepCollectionEquality().equals(other.productDailyTotals, productDailyTotals)&&(identical(other.totalCollections, totalCollections) || other.totalCollections == totalCollections)&&const DeepCollectionEquality().equals(other.returns, returns)&&(identical(other.closingBalance, closingBalance) || other.closingBalance == closingBalance)&&const DeepCollectionEquality().equals(other.productOrders, productOrders)&&const DeepCollectionEquality().equals(other.priceDiscounts, priceDiscounts));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,customer,yesterdayClosedBalance,const DeepCollectionEquality().hash(productDailyTotals),totalCollections,const DeepCollectionEquality().hash(returns),closingBalance,const DeepCollectionEquality().hash(productOrders));
+int get hashCode => Object.hash(runtimeType,id,customer,yesterdayClosedBalance,const DeepCollectionEquality().hash(productDailyTotals),totalCollections,const DeepCollectionEquality().hash(returns),closingBalance,const DeepCollectionEquality().hash(productOrders),const DeepCollectionEquality().hash(priceDiscounts));
 
 @override
 String toString() {
-  return 'CustomerDailyReportEntity(id: $id, customer: $customer, yesterdayClosedBalance: $yesterdayClosedBalance, productDailyTotals: $productDailyTotals, totalCollections: $totalCollections, returns: $returns, closingBalance: $closingBalance, productOrders: $productOrders)';
+  return 'CustomerDailyReportEntity(id: $id, customer: $customer, yesterdayClosedBalance: $yesterdayClosedBalance, productDailyTotals: $productDailyTotals, totalCollections: $totalCollections, returns: $returns, closingBalance: $closingBalance, productOrders: $productOrders, priceDiscounts: $priceDiscounts)';
 }
 
 
@@ -333,7 +333,7 @@ abstract mixin class $CustomerDailyReportEntityCopyWith<$Res>  {
   factory $CustomerDailyReportEntityCopyWith(CustomerDailyReportEntity value, $Res Function(CustomerDailyReportEntity) _then) = _$CustomerDailyReportEntityCopyWithImpl;
 @useResult
 $Res call({
- int? id, CustomerEntity? customer, String? yesterdayClosedBalance, List<ProductDailyTotalEntity>? productDailyTotals, String? totalCollections, List<ProductReturnEntity>? returns, String? closingBalance, List<DailyProductOrderEntity>? productOrders
+ int? id, CustomerEntity? customer, String? yesterdayClosedBalance, List<ProductDailyTotalEntity>? productDailyTotals, String? totalCollections, List<ProductReturnEntity>? returns, String? closingBalance, List<DailyProductOrderEntity>? productOrders, List<PriceDiscountEntity>? priceDiscounts
 });
 
 
@@ -350,7 +350,7 @@ class _$CustomerDailyReportEntityCopyWithImpl<$Res>
 
 /// Create a copy of CustomerDailyReportEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? customer = freezed,Object? yesterdayClosedBalance = freezed,Object? productDailyTotals = freezed,Object? totalCollections = freezed,Object? returns = freezed,Object? closingBalance = freezed,Object? productOrders = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? customer = freezed,Object? yesterdayClosedBalance = freezed,Object? productDailyTotals = freezed,Object? totalCollections = freezed,Object? returns = freezed,Object? closingBalance = freezed,Object? productOrders = freezed,Object? priceDiscounts = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,customer: freezed == customer ? _self.customer : customer // ignore: cast_nullable_to_non_nullable
@@ -360,7 +360,8 @@ as List<ProductDailyTotalEntity>?,totalCollections: freezed == totalCollections 
 as String?,returns: freezed == returns ? _self.returns : returns // ignore: cast_nullable_to_non_nullable
 as List<ProductReturnEntity>?,closingBalance: freezed == closingBalance ? _self.closingBalance : closingBalance // ignore: cast_nullable_to_non_nullable
 as String?,productOrders: freezed == productOrders ? _self.productOrders : productOrders // ignore: cast_nullable_to_non_nullable
-as List<DailyProductOrderEntity>?,
+as List<DailyProductOrderEntity>?,priceDiscounts: freezed == priceDiscounts ? _self.priceDiscounts : priceDiscounts // ignore: cast_nullable_to_non_nullable
+as List<PriceDiscountEntity>?,
   ));
 }
 /// Create a copy of CustomerDailyReportEntity
@@ -457,10 +458,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  CustomerEntity? customer,  String? yesterdayClosedBalance,  List<ProductDailyTotalEntity>? productDailyTotals,  String? totalCollections,  List<ProductReturnEntity>? returns,  String? closingBalance,  List<DailyProductOrderEntity>? productOrders)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  CustomerEntity? customer,  String? yesterdayClosedBalance,  List<ProductDailyTotalEntity>? productDailyTotals,  String? totalCollections,  List<ProductReturnEntity>? returns,  String? closingBalance,  List<DailyProductOrderEntity>? productOrders,  List<PriceDiscountEntity>? priceDiscounts)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CustomerDailyReportEntity() when $default != null:
-return $default(_that.id,_that.customer,_that.yesterdayClosedBalance,_that.productDailyTotals,_that.totalCollections,_that.returns,_that.closingBalance,_that.productOrders);case _:
+return $default(_that.id,_that.customer,_that.yesterdayClosedBalance,_that.productDailyTotals,_that.totalCollections,_that.returns,_that.closingBalance,_that.productOrders,_that.priceDiscounts);case _:
   return orElse();
 
 }
@@ -478,10 +479,10 @@ return $default(_that.id,_that.customer,_that.yesterdayClosedBalance,_that.produ
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  CustomerEntity? customer,  String? yesterdayClosedBalance,  List<ProductDailyTotalEntity>? productDailyTotals,  String? totalCollections,  List<ProductReturnEntity>? returns,  String? closingBalance,  List<DailyProductOrderEntity>? productOrders)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  CustomerEntity? customer,  String? yesterdayClosedBalance,  List<ProductDailyTotalEntity>? productDailyTotals,  String? totalCollections,  List<ProductReturnEntity>? returns,  String? closingBalance,  List<DailyProductOrderEntity>? productOrders,  List<PriceDiscountEntity>? priceDiscounts)  $default,) {final _that = this;
 switch (_that) {
 case _CustomerDailyReportEntity():
-return $default(_that.id,_that.customer,_that.yesterdayClosedBalance,_that.productDailyTotals,_that.totalCollections,_that.returns,_that.closingBalance,_that.productOrders);case _:
+return $default(_that.id,_that.customer,_that.yesterdayClosedBalance,_that.productDailyTotals,_that.totalCollections,_that.returns,_that.closingBalance,_that.productOrders,_that.priceDiscounts);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -498,10 +499,10 @@ return $default(_that.id,_that.customer,_that.yesterdayClosedBalance,_that.produ
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  CustomerEntity? customer,  String? yesterdayClosedBalance,  List<ProductDailyTotalEntity>? productDailyTotals,  String? totalCollections,  List<ProductReturnEntity>? returns,  String? closingBalance,  List<DailyProductOrderEntity>? productOrders)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  CustomerEntity? customer,  String? yesterdayClosedBalance,  List<ProductDailyTotalEntity>? productDailyTotals,  String? totalCollections,  List<ProductReturnEntity>? returns,  String? closingBalance,  List<DailyProductOrderEntity>? productOrders,  List<PriceDiscountEntity>? priceDiscounts)?  $default,) {final _that = this;
 switch (_that) {
 case _CustomerDailyReportEntity() when $default != null:
-return $default(_that.id,_that.customer,_that.yesterdayClosedBalance,_that.productDailyTotals,_that.totalCollections,_that.returns,_that.closingBalance,_that.productOrders);case _:
+return $default(_that.id,_that.customer,_that.yesterdayClosedBalance,_that.productDailyTotals,_that.totalCollections,_that.returns,_that.closingBalance,_that.productOrders,_that.priceDiscounts);case _:
   return null;
 
 }
@@ -513,7 +514,7 @@ return $default(_that.id,_that.customer,_that.yesterdayClosedBalance,_that.produ
 @JsonSerializable()
 
 class _CustomerDailyReportEntity implements CustomerDailyReportEntity {
-  const _CustomerDailyReportEntity({this.id, this.customer, this.yesterdayClosedBalance, final  List<ProductDailyTotalEntity>? productDailyTotals, this.totalCollections, final  List<ProductReturnEntity>? returns, this.closingBalance, final  List<DailyProductOrderEntity>? productOrders}): _productDailyTotals = productDailyTotals,_returns = returns,_productOrders = productOrders;
+  const _CustomerDailyReportEntity({this.id, this.customer, this.yesterdayClosedBalance, final  List<ProductDailyTotalEntity>? productDailyTotals, this.totalCollections, final  List<ProductReturnEntity>? returns, this.closingBalance, final  List<DailyProductOrderEntity>? productOrders, final  List<PriceDiscountEntity>? priceDiscounts}): _productDailyTotals = productDailyTotals,_returns = returns,_productOrders = productOrders,_priceDiscounts = priceDiscounts;
   factory _CustomerDailyReportEntity.fromJson(Map<String, dynamic> json) => _$CustomerDailyReportEntityFromJson(json);
 
 @override final  int? id;
@@ -548,6 +549,15 @@ class _CustomerDailyReportEntity implements CustomerDailyReportEntity {
   return EqualUnmodifiableListView(value);
 }
 
+ final  List<PriceDiscountEntity>? _priceDiscounts;
+@override List<PriceDiscountEntity>? get priceDiscounts {
+  final value = _priceDiscounts;
+  if (value == null) return null;
+  if (_priceDiscounts is EqualUnmodifiableListView) return _priceDiscounts;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
 
 /// Create a copy of CustomerDailyReportEntity
 /// with the given fields replaced by the non-null parameter values.
@@ -562,16 +572,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CustomerDailyReportEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.customer, customer) || other.customer == customer)&&(identical(other.yesterdayClosedBalance, yesterdayClosedBalance) || other.yesterdayClosedBalance == yesterdayClosedBalance)&&const DeepCollectionEquality().equals(other._productDailyTotals, _productDailyTotals)&&(identical(other.totalCollections, totalCollections) || other.totalCollections == totalCollections)&&const DeepCollectionEquality().equals(other._returns, _returns)&&(identical(other.closingBalance, closingBalance) || other.closingBalance == closingBalance)&&const DeepCollectionEquality().equals(other._productOrders, _productOrders));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CustomerDailyReportEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.customer, customer) || other.customer == customer)&&(identical(other.yesterdayClosedBalance, yesterdayClosedBalance) || other.yesterdayClosedBalance == yesterdayClosedBalance)&&const DeepCollectionEquality().equals(other._productDailyTotals, _productDailyTotals)&&(identical(other.totalCollections, totalCollections) || other.totalCollections == totalCollections)&&const DeepCollectionEquality().equals(other._returns, _returns)&&(identical(other.closingBalance, closingBalance) || other.closingBalance == closingBalance)&&const DeepCollectionEquality().equals(other._productOrders, _productOrders)&&const DeepCollectionEquality().equals(other._priceDiscounts, _priceDiscounts));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,customer,yesterdayClosedBalance,const DeepCollectionEquality().hash(_productDailyTotals),totalCollections,const DeepCollectionEquality().hash(_returns),closingBalance,const DeepCollectionEquality().hash(_productOrders));
+int get hashCode => Object.hash(runtimeType,id,customer,yesterdayClosedBalance,const DeepCollectionEquality().hash(_productDailyTotals),totalCollections,const DeepCollectionEquality().hash(_returns),closingBalance,const DeepCollectionEquality().hash(_productOrders),const DeepCollectionEquality().hash(_priceDiscounts));
 
 @override
 String toString() {
-  return 'CustomerDailyReportEntity(id: $id, customer: $customer, yesterdayClosedBalance: $yesterdayClosedBalance, productDailyTotals: $productDailyTotals, totalCollections: $totalCollections, returns: $returns, closingBalance: $closingBalance, productOrders: $productOrders)';
+  return 'CustomerDailyReportEntity(id: $id, customer: $customer, yesterdayClosedBalance: $yesterdayClosedBalance, productDailyTotals: $productDailyTotals, totalCollections: $totalCollections, returns: $returns, closingBalance: $closingBalance, productOrders: $productOrders, priceDiscounts: $priceDiscounts)';
 }
 
 
@@ -582,7 +592,7 @@ abstract mixin class _$CustomerDailyReportEntityCopyWith<$Res> implements $Custo
   factory _$CustomerDailyReportEntityCopyWith(_CustomerDailyReportEntity value, $Res Function(_CustomerDailyReportEntity) _then) = __$CustomerDailyReportEntityCopyWithImpl;
 @override @useResult
 $Res call({
- int? id, CustomerEntity? customer, String? yesterdayClosedBalance, List<ProductDailyTotalEntity>? productDailyTotals, String? totalCollections, List<ProductReturnEntity>? returns, String? closingBalance, List<DailyProductOrderEntity>? productOrders
+ int? id, CustomerEntity? customer, String? yesterdayClosedBalance, List<ProductDailyTotalEntity>? productDailyTotals, String? totalCollections, List<ProductReturnEntity>? returns, String? closingBalance, List<DailyProductOrderEntity>? productOrders, List<PriceDiscountEntity>? priceDiscounts
 });
 
 
@@ -599,7 +609,7 @@ class __$CustomerDailyReportEntityCopyWithImpl<$Res>
 
 /// Create a copy of CustomerDailyReportEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? customer = freezed,Object? yesterdayClosedBalance = freezed,Object? productDailyTotals = freezed,Object? totalCollections = freezed,Object? returns = freezed,Object? closingBalance = freezed,Object? productOrders = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? customer = freezed,Object? yesterdayClosedBalance = freezed,Object? productDailyTotals = freezed,Object? totalCollections = freezed,Object? returns = freezed,Object? closingBalance = freezed,Object? productOrders = freezed,Object? priceDiscounts = freezed,}) {
   return _then(_CustomerDailyReportEntity(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,customer: freezed == customer ? _self.customer : customer // ignore: cast_nullable_to_non_nullable
@@ -609,7 +619,8 @@ as List<ProductDailyTotalEntity>?,totalCollections: freezed == totalCollections 
 as String?,returns: freezed == returns ? _self._returns : returns // ignore: cast_nullable_to_non_nullable
 as List<ProductReturnEntity>?,closingBalance: freezed == closingBalance ? _self.closingBalance : closingBalance // ignore: cast_nullable_to_non_nullable
 as String?,productOrders: freezed == productOrders ? _self._productOrders : productOrders // ignore: cast_nullable_to_non_nullable
-as List<DailyProductOrderEntity>?,
+as List<DailyProductOrderEntity>?,priceDiscounts: freezed == priceDiscounts ? _self._priceDiscounts : priceDiscounts // ignore: cast_nullable_to_non_nullable
+as List<PriceDiscountEntity>?,
   ));
 }
 

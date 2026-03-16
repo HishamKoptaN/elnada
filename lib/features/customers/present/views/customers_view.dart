@@ -10,7 +10,7 @@ import '../../../../core/di/dependency_injection.dart';
 import '../bloc/customers_bloc.dart';
 import 'widgets/prices_widget.dart';
 import 'widgets/data_grid/daily_customer_reports_data_source.dart';
-import 'widgets/date_header_widget.dart';
+import 'widgets/date/date_header_widget.dart';
 import 'widgets/data_grid/customers_data_grid_widget.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 

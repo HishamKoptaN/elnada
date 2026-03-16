@@ -23,6 +23,9 @@ _$CustomerDailyReportDetailsResModelFromJson(
       ?.map((e) => ProductOrderModel.fromJson(e as Map<String, dynamic>))
       .toList(),
   closingBalance: (json['closing_balance'] as num?)?.toInt(),
+  priceDiscounts: (json['price_discounts'] as List<dynamic>?)
+      ?.map((e) => PriceDiscountModel.fromJson(e as Map<String, dynamic>))
+      .toList(),
   createdAt: json['created_at'] as String?,
 );
 
@@ -36,6 +39,7 @@ Map<String, dynamic> _$CustomerDailyReportDetailsResModelToJson(
   'collections': instance.collections,
   'orders': instance.orders,
   'closing_balance': instance.closingBalance,
+  'price_discounts': instance.priceDiscounts,
   'created_at': instance.createdAt,
 };
 
