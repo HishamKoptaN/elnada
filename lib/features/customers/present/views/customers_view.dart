@@ -33,8 +33,7 @@ class _CustomersViewState extends State<CustomersView> {
     getIt<CustomersBloc>().add(
       CustomersEvent.getCustomers(date: DateTime.now()),
     );
-    updater.readCurrentPatch().then((currentPatch) {
-    });
+    updater.readCurrentPatch().then((currentPatch) {});
     _checkForUpdates();
     _setupAutoUpdater();
   }
@@ -56,12 +55,14 @@ class _CustomersViewState extends State<CustomersView> {
   Future<void> _checkForUpdates() async {
     try {
       final currentVersion = await getVersion();
-      final response = await http.get(
-        Uri.parse(
-          'https://raw.githubusercontent.com/HishamKoptaN/elnada/refs/heads/${EnvConfig.config.envName}/desktop_appcast.xml',
-        ),
-      );
+      final url =
+          'https://raw.githubusercontent.com/HishamKoptaN/elnada/refs/heads/${EnvConfig.config.envName}/desktop_appcast.xml';
 
+      debugPrint('🚀 جاري فحص التحديث من: $url');
+
+      final response = await http.get(Uri.parse(url));
+
+      // فحص كود الحالة أولاً
       if (response.statusCode == 200) {
         final document = XmlDocument.parse(response.body);
         final enclosure = document.findAllElements('enclosure').first;
@@ -80,14 +81,23 @@ class _CustomersViewState extends State<CustomersView> {
           });
         }
       } else {
+        // هنا نسجل سبب الخطأ القادم من السيرفر (مثل 404 أو 403)
+        debugPrint('❌ فشل طلب التحديث. كود الحالة: ${response.statusCode}');
+        debugPrint('📄 محتوى الرد من السيرفر: ${response.body}');
+
         setState(() {
-          _updateStatus = '❌ فشل جلب معلومات التحديث';
+          _updateStatus = '❌ فشل جلب المعلومات (خطأ ${response.statusCode})';
           _updateUrl = '';
         });
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      // تسجيل الخطأ البرمجي كاملاً مع الـ StackTrace لمعرفة مكان الخطأ بالضبط
+      debugPrint('🚨 خطأ استثنائي أثناء التحقق من التحديث:');
+      debugPrint('Error: $e');
+      debugPrint('StackTrace: $stackTrace');
+
       setState(() {
-        _updateStatus = '❌ خطأ في التحقق: ${e.toString()}';
+        _updateStatus = '❌ خطأ في النظام: ${e.toString().split(':').last}';
         _updateUrl = '';
       });
     }
