@@ -1,7 +1,9 @@
 name: Distribute Desktop
+
 on:
     push:
         branches: [prod, dev]
+
 permissions:
     contents: write
 
@@ -9,15 +11,18 @@ jobs:
     build_desktop:
         runs-on: windows-latest
         steps:
+            # 1️⃣ Checkout repo
             - uses: actions/checkout@v4
               with:
                   fetch-depth: 0
 
+            # 2️⃣ Install Flutter
             - uses: subosito/flutter-action@v2
               with:
                   channel: stable
                   cache: true
 
+            # 3️⃣ Get version from pubspec.yaml
             - id: get_version
               shell: pwsh
               run: |
@@ -25,6 +30,8 @@ jobs:
                   $fullVersion = ($line -split " ")[1].Trim()
                   $version = $fullVersion.Split("+")[0]
                   echo "FULL_VERSION=$version" >> $env:GITHUB_OUTPUT
+
+            # 4️⃣ Update Inno Setup script with version
             - name: Update Version in ISS
               shell: pwsh
               run: |
@@ -35,15 +42,20 @@ jobs:
                     [System.IO.File]::WriteAllText((Get-Item $issPath).FullName, $newContent)
                   }
 
+            # 5️⃣ Enable Windows desktop and get dependencies
             - run: flutter config --enable-windows-desktop
             - run: flutter pub get
+
+            # 6️⃣ Build Windows release
             - run: flutter build windows --release --dart-define=ENV=${{ github.ref_name }}
 
+            # 7️⃣ Compile installer with Inno Setup
             - name: Compile Inno Setup
               shell: pwsh
               run: |
                   & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" ./installers/abujena_setup.iss
 
+            # 8️⃣ Prepare exe file and rename
             - id: prepare_assets
               shell: pwsh
               run: |
@@ -56,25 +68,38 @@ jobs:
                   Rename-Item -Path $setupFile.FullName -NewName $newName
                   echo "FINAL_FILE_NAME=$newName" >> $env:GITHUB_ENV
 
-            # خطوة مهمة: تحديث الـ XML ودفعه قبل عمل الـ Release
+            # 9️⃣ Update XML with version, shortVersionString, url, and file length
             - name: Update Appcast XML & Push
               shell: pwsh
               run: |
                   $version = "${{ steps.get_version.outputs.FULL_VERSION }}"
                   $fileName = "${{ env.FINAL_FILE_NAME }}"
-                  $url = "https://github.com/${{ github.repository }}/releases/download/latest/$fileName"
+                  $filePath = "installers/$fileName"
+                  $fileLength = 0
+                  if (Test-Path $filePath) {
+                      $fileLength = (Get-Item $filePath).Length
+                  }
+                  $url = "https://github.com/${{ github.repository }}/releases/latest/download/$fileName"
                   $xmlPath = "desktop_appcast.xml"
                   $currentDate = Get-Date -Format "ddd, dd MMM yyyy HH:mm:ss K"
+
                   if (Test-Path $xmlPath) {
-                       $content = Get-Content $xmlPath -Raw
+                      $content = Get-Content $xmlPath -Raw
+
+                      # Replace/update enclosure attributes
                       $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""$version"""
-                      $content = $content -replace 'sparkle:shortVersionString="[^"]*"',                       "sparkle:shortVersionString=""$version"""
+                      if ($content -notmatch 'sparkle:shortVersionString="[^"]*"') {
+                          $content = $content -replace '(<enclosure[^>]+)', '$1 sparkle:shortVersionString="' + $version + '"'
+                      } else {
+                          $content = $content -replace 'sparkle:shortVersionString="[^"]*"', "sparkle:shortVersionString=""$version"""
+                      }
                       $content = $content -replace 'url="[^"]*"', "url=""$url"""
-                      $content = $content -replace '<title>Version [^<]*</title>', "<title>Version                       $version</title>"
-                      $content = $content -replace '<pubDate>[^<]*</pubDate>',                       "<pubDate>$currentDate</pubDate>"
-                      
+                      $content = $content -replace 'length="[^"]*"', "length=""$fileLength"""
+                      $content = $content -replace '<title>Version [^<]*</title>', "<title>Version $version</title>"
+                      $content = $content -replace '<pubDate>[^<]*</pubDate>', "<pubDate>$currentDate</pubDate>"
+
                       [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
-                      
+
                       git config --global user.name "github-actions[bot]"
                       git config --global user.email "github-actions[bot]@users.noreply.github.com"
                       git add $xmlPath
@@ -82,6 +107,7 @@ jobs:
                       git push origin ${{ github.ref_name }}
                   }
 
+            # 10️⃣ Create or update release
             - name: Create/Update Latest Release
               uses: softprops/action-gh-release@v2
               with:
