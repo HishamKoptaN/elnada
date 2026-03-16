@@ -3,8 +3,8 @@
     <channel>
         <title>Abu Jena Updates</title>
         <item>
-            <title>Version 2.0.0</title>
-            <pubDate>Mon, 16 Mar 2026 21:05:03 +00:00</pubDate>
+            <title>Version                       2.0.0</title>
+            <pubDate>Mon, 16 Mar 2026 21:38:56 +00:00</pubDate>
             <enclosure url="https://github.com/HishamKoptaN/elnada/releases/download/latest/abujena_dawajen_dev.exe"
                        sparkle:version="2.0.0"
                        sparkle:shortVersionString="2.0.0"
