@@ -81,8 +81,7 @@ void _handleError({
 void setupAutoUpdater() async {
   if (!Platform.isWindows) return;
   await autoUpdater.setFeedURL(
-    'https://raw.githubusercontent.com/HishamKoptaN/elnada/refs/heads/dev/desktop_appcast.xml',
+    'https://raw.githubusercontent.com/HishamKoptaN/elnada/refs/heads/${EnvConfig.config.envName}/desktop_appcast.xml',
   );
   await autoUpdater.setScheduledCheckInterval(3600);
 }
- // https://raw.githubusercontent.com/HishamKoptaN/elnada//desktop_appcast.xml

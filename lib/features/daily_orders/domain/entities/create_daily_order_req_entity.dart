@@ -5,12 +5,11 @@ class CreateDailyOrderReqEntity {
   CreateDailyOrderReqEntity({
     required this.customerId,
     required this.productId,
-    required this.count,
+    this.count,
   });
   final GenericFormzInput<int> customerId;
   final GenericFormzInput<int> productId;
-  final GenericFormzInput<String> count;
-
+  final GenericFormzInput<String>? count;
   CreateDailyOrderReqEntity copyWith({
     GenericFormzInput<int>? customerId,
     GenericFormzInput<int>? productId,
@@ -23,5 +22,5 @@ class CreateDailyOrderReqEntity {
     );
   }
 
-  bool get isValid => Formz.validate([customerId, productId, count]);
+  bool get isValid => Formz.validate([customerId, productId, count ?? const GenericFormzInput.pure()]);
 }

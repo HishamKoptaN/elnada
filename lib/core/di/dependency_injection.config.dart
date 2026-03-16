@@ -35,6 +35,8 @@ import '../../features/daily_collections/domain/usecases/daily_collections_use_c
     as _i243;
 import '../../features/daily_collections/present/bloc/daily_collections_bloc.dart'
     as _i353;
+import '../../features/daily_collections/present/update_collection_bloc/update_daily_collections_bloc.dart'
+    as _i795;
 import '../../features/daily_orders/data/datasources/daily_orders_api.dart'
     as _i682;
 import '../../features/daily_orders/data/repo_impl/daily_orders_repo_impl.dart'
@@ -72,6 +74,16 @@ import '../../features/return_products/domain/usecases/return_product_use_cases.
     as _i492;
 import '../../features/return_products/present/bloc/return_products_bloc.dart'
     as _i600;
+import '../../features/transactions_details/data/datasources/transactions_details_api.dart'
+    as _i106;
+import '../../features/transactions_details/data/repo_impl/transactions_details_repo_impl.dart'
+    as _i483;
+import '../../features/transactions_details/domain/repo/transactions_details_repo.dart'
+    as _i525;
+import '../../features/transactions_details/domain/usecases/transactions_details_use_cases.dart'
+    as _i179;
+import '../../features/transactions_details/present/bloc/transactions_details_bloc.dart'
+    as _i529;
 import '../networking/network_info.dart' as _i303;
 import 'api_module.dart' as _i804;
 import 'dio/api_module.dart' as _i158;
@@ -132,6 +144,12 @@ Future<_i174.GetIt> $initGetIt(
   gh.singleton<_i146.ReturnProductsApi>(
     () => _i146.ReturnProductsApi(gh<_i361.Dio>()),
   );
+  gh.singleton<_i106.TransactionsDetailsApi>(
+    () => _i106.TransactionsDetailsApi(gh<_i361.Dio>()),
+  );
+  gh.singleton<_i525.TransactionsDetailsRepo>(
+    () => _i483.TransactionsDetailsRepoImpl(gh<_i106.TransactionsDetailsApi>()),
+  );
   gh.singleton<_i1055.CustomersRepo>(
     () => _i16.CustomersRepoImpl(gh<_i836.CustomersApi>()),
   );
@@ -146,6 +164,10 @@ Future<_i174.GetIt> $initGetIt(
   );
   gh.singleton<_i274.DailyTransactionsUseCases>(
     () => _i274.DailyTransactionsUseCases(gh<_i79.DailyTransactionsRepo>()),
+  );
+  gh.singleton<_i179.TransactionsDetailsUseCases>(
+    () =>
+        _i179.TransactionsDetailsUseCases(gh<_i525.TransactionsDetailsRepo>()),
   );
   gh.singleton<_i550.DailyOrdersRepo>(
     () => _i668.DailyOrdersRepoImpl(gh<_i682.DailyOrdersApi>()),
@@ -168,6 +190,12 @@ Future<_i174.GetIt> $initGetIt(
   gh.singleton<_i524.ReturnProductsRepo>(
     () => _i113.ReturnProductsRepoImpl(gh<_i146.ReturnProductsApi>()),
   );
+  gh.singleton<_i529.TransactionsDetailsBloc>(
+    () => _i529.TransactionsDetailsBloc(
+      gh<_i179.TransactionsDetailsUseCases>(),
+      gh<_i3.CustomersBloc>(),
+    ),
+  );
   gh.singleton<_i14.DailyTransactionsBloc>(
     () => _i14.DailyTransactionsBloc(
       gh<_i274.DailyTransactionsUseCases>(),
@@ -182,6 +210,12 @@ Future<_i174.GetIt> $initGetIt(
   );
   gh.singleton<_i353.DailyCollectionsBloc>(
     () => _i353.DailyCollectionsBloc(
+      gh<_i243.DailyCollectionsUseCases>(),
+      gh<_i3.CustomersBloc>(),
+    ),
+  );
+  gh.singleton<_i795.UpdateDailyCollectionsBloc>(
+    () => _i795.UpdateDailyCollectionsBloc(
       gh<_i243.DailyCollectionsUseCases>(),
       gh<_i3.CustomersBloc>(),
     ),

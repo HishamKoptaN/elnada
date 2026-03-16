@@ -15,8 +15,6 @@ part 'daily_collections_state.dart';
 @singleton
 class DailyCollectionsBloc
     extends Bloc<DailyCollectionsEvent, DailyCollectionsState> {
-  final DailyCollectionsUseCases dailyCollectionsUseCases;
-  final CustomersBloc customersBloc;
   DailyCollectionsBloc(this.dailyCollectionsUseCases, this.customersBloc)
     : super(const DailyCollectionsState.initial()) {
     on<DailyCollectionsEvent>((event, emit) async {
@@ -61,6 +59,8 @@ class DailyCollectionsBloc
       );
     });
   }
+  final DailyCollectionsUseCases dailyCollectionsUseCases;
+  final CustomersBloc customersBloc;
   void emitFaliure({
     required Emitter<DailyCollectionsState> emit,
     required ApiErrorModel apiErrorModel,

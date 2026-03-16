@@ -14,15 +14,19 @@ class OrderDialog {
     required CustomerEntity customer,
     required int productId,
   }) {
+    final FocusNode countFocus = FocusNode();
+    final FocusNode buttonFocus = FocusNode();
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        Future.delayed(Duration.zero, () {
+          countFocus.requestFocus();
+        });
         getIt<DailyOrdersBloc>().add(
           DailyOrdersEvent.dataChanged(
             createDailyOrderReq: CreateDailyOrderReqEntity(
               productId: GenericFormzInput.dirty(productId),
               customerId: GenericFormzInput.dirty(customer.id),
-              count: const GenericFormzInput.dirty(""),
             ),
           ),
         );
@@ -52,17 +56,12 @@ class OrderDialog {
                       ),
                       SizedBox(height: 16.h),
                       TextFormField(
+                        focusNode: countFocus,
                         onChanged: (value) {
                           getIt<DailyOrdersBloc>().add(
                             DailyOrdersEvent.dataChanged(
                               createDailyOrderReq: state.createDailyOrderReq
                                   .copyWith(
-                                    productId: GenericFormzInput.dirty(
-                                      state.createDailyOrderReq.productId.value,
-                                    ),
-                                    customerId: GenericFormzInput.dirty(
-                                      customer.id,
-                                    ),
                                     count: GenericFormzInput.dirty(value),
                                   ),
                             ),
@@ -76,9 +75,12 @@ class OrderDialog {
                           labelText: 'العدد',
                           border: OutlineInputBorder(),
                         ),
+                        onFieldSubmitted: (_) {
+                          buttonFocus.requestFocus();
+                        },
                       ),
                       const SizedBox(height: 16),
-                    ],  
+                    ],
                   ),
                   actions: [
                     TextButton(
@@ -86,6 +88,7 @@ class OrderDialog {
                       child: Text('إلغاء', style: TextStyle(fontSize: 16.sp)),
                     ),
                     ElevatedButton(
+                      focusNode: buttonFocus,
                       onPressed: () {
                         getIt<DailyOrdersBloc>().add(
                           const DailyOrdersEvent.create(),

@@ -34,6 +34,7 @@ _TransactionDetailEntity _$TransactionDetailEntityFromJson(
       ? null
       : ProductModel.fromJson(json['product'] as Map<String, dynamic>),
   weight: json['weight'] as String?,
+  cage: json['cage'] as String?,
   priceAtTime: json['priceAtTime'] as String?,
   discount: json['discount'] as String?,
   total: json['total'] as String?,
@@ -45,6 +46,7 @@ Map<String, dynamic> _$TransactionDetailEntityToJson(
   'id': instance.id,
   'product': instance.product,
   'weight': instance.weight,
+  'cage': instance.cage,
   'priceAtTime': instance.priceAtTime,
   'discount': instance.discount,
   'total': instance.total,

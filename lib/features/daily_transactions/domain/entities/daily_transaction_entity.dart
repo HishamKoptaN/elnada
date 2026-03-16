@@ -21,6 +21,7 @@ abstract class TransactionDetailEntity with _$TransactionDetailEntity {
     int? id,
     ProductModel? product,
     String? weight,
+    String? cage,
     String? priceAtTime,
     String? discount,
     String? total,

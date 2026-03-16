@@ -4,7 +4,6 @@ on:
         branches: [prod, dev]
 permissions:
     contents: write
-
 jobs:
     build_desktop:
         runs-on: windows-latest
@@ -40,8 +39,12 @@ jobs:
             - id: prepare_assets
               shell: pwsh
               run: |
-                  # سنثبت اسم الملف ليكون دائماً نفس الاسم لسهولة الاستبدال
-                  $newName = "abujena_dawajen.exe"
+                  # تحديد اسم الملف بناءً على الفرع
+                  if ("${{ github.ref_name }}" -eq "dev") {
+                      $newName = "abujena_dawajen_dev.exe"
+                  } else {
+                      $newName = "abujena_dawajen.exe"
+                  }
                   $setupFile = Get-ChildItem "installers/*.exe" | Select-Object -First 1
                   Rename-Item -Path $setupFile.FullName -NewName $newName
                   echo "FINAL_FILE_NAME=$newName" >> $env:GITHUB_ENV

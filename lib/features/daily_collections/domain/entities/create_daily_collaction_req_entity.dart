@@ -4,13 +4,12 @@ import 'package:formz/formz.dart';
 class CreateDailyCollectionReqEntity {
   CreateDailyCollectionReqEntity({
     required this.customerId,
-    required this.amount,
+    this.amount,
     this.date,
   });
   final GenericFormzInput<int> customerId;
-  final GenericFormzInput<String> amount;
+  final GenericFormzInput<String>? amount;
   final DateTime? date;
-
   CreateDailyCollectionReqEntity copyWith({
     GenericFormzInput<int>? customerId,
     GenericFormzInput<String>? amount,
@@ -23,5 +22,6 @@ class CreateDailyCollectionReqEntity {
     );
   }
 
-  bool get isValid => Formz.validate([customerId, amount]);
+  bool get isValid =>
+      Formz.validate([customerId, amount ?? const GenericFormzInput.dirty('')]);
 }

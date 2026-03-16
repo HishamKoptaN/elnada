@@ -39,7 +39,7 @@ class CustomerInfoDialog {
                       );
                     },
                     orElse: () {
-                      return SizedBox.shrink();
+                      return const SizedBox.shrink();
                     },
                   );
                 },

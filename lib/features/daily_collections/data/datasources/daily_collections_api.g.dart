@@ -51,6 +51,7 @@ class _DailyCollectionsApi implements DailyCollectionsApi {
   @override
   Future<CustomerDailyReportModel> update({
     required UpdateDailyCollectionReqModel updateDailyCollectionReqModel,
+    required int id,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -60,7 +61,7 @@ class _DailyCollectionsApi implements DailyCollectionsApi {
       Options(method: 'PUT', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'collections',
+            'collections/${id}',
             queryParameters: queryParameters,
             data: _data,
           )

@@ -37,10 +37,12 @@ class CustomerDialogContentWidget extends StatelessWidget {
               details.transactions!.isNotEmpty) ...[
             const SectionTitleWidget(title: 'البيع'),
             ...details.transactions!.asMap().entries.map(
-              (entry) => TransactionSectionWidget(
+              (entry) {
+                return TransactionSectionWidget(
                 transaction: entry.value,
                 index: entry.key,
-              ),
+              );
+              },
             ),
             SizedBox(height: 12.h),
           ],
@@ -48,10 +50,12 @@ class CustomerDialogContentWidget extends StatelessWidget {
               details.collections!.isNotEmpty) ...[
             const SectionTitleWidget(title: 'التحصيل'),
             ...details.collections!.asMap().entries.map(
-              (entry) => CollectionRowWidget(
+              (entry) {
+                return CollectionRowWidget(
                 collection: entry.value,
                 index: entry.key,
-              ),
+              );
+              },
             ),
             SizedBox(height: 12.h),
           ],

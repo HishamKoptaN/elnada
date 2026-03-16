@@ -8,7 +8,7 @@ extension CreateDailyOrderReqEntityMapper on CreateDailyOrderReqEntity {
     return CreateDailyOrderReqModel(
       customerId: customerId.value ?? 0,
       productId: productId.value ?? 0,
-      count: int.tryParse(count.value ?? "0") ?? 0,
+      count: int.tryParse(count?.value ?? '') ?? 0,
     );
   }
 }
@@ -18,7 +18,7 @@ extension UpdateDailyOrderReqEntityMapper on UpdateDailyOrderReqEntity {
     return UpdateDailyOrderReqModel(
       customerId: customerId.value ?? 0,
       productId: productId.value ?? 0,
-      count: int.tryParse(count.value ?? "") ?? 0,
+      count: int.tryParse(count.value ?? '') ?? 0,
     );
   }
 }

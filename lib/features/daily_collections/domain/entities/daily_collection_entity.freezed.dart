@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DailyCollectionEntity {
 
-@JsonKey(name: "id") int? get id;@JsonKey(name: "amount") String? get amount;@JsonKey(name: "created_at") String? get createdAt;
+@JsonKey(name: 'id') int? get id;@JsonKey(name: 'amount') String? get amount;@JsonKey(name: 'created_at') String? get createdAt;
 /// Create a copy of DailyCollectionEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $DailyCollectionEntityCopyWith<$Res>  {
   factory $DailyCollectionEntityCopyWith(DailyCollectionEntity value, $Res Function(DailyCollectionEntity) _then) = _$DailyCollectionEntityCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: "id") int? id,@JsonKey(name: "amount") String? amount,@JsonKey(name: "created_at") String? createdAt
+@JsonKey(name: 'id') int? id,@JsonKey(name: 'amount') String? amount,@JsonKey(name: 'created_at') String? createdAt
 });
 
 
@@ -155,7 +155,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "amount")  String? amount, @JsonKey(name: "created_at")  String? createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'amount')  String? amount, @JsonKey(name: 'created_at')  String? createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DailyCollectionEntity() when $default != null:
 return $default(_that.id,_that.amount,_that.createdAt);case _:
@@ -176,7 +176,7 @@ return $default(_that.id,_that.amount,_that.createdAt);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "amount")  String? amount, @JsonKey(name: "created_at")  String? createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'amount')  String? amount, @JsonKey(name: 'created_at')  String? createdAt)  $default,) {final _that = this;
 switch (_that) {
 case _DailyCollectionEntity():
 return $default(_that.id,_that.amount,_that.createdAt);case _:
@@ -196,7 +196,7 @@ return $default(_that.id,_that.amount,_that.createdAt);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "id")  int? id, @JsonKey(name: "amount")  String? amount, @JsonKey(name: "created_at")  String? createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'amount')  String? amount, @JsonKey(name: 'created_at')  String? createdAt)?  $default,) {final _that = this;
 switch (_that) {
 case _DailyCollectionEntity() when $default != null:
 return $default(_that.id,_that.amount,_that.createdAt);case _:
@@ -211,12 +211,12 @@ return $default(_that.id,_that.amount,_that.createdAt);case _:
 @JsonSerializable()
 
 class _DailyCollectionEntity implements DailyCollectionEntity {
-  const _DailyCollectionEntity({@JsonKey(name: "id") this.id, @JsonKey(name: "amount") this.amount, @JsonKey(name: "created_at") this.createdAt});
+  const _DailyCollectionEntity({@JsonKey(name: 'id') this.id, @JsonKey(name: 'amount') this.amount, @JsonKey(name: 'created_at') this.createdAt});
   factory _DailyCollectionEntity.fromJson(Map<String, dynamic> json) => _$DailyCollectionEntityFromJson(json);
 
-@override@JsonKey(name: "id") final  int? id;
-@override@JsonKey(name: "amount") final  String? amount;
-@override@JsonKey(name: "created_at") final  String? createdAt;
+@override@JsonKey(name: 'id') final  int? id;
+@override@JsonKey(name: 'amount') final  String? amount;
+@override@JsonKey(name: 'created_at') final  String? createdAt;
 
 /// Create a copy of DailyCollectionEntity
 /// with the given fields replaced by the non-null parameter values.
@@ -251,7 +251,7 @@ abstract mixin class _$DailyCollectionEntityCopyWith<$Res> implements $DailyColl
   factory _$DailyCollectionEntityCopyWith(_DailyCollectionEntity value, $Res Function(_DailyCollectionEntity) _then) = __$DailyCollectionEntityCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: "id") int? id,@JsonKey(name: "amount") String? amount,@JsonKey(name: "created_at") String? createdAt
+@JsonKey(name: 'id') int? id,@JsonKey(name: 'amount') String? amount,@JsonKey(name: 'created_at') String? createdAt
 });
 
 

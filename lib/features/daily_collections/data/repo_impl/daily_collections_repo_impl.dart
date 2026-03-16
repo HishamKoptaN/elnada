@@ -4,10 +4,11 @@ import '../../../../../core/errors/api_error_handler.dart';
 import '../../../customers/data/mappers/customer_daily_reports_res_mapper.dart';
 import '../../../customers/domain/entities/customer_daily_reports_res_entity.dart';
 import '../../domain/entities/create_daily_collaction_req_entity.dart';
-import '../../domain/entities/update_daily_collaction_req_entity.dart';
+import '../../domain/entities/update_daily_collection_req_entity.dart';
 import '../datasources/daily_collections_api.dart';
 import '../../domain/repo/daily_collections_repo.dart';
 import '../mappers/daily_collections_mapper.dart';
+import '../models/update_daily_collection_req_model.dart';
 
 @Singleton(as: DailyCollectionsRepo)
 class DailyCollectionsRepoImpl implements DailyCollectionsRepo {
@@ -36,7 +37,10 @@ class DailyCollectionsRepoImpl implements DailyCollectionsRepo {
   }) async {
     try {
       final res = await dailyCollectionsApi.update(
-        updateDailyCollectionReqModel: updateDailyCollectionReq.toModel(),
+        updateDailyCollectionReqModel: UpdateDailyCollectionReqModel.fromEntity(
+          updateDailyCollectionReq,
+        ),
+        id: updateDailyCollectionReq.id?.value ?? 0,
       );
       return ApiResult.success(data: res.toEntity());
     } catch (error) {

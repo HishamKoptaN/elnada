@@ -66,7 +66,9 @@ class ReturnWeightDialog {
                         ),
                         keyboardType: TextInputType.number,
                         inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
+                          FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d*\.?\d*'),
+                          ),
                         ],
                         onChanged: (value) {
                           getIt<ReturnProductsBloc>().add(
@@ -74,12 +76,6 @@ class ReturnWeightDialog {
                               returnProductWeightReq: state
                                   .returnProductWeightReq
                                   .copyWith(
-                                    productId: GenericFormzInput.dirty(
-                                      productId,
-                                    ),
-                                    customerId: GenericFormzInput.dirty(
-                                      customer.id,
-                                    ),
                                     weight: GenericFormzInput.dirty(value),
                                   ),
                             ),
@@ -113,7 +109,7 @@ class ReturnWeightDialog {
                         backgroundColor: WidgetStatePropertyAll(
                           isValid ? Colors.green : Colors.grey,
                         ),
-                        foregroundColor: WidgetStatePropertyAll(
+                        foregroundColor: const WidgetStatePropertyAll(
                           Colors.white,
                         ),
                       ),

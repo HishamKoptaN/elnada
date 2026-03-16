@@ -295,7 +295,7 @@ as String?,
 /// @nodoc
 mixin _$TransactionDetailEntity {
 
- int? get id; ProductModel? get product; String? get weight; String? get priceAtTime; String? get discount; String? get total;
+ int? get id; ProductModel? get product; String? get weight; String? get cage; String? get priceAtTime; String? get discount; String? get total;
 /// Create a copy of TransactionDetailEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -308,16 +308,16 @@ $TransactionDetailEntityCopyWith<TransactionDetailEntity> get copyWith => _$Tran
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TransactionDetailEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.product, product) || other.product == product)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.priceAtTime, priceAtTime) || other.priceAtTime == priceAtTime)&&(identical(other.discount, discount) || other.discount == discount)&&(identical(other.total, total) || other.total == total));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TransactionDetailEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.product, product) || other.product == product)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.cage, cage) || other.cage == cage)&&(identical(other.priceAtTime, priceAtTime) || other.priceAtTime == priceAtTime)&&(identical(other.discount, discount) || other.discount == discount)&&(identical(other.total, total) || other.total == total));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,product,weight,priceAtTime,discount,total);
+int get hashCode => Object.hash(runtimeType,id,product,weight,cage,priceAtTime,discount,total);
 
 @override
 String toString() {
-  return 'TransactionDetailEntity(id: $id, product: $product, weight: $weight, priceAtTime: $priceAtTime, discount: $discount, total: $total)';
+  return 'TransactionDetailEntity(id: $id, product: $product, weight: $weight, cage: $cage, priceAtTime: $priceAtTime, discount: $discount, total: $total)';
 }
 
 
@@ -328,7 +328,7 @@ abstract mixin class $TransactionDetailEntityCopyWith<$Res>  {
   factory $TransactionDetailEntityCopyWith(TransactionDetailEntity value, $Res Function(TransactionDetailEntity) _then) = _$TransactionDetailEntityCopyWithImpl;
 @useResult
 $Res call({
- int? id, ProductModel? product, String? weight, String? priceAtTime, String? discount, String? total
+ int? id, ProductModel? product, String? weight, String? cage, String? priceAtTime, String? discount, String? total
 });
 
 
@@ -345,11 +345,12 @@ class _$TransactionDetailEntityCopyWithImpl<$Res>
 
 /// Create a copy of TransactionDetailEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? product = freezed,Object? weight = freezed,Object? priceAtTime = freezed,Object? discount = freezed,Object? total = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? product = freezed,Object? weight = freezed,Object? cage = freezed,Object? priceAtTime = freezed,Object? discount = freezed,Object? total = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,product: freezed == product ? _self.product : product // ignore: cast_nullable_to_non_nullable
 as ProductModel?,weight: freezed == weight ? _self.weight : weight // ignore: cast_nullable_to_non_nullable
+as String?,cage: freezed == cage ? _self.cage : cage // ignore: cast_nullable_to_non_nullable
 as String?,priceAtTime: freezed == priceAtTime ? _self.priceAtTime : priceAtTime // ignore: cast_nullable_to_non_nullable
 as String?,discount: freezed == discount ? _self.discount : discount // ignore: cast_nullable_to_non_nullable
 as String?,total: freezed == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
@@ -450,10 +451,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  ProductModel? product,  String? weight,  String? priceAtTime,  String? discount,  String? total)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  ProductModel? product,  String? weight,  String? cage,  String? priceAtTime,  String? discount,  String? total)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TransactionDetailEntity() when $default != null:
-return $default(_that.id,_that.product,_that.weight,_that.priceAtTime,_that.discount,_that.total);case _:
+return $default(_that.id,_that.product,_that.weight,_that.cage,_that.priceAtTime,_that.discount,_that.total);case _:
   return orElse();
 
 }
@@ -471,10 +472,10 @@ return $default(_that.id,_that.product,_that.weight,_that.priceAtTime,_that.disc
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  ProductModel? product,  String? weight,  String? priceAtTime,  String? discount,  String? total)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  ProductModel? product,  String? weight,  String? cage,  String? priceAtTime,  String? discount,  String? total)  $default,) {final _that = this;
 switch (_that) {
 case _TransactionDetailEntity():
-return $default(_that.id,_that.product,_that.weight,_that.priceAtTime,_that.discount,_that.total);case _:
+return $default(_that.id,_that.product,_that.weight,_that.cage,_that.priceAtTime,_that.discount,_that.total);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -491,10 +492,10 @@ return $default(_that.id,_that.product,_that.weight,_that.priceAtTime,_that.disc
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  ProductModel? product,  String? weight,  String? priceAtTime,  String? discount,  String? total)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  ProductModel? product,  String? weight,  String? cage,  String? priceAtTime,  String? discount,  String? total)?  $default,) {final _that = this;
 switch (_that) {
 case _TransactionDetailEntity() when $default != null:
-return $default(_that.id,_that.product,_that.weight,_that.priceAtTime,_that.discount,_that.total);case _:
+return $default(_that.id,_that.product,_that.weight,_that.cage,_that.priceAtTime,_that.discount,_that.total);case _:
   return null;
 
 }
@@ -506,12 +507,13 @@ return $default(_that.id,_that.product,_that.weight,_that.priceAtTime,_that.disc
 @JsonSerializable()
 
 class _TransactionDetailEntity implements TransactionDetailEntity {
-  const _TransactionDetailEntity({this.id, this.product, this.weight, this.priceAtTime, this.discount, this.total});
+  const _TransactionDetailEntity({this.id, this.product, this.weight, this.cage, this.priceAtTime, this.discount, this.total});
   factory _TransactionDetailEntity.fromJson(Map<String, dynamic> json) => _$TransactionDetailEntityFromJson(json);
 
 @override final  int? id;
 @override final  ProductModel? product;
 @override final  String? weight;
+@override final  String? cage;
 @override final  String? priceAtTime;
 @override final  String? discount;
 @override final  String? total;
@@ -529,16 +531,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TransactionDetailEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.product, product) || other.product == product)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.priceAtTime, priceAtTime) || other.priceAtTime == priceAtTime)&&(identical(other.discount, discount) || other.discount == discount)&&(identical(other.total, total) || other.total == total));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TransactionDetailEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.product, product) || other.product == product)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.cage, cage) || other.cage == cage)&&(identical(other.priceAtTime, priceAtTime) || other.priceAtTime == priceAtTime)&&(identical(other.discount, discount) || other.discount == discount)&&(identical(other.total, total) || other.total == total));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,product,weight,priceAtTime,discount,total);
+int get hashCode => Object.hash(runtimeType,id,product,weight,cage,priceAtTime,discount,total);
 
 @override
 String toString() {
-  return 'TransactionDetailEntity(id: $id, product: $product, weight: $weight, priceAtTime: $priceAtTime, discount: $discount, total: $total)';
+  return 'TransactionDetailEntity(id: $id, product: $product, weight: $weight, cage: $cage, priceAtTime: $priceAtTime, discount: $discount, total: $total)';
 }
 
 
@@ -549,7 +551,7 @@ abstract mixin class _$TransactionDetailEntityCopyWith<$Res> implements $Transac
   factory _$TransactionDetailEntityCopyWith(_TransactionDetailEntity value, $Res Function(_TransactionDetailEntity) _then) = __$TransactionDetailEntityCopyWithImpl;
 @override @useResult
 $Res call({
- int? id, ProductModel? product, String? weight, String? priceAtTime, String? discount, String? total
+ int? id, ProductModel? product, String? weight, String? cage, String? priceAtTime, String? discount, String? total
 });
 
 
@@ -566,11 +568,12 @@ class __$TransactionDetailEntityCopyWithImpl<$Res>
 
 /// Create a copy of TransactionDetailEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? product = freezed,Object? weight = freezed,Object? priceAtTime = freezed,Object? discount = freezed,Object? total = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? product = freezed,Object? weight = freezed,Object? cage = freezed,Object? priceAtTime = freezed,Object? discount = freezed,Object? total = freezed,}) {
   return _then(_TransactionDetailEntity(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,product: freezed == product ? _self.product : product // ignore: cast_nullable_to_non_nullable
 as ProductModel?,weight: freezed == weight ? _self.weight : weight // ignore: cast_nullable_to_non_nullable
+as String?,cage: freezed == cage ? _self.cage : cage // ignore: cast_nullable_to_non_nullable
 as String?,priceAtTime: freezed == priceAtTime ? _self.priceAtTime : priceAtTime // ignore: cast_nullable_to_non_nullable
 as String?,discount: freezed == discount ? _self.discount : discount // ignore: cast_nullable_to_non_nullable
 as String?,total: freezed == total ? _self.total : total // ignore: cast_nullable_to_non_nullable

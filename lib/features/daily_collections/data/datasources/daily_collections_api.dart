@@ -17,9 +17,10 @@ abstract class DailyCollectionsApi {
     @Body()
     required CreateDailyCollectionReqModel createDailyCollectionReqModel,
   });
-  @PUT(ApiConstants.collections)
+  @PUT('${ApiConstants.collections}/{id}')
   Future<CustomerDailyReportModel> update({
     @Body()
     required UpdateDailyCollectionReqModel updateDailyCollectionReqModel,
+    @Path('id') required int id,
   });
 }

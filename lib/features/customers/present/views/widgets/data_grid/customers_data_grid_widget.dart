@@ -101,14 +101,11 @@ class CustomersDataGridWidget extends StatelessWidget {
     bool isDesktop,
     CustomersState state,
   ) {
-    // نقوم باستدعاء CustomerDetailsDialog.show مباشرة
-    // باستخدام rowIndex الذي حصلنا عليه من _dataGridController
     final customerReport = state.maybeMap(
       loaded: (loadedState) =>
           loadedState.customersRes.customerDailyReports?[rowIndex],
       orElse: () => null,
     );
-
     if (customerReport != null) {
       CustomerDetailsDialog.show(
         context: context,
@@ -119,7 +116,7 @@ class CustomersDataGridWidget extends StatelessWidget {
         ),
         canInsertPreviusDayData: canInsertPreviusDayData,
         dailyReportId: customerReport.id ?? 0,
-        index: 0, // يمكنك تحديد العمود الافتراضي هنا
+        index: 0,
       );
     }
   }

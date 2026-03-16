@@ -5,7 +5,6 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../../core/errors/api_error_model.dart';
 import '../../../../core/networking/api_result.dart';
-import '../../../customers/domain/entities/customer_daily_reports_res_entity.dart';
 import '../../../customers/present/bloc/customers_bloc.dart';
 import '../../domain/entities/create_daily_transaction_req_entity.dart';
 import '../../domain/usecases/daily_transactions_use_cases.dart';
@@ -16,8 +15,6 @@ part 'daily_transactions_state.dart';
 @singleton
 class DailyTransactionsBloc
     extends Bloc<DailyTransactionsEvent, DailyTransactionsState> {
-  final DailyTransactionsUseCases dailyTransactionsUseCases;
-  final CustomersBloc customersBloc;
   DailyTransactionsBloc(this.dailyTransactionsUseCases, this.customersBloc)
     : super(const DailyTransactionsState.initial()) {
     on<DailyTransactionsEvent>((event, emit) async {
@@ -51,7 +48,7 @@ class DailyTransactionsBloc
                     createDailyTransactionReq: state.createDailyTransactionReq
                         .copyWith(weight: null),
                   );
-                  emit(DailyTransactionsState.success());
+                  emit(const DailyTransactionsState.success());
                 },
                 failure: (apiErrorModel) async {
                   emitFaliure(apiErrorModel: apiErrorModel, emit: emit);
@@ -63,6 +60,8 @@ class DailyTransactionsBloc
       );
     });
   }
+  final DailyTransactionsUseCases dailyTransactionsUseCases;
+  final CustomersBloc customersBloc;
   void emitFaliure({
     required Emitter<DailyTransactionsState> emit,
     required ApiErrorModel apiErrorModel,
@@ -80,11 +79,11 @@ class DailyTransactionsBloc
             formzSubmissionStatus ??
             (Formz.validate([
                   createDailyTransactionReq.customerId ??
-                      GenericFormzInput.dirty(0),
+                      const GenericFormzInput.dirty(0),
                   createDailyTransactionReq.productId ??
-                      GenericFormzInput.dirty(0),
+                      const GenericFormzInput.dirty(0),
                   createDailyTransactionReq.weight ??
-                      GenericFormzInput.dirty(''),
+                      const GenericFormzInput.dirty(''),
                 ])
                 ? FormzSubmissionStatus.success
                 : FormzSubmissionStatus.failure),

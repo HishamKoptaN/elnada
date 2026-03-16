@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../features/customers/present/bloc/customers_bloc.dart';
 import '../../features/daily_collections/present/bloc/daily_collections_bloc.dart';
+import '../../features/daily_collections/present/update_collection_bloc/update_daily_collections_bloc.dart';
 import '../../features/daily_orders/present/bloc/daily_orders_bloc.dart';
 import '../../features/daily_transactions/present/bloc/daily_transactions_bloc.dart';
 import '../../features/products/present/bloc/products_bloc.dart';
 import '../../features/return_products/present/bloc/return_products_bloc.dart';
+import '../../features/transactions_details/present/bloc/transactions_details_bloc.dart';
 import '../config/app_config.dart';
 import '../di/dependency_injection.dart';
 import '../routing/app_router.dart';
@@ -23,8 +25,14 @@ class TahaApp extends StatelessWidget {
         BlocProvider<DailyTransactionsBloc>(
           create: (_) => getIt<DailyTransactionsBloc>(),
         ),
+        BlocProvider<TransactionsDetailsBloc>(
+          create: (_) => getIt<TransactionsDetailsBloc>(),
+        ),
         BlocProvider<DailyCollectionsBloc>(
           create: (_) => getIt<DailyCollectionsBloc>(),
+        ),
+        BlocProvider<UpdateDailyCollectionsBloc>(
+          create: (_) => getIt<UpdateDailyCollectionsBloc>(),
         ),
         BlocProvider<DailyOrdersBloc>(create: (_) => getIt<DailyOrdersBloc>()),
         BlocProvider<ReturnProductsBloc>(

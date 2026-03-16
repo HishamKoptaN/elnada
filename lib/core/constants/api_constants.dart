@@ -4,6 +4,7 @@ class ApiConstants {
   static const String products = 'products';
   static const String productsPrice = 'products/price';
   static const String transactions = 'transactions';
+  static const String transactionsDetails = 'transactions/details';
   static const String returns = 'returns';
   static const String collections = 'collections';
   static const String dailyOrders = 'orders';

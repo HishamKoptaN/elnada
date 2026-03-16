@@ -13,14 +13,18 @@ class CollectionDialog {
     required BuildContext context,
     required CustomerEntity customer,
   }) {
+    final FocusNode amountFocus = FocusNode();
+    final FocusNode buttonFocus = FocusNode();
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        Future.delayed(Duration.zero, () {
+          amountFocus.requestFocus();
+        });
         getIt<DailyCollectionsBloc>().add(
           DailyCollectionsEvent.dataChanged(
             createDailyCollectionReq: CreateDailyCollectionReqEntity(
               customerId: GenericFormzInput.dirty(customer.id),
-              amount: GenericFormzInput.dirty(''),
             ),
           ),
         );
@@ -52,17 +56,15 @@ class CollectionDialog {
                         ),
                         SizedBox(height: 16.h),
                         TextFormField(
+                          focusNode: amountFocus,
                           initialValue:
-                              state.createDailyCollectionReq.amount.value,
+                              state.createDailyCollectionReq.amount?.value,
                           onChanged: (value) {
                             getIt<DailyCollectionsBloc>().add(
                               DailyCollectionsEvent.dataChanged(
                                 createDailyCollectionReq: state
                                     .createDailyCollectionReq
                                     .copyWith(
-                                      customerId: GenericFormzInput.dirty(
-                                        customer.id,
-                                      ),
                                       amount: GenericFormzInput.dirty(value),
                                     ),
                               ),
@@ -75,8 +77,11 @@ class CollectionDialog {
                           decoration: InputDecoration(
                             labelText: 'المبلغ',
                             labelStyle: TextStyle(fontSize: 16.sp),
-                            border: OutlineInputBorder(),
+                            border: const OutlineInputBorder(),
                           ),
+                          onFieldSubmitted: (_) {
+                            buttonFocus.requestFocus();
+                          },
                         ),
                         SizedBox(height: 16.h),
                       ],
@@ -84,14 +89,17 @@ class CollectionDialog {
                   ),
                   actions: [
                     TextButton(
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
                       child: Text('إلغاء', style: TextStyle(fontSize: 16.sp)),
                     ),
                     ElevatedButton(
+                      focusNode: buttonFocus,
                       onPressed: state.createDailyCollectionReq.isValid
                           ? () {
                               getIt<DailyCollectionsBloc>().add(
-                                DailyCollectionsEvent.create(),
+                                const DailyCollectionsEvent.create(),
                               );
                             }
                           : null,
@@ -101,7 +109,9 @@ class CollectionDialog {
                               ? Colors.green
                               : Colors.grey,
                         ),
-                        foregroundColor: WidgetStatePropertyAll(Colors.white),
+                        foregroundColor: const WidgetStatePropertyAll(
+                          Colors.white,
+                        ),
                       ),
                       child: Text('حفظ', style: TextStyle(fontSize: 16.sp)),
                     ),
