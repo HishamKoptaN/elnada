@@ -17,8 +17,13 @@ import 'package:path_provider/path_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (Platform.isWindows) {
+    await autoUpdater.setFeedURL(
+      'https://raw.githubusercontent.com/HishamKoptaN/elnada/refs/heads/dev/desktop_appcast.xml',
+    );
+    await autoUpdater.setScheduledCheckInterval(3600);
+  }
   await initLogging();
-  setupAutoUpdater();
   try {
     await AppInitializer.initialize();
     await configureDependencies(environment: EnvConfig.config.envName);

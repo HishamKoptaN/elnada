@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../price_discount/data/models/price_discount_model.dart';
 part 'customer_daily_reports_res_model.freezed.dart';
 part 'customer_daily_reports_res_model.g.dart';
 
@@ -28,6 +30,7 @@ abstract class CustomerDailyReportModel with _$CustomerDailyReportModel {
     @JsonKey(name: 'total_collections') int? totalCollections,
     @JsonKey(name: 'closing_balance') int? closingBalance,
     @JsonKey(name: 'product_orders') List<ProductOrderModel>? productOrders,
+    @JsonKey(name: 'price_discounts') List<PriceDiscountModel>? priceDiscounts,
   }) = _CustomerDailyReportModel;
   factory CustomerDailyReportModel.fromJson(Map<String, Object?> json) =>
       _$CustomerDailyReportModelFromJson(json);

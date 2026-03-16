@@ -11,7 +11,7 @@ part 'price_discount_api.g.dart';
 abstract class PriceDiscountApi {
   @factoryMethod
   factory PriceDiscountApi(Dio dio) = _PriceDiscountApi;
-  @POST(ApiConstants.priceDiscount)
+  @POST(ApiConstants.priceDiscounts)
   Future<CustomerDailyReportModel> priceDiscount({
     @Body() required PriceDiscountReqModel priceDiscountReq,
   });

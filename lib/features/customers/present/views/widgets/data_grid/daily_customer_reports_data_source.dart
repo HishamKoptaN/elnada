@@ -89,22 +89,30 @@ class DailyCustomerReportsDataSource extends DataGridSource {
               DataGridCell<String>(
                 columnName: 'طلب م',
                 value:
-                    e.productOrders
-                        ?.where((t) => t.productId == 2)
-                        .map((t) => '${t.totalCount ?? 0} ')
+                    e.priceDiscounts
+                        ?.where((t) => t.product?.id == 2)
+                        .map((t) => '${t.discountValue ?? 0} ')
                         .join('\n') ??
                     '',
               ),
               DataGridCell<String>(
                 columnName: 'فرق سعر ت',
                 value:
-                    e.productOrders
-                        ?.where((t) => t.productId == 2)
-                        .map((t) => '${t.totalCount ?? 0} ')
+                    e.priceDiscounts
+                        ?.where((t) => t.product?.id == 1)
+                        .map((t) => '${t.discountValue ?? 0} ')
                         .join('\n') ??
                     '',
               ),
-              const DataGridCell<String>(columnName: 'فرق سعر م', value: ''),
+              DataGridCell<String>(
+                columnName: 'فرق سعر م',
+                value:
+                    e.priceDiscounts
+                        ?.where((t) => t.product?.id == 2)
+                        .map((t) => '${t.discountValue ?? 0} ')
+                        .join('\n') ??
+                    '',
+              ),
             ],
           ),
         )

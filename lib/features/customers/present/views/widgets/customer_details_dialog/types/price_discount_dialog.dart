@@ -5,8 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
 import '../../../../../../../core/di/dependency_injection.dart';
-import '../../../../../../daily_orders/domain/entities/create_daily_order_req_entity.dart';
-import '../../../../../../daily_orders/present/bloc/daily_orders_bloc.dart';
 import '../../../../../../price_discount/domain/entities/price_discount_entity.dart';
 import '../../../../../../price_discount/domain/entities/price_discount_req_entity.dart';
 import '../../../../../../price_discount/present/update_collection_bloc/update_price_discount_bloc.dart';
@@ -98,13 +96,17 @@ class PriceDiscountDialog {
                     ElevatedButton(
                       focusNode: buttonFocus,
                       onPressed: () {
-                        getIt<PriceDiscountBloc>().add(
-                          const PriceDiscountEvent.update(),
-                        );
+                        if (state.formzSubmissionStatus ==
+                            FormzSubmissionStatus.success) {
+                          getIt<PriceDiscountBloc>().add(
+                            const PriceDiscountEvent.update(),
+                          );
+                        }
                       },
                       style: ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(
-                          state.priceDiscountReq.isValid
+                          state.formzSubmissionStatus ==
+                                  FormzSubmissionStatus.success
                               ? Colors.green
                               : Colors.grey,
                         ),

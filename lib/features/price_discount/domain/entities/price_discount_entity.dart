@@ -7,7 +7,7 @@ part 'price_discount_entity.g.dart';
 abstract class PriceDiscountEntity with _$PriceDiscountEntity {
   const factory PriceDiscountEntity({
     @JsonKey(name: 'id') int? id,
-    @JsonKey(name: 'discountValue') String? discountValue,
+    @JsonKey(name: 'discount_value') String? discountValue,
     @JsonKey(name: 'product') ProductEntity? product,
     @JsonKey(name: 'created_at') String? createdAt,
   }) = _PriceDiscountEntity;

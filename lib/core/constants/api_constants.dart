@@ -8,7 +8,7 @@ class ApiConstants {
   static const String returns = 'returns';
   static const String collections = 'collections';
   static const String dailyOrders = 'orders';
-  static const String priceDiscount = 'price-discount';
+  static const String priceDiscounts = 'price-discounts';
   static const String refreshToken = 'refresh-token';
   // Other endpoints
   static const String customers = 'customers';

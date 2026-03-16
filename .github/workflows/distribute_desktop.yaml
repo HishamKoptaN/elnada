@@ -23,8 +23,8 @@ jobs:
               run: |
                   $line = Get-Content pubspec.yaml | Select-String "^version: "
                   $fullVersion = ($line -split " ")[1].Trim()
-                  echo "FULL_VERSION=$fullVersion" >> $env:GITHUB_OUTPUT
-
+                  $version = $fullVersion.Split("+")[0]
+                  echo "FULL_VERSION=$version" >> $env:GITHUB_OUTPUT
             - name: Update Version in ISS
               shell: pwsh
               run: |
@@ -52,7 +52,7 @@ jobs:
                   } else {
                       $newName = "abujena_dawajen.exe"
                   }
-                  $setupFile = Get-ChildItem "installers/*.exe" | Select-Object -First 1
+                  $setupFile = Get-ChildItem "installers/*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
                   Rename-Item -Path $setupFile.FullName -NewName $newName
                   echo "FINAL_FILE_NAME=$newName" >> $env:GITHUB_ENV
 
@@ -65,15 +65,13 @@ jobs:
                   $url = "https://github.com/${{ github.repository }}/releases/download/latest/$fileName"
                   $xmlPath = "desktop_appcast.xml"
                   $currentDate = Get-Date -Format "ddd, dd MMM yyyy HH:mm:ss K"
-
                   if (Test-Path $xmlPath) {
-                      $content = Get-Content $xmlPath -Raw
-                      
-                      # تحديث النسخة، الرابط، العنوان، وتاريخ النشر بدقة
+                       $content = Get-Content $xmlPath -Raw
                       $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""$version"""
+                      $content = $content -replace 'sparkle:shortVersionString="[^"]*"',                       "sparkle:shortVersionString=""$version"""
                       $content = $content -replace 'url="[^"]*"', "url=""$url"""
-                      $content = $content -replace '<title>Version [^<]*</title>', "<title>Version $version</title>"
-                      $content = $content -replace '<pubDate>[^<]*</pubDate>', "<pubDate>$currentDate</pubDate>"
+                      $content = $content -replace '<title>Version [^<]*</title>', "<title>Version                       $version</title>"
+                      $content = $content -replace '<pubDate>[^<]*</pubDate>',                       "<pubDate>$currentDate</pubDate>"
                       
                       [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
                       

@@ -45,6 +45,9 @@ _CustomerDailyReportModel _$CustomerDailyReportModelFromJson(
   productOrders: (json['product_orders'] as List<dynamic>?)
       ?.map((e) => ProductOrderModel.fromJson(e as Map<String, dynamic>))
       .toList(),
+  priceDiscounts: (json['price_discounts'] as List<dynamic>?)
+      ?.map((e) => PriceDiscountModel.fromJson(e as Map<String, dynamic>))
+      .toList(),
 );
 
 Map<String, dynamic> _$CustomerDailyReportModelToJson(
@@ -58,6 +61,7 @@ Map<String, dynamic> _$CustomerDailyReportModelToJson(
   'total_collections': instance.totalCollections,
   'closing_balance': instance.closingBalance,
   'product_orders': instance.productOrders,
+  'price_discounts': instance.priceDiscounts,
 };
 
 _CustomerModel _$CustomerModelFromJson(Map<String, dynamic> json) =>

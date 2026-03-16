@@ -1,4 +1,5 @@
 import '../../../daily_orders/domain/entities/daily_product_order_entity.dart';
+import '../../../price_discount/data/mappers/price_discount_mapper.dart';
 import '../../domain/entities/customer_daily_reports_res_entity.dart';
 import '../models/customer_daily_reports_res_model.dart';
 
@@ -26,6 +27,7 @@ extension CustomerDailyReportMapper on CustomerDailyReportModel {
       totalCollections: totalCollections.toString(),
       closingBalance: closingBalance.toString(),
       productOrders: productOrders?.map((e) => e.toEntity()).toList() ?? [],
+      priceDiscounts: priceDiscounts?.map((e) => e.toEntity()).toList() ?? [],
     );
   }
 }

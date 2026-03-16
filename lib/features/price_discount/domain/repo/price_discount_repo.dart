@@ -4,6 +4,6 @@ import '../entities/price_discount_req_entity.dart';
 
 abstract class PriceDiscountRepo {
   Future<ApiResult<CustomerDailyReportEntity?>> priceDiscount({
-    required PriceDiscountReqEntity updatePriceDiscountReq,
+    required PriceDiscountReqEntity priceDiscountReq,
   });
 }

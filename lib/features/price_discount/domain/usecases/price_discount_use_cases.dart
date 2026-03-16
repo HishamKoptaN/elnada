@@ -12,7 +12,7 @@ class PriceDiscountUseCases {
     required PriceDiscountReqEntity updatePriceDiscountReq,
   }) async {
     return await priceDiscountRepo.priceDiscount(
-      updatePriceDiscountReq: updatePriceDiscountReq,
+      priceDiscountReq: updatePriceDiscountReq,
     );
   }
 }

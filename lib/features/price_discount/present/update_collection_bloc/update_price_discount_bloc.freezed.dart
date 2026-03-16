@@ -122,10 +122,10 @@ return update(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( PriceDiscountReqEntity updatePriceDiscountReq)?  dataChanged,TResult Function()?  update,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( PriceDiscountReqEntity priceDiscountReq)?  dataChanged,TResult Function()?  update,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DataChanged() when dataChanged != null:
-return dataChanged(_that.updatePriceDiscountReq);case _Update() when update != null:
+return dataChanged(_that.priceDiscountReq);case _Update() when update != null:
 return update();case _:
   return orElse();
 
@@ -144,10 +144,10 @@ return update();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( PriceDiscountReqEntity updatePriceDiscountReq)  dataChanged,required TResult Function()  update,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( PriceDiscountReqEntity priceDiscountReq)  dataChanged,required TResult Function()  update,}) {final _that = this;
 switch (_that) {
 case _DataChanged():
-return dataChanged(_that.updatePriceDiscountReq);case _Update():
+return dataChanged(_that.priceDiscountReq);case _Update():
 return update();case _:
   throw StateError('Unexpected subclass');
 
@@ -165,10 +165,10 @@ return update();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( PriceDiscountReqEntity updatePriceDiscountReq)?  dataChanged,TResult? Function()?  update,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( PriceDiscountReqEntity priceDiscountReq)?  dataChanged,TResult? Function()?  update,}) {final _that = this;
 switch (_that) {
 case _DataChanged() when dataChanged != null:
-return dataChanged(_that.updatePriceDiscountReq);case _Update() when update != null:
+return dataChanged(_that.priceDiscountReq);case _Update() when update != null:
 return update();case _:
   return null;
 
@@ -181,10 +181,10 @@ return update();case _:
 
 
 class _DataChanged implements PriceDiscountEvent {
-  const _DataChanged({required this.updatePriceDiscountReq});
+  const _DataChanged({required this.priceDiscountReq});
   
 
- final  PriceDiscountReqEntity updatePriceDiscountReq;
+ final  PriceDiscountReqEntity priceDiscountReq;
 
 /// Create a copy of PriceDiscountEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -196,16 +196,16 @@ _$DataChangedCopyWith<_DataChanged> get copyWith => __$DataChangedCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DataChanged&&(identical(other.updatePriceDiscountReq, updatePriceDiscountReq) || other.updatePriceDiscountReq == updatePriceDiscountReq));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DataChanged&&(identical(other.priceDiscountReq, priceDiscountReq) || other.priceDiscountReq == priceDiscountReq));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,updatePriceDiscountReq);
+int get hashCode => Object.hash(runtimeType,priceDiscountReq);
 
 @override
 String toString() {
-  return 'PriceDiscountEvent.dataChanged(updatePriceDiscountReq: $updatePriceDiscountReq)';
+  return 'PriceDiscountEvent.dataChanged(priceDiscountReq: $priceDiscountReq)';
 }
 
 
@@ -216,11 +216,11 @@ abstract mixin class _$DataChangedCopyWith<$Res> implements $PriceDiscountEventC
   factory _$DataChangedCopyWith(_DataChanged value, $Res Function(_DataChanged) _then) = __$DataChangedCopyWithImpl;
 @useResult
 $Res call({
- PriceDiscountReqEntity updatePriceDiscountReq
+ PriceDiscountReqEntity priceDiscountReq
 });
 
 
-$PriceDiscountReqEntityCopyWith<$Res> get updatePriceDiscountReq;
+$PriceDiscountReqEntityCopyWith<$Res> get priceDiscountReq;
 
 }
 /// @nodoc
@@ -233,9 +233,9 @@ class __$DataChangedCopyWithImpl<$Res>
 
 /// Create a copy of PriceDiscountEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? updatePriceDiscountReq = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? priceDiscountReq = null,}) {
   return _then(_DataChanged(
-updatePriceDiscountReq: null == updatePriceDiscountReq ? _self.updatePriceDiscountReq : updatePriceDiscountReq // ignore: cast_nullable_to_non_nullable
+priceDiscountReq: null == priceDiscountReq ? _self.priceDiscountReq : priceDiscountReq // ignore: cast_nullable_to_non_nullable
 as PriceDiscountReqEntity,
   ));
 }
@@ -244,10 +244,10 @@ as PriceDiscountReqEntity,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$PriceDiscountReqEntityCopyWith<$Res> get updatePriceDiscountReq {
+$PriceDiscountReqEntityCopyWith<$Res> get priceDiscountReq {
   
-  return $PriceDiscountReqEntityCopyWith<$Res>(_self.updatePriceDiscountReq, (value) {
-    return _then(_self.copyWith(updatePriceDiscountReq: value));
+  return $PriceDiscountReqEntityCopyWith<$Res>(_self.priceDiscountReq, (value) {
+    return _then(_self.copyWith(priceDiscountReq: value));
   });
 }
 }
@@ -404,7 +404,7 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( PriceDiscountReqEntity updatePriceDiscountReq,  FormzSubmissionStatus formzSubmissionStatus)?  loaded,TResult Function()?  success,TResult Function( ApiErrorModel apiErrorModel)?  failure,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( PriceDiscountReqEntity priceDiscountReq,  FormzSubmissionStatus formzSubmissionStatus)?  loaded,TResult Function()?  success,TResult Function( ApiErrorModel apiErrorModel)?  failure,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
@@ -429,7 +429,7 @@ return failure(_that.apiErrorModel);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( PriceDiscountReqEntity updatePriceDiscountReq,  FormzSubmissionStatus formzSubmissionStatus)  loaded,required TResult Function()  success,required TResult Function( ApiErrorModel apiErrorModel)  failure,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( PriceDiscountReqEntity priceDiscountReq,  FormzSubmissionStatus formzSubmissionStatus)  loaded,required TResult Function()  success,required TResult Function( ApiErrorModel apiErrorModel)  failure,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case _Loading():
@@ -453,7 +453,7 @@ return failure(_that.apiErrorModel);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( PriceDiscountReqEntity updatePriceDiscountReq,  FormzSubmissionStatus formzSubmissionStatus)?  loaded,TResult? Function()?  success,TResult? Function( ApiErrorModel apiErrorModel)?  failure,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( PriceDiscountReqEntity priceDiscountReq,  FormzSubmissionStatus formzSubmissionStatus)?  loaded,TResult? Function()?  success,TResult? Function( ApiErrorModel apiErrorModel)?  failure,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
@@ -561,7 +561,7 @@ int get hashCode => Object.hash(runtimeType,priceDiscountReq,formzSubmissionStat
 
 @override
 String toString() {
-  return 'PriceDiscountState.loaded(updatePriceDiscountReq: $priceDiscountReq, formzSubmissionStatus: $formzSubmissionStatus)';
+  return 'PriceDiscountState.loaded(priceDiscountReq: $priceDiscountReq, formzSubmissionStatus: $formzSubmissionStatus)';
 }
 
 
@@ -572,11 +572,11 @@ abstract mixin class _$LoadedCopyWith<$Res> implements $PriceDiscountStateCopyWi
   factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) = __$LoadedCopyWithImpl;
 @useResult
 $Res call({
- PriceDiscountReqEntity updatePriceDiscountReq, FormzSubmissionStatus formzSubmissionStatus
+ PriceDiscountReqEntity priceDiscountReq, FormzSubmissionStatus formzSubmissionStatus
 });
 
 
-$PriceDiscountReqEntityCopyWith<$Res> get updatePriceDiscountReq;
+$PriceDiscountReqEntityCopyWith<$Res> get priceDiscountReq;
 
 }
 /// @nodoc
@@ -589,9 +589,9 @@ class __$LoadedCopyWithImpl<$Res>
 
 /// Create a copy of PriceDiscountState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? updatePriceDiscountReq = null,Object? formzSubmissionStatus = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? priceDiscountReq = null,Object? formzSubmissionStatus = null,}) {
   return _then(_Loaded(
-priceDiscountReq: null == updatePriceDiscountReq ? _self.priceDiscountReq : updatePriceDiscountReq // ignore: cast_nullable_to_non_nullable
+priceDiscountReq: null == priceDiscountReq ? _self.priceDiscountReq : priceDiscountReq // ignore: cast_nullable_to_non_nullable
 as PriceDiscountReqEntity,formzSubmissionStatus: null == formzSubmissionStatus ? _self.formzSubmissionStatus : formzSubmissionStatus // ignore: cast_nullable_to_non_nullable
 as FormzSubmissionStatus,
   ));
@@ -601,10 +601,10 @@ as FormzSubmissionStatus,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$PriceDiscountReqEntityCopyWith<$Res> get updatePriceDiscountReq {
+$PriceDiscountReqEntityCopyWith<$Res> get priceDiscountReq {
   
   return $PriceDiscountReqEntityCopyWith<$Res>(_self.priceDiscountReq, (value) {
-    return _then(_self.copyWith(updatePriceDiscountReq: value));
+    return _then(_self.copyWith(priceDiscountReq: value));
   });
 }
 }

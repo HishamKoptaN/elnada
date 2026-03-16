@@ -118,7 +118,7 @@ class CustomerDetailsDialog {
               ) ??
               const PriceDiscountEntity(),
           customer: customerDailyReport.customer!,
-          productId: 2,
+          productId: 1,
         );
         break;
       case 11:
@@ -131,7 +131,7 @@ class CustomerDetailsDialog {
               ) ??
               const PriceDiscountEntity(),
           customer: customerDailyReport.customer!,
-          productId: 1,
+          productId: 2,
         );
         break;
       default:

@@ -10,7 +10,7 @@ abstract class PriceDiscountReqEntity with _$PriceDiscountReqEntity {
     required PriceDiscountEntity? priceDiscount,
     required GenericFormzInput<int>? customerId,
     required GenericFormzInput<int>? productId,
-    GenericFormzInput<double>? priceDiscountAmount,
+    GenericFormzInput<String>? priceDiscountAmount,
   }) = _PriceDiscountReqEntity;
   factory PriceDiscountReqEntity.fromEntity(PriceDiscountEntity priceDiscount) {
     return PriceDiscountReqEntity(
@@ -18,7 +18,7 @@ abstract class PriceDiscountReqEntity with _$PriceDiscountReqEntity {
       customerId: GenericFormzInput.dirty(priceDiscount.product?.id),
       productId: GenericFormzInput.dirty(priceDiscount.product?.id),
       priceDiscountAmount: GenericFormzInput.dirty(
-        double.parse(priceDiscount.discountValue!),
+        double.parse(priceDiscount.discountValue ?? '0').toString(),
       ),
     );
   }
@@ -26,7 +26,9 @@ abstract class PriceDiscountReqEntity with _$PriceDiscountReqEntity {
     final double originalAmount = double.parse(
       priceDiscountAmount!.value!.toString(),
     );
-    final double currentAmount = priceDiscountAmount!.value!;
+    final double currentAmount = double.parse(
+      priceDiscountAmount!.value!.toString(),
+    );
     return originalAmount != currentAmount;
   }
 }

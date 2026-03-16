@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PriceDiscountReqEntity {
 
- PriceDiscountEntity? get priceDiscount; GenericFormzInput<int>? get customerId; GenericFormzInput<int>? get productId; GenericFormzInput<double>? get priceDiscountAmount;
+ PriceDiscountEntity? get priceDiscount; GenericFormzInput<int>? get customerId; GenericFormzInput<int>? get productId; GenericFormzInput<String>? get priceDiscountAmount;
 /// Create a copy of PriceDiscountReqEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -45,7 +45,7 @@ abstract mixin class $PriceDiscountReqEntityCopyWith<$Res>  {
   factory $PriceDiscountReqEntityCopyWith(PriceDiscountReqEntity value, $Res Function(PriceDiscountReqEntity) _then) = _$PriceDiscountReqEntityCopyWithImpl;
 @useResult
 $Res call({
- PriceDiscountEntity? priceDiscount, GenericFormzInput<int>? customerId, GenericFormzInput<int>? productId, GenericFormzInput<double>? priceDiscountAmount
+ PriceDiscountEntity? priceDiscount, GenericFormzInput<int>? customerId, GenericFormzInput<int>? productId, GenericFormzInput<String>? priceDiscountAmount
 });
 
 
@@ -68,7 +68,7 @@ priceDiscount: freezed == priceDiscount ? _self.priceDiscount : priceDiscount //
 as PriceDiscountEntity?,customerId: freezed == customerId ? _self.customerId : customerId // ignore: cast_nullable_to_non_nullable
 as GenericFormzInput<int>?,productId: freezed == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
 as GenericFormzInput<int>?,priceDiscountAmount: freezed == priceDiscountAmount ? _self.priceDiscountAmount : priceDiscountAmount // ignore: cast_nullable_to_non_nullable
-as GenericFormzInput<double>?,
+as GenericFormzInput<String>?,
   ));
 }
 /// Create a copy of PriceDiscountReqEntity
@@ -165,7 +165,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( PriceDiscountEntity? priceDiscount,  GenericFormzInput<int>? customerId,  GenericFormzInput<int>? productId,  GenericFormzInput<double>? priceDiscountAmount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( PriceDiscountEntity? priceDiscount,  GenericFormzInput<int>? customerId,  GenericFormzInput<int>? productId,  GenericFormzInput<String>? priceDiscountAmount)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PriceDiscountReqEntity() when $default != null:
 return $default(_that.priceDiscount,_that.customerId,_that.productId,_that.priceDiscountAmount);case _:
@@ -186,7 +186,7 @@ return $default(_that.priceDiscount,_that.customerId,_that.productId,_that.price
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( PriceDiscountEntity? priceDiscount,  GenericFormzInput<int>? customerId,  GenericFormzInput<int>? productId,  GenericFormzInput<double>? priceDiscountAmount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( PriceDiscountEntity? priceDiscount,  GenericFormzInput<int>? customerId,  GenericFormzInput<int>? productId,  GenericFormzInput<String>? priceDiscountAmount)  $default,) {final _that = this;
 switch (_that) {
 case _PriceDiscountReqEntity():
 return $default(_that.priceDiscount,_that.customerId,_that.productId,_that.priceDiscountAmount);case _:
@@ -206,7 +206,7 @@ return $default(_that.priceDiscount,_that.customerId,_that.productId,_that.price
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( PriceDiscountEntity? priceDiscount,  GenericFormzInput<int>? customerId,  GenericFormzInput<int>? productId,  GenericFormzInput<double>? priceDiscountAmount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( PriceDiscountEntity? priceDiscount,  GenericFormzInput<int>? customerId,  GenericFormzInput<int>? productId,  GenericFormzInput<String>? priceDiscountAmount)?  $default,) {final _that = this;
 switch (_that) {
 case _PriceDiscountReqEntity() when $default != null:
 return $default(_that.priceDiscount,_that.customerId,_that.productId,_that.priceDiscountAmount);case _:
@@ -227,7 +227,7 @@ class _PriceDiscountReqEntity extends PriceDiscountReqEntity {
 @override final  PriceDiscountEntity? priceDiscount;
 @override final  GenericFormzInput<int>? customerId;
 @override final  GenericFormzInput<int>? productId;
-@override final  GenericFormzInput<double>? priceDiscountAmount;
+@override final  GenericFormzInput<String>? priceDiscountAmount;
 
 /// Create a copy of PriceDiscountReqEntity
 /// with the given fields replaced by the non-null parameter values.
@@ -259,7 +259,7 @@ abstract mixin class _$PriceDiscountReqEntityCopyWith<$Res> implements $PriceDis
   factory _$PriceDiscountReqEntityCopyWith(_PriceDiscountReqEntity value, $Res Function(_PriceDiscountReqEntity) _then) = __$PriceDiscountReqEntityCopyWithImpl;
 @override @useResult
 $Res call({
- PriceDiscountEntity? priceDiscount, GenericFormzInput<int>? customerId, GenericFormzInput<int>? productId, GenericFormzInput<double>? priceDiscountAmount
+ PriceDiscountEntity? priceDiscount, GenericFormzInput<int>? customerId, GenericFormzInput<int>? productId, GenericFormzInput<String>? priceDiscountAmount
 });
 
 
@@ -282,7 +282,7 @@ priceDiscount: freezed == priceDiscount ? _self.priceDiscount : priceDiscount //
 as PriceDiscountEntity?,customerId: freezed == customerId ? _self.customerId : customerId // ignore: cast_nullable_to_non_nullable
 as GenericFormzInput<int>?,productId: freezed == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
 as GenericFormzInput<int>?,priceDiscountAmount: freezed == priceDiscountAmount ? _self.priceDiscountAmount : priceDiscountAmount // ignore: cast_nullable_to_non_nullable
-as GenericFormzInput<double>?,
+as GenericFormzInput<String>?,
   ));
 }
 

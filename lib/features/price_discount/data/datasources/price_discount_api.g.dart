@@ -31,7 +31,7 @@ class _PriceDiscountApi implements PriceDiscountApi {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'price-discount',
+            'price-discounts',
             queryParameters: queryParameters,
             data: _data,
           )

@@ -6,6 +6,7 @@ import '../../features/daily_collections/present/bloc/daily_collections_bloc.dar
 import '../../features/daily_collections/present/update_collection_bloc/update_daily_collections_bloc.dart';
 import '../../features/daily_orders/present/bloc/daily_orders_bloc.dart';
 import '../../features/daily_transactions/present/bloc/daily_transactions_bloc.dart';
+import '../../features/price_discount/present/update_collection_bloc/update_price_discount_bloc.dart';
 import '../../features/products/present/bloc/products_bloc.dart';
 import '../../features/return_products/present/bloc/return_products_bloc.dart';
 import '../../features/transactions_details/present/bloc/transactions_details_bloc.dart';
@@ -37,6 +38,9 @@ class TahaApp extends StatelessWidget {
         BlocProvider<DailyOrdersBloc>(create: (_) => getIt<DailyOrdersBloc>()),
         BlocProvider<ReturnProductsBloc>(
           create: (_) => getIt<ReturnProductsBloc>(),
+        ),
+        BlocProvider<PriceDiscountBloc>(
+          create: (_) => getIt<PriceDiscountBloc>(),
         ),
       ],
       child: ScreenUtilInit(

@@ -28,9 +28,10 @@ class PriceDiscountBloc extends Bloc<PriceDiscountEvent, PriceDiscountState> {
         update: () async {
           await state.mapOrNull(
             loaded: (state) async {
-              emitLoaded(
-                emit: emit,
-                updatePriceDiscountReq: state.priceDiscountReq,
+              emit(
+                state.copyWith(
+                  formzSubmissionStatus: FormzSubmissionStatus.inProgress,
+                ),
               );
               final res = await priceDiscountUseCases.priceDiscount(
                 updatePriceDiscountReq: state.priceDiscountReq,
@@ -77,14 +78,16 @@ class PriceDiscountBloc extends Bloc<PriceDiscountEvent, PriceDiscountState> {
   }) {
     emit(
       PriceDiscountState.loaded(
-        updatePriceDiscountReq: updatePriceDiscountReq,
+        priceDiscountReq: updatePriceDiscountReq,
         formzSubmissionStatus:
             formzSubmissionStatus ??
             ((Formz.validate([
-                      updatePriceDiscountReq.priceDiscountAmount ??
-                          const GenericFormzInput.pure(),
-                    ]) &&
-                    updatePriceDiscountReq.hasChanged)
+                  updatePriceDiscountReq.priceDiscountAmount ??
+                      const GenericFormzInput.pure(),
+                ])
+                // &&
+                // updatePriceDiscountReq.hasChanged
+                )
                 ? FormzSubmissionStatus.success
                 : FormzSubmissionStatus.failure),
       ),

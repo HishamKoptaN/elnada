@@ -17,7 +17,9 @@ abstract class PriceDiscountReqModel with _$PriceDiscountReqModel {
     return PriceDiscountReqModel(
       customerId: priceDiscountReq.customerId?.value ?? 0,
       productId: priceDiscountReq.productId?.value ?? 0,
-      discountValue: priceDiscountReq.priceDiscountAmount?.value ?? 0,
+      discountValue: double.parse(
+        priceDiscountReq.priceDiscountAmount?.value ?? '',
+      ),
     );
   }
   factory PriceDiscountReqModel.fromJson(Map<String, Object?> json) =>

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PriceDiscountEntity {
 
-@JsonKey(name: 'id') int? get id;@JsonKey(name: 'discountValue') String? get discountValue;@JsonKey(name: 'product') ProductEntity? get product;@JsonKey(name: 'created_at') String? get createdAt;
+@JsonKey(name: 'id') int? get id;@JsonKey(name: 'discount_value') String? get discountValue;@JsonKey(name: 'product') ProductEntity? get product;@JsonKey(name: 'created_at') String? get createdAt;
 /// Create a copy of PriceDiscountEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $PriceDiscountEntityCopyWith<$Res>  {
   factory $PriceDiscountEntityCopyWith(PriceDiscountEntity value, $Res Function(PriceDiscountEntity) _then) = _$PriceDiscountEntityCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'id') int? id,@JsonKey(name: 'discountValue') String? discountValue,@JsonKey(name: 'product') ProductEntity? product,@JsonKey(name: 'created_at') String? createdAt
+@JsonKey(name: 'id') int? id,@JsonKey(name: 'discount_value') String? discountValue,@JsonKey(name: 'product') ProductEntity? product,@JsonKey(name: 'created_at') String? createdAt
 });
 
 
@@ -168,7 +168,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'discountValue')  String? discountValue, @JsonKey(name: 'product')  ProductEntity? product, @JsonKey(name: 'created_at')  String? createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'discount_value')  String? discountValue, @JsonKey(name: 'product')  ProductEntity? product, @JsonKey(name: 'created_at')  String? createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PriceDiscountEntity() when $default != null:
 return $default(_that.id,_that.discountValue,_that.product,_that.createdAt);case _:
@@ -189,7 +189,7 @@ return $default(_that.id,_that.discountValue,_that.product,_that.createdAt);case
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'discountValue')  String? discountValue, @JsonKey(name: 'product')  ProductEntity? product, @JsonKey(name: 'created_at')  String? createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'discount_value')  String? discountValue, @JsonKey(name: 'product')  ProductEntity? product, @JsonKey(name: 'created_at')  String? createdAt)  $default,) {final _that = this;
 switch (_that) {
 case _PriceDiscountEntity():
 return $default(_that.id,_that.discountValue,_that.product,_that.createdAt);case _:
@@ -209,7 +209,7 @@ return $default(_that.id,_that.discountValue,_that.product,_that.createdAt);case
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'discountValue')  String? discountValue, @JsonKey(name: 'product')  ProductEntity? product, @JsonKey(name: 'created_at')  String? createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'id')  int? id, @JsonKey(name: 'discount_value')  String? discountValue, @JsonKey(name: 'product')  ProductEntity? product, @JsonKey(name: 'created_at')  String? createdAt)?  $default,) {final _that = this;
 switch (_that) {
 case _PriceDiscountEntity() when $default != null:
 return $default(_that.id,_that.discountValue,_that.product,_that.createdAt);case _:
@@ -224,11 +224,11 @@ return $default(_that.id,_that.discountValue,_that.product,_that.createdAt);case
 @JsonSerializable()
 
 class _PriceDiscountEntity implements PriceDiscountEntity {
-  const _PriceDiscountEntity({@JsonKey(name: 'id') this.id, @JsonKey(name: 'discountValue') this.discountValue, @JsonKey(name: 'product') this.product, @JsonKey(name: 'created_at') this.createdAt});
+  const _PriceDiscountEntity({@JsonKey(name: 'id') this.id, @JsonKey(name: 'discount_value') this.discountValue, @JsonKey(name: 'product') this.product, @JsonKey(name: 'created_at') this.createdAt});
   factory _PriceDiscountEntity.fromJson(Map<String, dynamic> json) => _$PriceDiscountEntityFromJson(json);
 
 @override@JsonKey(name: 'id') final  int? id;
-@override@JsonKey(name: 'discountValue') final  String? discountValue;
+@override@JsonKey(name: 'discount_value') final  String? discountValue;
 @override@JsonKey(name: 'product') final  ProductEntity? product;
 @override@JsonKey(name: 'created_at') final  String? createdAt;
 
@@ -265,7 +265,7 @@ abstract mixin class _$PriceDiscountEntityCopyWith<$Res> implements $PriceDiscou
   factory _$PriceDiscountEntityCopyWith(_PriceDiscountEntity value, $Res Function(_PriceDiscountEntity) _then) = __$PriceDiscountEntityCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'id') int? id,@JsonKey(name: 'discountValue') String? discountValue,@JsonKey(name: 'product') ProductEntity? product,@JsonKey(name: 'created_at') String? createdAt
+@JsonKey(name: 'id') int? id,@JsonKey(name: 'discount_value') String? discountValue,@JsonKey(name: 'product') ProductEntity? product,@JsonKey(name: 'created_at') String? createdAt
 });
 
 

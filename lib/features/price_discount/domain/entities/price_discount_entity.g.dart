@@ -9,7 +9,7 @@ part of 'price_discount_entity.dart';
 _PriceDiscountEntity _$PriceDiscountEntityFromJson(Map<String, dynamic> json) =>
     _PriceDiscountEntity(
       id: (json['id'] as num?)?.toInt(),
-      discountValue: json['discountValue'] as String?,
+      discountValue: json['discount_value'] as String?,
       product: json['product'] == null
           ? null
           : ProductEntity.fromJson(json['product'] as Map<String, dynamic>),
@@ -20,7 +20,7 @@ Map<String, dynamic> _$PriceDiscountEntityToJson(
   _PriceDiscountEntity instance,
 ) => <String, dynamic>{
   'id': instance.id,
-  'discountValue': instance.discountValue,
+  'discount_value': instance.discountValue,
   'product': instance.product,
   'created_at': instance.createdAt,
 };
