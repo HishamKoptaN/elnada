@@ -3,10 +3,10 @@
     <channel>
         <title>Abu Jena Updates</title>
         <item>
-            <title>Version 6.0.0+1</title>
-            <pubDate>Mon, 16 Mar 2026 08:05:39 +00:00</pubDate>
+            <title>Version 7.0.0+1</title>
+            <pubDate>Mon, 16 Mar 2026 08:17:18 +00:00</pubDate>
             <enclosure url="https://github.com/HishamKoptaN/elnada/releases/download/latest/abujena_dawajen_dev.exe"
-                       sparkle:version="6.0.0+1"
+                       sparkle:version="7.0.0+1"
                        sparkle:os="windows"
                        length="0"
                        type="application/octet-stream" />
