@@ -2,7 +2,7 @@ name: Main Deploy
 
 on:
     push:
-        branches: [prod, dev]
+        branches: [test, test]
 
 jobs:
     setup:

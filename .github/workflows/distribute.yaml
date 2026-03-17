@@ -1,7 +1,7 @@
 name: Distribute
 on:
     push:
-        branches: [test, test]
+        branches: [test]
 permissions:
     contents: write
 jobs:
