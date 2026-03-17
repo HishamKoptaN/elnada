@@ -46,36 +46,6 @@ jobs:
             - run: flutter pub get
             - run: git config --system core.longpaths true
 
-            - name: Check Release
-              shell: pwsh
-              run: |
-                  # قراءة النسخة الكاملة من pubspec.yaml
-                  $fullVersion = (Get-Content pubspec.yaml | Select-String "^version: ").ToString().Split(":")[1].Trim()
-                  $VERSION = $fullVersion.Split("+")[0]
-                  Write-Host "🔍 Checking Shorebird for version: $VERSION (full: $fullVersion)"
-
-                  try {
-                    $releases = shorebird releases list
-                    Write-Host "📋 Available releases:"
-                    $releases | ForEach-Object { Write-Host "  - $_" }
-                    
-                    # فحص ذكي: هل يوجد إصدار يحتوي على رقم الإصدار الخاص بنا؟
-                    $exists = $releases | Where-Object { $_ -like "*$VERSION*" }
-                    
-                    if ($exists) {
-                      echo "SHOULD_PATCH=true" >> $env:GITHUB_ENV
-                      Write-Host "📦 Version $VERSION exists! Using PATCH mode"
-                      Write-Host "🔧 Found matching release: $($exists -join ', ')"
-                    } else {
-                      echo "SHOULD_PATCH=false" >> $env:GITHUB_ENV
-                      Write-Host "🚀 Version $VERSION not found! Using RELEASE mode"
-                    }
-                  } catch {
-                    Write-Host "⚠️ Failed to check releases, defaulting to Release"
-                    echo "SHOULD_PATCH=false" >> $env:GITHUB_ENV
-                    continue
-                  }
-
             - name: Install Shorebird
               shell: pwsh
               run: |
@@ -112,70 +82,41 @@ jobs:
                   }
                   Write-Host "✅ Token OK"
 
-            - name: Shorebird Release
-              if: env.SHOULD_PATCH == 'false'
+            - name: Shorebird Smart Deploy (Release or Patch)
               shell: pwsh
+              env:
+                  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
               run: |
                   $flavor = "${{ github.ref_name }}"
 
-                  # 1. تحديد المعرف الصحيح بناءً على الفرع
+                  # 1. جلب الإصدار الحالي من pubspec.yaml بدقة
+                  $pubspec = Get-Content pubspec.yaml
+                  $versionLine = $pubspec | Select-String "^version: "
+                  $FULL_VERSION = ($versionLine -split " ")[1].Trim()
+                  Write-Host "🔍 Version in pubspec.yaml: $FULL_VERSION"
+
+                  # 2. تحديد الـ App ID بناءً على البيئة
                   if ($flavor -eq "prod") {
-                    $TARGET_ID = "ed427ccb-5edb-4594-a376-2ee9636bef4e" # معرف الـ Prod
+                    $TARGET_ID = "ed427ccb-5edb-4594-a376-2ee9636bef4e"
                   } else {
-                    $TARGET_ID = "e962126d-ee7a-48f2-b89d-fb0349f4a05f" # معرف الـ Dev
+                    $TARGET_ID = "e962126d-ee7a-48f2-b89d-fb0349f4a05f"
                   }
 
-                  Write-Host "🔄 Switching Shorebird App ID to: $TARGET_ID ($flavor)"
-
-                  # 2. تبديل المعرف داخل ملف shorebird.yaml برمجياً
+                  # 3. تحديث ملف shorebird.yaml بالمعرف الصحيح
                   (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
+                  Write-Host "✅ Target App ID set to: $TARGET_ID"
 
-                  # 3. التحقق من التغيير
-                  $newAppId = (Get-Content shorebird.yaml | Select-String "^app_id:").ToString().Split(":")[1].Trim()
-                  Write-Host "✅ App ID updated to: $newAppId"
+                  # 4. فحص هل الإصدار موجود مسبقاً في Shorebird
+                  Write-Host "📡 Fetching releases from Shorebird..."
+                  $releases = shorebird releases list
 
-                  Write-Host "🚀 Launching Release for Windows..."
-                  try {
-                    # استخدام main.dart مع dart-define للبيئة
+                  # نبحث عن الإصدار داخل القائمة (نستخدم -match للبحث الجزئي)
+                  if ($releases -match [regex]::Escape($FULL_VERSION)) {
+                    Write-Host "⚠️ Version $FULL_VERSION already exists. Running PATCH..."
+                    shorebird patch windows --release-version=$FULL_VERSION --dart-define=ENV=$flavor
+                  } else {
+                    Write-Host "🚀 Version $FULL_VERSION is new. Running RELEASE..."
                     shorebird release windows --dart-define=ENV=$flavor
-                    Write-Host "✅ Release completed successfully"
-                  } catch {
-                    Write-Host "❌ Release failed: $_"
-                    Write-Host "💡 If version exists, the workflow will use PATCH mode in the next run"
-                    exit 1
-                  }
-
-            - name: Shorebird Patch
-              if: env.SHOULD_PATCH == 'true'
-              shell: pwsh
-              run: |
-                  $flavor = "${{ github.ref_name }}"
-                  $VERSION = "${{ steps.get_version.outputs.FULL_VERSION }}"
-
-                  # 1. تحديد المعرف الصحيح بناءً على الفرع
-                  if ($flavor -eq "prod") {
-                    $TARGET_ID = "ed427ccb-5edb-4594-a376-2ee9636bef4e" # معرف الـ Prod
-                  } else {
-                    $TARGET_ID = "e962126d-ee7a-48f2-b89d-fb0349f4a05f" # معرف الـ Dev
-                  }
-
-                  Write-Host "🔄 Switching Shorebird App ID to: $TARGET_ID ($flavor)"
-
-                  # 2. تبديل المعرف داخل ملف shorebird.yaml برمجياً
-                  (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
-
-                  # 3. التحقق من التغيير
-                  $newAppId = (Get-Content shorebird.yaml | Select-String "^app_id:").ToString().Split(":")[1].Trim()
-                  Write-Host "✅ App ID updated to: $newAppId"
-
-                  Write-Host "🔧 Launching Patch for Windows..."
-                  try {
-                    # استخدام main.dart مع dart-define للبيئة
-                    shorebird patch windows --release-version=${{ steps.get_version.outputs.FULL_VERSION }} --dart-define=ENV=$flavor
-                    Write-Host "✅ Patch completed successfully"
-                  } catch {
-                    Write-Host "❌ Patch failed: $_"
-                    exit 1
                   }
 
             - name: Compile Installer
@@ -189,7 +130,6 @@ jobs:
                     Write-Host "❌ Installer compilation failed: $_"
                     exit 1
                   }
-
             - id: prepare_assets
               shell: pwsh
               run: |
