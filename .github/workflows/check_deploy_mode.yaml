@@ -32,7 +32,7 @@ jobs:
               env:
                   SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
               run: |
-                  # 1. استخراج الإصدار بدقة من pubspec.yaml
+                  # 1. استخراج الإصدار من pubspec.yaml
                   $pubspec = Get-Content pubspec.yaml | Out-String
                   if ($pubspec -match 'version:\s*([^\s]+)') {
                       $version = $matches[1].Trim()
@@ -43,26 +43,29 @@ jobs:
                       exit 1
                   }
 
-                  # 2. تبديل الـ App ID حسب البيئة
+                  # 2. تبديل الـ App ID حسب البيئة (dev أو prod)
                   $flavor = "${{ github.ref_name }}"
                   $TARGET_ID = if ($flavor -eq "prod") { "ed427ccb-5edb-4594-a376-2ee9636bef4e" } else { "e962126d-ee7a-48f2-b89d-fb0349f4a05f" }
                   (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
                   Write-Host "✅ App ID Switched to: $TARGET_ID" -ForegroundColor Green
 
-                  # 3. فحص وجود الإصدار مع تنظيف رموز الألوان (ANSI)
+                  # 3. فحص وجود الإصدار (الحل النووي لتجاوز مشاكل الجداول ورموز ANSI)
                   Write-Host "📡 Fetching releases list..."
                   $rawOutput = shorebird releases list | Out-String
-                  # تنظيف رموز ANSI لضمان مطابقة النص الصافي
+
+                  # تنظيف رموز الألوان ANSI والرموز المخفية
                   $cleanOutput = $rawOutput -replace '\x1b\[[0-9;]*m', ''
 
-                  $versionPattern = [regex]::Escape($version)
-                  # البحث عن الإصدار ككلمة مستقلة \b لضمان الدقة
-                  if ($cleanOutput -match "\b$versionPattern\b") {
+                  # تقسيم الجدول إلى كلمات مستقلة لضمان دقة البحث عن الإصدار
+                  $words = $cleanOutput -split '\s+' | ForEach-Object { $_.Trim() }
+
+                  if ($words -contains $version) {
                     echo "DEPLOY_MODE=PATCH" >> $env:GITHUB_ENV
-                    Write-Host "⚠️ Version exists. Mode set to PATCH" -ForegroundColor Magenta
+                    Write-Host "⚠️ MATCH FOUND: Version $version exists. Mode: PATCH" -ForegroundColor Magenta
                   } else {
                     echo "DEPLOY_MODE=RELEASE" >> $env:GITHUB_ENV
-                    Write-Host "🚀 Version is new. Mode set to RELEASE" -ForegroundColor Green
+                    Write-Host "🚀 NO MATCH: Version $version is new. Mode: RELEASE" -ForegroundColor Green
+                    Write-Host "🔍 Scanned Words: ($($words -join ', '))" -ForegroundColor Gray
                   }
 
             - name: 🚀 Execute Shorebird Deployment
@@ -84,9 +87,13 @@ jobs:
               run: |
                   # تحديث نسخة التطبيق داخل ملف ISS قبل البناء
                   $issPath = "./installers/abujena_setup.iss"
-                  $issContent = Get-Content $issPath -Raw
-                  $newIssContent = $issContent -replace "APP_VERSION_PLACEHOLDER", "${{ env.FULL_VERSION }}"
-                  [System.IO.File]::WriteAllText((Get-Item $issPath).FullName, $newIssContent)
-
-                  Write-Host "🔨 Compiling Installer..."
-                  & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" $issPath
+                  if (Test-Path $issPath) {
+                      $issContent = Get-Content $issPath -Raw
+                      $newIssContent = $issContent -replace "APP_VERSION_PLACEHOLDER", "${{ env.FULL_VERSION }}"
+                      [System.IO.File]::WriteAllText((Get-Item $issPath).FullName, $newIssContent)
+                      
+                      Write-Host "🔨 Compiling Installer..."
+                      & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" $issPath
+                  } else {
+                      Write-Warning "⚠️ ISS file not found at $issPath. Skipping compilation."
+                  }
