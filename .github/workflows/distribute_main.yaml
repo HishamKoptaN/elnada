@@ -70,14 +70,14 @@ jobs:
             - id: prepare_assets
               shell: pwsh
               run: |
-                  $newName = if ("${{ inputs.flavor }}" -eq "dev") { "abujena_dawajen_dev.exe" } else { "abujena_dawajen.exe" }
+                  $newName = if ("${{ github.ref_name }}" -eq "dev") { "abujena_dawajen_dev.exe" } else { "abujena_dawajen.exe" }
                   $setupFile = Get-ChildItem "installers/*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
                   Rename-Item -Path $setupFile.FullName -NewName $newName
                   echo "FINAL_FILE_NAME=$newName" >> $env:GITHUB_ENV
 
             - shell: pwsh
               run: |
-                  $version = "${{ inputs.version }}"
+                  $version = "${{ env.FULL_VERSION }}"
                   $fileName = "${{ env.FINAL_FILE_NAME }}"
                   $filePath = "installers/$fileName"
                   $fileLength = if (Test-Path $filePath) { (Get-Item $filePath).Length } else { 0 }
@@ -97,7 +97,8 @@ jobs:
                     git config --global user.email "github-actions[bot]@users.noreply.github.com"
                     git add $xmlPath
                     git commit -m "chore: sync appcast to $version [skip ci]" || echo "No changes"
-                    git push origin ${{ inputs.flavor }}
+                    git push origin ${{ github.ref_name }}
+                  }
 
             - shell: pwsh
               run: |
@@ -105,43 +106,15 @@ jobs:
                   if (Test-Path $issPath) {
                       $issContent = Get-Content $issPath -Raw
                       $newIssContent = $issContent -replace "APP_VERSION_PLACEHOLDER", "${{ env.FULL_VERSION }}"
-                      [System.IO.File]::WriteAllText((Get-Item $issPath).FullName, $newIssContent)
+                      [System.IO.File::WriteAllText((Get-Item $issPath).FullName, $newIssContent)
                       
                       Write-Host "🔨 Compiling Installer..."
                       & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" $issPath
                   } else {
                       Write-Warning "⚠️ ISS file not found at $issPath. Skipping compilation."
-                  }- id: get_version
-            - shell: pwsh
-              run: |
-                  $line = Get-Content pubspec.yaml | Select-String "^version: "
-                  $fullVersion = ($line -split " ")[1].Trim()
-                  $version = $fullVersion.Split("+")[0]
-                  echo "FULL_VERSION=$version" >> $env:GITHUB_OUTPUT
-
-            - shell: pwsh
-              run: |
-                  $issPath = "installers/abujena_setup.iss"
-                  if (Test-Path $issPath) {
-                    $content = Get-Content $issPath -Raw
-                    $newContent = $content -replace "APP_VERSION_PLACEHOLDER", "${{ steps.get_version.outputs.FULL_VERSION }}"
-                    [System.IO.File::WriteAllText((Get-Item $issPath).FullName, $newContent)
-                    Write-Host "✅ ISS file updated successfully" -ForegroundColor Green
-                  } else {
-                    Write-Warning "⚠️ ISS file not found at $issPath" -ForegroundColor Yellow
                   }
 
-            - shell: pwsh
-              run: |
-                  try {
-                    Write-Host "🔨 Compiling installer..."
-                    & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" ./installers/abujena_setup.iss
-                    Write-Host "✅ Installer compiled successfully"
-                  } catch {
-                    Write-Host "❌ Installer compilation failed: $_"
-                    exit 1
-                  }
-            - id: prepare_assets
+            - id: prepare_final_assets
               shell: pwsh
               run: |
                   $newName = if ("${{ github.ref_name }}" -eq "dev") { "abujena_dawajen_dev.exe" } else { "abujena_dawajen.exe" }
@@ -149,30 +122,6 @@ jobs:
                   Rename-Item -Path $setupFile.FullName -NewName $newName
                   echo "FINAL_FILE_NAME=$newName" >> $env:GITHUB_ENV
 
-            - if: env.SHOULD_PATCH == 'false'
-              shell: pwsh
-              run: |
-                  $version = "${{ steps.get_version.outputs.FULL_VERSION }}"
-                  $fileName = "${{ env.FINAL_FILE_NAME }}"
-                  $filePath = "installers/$fileName"
-                  $fileLength = if (Test-Path $filePath) { (Get-Item $filePath).Length } else { 0 }
-                  $url = "https://github.com/${{ github.repository }}/releases/latest/download/$fileName"
-                  $xmlPath = "desktop_appcast.xml"
-                  $currentDate = Get-Date -Format "ddd, dd MMM yyyy HH:mm:ss K"
-                  if (Test-Path $xmlPath) {
-                    $content = Get-Content $xmlPath -Raw
-                    $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""$version"""
-                    $content = $content -replace 'sparkle:shortVersionString="[^"]*"', "sparkle:shortVersionString=""$version"""
-                    $content = $content -replace 'url="[^"]*"', "url=""$url"""
-                    $content = $content -replace 'length="[^"]*"', "length=""$fileLength"""
-                    $content = $content -replace '<title>Version [^<]*</title>', "<title>Version $version</title>"
-                    $content = $content -replace '<pubDate>[^<]*</pubDate>', "<pubDate>$currentDate</pubDate>"
-                    [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
-                    git config --global user.name "github-actions[bot]"
-                    git config --global user.email "github-actions[bot]@users.noreply.github.com"
-                    git add $xmlPath
-                    git commit -m "chore: sync appcast to $version [skip ci]" || echo "No changes"
-                    git push origin ${{ github.ref_name }}
             - uses: softprops/action-gh-release@v2
               with:
                   tag_name: latest
