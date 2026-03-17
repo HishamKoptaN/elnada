@@ -1,8 +1,7 @@
-name: Distribute Desktop
+name: Distribute
 on:
     push:
-        branches: [test]
-        # branches: [prod, dev]
+        branches: [test, test]
 permissions:
     contents: write
 jobs:
@@ -13,12 +12,67 @@ jobs:
             SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
         steps:
             - uses: actions/checkout@v4
+            - uses: shorebirdtech/setup-shorebird@v1
               with:
-                  fetch-depth: 0
+                  cache: true
             - uses: subosito/flutter-action@v2
               with:
                   channel: stable
                   cache: true
+            - run: flutter config --enable-windows-desktop
+            - run: flutter pub get
+            - run: git config --system core.longpaths true
+
+            - name: 📋 Extract Version
+              shell: pwsh
+              run: |
+                  $pubspec = Get-Content pubspec.yaml | Out-String
+                  if ($pubspec -match 'version:\s*([^\s]+)') {
+                      $version = $matches[1].Trim()
+                      echo "FULL_VERSION=$version" >> $env:GITHUB_ENV
+                      Write-Host "🔍 Target Version: $version" -ForegroundColor Cyan
+                  } else {
+                      Write-Error "❌ Could not find version in pubspec.yaml"
+                      exit 1
+                  }
+
+            - name: 🔄 Configure Environment
+              shell: pwsh
+              run: |
+                  $flavor = "${{ github.ref_name }}"
+                  $TARGET_ID = if ($flavor -eq "prod") { 
+                      "ed427ccb-5edb-4594-a376-2ee9636bef4e" 
+                  } else { 
+                      "e962126d-ee7a-48f2-b89d-fb0349f4a05f" 
+                  }
+                  (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
+                  Write-Host "✅ App ID Switched to: $TARGET_ID" -ForegroundColor Green
+
+            - name: 🚀 Deploy (Patch First)
+              shell: pwsh
+              env:
+                  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+              run: |
+                  $version = "${{ env.FULL_VERSION }}"
+                  $flavor = "${{ github.ref_name }}"
+
+                  Write-Host "🚀 Trying PATCH first..."
+                  shorebird patch windows --release-version=$version --dart-define=ENV=$flavor --verbose
+
+                  if ($LASTEXITCODE -ne 0) {
+                      Write-Host "📦 Patch failed → fallback to RELEASE" -ForegroundColor Yellow
+                      shorebird release windows --dart-define=ENV=$flavor --verbose
+                      
+                      if ($LASTEXITCODE -ne 0) {
+                          Write-Host "❌ Both PATCH and RELEASE failed!" -ForegroundColor Red
+                          exit 1
+                      } else {
+                          Write-Host "✅ Release succeeded" -ForegroundColor Green
+                      }
+                  } else {
+                      Write-Host "✅ Patch succeeded" -ForegroundColor Green
+                  }
+
             - id: get_version
               shell: pwsh
               run: |
@@ -26,72 +80,21 @@ jobs:
                   $fullVersion = ($line -split " ")[1].Trim()
                   $version = $fullVersion.Split("+")[0]
                   echo "FULL_VERSION=$version" >> $env:GITHUB_OUTPUT
-            - name: Update ISS
+
+            - name: 🔨 Update ISS File
               shell: pwsh
               run: |
                   $issPath = "installers/abujena_setup.iss"
                   if (Test-Path $issPath) {
                     $content = Get-Content $issPath -Raw
                     $newContent = $content -replace "APP_VERSION_PLACEHOLDER", "${{ steps.get_version.outputs.FULL_VERSION }}"
-                    [System.IO.File]::WriteAllText((Get-Item $issPath).FullName, $newContent)
-                  }
-            - run: flutter config --enable-windows-desktop
-            - run: flutter pub get
-            - run: git config --system core.longpaths true
-            - uses: shorebirdtech/setup-shorebird@v1
-              with:
-                cache: true
-            - name: Validate Token
-              run: |
-                  if ([string]::IsNullOrEmpty($env:SHOREBIRD_TOKEN)) {
-                    Write-Error "❌ Token missing!"
-                    exit 1
-                  }
-                  if ($env:SHOREBIRD_TOKEN.Length -lt 50) {
-                    Write-Error "❌ Token too short!"
-                    exit 1
-                  }
-                  Write-Host "✅ Token OK"
-            - name: Shorebird Smart Deploy
-              shell: pwsh
-              env:
-                  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-              run: |
-                  $flavor = "${{ github.ref_name }}"
-                  $line = Get-Content pubspec.yaml | Select-String "^version: "
-                  $version = ($line -split " ")[1].Trim()
-                  Write-Host "🔍 Current Version: $version"
-                  if ($flavor -eq "prod") {
-                    $TARGET_ID = "ed427ccb-5edb-4594-a376-2ee9636bef4e"
+                    [System.IO.File::WriteAllText((Get-Item $issPath).FullName, $newContent)
+                    Write-Host "✅ ISS file updated successfully" -ForegroundColor Green
                   } else {
-                    $TARGET_ID = "e962126d-ee7a-48f2-b89d-fb0349f4a05f"
+                    Write-Warning "⚠️ ISS file not found at $issPath" -ForegroundColor Yellow
                   }
-                  (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
-                  Write-Host "✅ Target ID set to: $TARGET_ID"
-                  Write-Host "📡 Fetching releases list..."
-                  $releases = shorebird releases list
-                  $exists = $releases | Select-String $version
-                  if ($exists) {
-                    Write-Host "⚠️ Version $version already exists on Shorebird. Switching to PATCH mode..."
-                    try {
-                      shorebird patch windows --release-version=$version --dart-define=ENV=$flavor
-                      Write-Host "✅ Patch completed successfully"
-                    } catch {
-                      Write-Host "❌ Patch failed: $_"
-                      exit 1
-                    }
-                  } else {
-                    Write-Host "🚀 Version $version is new. Switching to RELEASE mode..."
-                    try {
-                      # تنفيذ الريليز
-                      shorebird release windows --dart-define=ENV=$flavor
-                      Write-Host "✅ Release completed successfully"
-                    } catch {
-                      Write-Host "❌ Release failed: $_"
-                      exit 1
-                    }
-                  }
-            - name: Compile Installer
+
+            - name: 🔨 Compile Installer
               shell: pwsh
               run: |
                   try {
@@ -102,6 +105,7 @@ jobs:
                     Write-Host "❌ Installer compilation failed: $_"
                     exit 1
                   }
+
             - id: prepare_assets
               shell: pwsh
               run: |
@@ -109,6 +113,7 @@ jobs:
                   $setupFile = Get-ChildItem "installers/*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
                   Rename-Item -Path $setupFile.FullName -NewName $newName
                   echo "FINAL_FILE_NAME=$newName" >> $env:GITHUB_ENV
+
             - name: Update Appcast
               if: env.SHOULD_PATCH == 'false'
               shell: pwsh

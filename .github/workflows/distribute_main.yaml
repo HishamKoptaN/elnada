@@ -1,0 +1,39 @@
+name: Distribute Main
+# 📋 distribute_main.yaml يبدأ
+# ⬇️
+# 🔧 Job 1: extract_version (باستخدام extract_version.yaml)
+# ⬇️
+# 🔧 Job 2: setup (باستخدام setup_steps.yaml)
+# ⬇️
+# 🚀 Job 3: deploy (باستخدام deploy_steps.yaml)
+# ⬇️
+# 🔨 Job 4: build (باستخدام build_steps.yaml)
+on:
+    push:
+        branches: [prod, dev]
+permissions:
+    contents: write
+jobs:
+    extract_version:
+        uses: ./.github/workflows/extract_version.yaml
+        outputs:
+            version: ${{ jobs.extract_version.outputs.version }}
+            flavor: ${{ jobs.extract_version.outputs.flavor }}
+
+    setup:
+        needs: extract_version
+        uses: ./.github/workflows/setup_steps.yaml
+
+    deploy:
+        needs: [extract_version, setup]
+        uses: ./.github/workflows/deploy_steps.yaml
+        with:
+            version: ${{ needs.extract_version.outputs.version }}
+            flavor: ${{ needs.extract_version.outputs.flavor }}
+
+    build:
+        needs: [extract_version, deploy]
+        uses: ./.github/workflows/build_steps.yaml
+        with:
+            version: ${{ needs.extract_version.outputs.version }}
+            flavor: ${{ needs.extract_version.outputs.flavor }}

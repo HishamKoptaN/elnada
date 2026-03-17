@@ -1,0 +1,31 @@
+name: Main Deploy
+
+on:
+    push:
+        branches: [prod, dev]
+
+jobs:
+    setup:
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v4
+            - run: pwsh ./.github/workflows/setup_env.yaml
+
+    decide:
+        needs: setup
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v4
+            - run: pwsh ./.github/workflows/decide_mode.ps1
+              env:
+                  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+
+    deploy:
+        needs: decide
+        runs-on: windows-latest
+        environment: ${{ github.ref_name }}
+        steps:
+            - uses: actions/checkout@v4
+            - run: pwsh ./.github/workflows/deploy.ps1
+              env:
+                  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
