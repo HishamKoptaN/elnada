@@ -35,11 +35,11 @@ class CustomerDetailsDialog {
           if (selectedDate.isToday || canInsertPreviusDayData) {
             TransactionDialog.show(
               context: context,
+              title: 'إضافة وزن التسمين',
               customer: customerDailyReport.customer!,
               productId: 1,
-              title: 'إضافة وزن التسمين',
               selectedDate: selectedDate,
-              canInsertPreviusDayData: true,
+              canInsertPreviusDayData: canInsertPreviusDayData,
             );
           }
         }
@@ -67,7 +67,7 @@ class CustomerDetailsDialog {
               productId: 2,
               title: 'إضافة وزن الأمهات',
               selectedDate: selectedDate,
-              canInsertPreviusDayData: true,
+              canInsertPreviusDayData: canInsertPreviusDayData,
             );
           }
         }
@@ -87,6 +87,8 @@ class CustomerDetailsDialog {
           CollectionDialog.show(
             context: context,
             customer: customerDailyReport.customer!,
+            selectedDate: selectedDate,
+            canInsertPreviusDayData: canInsertPreviusDayData,
           );
         }
         break;

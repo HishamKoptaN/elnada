@@ -7,8 +7,8 @@ import '../repo/daily_transactions_repo.dart';
 
 @singleton
 class DailyTransactionsUseCases {
-  final DailyTransactionsRepo dailyTransactionsRepo;
   DailyTransactionsUseCases(this.dailyTransactionsRepo);
+  final DailyTransactionsRepo dailyTransactionsRepo;
   Future<ApiResult<CustomerDailyReportEntity?>> create({
     required CreateDailyTransactionReqEntity createDailyTransactionReq,
   }) async {

@@ -12,9 +12,9 @@ extension CreateDailyTransactionReqEntityMapper
     return CreateDailyTransactionReqModel(
       productId: productId?.value ?? 0,
       customerId: customerId?.value ?? 0,
-      weight: double.tryParse(weight?.value ?? "0") ?? 0.0,
-      cage: int.tryParse(cage?.value ?? "0") ?? 0,
-      discount: int.tryParse(discount?.value ?? "0") ?? 0,
+      weight: double.tryParse(weight?.value ?? '0') ?? 0.0,
+      cage: int.tryParse(cage?.value ?? '0') ?? 0,
+      discount: int.tryParse(discount?.value ?? '0') ?? 0,
       date: date,
     );
   }
@@ -25,9 +25,9 @@ extension UpdateDailyTransactionReqEntityMapper
   UpdateDailyTransactionReqModel toModel() {
     return UpdateDailyTransactionReqModel(
       customerId: customerId.value ?? 0,
-      weight: double.tryParse(weight.value ?? "0") ?? 0.0,
-      cage: int.tryParse(cage.value ?? "0") ?? 0,
-      discount: double.tryParse(discount.value ?? "0") ?? 0.0,
+      weight: double.tryParse(weight.value ?? '0') ?? 0.0,
+      cage: int.tryParse(cage.value ?? '0') ?? 0,
+      discount: double.tryParse(discount.value ?? '0') ?? 0.0,
       date: date,
     );
   }

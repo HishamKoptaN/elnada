@@ -83,11 +83,11 @@ class TransactionSectionWidget extends StatelessWidget {
 }
 
 class TransactionDetailRowWidget extends StatelessWidget {
-  final TransactionDetailEntity transactionDetail;
   const TransactionDetailRowWidget({
     super.key,
     required this.transactionDetail,
   });
+  final TransactionDetailEntity transactionDetail;
   @override
   Widget build(BuildContext context) {
     return Padding(

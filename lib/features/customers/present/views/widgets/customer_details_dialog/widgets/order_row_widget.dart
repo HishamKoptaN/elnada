@@ -3,12 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../daily_orders/domain/entities/daily_product_order_entity.dart';
 
 class OrderRowWidget extends StatelessWidget {
-  final DailyProductOrderEntity order;
 
   const OrderRowWidget({
     super.key,
     required this.order,
   });
+  final DailyProductOrderEntity order;
 
   @override
   Widget build(BuildContext context) {

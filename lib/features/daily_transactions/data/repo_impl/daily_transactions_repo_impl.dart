@@ -11,8 +11,8 @@ import '../mappers/daily_transactions_mapper.dart';
 
 @Singleton(as: DailyTransactionsRepo)
 class DailyTransactionsRepoImpl implements DailyTransactionsRepo {
-  final DailyTransactionsApi dailyTransactionsApi;
   DailyTransactionsRepoImpl(this.dailyTransactionsApi);
+  final DailyTransactionsApi dailyTransactionsApi;
 
   @override
   Future<ApiResult<CustomerDailyReportEntity?>> create({

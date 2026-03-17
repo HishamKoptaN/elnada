@@ -44,10 +44,11 @@ class DailyCollectionsBloc
                   );
                   customersBloc.add(
                     CustomersEvent.updateCustomerDailyReport(
-                      customerDailyReport: res ?? CustomerDailyReportEntity(),
+                      customerDailyReport:
+                          res ?? const CustomerDailyReportEntity(),
                     ),
                   );
-                  emit(DailyCollectionsState.success());
+                  emit(const DailyCollectionsState.success());
                 },
                 failure: (apiErrorModel) async {
                   emitFaliure(apiErrorModel: apiErrorModel, emit: emit);
@@ -64,7 +65,9 @@ class DailyCollectionsBloc
   void emitFaliure({
     required Emitter<DailyCollectionsState> emit,
     required ApiErrorModel apiErrorModel,
-  }) => emit(DailyCollectionsState.failure(apiErrorModel: apiErrorModel));
+  }) {
+    emit(DailyCollectionsState.failure(apiErrorModel: apiErrorModel));
+  }
 
   void emitLoaded({
     required Emitter<DailyCollectionsState> emit,
