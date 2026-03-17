@@ -152,7 +152,6 @@ jobs:
                   $flavor = "${{ github.ref_name }}"
                   $VERSION = "${{ steps.get_version.outputs.FULL_VERSION }}"
 
-
                   # 1. تحديد المعرف الصحيح بناءً على الفرع
                   if ($flavor -eq "prod") {
                     $TARGET_ID = "ed427ccb-5edb-4594-a376-2ee9636bef4e" # معرف الـ Prod
