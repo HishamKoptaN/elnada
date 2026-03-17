@@ -66,14 +66,51 @@ jobs:
                   ./install.ps1
                   echo "$env:USERPROFILE\.shorebird\bin" >> $env:GITHUB_PATH
             - run: shorebird --version
-            - name: Shorebird Release
-              if: env.SHOULD_PATCH == 'false'
-              run: shorebird release windows --dart-define=ENV=${{ github.ref_name }}
+            # 9️⃣ Validate Shorebird Token
+            - name: Validate Shorebird Token
+              run: |
+                  if ([string]::IsNullOrEmpty($env:SHOREBIRD_TOKEN)) {
+                    Write-Error "❌ SHOREBIRD_TOKEN is not set or empty!"
+                    Write-Error "Please run 'shorebird login:ci' locally and add the token to GitHub Secrets."
+                    exit 1
+                  }
+                  Write-Host "✅ SHOREBIRD_TOKEN is set"
+                  # Test token format (should be a long string)
+                  if ($env:SHOREBIRD_TOKEN.Length -lt 50) {
+                    Write-Error "❌ SHOREBIRD_TOKEN appears to be too short. Please regenerate using 'shorebird login:ci'"
+                    exit 1
+                  }
+                  Write-Host "✅ SHOREBIRD_TOKEN length looks correct"
               env:
                   SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+
+            # 10️⃣ Shorebird Release (only if version doesn't exist) - NO --force
+            - name: Shorebird Release
+              if: env.SHOULD_PATCH == 'false'
+              run: |
+                  if ([string]::IsNullOrEmpty($env:SHOREBIRD_TOKEN)) {
+                    Write-Error "SHOREBIRD_TOKEN is not set. Please add it to GitHub Secrets."
+                    exit 1
+                  }
+                  # Use flavor from shorebird.yaml based on branch
+                  $flavor = "${{ github.ref_name }}"
+                  Write-Host "🚀 Creating Shorebird Release for flavor: $flavor"
+                  shorebird release windows --flavor=$flavor --dart-define=ENV=$flavor
+              env:
+                  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+
+            # 11️⃣ Shorebird Patch (only if version exists) - NO --force
             - name: Shorebird Patch
               if: env.SHOULD_PATCH == 'true'
-              run: shorebird patch windows --release-version=${{ steps.get_version.outputs.FULL_VERSION }} --dart-define=ENV=${{ github.ref_name }}
+              run: |
+                  if ([string]::IsNullOrEmpty($env:SHOREBIRD_TOKEN)) {
+                    Write-Error "SHOREBIRD_TOKEN is not set. Please add it to GitHub Secrets."
+                    exit 1
+                  }
+                  # Use flavor from shorebird.yaml based on branch
+                  $flavor = "${{ github.ref_name }}"
+                  Write-Host "🔧 Creating Shorebird Patch for flavor: $flavor"
+                  shorebird patch windows --flavor=$flavor --release-version=${{ steps.get_version.outputs.FULL_VERSION }} --dart-define=ENV=$flavor
               env:
                   SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
             - name: Compile Inno Setup
