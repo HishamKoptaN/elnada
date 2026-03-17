@@ -49,17 +49,23 @@ jobs:
             - name: Check Release
               shell: pwsh
               run: |
-                  $VERSION = "${{ steps.get_version.outputs.FULL_VERSION }}"
-                  Write-Host "🔍 Checking for version: $VERSION"
+                  # قراءة النسخة الكاملة من pubspec.yaml
+                  $fullVersion = (Get-Content pubspec.yaml | Select-String "^version: ").ToString().Split(":")[1].Trim()
+                  $VERSION = $fullVersion.Split("+")[0]
+                  Write-Host "🔍 Checking Shorebird for version: $VERSION (full: $fullVersion)"
+
                   try {
                     $releases = shorebird releases list
                     Write-Host "📋 Available releases:"
                     $releases | ForEach-Object { Write-Host "  - $_" }
                     
-                    $exists = $releases | Select-String $VERSION
+                    # فحص ذكي: هل يوجد إصدار يحتوي على رقم الإصدار الخاص بنا؟
+                    $exists = $releases | Where-Object { $_ -like "*$VERSION*" }
+                    
                     if ($exists) {
                       echo "SHOULD_PATCH=true" >> $env:GITHUB_ENV
                       Write-Host "📦 Version $VERSION exists! Using PATCH mode"
+                      Write-Host "🔧 Found matching release: $($exists -join ', ')"
                     } else {
                       echo "SHOULD_PATCH=false" >> $env:GITHUB_ENV
                       Write-Host "🚀 Version $VERSION not found! Using RELEASE mode"
@@ -111,36 +117,6 @@ jobs:
               shell: pwsh
               run: |
                   $flavor = "${{ github.ref_name }}"
-                  $VERSION = "${{ steps.get_version.outputs.FULL_VERSION }}"
-
-                  Write-Host "🔍 Double-checking version: $VERSION"
-
-                  # فحص أخير للتأكد من عدم وجود الإصدار
-                  try {
-                    $releases = shorebird releases list
-                    $exists = $releases | Select-String $VERSION
-                    if ($exists) {
-                      Write-Host "⚠️ Version $VERSION still exists! Forcing PATCH mode instead of RELEASE"
-                      Write-Host "🔧 Switching to patch command..."
-                      
-                      # تحديد المعرف الصحيح بناءً على الفرع
-                      if ($flavor -eq "prod") {
-                        $TARGET_ID = "ed427ccb-5edb-4594-a376-2ee9636bef4e"
-                      } else {
-                        $TARGET_ID = "e962126d-ee7a-48f2-b89d-fb0349f4a05f"
-                      }
-                      
-                      # تبديل المعرف داخل ملف shorebird.yaml برمجياً
-                      (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
-                      
-                      # تنفيذ patch بدلاً من release
-                      shorebird patch windows --release-version=$VERSION --dart-define=ENV=$flavor
-                      Write-Host "✅ Patch completed successfully (forced mode)"
-                      exit 0
-                    }
-                  } catch {
-                    Write-Host "⚠️ Could not verify releases, proceeding with release"
-                  }
 
                   # 1. تحديد المعرف الصحيح بناءً على الفرع
                   if ($flavor -eq "prod") {
@@ -165,6 +141,7 @@ jobs:
                     Write-Host "✅ Release completed successfully"
                   } catch {
                     Write-Host "❌ Release failed: $_"
+                    Write-Host "💡 If version exists, the workflow will use PATCH mode in the next run"
                     exit 1
                   }
 
