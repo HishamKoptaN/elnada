@@ -26,7 +26,10 @@ jobs:
                   channel: stable
                   cache: true
 
-            - name: 🔍 Identify Deploy Mode (Smart Check)
+            - name: �️ Fix Windows Long Paths
+              run: git config --system core.longpaths true
+
+            - name: �🔍 Identify Deploy Mode (Smart Check)
               id: smart_check
               shell: pwsh
               env:
@@ -49,15 +52,26 @@ jobs:
                   (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
                   Write-Host "✅ App ID Switched to: $TARGET_ID" -ForegroundColor Green
 
-                  # 3. فحص وجود الإصدار (الحل النووي لتجاوز مشاكل الجداول ورموز ANSI)
+                  # 3. فحص وجود الإصدار (معالجة خطأ Subcommand "list")
                   Write-Host "📡 Fetching releases list..."
-                  $rawOutput = shorebird releases list | Out-String
 
-                  # تنظيف رموز الألوان ANSI والرموز المخفية
+                  # استدعاء القائمة مع تحديد الـ App ID لضمان الحصول على المخرجات الصحيحة
+                  try {
+                      $rawOutput = shorebird releases list --app-id $TARGET_ID | Out-String
+                  } catch {
+                      Write-Host "⚠️ Failed with --app-id, trying without it..."
+                      $rawOutput = shorebird releases list | Out-String
+                  }
+
+                  # تنظيف رموز الألوان ANSI
                   $cleanOutput = $rawOutput -replace '\x1b\[[0-9;]*m', ''
 
-                  # تقسيم الجدول إلى كلمات مستقلة لضمان دقة البحث عن الإصدار
+                  # استخراج الكلمات
                   $words = $cleanOutput -split '\s+' | ForEach-Object { $_.Trim() }
+
+                  Write-Host "--- Cleaned Output Start ---"
+                  Write-Host $cleanOutput
+                  Write-Host "--- Cleaned Output End ---"
 
                   if ($words -contains $version) {
                     echo "DEPLOY_MODE=PATCH" >> $env:GITHUB_ENV
