@@ -1,0 +1,9 @@
+#!windows
+# shorebird release windows --app-id d143ee02-ec97-44e0-a62b-0587a705ddab
+# shorebird release windows --flavor dev
+# shorebird patch windows --release-version latest
+#                         --release-version=1.0.0+1
+#!android
+# shorebird release android --flavor dev --dart-define=ENV=dev
+# adb install -r "build\app\outputs\flutter-apk\app-dev-release.apk"
+# shorebird patch android --flavor dev
