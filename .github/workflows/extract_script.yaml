@@ -1,6 +1,13 @@
-name: Extract Version Script
+name: Extract Version
 on:
     workflow_call:
+        outputs:
+            version:
+                description: "The extracted version from pubspec.yaml"
+                value: ${{ jobs.extract_version.outputs.version }}
+            flavor:
+                description: "The current branch flavor"
+                value: ${{ jobs.extract_version.outputs.flavor }}
 jobs:
     extract_version:
         runs-on: windows-latest
@@ -9,7 +16,7 @@ jobs:
             flavor: ${{ github.ref_name }}
         steps:
             - uses: actions/checkout@v4
-            
+
             - id: version
               shell: pwsh
               run: |

@@ -75,7 +75,7 @@ jobs:
                   if (Test-Path $issPath) {
                     $content = Get-Content $issPath -Raw
                     $newContent = $content -replace "APP_VERSION_PLACEHOLDER", "$version"
-                    [System.IO.File::WriteAllText((Get-Item $issPath).FullName, $newContent)
+                    [System.IO.File]::WriteAllText((Get-Item $issPath).FullName, $newContent)
                     Write-Host "✅ ISS file updated successfully" -ForegroundColor Green
                   } else {
                     Write-Warning "⚠️ ISS file not found at $issPath" -ForegroundColor Yellow
@@ -109,7 +109,7 @@ jobs:
                     $content = $content -replace 'length="[^"]*"', "length=""$fileLength"""
                     $content = $content -replace '<title>Version [^<]*</title>', "<title>Version $version</title>"
                     $content = $content -replace '<pubDate>[^<]*</pubDate>', "<pubDate>$currentDate</pubDate>"
-                    [System.IO.File::WriteAllText((Get-Item $xmlPath).FullName, $content)
+                    [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
                     git config --global user.name "github-actions[bot]"
                     git config --global user.email "github-actions[bot]@users.noreply.github.com"
                     git add $xmlPath
