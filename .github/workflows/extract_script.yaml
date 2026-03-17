@@ -1,0 +1,25 @@
+name: Extract Version Script
+on:
+    workflow_call:
+jobs:
+    extract_version:
+        runs-on: windows-latest
+        outputs:
+            version: ${{ steps.version.outputs.full_version }}
+            flavor: ${{ github.ref_name }}
+        steps:
+            - uses: actions/checkout@v4
+            
+            - id: version
+              shell: pwsh
+              run: |
+                  $pubspec = Get-Content pubspec.yaml | Out-String
+                  if ($pubspec -match 'version:\s*([^\s]+)') {
+                      $version = $matches[1].Trim()
+                      echo "full_version=$version" >> $env:GITHUB_OUTPUT
+                      echo "FULL_VERSION=$version" >> $env:GITHUB_ENV
+                      Write-Host "🔍 Target Version: $version" -ForegroundColor Cyan
+                  } else {
+                      Write-Error "❌ Could not find version in pubspec.yaml"
+                      exit 1
+                  }
