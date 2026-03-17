@@ -95,8 +95,7 @@ jobs:
                   if (Test-Path $issPath) {
                       $issContent = Get-Content $issPath -Raw
                       $newIssContent = $issContent -replace "APP_VERSION_PLACEHOLDER", "${{ env.FULL_VERSION }}"
-                      [System.IO.File::WriteAllText((Get-Item $issPath).FullName, $newIssContent)
-                      
+                      [System.IO.File]::WriteAllText((Get-Item $issPath).FullName, $newIssContent)
                       Write-Host "🔨 Compiling Installer..."
                       & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" $issPath
                   } else {
