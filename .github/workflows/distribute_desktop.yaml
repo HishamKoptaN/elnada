@@ -50,16 +50,19 @@ jobs:
               shell: pwsh
               run: |
                   $VERSION = "${{ steps.get_version.outputs.FULL_VERSION }}"
-                  Write-Host "🔍 Checking: $VERSION"
+                  Write-Host "🔍 Checking for version: $VERSION"
                   try {
                     $releases = shorebird releases list
+                    Write-Host "📋 Available releases:"
+                    $releases | ForEach-Object { Write-Host "  - $_" }
+                    
                     $exists = $releases | Select-String $VERSION
                     if ($exists) {
                       echo "SHOULD_PATCH=true" >> $env:GITHUB_ENV
-                      Write-Host "📦 Patch mode"
+                      Write-Host "📦 Version $VERSION exists! Using PATCH mode"
                     } else {
                       echo "SHOULD_PATCH=false" >> $env:GITHUB_ENV
-                      Write-Host "🚀 Release mode"
+                      Write-Host "🚀 Version $VERSION not found! Using RELEASE mode"
                     }
                   } catch {
                     Write-Host "⚠️ Failed to check releases, defaulting to Release"
