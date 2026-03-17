@@ -11,6 +11,7 @@ env:
 jobs:
     validate-token:
         runs-on: windows-latest
+        environment: dev
 
         steps:
             - name: Clear cache and checkout
@@ -23,7 +24,7 @@ jobs:
               shell: pwsh
               run: |
                   Write-Host "🔄 Refreshing environment variables..."
-                  Write-Host "📅 Cache buster: ${{ env.CACHE_BUSTER }}"
+                  Write-Host "📅 Cache buster: ${{ secrets.CACHE_BUSTER }}"
                   $env:SHOREBIRD_TOKEN = "${{ secrets.SHOREBIRD_TOKEN }}"
                   Write-Host "📏 Token length: $($env:SHOREBIRD_TOKEN.Length)"
 

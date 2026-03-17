@@ -10,6 +10,7 @@ permissions:
 jobs:
     build_desktop:
         runs-on: windows-latest
+        environment: ${{ github.ref_name }}
         env:
             SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 
