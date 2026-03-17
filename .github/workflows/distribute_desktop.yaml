@@ -50,7 +50,6 @@ jobs:
               run: |
                   $VERSION = "${{ steps.get_version.outputs.FULL_VERSION }}"
                   Write-Host "🔍 Checking: $VERSION"
-
                   try {
                     $releases = shorebird releases list
                     $exists = $releases | Select-String $VERSION
@@ -62,16 +61,33 @@ jobs:
                       Write-Host "🚀 Release mode"
                     }
                   } catch {
+                    Write-Host "⚠️ Failed to check releases, defaulting to Release"
                     echo "SHOULD_PATCH=false" >> $env:GITHUB_ENV
-                    Write-Host "⚠️ Default to Release"
+                    continue
                   }
 
             - name: Install Shorebird
               shell: pwsh
               run: |
-                  Invoke-WebRequest -Uri "https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1" -OutFile "install.ps1"
-                  Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
-                  ./install.ps1
+                  try {
+                    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1" -OutFile "install.ps1"
+                    Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
+                  } catch {
+                    Write-Host "⚠️ Failed to install Shorebird"
+                    exit 1
+                  }
+                  try {
+                    ./install.ps1
+                  } catch {
+                    Write-Host "⚠️ Failed to run Shorebird install script"
+                    exit 1
+                  }
+                  try {
+                    echo "$env:USERPROFILE\.shorebird\bin" >> $env:GITHUB_PATH
+                  } catch {
+                    Write-Host "⚠️ Failed to add Shorebird to PATH"
+                    exit 1
+                  }
                   echo "$env:USERPROFILE\.shorebird\bin" >> $env:GITHUB_PATH
 
             - name: Validate Token
@@ -91,19 +107,38 @@ jobs:
               run: |
                   $flavor = "${{ github.ref_name }}"
                   Write-Host "🚀 Release: $flavor"
-                  shorebird release windows --flavor=$flavor --dart-define=ENV=$flavor
+                  try {
+                    shorebird release windows --flavor=$flavor --dart-define=ENV=$flavor
+                    Write-Host "✅ Release completed successfully"
+                  } catch {
+                    Write-Host "❌ Release failed: $_"
+                    exit 1
+                  }
 
             - name: Shorebird Patch
               if: env.SHOULD_PATCH == 'true'
               run: |
                   $flavor = "${{ github.ref_name }}"
                   Write-Host "🔧 Patch: $flavor"
-                  shorebird patch windows --flavor=$flavor --release-version=${{ steps.get_version.outputs.FULL_VERSION }} --dart-define=ENV=$flavor
+                  try {
+                    shorebird patch windows --flavor=$flavor --release-version=${{ steps.get_version.outputs.FULL_VERSION }} --dart-define=ENV=$flavor
+                    Write-Host "✅ Patch completed successfully"
+                  } catch {
+                    Write-Host "❌ Patch failed: $_"
+                    exit 1
+                  }
 
             - name: Compile Installer
               shell: pwsh
               run: |
-                  & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" ./installers/abujena_setup.iss
+                  try {
+                    Write-Host "🔨 Compiling installer..."
+                    & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" ./installers/abujena_setup.iss
+                    Write-Host "✅ Installer compiled successfully"
+                  } catch {
+                    Write-Host "❌ Installer compilation failed: $_"
+                    exit 1
+                  }
 
             - id: prepare_assets
               shell: pwsh
@@ -112,7 +147,6 @@ jobs:
                   $setupFile = Get-ChildItem "installers/*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
                   Rename-Item -Path $setupFile.FullName -NewName $newName
                   echo "FINAL_FILE_NAME=$newName" >> $env:GITHUB_ENV
-
             - name: Update Appcast
               if: env.SHOULD_PATCH == 'false'
               shell: pwsh
@@ -124,7 +158,6 @@ jobs:
                   $url = "https://github.com/${{ github.repository }}/releases/latest/download/$fileName"
                   $xmlPath = "desktop_appcast.xml"
                   $currentDate = Get-Date -Format "ddd, dd MMM yyyy HH:mm:ss K"
-
                   if (Test-Path $xmlPath) {
                     $content = Get-Content $xmlPath -Raw
                     $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""$version"""
@@ -134,13 +167,11 @@ jobs:
                     $content = $content -replace '<title>Version [^<]*</title>', "<title>Version $version</title>"
                     $content = $content -replace '<pubDate>[^<]*</pubDate>', "<pubDate>$currentDate</pubDate>"
                     [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
-                    
                     git config --global user.name "github-actions[bot]"
                     git config --global user.email "github-actions[bot]@users.noreply.github.com"
                     git add $xmlPath
                     git commit -m "chore: sync appcast to $version [skip ci]" || echo "No changes"
                     git push origin ${{ github.ref_name }}
-
             - name: Create Release
               uses: softprops/action-gh-release@v2
               with:
