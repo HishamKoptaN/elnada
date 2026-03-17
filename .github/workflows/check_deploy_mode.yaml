@@ -1,43 +1,34 @@
 name: Distribute Desktop (Smart Deploy)
-
 on:
     push:
         branches: [prod, dev]
-
 jobs:
     build_desktop:
         runs-on: windows-latest
         environment: ${{ github.ref_name }}
-
         steps:
             - name: 📂 Checkout Code
               uses: actions/checkout@v4
               with:
                   fetch-depth: 0
-
             - name: 🐦 Setup Shorebird
               uses: shorebirdtech/setup-shorebird@v1
               with:
                   cache: true
-
             - name: 🧩 Setup Flutter
               uses: subosito/flutter-action@v2
               with:
                   channel: stable
                   cache: true
-
             - name: 🔄 Upgrade Shorebird
               run: shorebird upgrade
-
             - name: 🛠️ Fix Windows Long Paths
               run: git config --system core.longpaths true
 
-            - name: 🔍 Identify Deploy Mode (Smart Check)
-              id: smart_check
+            - name: � Smart Deploy (Patch First)
               shell: pwsh
               env:
                   SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-              continue-on-error: true
               run: |
                   # 1. استخراج الإصدار من pubspec.yaml
                   $pubspec = Get-Content pubspec.yaml | Out-String
@@ -50,59 +41,26 @@ jobs:
                       exit 1
                   }
 
-                  # 2. تبديل الـ App ID حسب البيئة (dev أو prod)
                   $flavor = "${{ github.ref_name }}"
                   $TARGET_ID = if ($flavor -eq "prod") { "ed427ccb-5edb-4594-a376-2ee9636bef4e" } else { "e962126d-ee7a-48f2-b89d-fb0349f4a05f" }
                   (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
                   Write-Host "✅ App ID Switched to: $TARGET_ID" -ForegroundColor Green
 
-                  # 3. فحص وجود الإصدار (الحل الاحترافي باستخدام API)
-                  Write-Host "📡 Fetching releases via API..."
+                  # 3. الحل الذكي: جرب patch أولاً، لو فشل اعمل release
+                  Write-Host "� Trying PATCH first..."
 
-                  # تنظيف التوكن من أي مسافات أو newlines
-                  $token = $env:SHOREBIRD_TOKEN.Trim()
-                  Write-Host "🔑 Token Length: $($token.Length)"
+                  shorebird patch windows --release-version=$version --dart-define=ENV=$flavor --verbose
 
-                  try {
-                      $headers = @{
-                          "Authorization" = "Bearer $token"
-                          "Content-Type"  = "application/json"
-                      }
+                  if ($LASTEXITCODE -ne 0) {
+                      Write-Host "📦 Patch failed → fallback to RELEASE" -ForegroundColor Yellow
+                      shorebird release windows --dart-define=ENV=$flavor --verbose
                       
-                      $url = "https://api.shorebird.dev/api/v1/apps/$TARGET_ID/releases"
-                      Write-Host "🌐 Calling: $url"
-                      
-                      $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Get
-                      
-                      if (-not $response -or -not $response.releases) {
-                          throw "Empty response from API"
-                      }
-                      
-                      $versions = $response.releases | ForEach-Object { $_.version }
-                      
-                      Write-Host "📦 Existing Versions: $($versions -join ', ')"
-                      
-                      if ($versions -contains $version) {
-                          echo "DEPLOY_MODE=PATCH" >> $env:GITHUB_ENV
-                          Write-Host "⚠️ Version exists → PATCH" -ForegroundColor Yellow
+                      if ($LASTEXITCODE -ne 0) {
+                          Write-Host "❌ Both PATCH and RELEASE failed!" -ForegroundColor Red
+                          exit 1
                       } else {
-                          echo "DEPLOY_MODE=RELEASE" >> $env:GITHUB_ENV
-                          Write-Host "🚀 New version → RELEASE" -ForegroundColor Green
+                          Write-Host "✅ Release succeeded" -ForegroundColor Green
                       }
-                  } catch {
-                      Write-Host "❌ API ERROR:"
-                      Write-Host $_.Exception.Message
-                      
-                      # 🔥 fallback آمن بدون crash
-                      echo "DEPLOY_MODE=RELEASE" >> $env:GITHUB_ENV
-                      Write-Host "🟡 Fallback → RELEASE" -ForegroundColor Cyan
-                  }
-
-            - name: 🚀 Execute Shorebird Deployment
-              shell: pwsh
-              env:
-                  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-              run: |
                   $flavor = "${{ github.ref_name }}"
                   if ("${{ env.DEPLOY_MODE }}" -eq "PATCH") {
                     Write-Host "🔧 Running Patch for $flavor (Version: ${{ env.FULL_VERSION }})..."
