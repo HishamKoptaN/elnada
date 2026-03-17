@@ -1,0 +1,32 @@
+name: Distribution Logic
+
+on:
+    workflow_call:
+        inputs:
+            version:
+                type: string
+                required: true
+            file_name:
+                type: string
+                required: true
+
+jobs:
+    release:
+        runs-on: windows-latest
+        permissions:
+            contents: write
+        steps:
+            - uses: actions/checkout@v4
+            # كود تحديث الـ Appcast والـ Git Push
+            - name: Update Appcast
+              shell: pwsh
+              run: |
+                  # (ضع هنا كود الـ XML المذكور في ملفك الأصلي)
+                  # نستخدم ${{ inputs.version }} و ${{ inputs.file_name }}
+
+            - name: Create Release
+              uses: softprops/action-gh-release@v2
+              with:
+                  tag_name: latest
+                  files: installers/${{ inputs.file_name }}
+                  prerelease: ${{ github.ref_name == 'dev' }}
