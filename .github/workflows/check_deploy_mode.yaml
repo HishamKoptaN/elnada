@@ -32,11 +32,12 @@ jobs:
             - name: 🛠️ Fix Windows Long Paths
               run: git config --system core.longpaths true
 
-            - name: Identify Deploy Mode (Smart Check)
+            - name: 🔍 Identify Deploy Mode (Smart Check)
               id: smart_check
               shell: pwsh
               env:
                   SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+              continue-on-error: true
               run: |
                   # 1. استخراج الإصدار من pubspec.yaml
                   $pubspec = Get-Content pubspec.yaml | Out-String
@@ -61,13 +62,22 @@ jobs:
                   try {
                       $headers = @{
                           "Authorization" = "Bearer $env:SHOREBIRD_TOKEN"
+                          "Content-Type"  = "application/json"
                       }
-                      
-                      $response = Invoke-RestMethod -Uri "https://api.shorebird.dev/api/v1/apps/$TARGET_ID/releases" -Headers $headers
+
+                      $url = "https://api.shorebird.dev/api/v1/apps/$TARGET_ID/releases"
+                      Write-Host "🌐 Calling: $url"
+
+                      $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Get
+
+                      if (-not $response -or -not $response.releases) {
+                          throw "Empty response from API"
+                      }
+
                       $versions = $response.releases | ForEach-Object { $_.version }
-                      
+
                       Write-Host "📦 Existing Versions: $($versions -join ', ')"
-                      
+
                       if ($versions -contains $version) {
                           echo "DEPLOY_MODE=PATCH" >> $env:GITHUB_ENV
                           Write-Host "⚠️ Version exists → PATCH" -ForegroundColor Yellow
@@ -76,28 +86,12 @@ jobs:
                           Write-Host "🚀 New version → RELEASE" -ForegroundColor Green
                       }
                   } catch {
-                      Write-Host "⚠️ API failed, falling back to JSON method..."
-                      try {
-                          $rawOutput = shorebird releases list --json | Out-String
-                          if ($rawOutput) {
-                              $releases = $rawOutput | ConvertFrom-Json
-                              $versions = $releases | ForEach-Object { $_.version }
-                              
-                              if ($versions -contains $version) {
-                                  echo "DEPLOY_MODE=PATCH" >> $env:GITHUB_ENV
-                                  Write-Host "⚠️ Version exists (JSON) → PATCH" -ForegroundColor Yellow
-                              } else {
-                                  echo "DEPLOY_MODE=RELEASE" >> $env:GITHUB_ENV
-                                  Write-Host "🚀 New version (JSON) → RELEASE" -ForegroundColor Green
-                              }
-                          } else {
-                              echo "DEPLOY_MODE=RELEASE" >> $env:GITHUB_ENV
-                              Write-Host "� Fallback to RELEASE (no data)" -ForegroundColor Cyan
-                          }
-                      } catch {
-                          Write-Host "❌ All methods failed, defaulting to RELEASE"
-                          echo "DEPLOY_MODE=RELEASE" >> $env:GITHUB_ENV
-                      }
+                      Write-Host "❌ API ERROR:"
+                      Write-Host $_.Exception.Message
+
+                      # 🔥 fallback آمن بدون crash
+                      echo "DEPLOY_MODE=RELEASE" >> $env:GITHUB_ENV
+                      Write-Host "🟡 Fallback → RELEASE" -ForegroundColor Cyan
                   }
 
             - name: 🚀 Execute Shorebird Deployment
