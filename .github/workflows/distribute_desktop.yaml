@@ -33,11 +33,10 @@ jobs:
                     $newContent = $content -replace "APP_VERSION_PLACEHOLDER", "${{ steps.get_version.outputs.FULL_VERSION }}"
                     [System.IO.File]::WriteAllText((Get-Item $issPath).FullName, $newContent)
                   }
-
             - run: flutter config --enable-windows-desktop
             - run: flutter pub get
-
-            # 6️⃣ Check if Release exists on Shorebird
+            - name: Enable Long Paths
+              run: git config --system core.longpaths true
             - name: Check if Release exists on Shorebird
               shell: pwsh
               run: |
@@ -59,8 +58,6 @@ jobs:
                     echo "SHOULD_PATCH=false" >> $env:GITHUB_ENV
                     echo "فشل في جلب قائمة الإصدارات، سنقوم بعمل Release جديد."
                   }
-
-            # 6️⃣ Build Windows release with Shorebird
             - name: Install Shorebird
               shell: pwsh
               run: |
@@ -69,15 +66,16 @@ jobs:
                   ./install.ps1
                   echo "$env:USERPROFILE\.shorebird\bin" >> $env:GITHUB_PATH
             - run: shorebird --version
-            # 7️⃣ Shorebird Release (only if version doesn't exist)
             - name: Shorebird Release
               if: env.SHOULD_PATCH == 'false'
-              run: shorebird release windows --dart-define=ENV=${{ github.ref_name }} --force
-
-            # 8️⃣ Shorebird Patch (only if version exists)
+              run: shorebird release windows --dart-define=ENV=${{ github.ref_name }}
+              env:
+                  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
             - name: Shorebird Patch
               if: env.SHOULD_PATCH == 'true'
-              run: shorebird patch windows --release-version=${{ steps.get_version.outputs.FULL_VERSION }} --force
+              run: shorebird patch windows --release-version=${{ steps.get_version.outputs.FULL_VERSION }} --dart-define=ENV=${{ github.ref_name }}
+              env:
+                  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
             - name: Compile Inno Setup
               shell: pwsh
               run: |
@@ -93,7 +91,6 @@ jobs:
                   $setupFile = Get-ChildItem "installers/*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
                   Rename-Item -Path $setupFile.FullName -NewName $newName
                   echo "FINAL_FILE_NAME=$newName" >> $env:GITHUB_ENV
-            # 9️⃣ Update XML with version, shortVersionString, url, and file length (only for new releases)
             - name: Update Appcast XML & Push
               if: env.SHOULD_PATCH == 'false'
               shell: pwsh
@@ -132,8 +129,6 @@ jobs:
                       git commit -m "chore: sync appcast to $version [skip ci]" || echo "No changes to commit"
                       git push origin ${{ github.ref_name }}
                   }
-
-            # 10️⃣ Create or update release
             - name: Create/Update Latest Release
               uses: softprops/action-gh-release@v2
               with:
