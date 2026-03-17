@@ -25,12 +25,12 @@ jobs:
             - name: 🛠️ Fix Windows Long Paths
               run: git config --system core.longpaths true
 
-            - name: � Smart Deploy (Patch First)
+            - name: 🚀 Smart Deploy (Patch First)
               shell: pwsh
               env:
                   SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
               run: |
-                  # 1. استخراج الإصدار من pubspec.yaml
+                  # 1. استخراج الإصدار
                   $pubspec = Get-Content pubspec.yaml | Out-String
                   if ($pubspec -match 'version:\s*([^\s]+)') {
                       $version = $matches[1].Trim()
@@ -41,33 +41,35 @@ jobs:
                       exit 1
                   }
 
+                  # 2. تحديد البيئة
                   $flavor = "${{ github.ref_name }}"
-                  $TARGET_ID = if ($flavor -eq "prod") { "ed427ccb-5edb-4594-a376-2ee9636bef4e" } else { "e962126d-ee7a-48f2-b89d-fb0349f4a05f" }
+                  $TARGET_ID = if ($flavor -eq "prod") { 
+                      "ed427ccb-5edb-4594-a376-2ee9636bef4e" 
+                  } else { 
+                      "e962126d-ee7a-48f2-b89d-fb0349f4a05f" 
+                  }
+
                   (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
                   Write-Host "✅ App ID Switched to: $TARGET_ID" -ForegroundColor Green
 
-                  # 3. الحل الذكي: جرب patch أولاً، لو فشل اعمل release
-                  Write-Host "� Trying PATCH first..."
+                  # 3. جرب PATCH الأول
+                  Write-Host "🚀 Trying PATCH first..."
 
                   shorebird patch windows --release-version=$version --dart-define=ENV=$flavor --verbose
 
                   if ($LASTEXITCODE -ne 0) {
                       Write-Host "📦 Patch failed → fallback to RELEASE" -ForegroundColor Yellow
+
                       shorebird release windows --dart-define=ENV=$flavor --verbose
-                      
+
                       if ($LASTEXITCODE -ne 0) {
                           Write-Host "❌ Both PATCH and RELEASE failed!" -ForegroundColor Red
                           exit 1
                       } else {
                           Write-Host "✅ Release succeeded" -ForegroundColor Green
                       }
-                  $flavor = "${{ github.ref_name }}"
-                  if ("${{ env.DEPLOY_MODE }}" -eq "PATCH") {
-                    Write-Host "🔧 Running Patch for $flavor (Version: ${{ env.FULL_VERSION }})..."
-                    shorebird patch windows --release-version=${{ env.FULL_VERSION }} --dart-define=ENV=$flavor --verbose
                   } else {
-                    Write-Host "📦 Running New Release for $flavor..."
-                    shorebird release windows --dart-define=ENV=$flavor --verbose
+                      Write-Host "✅ Patch succeeded" -ForegroundColor Green
                   }
 
             - name: 🔨 Compile Installer (Inno Setup)
