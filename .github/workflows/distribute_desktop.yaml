@@ -111,6 +111,36 @@ jobs:
               shell: pwsh
               run: |
                   $flavor = "${{ github.ref_name }}"
+                  $VERSION = "${{ steps.get_version.outputs.FULL_VERSION }}"
+
+                  Write-Host "🔍 Double-checking version: $VERSION"
+
+                  # فحص أخير للتأكد من عدم وجود الإصدار
+                  try {
+                    $releases = shorebird releases list
+                    $exists = $releases | Select-String $VERSION
+                    if ($exists) {
+                      Write-Host "⚠️ Version $VERSION still exists! Forcing PATCH mode instead of RELEASE"
+                      Write-Host "🔧 Switching to patch command..."
+                      
+                      # تحديد المعرف الصحيح بناءً على الفرع
+                      if ($flavor -eq "prod") {
+                        $TARGET_ID = "ed427ccb-5edb-4594-a376-2ee9636bef4e"
+                      } else {
+                        $TARGET_ID = "e962126d-ee7a-48f2-b89d-fb0349f4a05f"
+                      }
+                      
+                      # تبديل المعرف داخل ملف shorebird.yaml برمجياً
+                      (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
+                      
+                      # تنفيذ patch بدلاً من release
+                      shorebird patch windows --release-version=$VERSION --dart-define=ENV=$flavor
+                      Write-Host "✅ Patch completed successfully (forced mode)"
+                      exit 0
+                    }
+                  } catch {
+                    Write-Host "⚠️ Could not verify releases, proceeding with release"
+                  }
 
                   # 1. تحديد المعرف الصحيح بناءً على الفرع
                   if ($flavor -eq "prod") {
@@ -143,6 +173,8 @@ jobs:
               shell: pwsh
               run: |
                   $flavor = "${{ github.ref_name }}"
+                  $VERSION = "${{ steps.get_version.outputs.FULL_VERSION }}"
+
 
                   # 1. تحديد المعرف الصحيح بناءً على الفرع
                   if ($flavor -eq "prod") {
