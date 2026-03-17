@@ -1,28 +1,22 @@
 name: Distribute Desktop
-
 on:
     push:
         branches: [prod, dev]
-
 permissions:
     contents: write
-
 jobs:
     build_desktop:
         runs-on: windows-latest
+        env:
+            SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
         steps:
-            # 1️⃣ Checkout repo
             - uses: actions/checkout@v4
               with:
                   fetch-depth: 0
-
-            # 2️⃣ Install Flutter
             - uses: subosito/flutter-action@v2
               with:
                   channel: stable
                   cache: true
-
-            # 3️⃣ Get version from pubspec.yaml
             - id: get_version
               shell: pwsh
               run: |
@@ -30,8 +24,6 @@ jobs:
                   $fullVersion = ($line -split " ")[1].Trim()
                   $version = $fullVersion.Split("+")[0]
                   echo "FULL_VERSION=$version" >> $env:GITHUB_OUTPUT
-
-            # 4️⃣ Update Inno Setup script with version
             - name: Update Version in ISS
               shell: pwsh
               run: |
@@ -42,20 +34,54 @@ jobs:
                     [System.IO.File]::WriteAllText((Get-Item $issPath).FullName, $newContent)
                   }
 
-            # 5️⃣ Enable Windows desktop and get dependencies
             - run: flutter config --enable-windows-desktop
             - run: flutter pub get
 
-            # 6️⃣ Build Windows release
-            - run: flutter build windows --release --dart-define=ENV=${{ github.ref_name }}
+            # 6️⃣ Check if Release exists on Shorebird
+            - name: Check if Release exists on Shorebird
+              shell: pwsh
+              run: |
+                  $VERSION = "${{ steps.get_version.outputs.FULL_VERSION }}"
+                  Write-Host "Checking if release $VERSION exists on Shorebird..."
 
-            # 7️⃣ Compile installer with Inno Setup
+                  # Try to get releases list and check if version exists
+                  try {
+                    $releases = shorebird releases list
+                    $exists = $releases | Select-String $VERSION
+                    if ($exists) {
+                       echo "SHOULD_PATCH=true" >> $env:GITHUB_ENV
+                       echo "الإصدار موجود بالفعل، سنقوم بعمل Patch فقط."
+                    } else {
+                       echo "SHOULD_PATCH=false" >> $env:GITHUB_ENV
+                       echo "إصدار جديد، سنقوم بعمل Release."
+                    }
+                  } catch {
+                    echo "SHOULD_PATCH=false" >> $env:GITHUB_ENV
+                    echo "فشل في جلب قائمة الإصدارات، سنقوم بعمل Release جديد."
+                  }
+
+            # 6️⃣ Build Windows release with Shorebird
+            - name: Install Shorebird
+              shell: pwsh
+              run: |
+                  Invoke-WebRequest -Uri "https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1" -OutFile "install.ps1"
+                  Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
+                  ./install.ps1
+                  echo "$env:USERPROFILE\.shorebird\bin" >> $env:GITHUB_PATH
+            - run: shorebird --version
+            # 7️⃣ Shorebird Release (only if version doesn't exist)
+            - name: Shorebird Release
+              if: env.SHOULD_PATCH == 'false'
+              run: shorebird release windows --dart-define=ENV=${{ github.ref_name }} --force
+
+            # 8️⃣ Shorebird Patch (only if version exists)
+            - name: Shorebird Patch
+              if: env.SHOULD_PATCH == 'true'
+              run: shorebird patch windows --release-version=${{ steps.get_version.outputs.FULL_VERSION }} --force
             - name: Compile Inno Setup
               shell: pwsh
               run: |
                   & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" ./installers/abujena_setup.iss
-
-            # 8️⃣ Prepare exe file and rename
             - id: prepare_assets
               shell: pwsh
               run: |
@@ -67,9 +93,9 @@ jobs:
                   $setupFile = Get-ChildItem "installers/*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
                   Rename-Item -Path $setupFile.FullName -NewName $newName
                   echo "FINAL_FILE_NAME=$newName" >> $env:GITHUB_ENV
-
-            # 9️⃣ Update XML with version, shortVersionString, url, and file length
+            # 9️⃣ Update XML with version, shortVersionString, url, and file length (only for new releases)
             - name: Update Appcast XML & Push
+              if: env.SHOULD_PATCH == 'false'
               shell: pwsh
               run: |
                   $version = "${{ steps.get_version.outputs.FULL_VERSION }}"

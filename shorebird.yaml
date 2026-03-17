@@ -5,3 +5,4 @@ flavors:
 # shorebird release android --flavor dev --dart-define=ENV=dev
 # adb install -r "build\app\outputs\flutter-apk\app-dev-release.apk"
 # shorebird patch android --flavor dev
+# shorebird patch windows --release-version=1.0.0+1

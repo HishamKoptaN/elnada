@@ -206,6 +206,10 @@ class _CustomersViewState extends State<CustomersView> {
                     );
                   },
                 ),
+                Text(
+                  'Shorebird',
+                  style: TextStyle(fontSize: 10.sp, color: Colors.red),
+                ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                   decoration: BoxDecoration(
