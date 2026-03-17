@@ -19,7 +19,6 @@ jobs:
                   cache: true
             - run: shorebird upgrade
             - run: git config --system core.longpaths true
-
             - shell: pwsh
               env:
                   SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
@@ -55,7 +54,6 @@ jobs:
                   } else {
                       Write-Host "✅ Patch succeeded" -ForegroundColor Green
                   }
-
             - shell: pwsh
               run: |
                   try {
@@ -66,15 +64,6 @@ jobs:
                     Write-Host "❌ Installer compilation failed: $_"
                     exit 1
                   }
-
-            - id: prepare_assets
-              shell: pwsh
-              run: |
-                  $newName = if ("${{ github.ref_name }}" -eq "dev") { "abujena_dawajen_dev.exe" } else { "abujena_dawajen.exe" }
-                  $setupFile = Get-ChildItem "installers/*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-                  Rename-Item -Path $setupFile.FullName -NewName $newName
-                  echo "FINAL_FILE_NAME=$newName" >> $env:GITHUB_ENV
-
             - shell: pwsh
               run: |
                   $version = "${{ env.FULL_VERSION }}"
@@ -92,7 +81,7 @@ jobs:
                     $content = $content -replace 'length="[^"]*"', "length=""$fileLength"""
                     $content = $content -replace '<title>Version [^<]*</title>', "<title>Version $version</title>"
                     $content = $content -replace '<pubDate>[^<]*</pubDate>', "<pubDate>$currentDate</pubDate>"
-                    [System.IO.File::WriteAllText((Get-Item $xmlPath).FullName, $content)
+                    [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
                     git config --global user.name "github-actions[bot]"
                     git config --global user.email "github-actions[bot]@users.noreply.github.com"
                     git add $xmlPath
@@ -113,7 +102,6 @@ jobs:
                   } else {
                       Write-Warning "⚠️ ISS file not found at $issPath. Skipping compilation."
                   }
-
             - id: prepare_final_assets
               shell: pwsh
               run: |
@@ -121,7 +109,6 @@ jobs:
                   $setupFile = Get-ChildItem "installers/*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
                   Rename-Item -Path $setupFile.FullName -NewName $newName
                   echo "FINAL_FILE_NAME=$newName" >> $env:GITHUB_ENV
-
             - uses: softprops/action-gh-release@v2
               with:
                   tag_name: latest
