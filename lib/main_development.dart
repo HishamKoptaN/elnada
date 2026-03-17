@@ -1,0 +1,91 @@
+import 'dart:async';
+import 'package:auto_updater/auto_updater.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'config/env_config.dart';
+import 'core/app/app_widget.dart';
+import 'core/app/error_handler.dart';
+import 'core/app_initializer.dart';
+import 'core/app_observer.dart';
+import 'core/di/dependency_injection.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:universal_io/io.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (Platform.isWindows) {
+    if (Platform.isWindows) {
+      await setupAutoUpdater();
+    }
+    await autoUpdater.setScheduledCheckInterval(3600);
+  }
+  await initLogging();
+  try {
+    await AppInitializer.initialize();
+    await configureDependencies(environment: EnvConfig.config.envName);
+    Bloc.observer = AppBlocObserver();
+    if (kDebugMode) {}
+    await initializeDateFormatting('ar', null);
+    runApp(const TahaApp());
+  } catch (error, stackTrace) {
+    _handleError(
+      error: error,
+      stackTrace: stackTrace,
+      context: 'app initialization',
+    );
+  }
+}
+
+Future<void> initLogging() async {
+  try {
+    final dir = await getApplicationSupportDirectory();
+    final file = File('${dir.path}/log.txt');
+    if (!await dir.exists()) {
+      await dir.create(recursive: true);
+    }
+    if (await file.exists() && await file.length() > 2 * 1024 * 1024) {
+      await file.writeAsString(
+        '${DateTime.now()}: --- السجلات قديمة (تم تصفير الملف للحفاظ على المساحة) ---\n',
+        mode: FileMode.write,
+      );
+    }
+    final DebugPrintCallback oldDebugPrint = debugPrint;
+    debugPrint = (String? message, {int? wrapWidth}) {
+      oldDebugPrint(message, wrapWidth: wrapWidth);
+      file.writeAsString(
+        '${DateTime.now().toIso8601String()}: $message\n',
+        mode: FileMode.append,
+        flush: false,
+      );
+    };
+    debugPrint('🚀 نظام السجلات جاهز. المسار: ${file.path}');
+  } catch (e) {}
+}
+
+void _handleError({
+  required Object error,
+  required StackTrace stackTrace,
+  required String context,
+}) {
+  runApp(
+    ErrorApp(
+      errorDetails: FlutterErrorDetails(
+        exception: error,
+        stack: stackTrace,
+        library: 'app',
+        context: ErrorDescription(context),
+      ),
+    ),
+  );
+}
+
+Future<void> setupAutoUpdater() async {
+  await autoUpdater.setFeedURL(
+    'https://raw.githubusercontent.com/HishamKoptaN/elnada/refs/heads/${EnvConfig.config.envName}/desktop_appcast.xml',
+  );
+  await autoUpdater.setScheduledCheckInterval(3600); // تحقق كل ساعة
+}
