@@ -1,29 +1,24 @@
 name: Distribute Desktop
-
 on:
     push:
-        branches: [prod, dev]
-
+        branches: [test]
+        # branches: [prod, dev]
 permissions:
     contents: write
-
 jobs:
     build_desktop:
         runs-on: windows-latest
         environment: ${{ github.ref_name }}
         env:
             SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-
         steps:
             - uses: actions/checkout@v4
               with:
                   fetch-depth: 0
-
             - uses: subosito/flutter-action@v2
               with:
                   channel: stable
                   cache: true
-
             - id: get_version
               shell: pwsh
               run: |
@@ -31,7 +26,6 @@ jobs:
                   $fullVersion = ($line -split " ")[1].Trim()
                   $version = $fullVersion.Split("+")[0]
                   echo "FULL_VERSION=$version" >> $env:GITHUB_OUTPUT
-
             - name: Update ISS
               shell: pwsh
               run: |
@@ -41,34 +35,12 @@ jobs:
                     $newContent = $content -replace "APP_VERSION_PLACEHOLDER", "${{ steps.get_version.outputs.FULL_VERSION }}"
                     [System.IO.File]::WriteAllText((Get-Item $issPath).FullName, $newContent)
                   }
-
             - run: flutter config --enable-windows-desktop
             - run: flutter pub get
             - run: git config --system core.longpaths true
-            - name: Install Shorebird
-              shell: pwsh
-              run: |
-                  try {
-                    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/shorebirdtech/install/main/install.ps1" -OutFile "install.ps1"
-                    Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
-                  } catch {
-                    Write-Host "⚠️ Failed to install Shorebird"
-                    exit 1
-                  }
-                  try {
-                    ./install.ps1
-                  } catch {
-                    Write-Host "⚠️ Failed to run Shorebird install script"
-                    exit 1
-                  }
-                  try {
-                    echo "$env:USERPROFILE\.shorebird\bin" >> $env:GITHUB_PATH
-                  } catch {
-                    Write-Host "⚠️ Failed to add Shorebird to PATH"
-                    exit 1
-                  }
-                  echo "$env:USERPROFILE\.shorebird\bin" >> $env:GITHUB_PATH
-
+            - uses: shorebirdtech/setup-shorebird@v1
+              with:
+                cache: true
             - name: Validate Token
               run: |
                   if ([string]::IsNullOrEmpty($env:SHOREBIRD_TOKEN)) {
@@ -80,20 +52,15 @@ jobs:
                     exit 1
                   }
                   Write-Host "✅ Token OK"
-
             - name: Shorebird Smart Deploy
               shell: pwsh
               env:
                   SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
               run: |
                   $flavor = "${{ github.ref_name }}"
-
-                  # 1. جلب الإصدار الحالي من pubspec.yaml
                   $line = Get-Content pubspec.yaml | Select-String "^version: "
                   $version = ($line -split " ")[1].Trim()
                   Write-Host "🔍 Current Version: $version"
-
-                  # 2. تبديل الـ App ID برمجياً حسب البيئة
                   if ($flavor -eq "prod") {
                     $TARGET_ID = "ed427ccb-5edb-4594-a376-2ee9636bef4e"
                   } else {
@@ -101,18 +68,12 @@ jobs:
                   }
                   (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
                   Write-Host "✅ Target ID set to: $TARGET_ID"
-
-                  # 3. فحص وجود الإصدار في Shorebird
                   Write-Host "📡 Fetching releases list..."
                   $releases = shorebird releases list
-
-                  # البحث عن الإصدار داخل الجدول (Select-String يبحث في مخرجات النص)
                   $exists = $releases | Select-String $version
-
                   if ($exists) {
                     Write-Host "⚠️ Version $version already exists on Shorebird. Switching to PATCH mode..."
                     try {
-                      # تنفيذ الباتش
                       shorebird patch windows --release-version=$version --dart-define=ENV=$flavor
                       Write-Host "✅ Patch completed successfully"
                     } catch {
@@ -130,7 +91,6 @@ jobs:
                       exit 1
                     }
                   }
-
             - name: Compile Installer
               shell: pwsh
               run: |

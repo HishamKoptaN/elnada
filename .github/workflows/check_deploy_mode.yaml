@@ -1,0 +1,75 @@
+name: Distribute Desktop (Smart Deploy)
+
+on:
+    push:
+        branches: [prod, dev]
+
+jobs:
+    build_desktop:
+        runs-on: windows-latest
+        # نستخدم البيئة بناءً على اسم الفرع (prod أو dev)
+        environment: ${{ github.ref_name }}
+
+        steps:
+            - name: 📂 Checkout Code
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: 🐦 Setup Shorebird
+              uses: shorebirdtech/setup-shorebird@v1
+              with:
+                  cache: true
+
+            - name: 🧩 Setup Flutter
+              uses: subosito/flutter-action@v2
+              with:
+                  channel: stable
+                  cache: true
+
+            - name: 🔍 Identify Deploy Mode (Smart Check)
+              id: smart_check
+              shell: pwsh
+              env:
+                  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+              run: |
+                  # 1. استخراج الإصدار من pubspec.yaml
+                  $line = Get-Content pubspec.yaml | Select-String "^version: "
+                  $version = ($line -split " ")[1].Trim()
+                  echo "FULL_VERSION=$version" >> $env:GITHUB_ENV
+                  Write-Host "🔍 Target Version: $version" -ForegroundColor Cyan
+
+                  # 2. تبديل الـ App ID برمجياً حسب البيئة
+                  $flavor = "${{ github.ref_name }}"
+                  $TARGET_ID = if ($flavor -eq "prod") { "ed427ccb-5edb-4594-a376-2ee9636bef4e" } else { "e962126d-ee7a-48f2-b89d-fb0349f4a05f" }
+                  (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
+                  Write-Host "✅ App ID Switched to: $TARGET_ID" -ForegroundColor Green
+
+                  # 3. فحص وجود الإصدار في Shorebird
+                  $releasesText = shorebird releases list | Out-String
+                  if ($releasesText -match [regex]::Escape($version)) {
+                    echo "DEPLOY_MODE=PATCH" >> $env:GITHUB_ENV
+                    Write-Host "⚠️ Version exists. Mode set to PATCH" -ForegroundColor Magenta
+                  } else {
+                    echo "DEPLOY_MODE=RELEASE" >> $env:GITHUB_ENV
+                    Write-Host "🚀 Version is new. Mode set to RELEASE" -ForegroundColor Green
+                  }
+
+            - name: 🚀 Execute Shorebird Deployment
+              shell: pwsh
+              env:
+                  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+              run: |
+                  $flavor = "${{ github.ref_name }}"
+                  if ("${{ env.DEPLOY_MODE }}" -eq "PATCH") {
+                    Write-Host "🔧 Running Patch for $flavor..."
+                    shorebird patch windows --release-version=${{ env.FULL_VERSION }} --dart-define=ENV=$flavor --verbose
+                  } else {
+                    Write-Host "📦 Running New Release for $flavor..."
+                    shorebird release windows --dart-define=ENV=$flavor --verbose
+                  }
+
+            - name: 🔨 Compile Installer (Inno Setup)
+              shell: pwsh
+              run: |
+                  & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" ./installers/abujena_setup.iss
