@@ -186,76 +186,76 @@ class _CustomersViewState extends State<CustomersView> {
             child: Column(
               spacing: 5.h,
               children: [
-                FutureBuilder<String>(
-                  future: getVersion(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Text(
-                        snapshot.data!,
-                        style: TextStyle(fontSize: 10.sp, color: Colors.black),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text(
-                        'Error loading version',
-                        style: TextStyle(fontSize: 10.sp, color: Colors.red),
-                      );
-                    }
-                    return Text(
-                      'Loading...',
-                      style: TextStyle(fontSize: 10.sp, color: Colors.grey),
-                    );
-                  },
-                ),
-                Text(
-                  'Shorebird',
-                  style: TextStyle(fontSize: 10.sp, color: Colors.red),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                  decoration: BoxDecoration(
-                    color: _updateUrl.isNotEmpty
-                        ? Colors.orange.shade100
-                        : Colors.green.shade100,
-                    borderRadius: BorderRadius.circular(4.r),
-                    border: Border.all(
-                      color: _updateUrl.isNotEmpty
-                          ? Colors.orange
-                          : Colors.green,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        _updateUrl.isNotEmpty
-                            ? Icons.system_update
-                            : Icons.check_circle,
-                        size: 16.sp,
-                        color: _updateUrl.isNotEmpty
-                            ? Colors.orange
-                            : Colors.green,
-                      ),
-                      SizedBox(width: 4.w),
-                      Text(
-                        _updateStatus,
-                        style: TextStyle(fontSize: 9.sp, color: Colors.black87),
-                      ),
-                      if (_updateUrl.isNotEmpty) ...[
-                        SizedBox(width: 8.w),
-                        GestureDetector(
-                          onTap: () {
-                            _showUpdateDialog();
-                          },
-                          child: Icon(
-                            Icons.download,
-                            size: 14.sp,
-                            color: Colors.blue,
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
+                // FutureBuilder<String>(
+                //   future: getVersion(),
+                //   builder: (context, snapshot) {
+                //     if (snapshot.hasData) {
+                //       return Text(
+                //         snapshot.data!,
+                //         style: TextStyle(fontSize: 10.sp, color: Colors.black),
+                //       );
+                //     } else if (snapshot.hasError) {
+                //       return Text(
+                //         'Error loading version',
+                //         style: TextStyle(fontSize: 10.sp, color: Colors.red),
+                //       );
+                //     }
+                //     return Text(
+                //       'Loading...',
+                //       style: TextStyle(fontSize: 10.sp, color: Colors.grey),
+                //     );
+                //   },
+                // ),
+                // Text(
+                //   'Shorebird',
+                //   style: TextStyle(fontSize: 10.sp, color: Colors.red),
+                // ),
+                // Container(
+                //   padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                //   decoration: BoxDecoration(
+                //     color: _updateUrl.isNotEmpty
+                //         ? Colors.orange.shade100
+                //         : Colors.green.shade100,
+                //     borderRadius: BorderRadius.circular(4.r),
+                //     border: Border.all(
+                //       color: _updateUrl.isNotEmpty
+                //           ? Colors.orange
+                //           : Colors.green,
+                //     ),
+                //   ),
+                //   child: Row(
+                //     mainAxisSize: MainAxisSize.min,
+                //     children: [
+                //       Icon(
+                //         _updateUrl.isNotEmpty
+                //             ? Icons.system_update
+                //             : Icons.check_circle,
+                //         size: 16.sp,
+                //         color: _updateUrl.isNotEmpty
+                //             ? Colors.orange
+                //             : Colors.green,
+                //       ),
+                //       SizedBox(width: 4.w),
+                //       Text(
+                //         _updateStatus,
+                //         style: TextStyle(fontSize: 9.sp, color: Colors.black87),
+                //       ),
+                //       if (_updateUrl.isNotEmpty) ...[
+                //         SizedBox(width: 8.w),
+                //         GestureDetector(
+                //           onTap: () {
+                //             _showUpdateDialog();
+                //           },
+                //           child: Icon(
+                //             Icons.download,
+                //             size: 14.sp,
+                //             color: Colors.blue,
+                //           ),
+                //         ),
+                //       ],
+                //     ],
+                //   ),
+                // ),
                 DateHeaderWidget(state: state),
                 PricesWidget(
                   prices: prices,
