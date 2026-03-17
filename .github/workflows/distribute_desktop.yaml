@@ -45,7 +45,6 @@ jobs:
             - run: flutter config --enable-windows-desktop
             - run: flutter pub get
             - run: git config --system core.longpaths true
-
             - name: Install Shorebird
               shell: pwsh
               run: |
@@ -82,41 +81,54 @@ jobs:
                   }
                   Write-Host "✅ Token OK"
 
-            - name: Shorebird Smart Deploy (Release or Patch)
+            - name: Shorebird Smart Deploy
               shell: pwsh
               env:
                   SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
               run: |
                   $flavor = "${{ github.ref_name }}"
 
-                  # 1. جلب الإصدار الحالي من pubspec.yaml بدقة
-                  $pubspec = Get-Content pubspec.yaml
-                  $versionLine = $pubspec | Select-String "^version: "
-                  $FULL_VERSION = ($versionLine -split " ")[1].Trim()
-                  Write-Host "🔍 Version in pubspec.yaml: $FULL_VERSION"
+                  # 1. جلب الإصدار الحالي من pubspec.yaml
+                  $line = Get-Content pubspec.yaml | Select-String "^version: "
+                  $version = ($line -split " ")[1].Trim()
+                  Write-Host "🔍 Current Version: $version"
 
-                  # 2. تحديد الـ App ID بناءً على البيئة
+                  # 2. تبديل الـ App ID برمجياً حسب البيئة
                   if ($flavor -eq "prod") {
                     $TARGET_ID = "ed427ccb-5edb-4594-a376-2ee9636bef4e"
                   } else {
                     $TARGET_ID = "e962126d-ee7a-48f2-b89d-fb0349f4a05f"
                   }
-
-                  # 3. تحديث ملف shorebird.yaml بالمعرف الصحيح
                   (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
-                  Write-Host "✅ Target App ID set to: $TARGET_ID"
+                  Write-Host "✅ Target ID set to: $TARGET_ID"
 
-                  # 4. فحص هل الإصدار موجود مسبقاً في Shorebird
-                  Write-Host "📡 Fetching releases from Shorebird..."
+                  # 3. فحص وجود الإصدار في Shorebird
+                  Write-Host "📡 Fetching releases list..."
                   $releases = shorebird releases list
 
-                  # نبحث عن الإصدار داخل القائمة (نستخدم -match للبحث الجزئي)
-                  if ($releases -match [regex]::Escape($FULL_VERSION)) {
-                    Write-Host "⚠️ Version $FULL_VERSION already exists. Running PATCH..."
-                    shorebird patch windows --release-version=$FULL_VERSION --dart-define=ENV=$flavor
+                  # البحث عن الإصدار داخل الجدول (Select-String يبحث في مخرجات النص)
+                  $exists = $releases | Select-String $version
+
+                  if ($exists) {
+                    Write-Host "⚠️ Version $version already exists on Shorebird. Switching to PATCH mode..."
+                    try {
+                      # تنفيذ الباتش
+                      shorebird patch windows --release-version=$version --dart-define=ENV=$flavor
+                      Write-Host "✅ Patch completed successfully"
+                    } catch {
+                      Write-Host "❌ Patch failed: $_"
+                      exit 1
+                    }
                   } else {
-                    Write-Host "🚀 Version $FULL_VERSION is new. Running RELEASE..."
-                    shorebird release windows --dart-define=ENV=$flavor
+                    Write-Host "🚀 Version $version is new. Switching to RELEASE mode..."
+                    try {
+                      # تنفيذ الريليز
+                      shorebird release windows --dart-define=ENV=$flavor
+                      Write-Host "✅ Release completed successfully"
+                    } catch {
+                      Write-Host "❌ Release failed: $_"
+                      exit 1
+                    }
                   }
 
             - name: Compile Installer
