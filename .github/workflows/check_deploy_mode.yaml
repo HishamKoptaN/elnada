@@ -26,10 +26,13 @@ jobs:
                   channel: stable
                   cache: true
 
-            - name: �️ Fix Windows Long Paths
+            - name: 🔄 Upgrade Shorebird
+              run: shorebird upgrade
+
+            - name: 🛠️ Fix Windows Long Paths
               run: git config --system core.longpaths true
 
-            - name: �🔍 Identify Deploy Mode (Smart Check)
+            - name: Identify Deploy Mode (Smart Check)
               id: smart_check
               shell: pwsh
               env:
@@ -52,34 +55,49 @@ jobs:
                   (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
                   Write-Host "✅ App ID Switched to: $TARGET_ID" -ForegroundColor Green
 
-                  # 3. فحص وجود الإصدار (معالجة خطأ Subcommand "list")
-                  Write-Host "📡 Fetching releases list..."
+                  # 3. فحص وجود الإصدار (الحل الاحترافي باستخدام API)
+                  Write-Host "📡 Fetching releases via API..."
 
-                  # استدعاء القائمة مع تحديد الـ App ID لضمان الحصول على المخرجات الصحيحة
                   try {
-                      $rawOutput = shorebird releases list --app-id $TARGET_ID | Out-String
+                      $headers = @{
+                          "Authorization" = "Bearer $env:SHOREBIRD_TOKEN"
+                      }
+                      
+                      $response = Invoke-RestMethod -Uri "https://api.shorebird.dev/api/v1/apps/$TARGET_ID/releases" -Headers $headers
+                      $versions = $response.releases | ForEach-Object { $_.version }
+                      
+                      Write-Host "📦 Existing Versions: $($versions -join ', ')"
+                      
+                      if ($versions -contains $version) {
+                          echo "DEPLOY_MODE=PATCH" >> $env:GITHUB_ENV
+                          Write-Host "⚠️ Version exists → PATCH" -ForegroundColor Yellow
+                      } else {
+                          echo "DEPLOY_MODE=RELEASE" >> $env:GITHUB_ENV
+                          Write-Host "🚀 New version → RELEASE" -ForegroundColor Green
+                      }
                   } catch {
-                      Write-Host "⚠️ Failed with --app-id, trying without it..."
-                      $rawOutput = shorebird releases list | Out-String
-                  }
-
-                  # تنظيف رموز الألوان ANSI
-                  $cleanOutput = $rawOutput -replace '\x1b\[[0-9;]*m', ''
-
-                  # استخراج الكلمات
-                  $words = $cleanOutput -split '\s+' | ForEach-Object { $_.Trim() }
-
-                  Write-Host "--- Cleaned Output Start ---"
-                  Write-Host $cleanOutput
-                  Write-Host "--- Cleaned Output End ---"
-
-                  if ($words -contains $version) {
-                    echo "DEPLOY_MODE=PATCH" >> $env:GITHUB_ENV
-                    Write-Host "⚠️ MATCH FOUND: Version $version exists. Mode: PATCH" -ForegroundColor Magenta
-                  } else {
-                    echo "DEPLOY_MODE=RELEASE" >> $env:GITHUB_ENV
-                    Write-Host "🚀 NO MATCH: Version $version is new. Mode: RELEASE" -ForegroundColor Green
-                    Write-Host "🔍 Scanned Words: ($($words -join ', '))" -ForegroundColor Gray
+                      Write-Host "⚠️ API failed, falling back to JSON method..."
+                      try {
+                          $rawOutput = shorebird releases list --json | Out-String
+                          if ($rawOutput) {
+                              $releases = $rawOutput | ConvertFrom-Json
+                              $versions = $releases | ForEach-Object { $_.version }
+                              
+                              if ($versions -contains $version) {
+                                  echo "DEPLOY_MODE=PATCH" >> $env:GITHUB_ENV
+                                  Write-Host "⚠️ Version exists (JSON) → PATCH" -ForegroundColor Yellow
+                              } else {
+                                  echo "DEPLOY_MODE=RELEASE" >> $env:GITHUB_ENV
+                                  Write-Host "🚀 New version (JSON) → RELEASE" -ForegroundColor Green
+                              }
+                          } else {
+                              echo "DEPLOY_MODE=RELEASE" >> $env:GITHUB_ENV
+                              Write-Host "� Fallback to RELEASE (no data)" -ForegroundColor Cyan
+                          }
+                      } catch {
+                          Write-Host "❌ All methods failed, defaulting to RELEASE"
+                          echo "DEPLOY_MODE=RELEASE" >> $env:GITHUB_ENV
+                      }
                   }
 
             - name: 🚀 Execute Shorebird Deployment
