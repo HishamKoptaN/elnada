@@ -1,13 +1,13 @@
 name: Distribute Main
 # 📋 distribute_main.yaml يبدأ
 # ⬇️
-# 🔧 Job 1: extract_version (باستخدام extract_version.yaml)
+# 🔧 Job 1: extract_version (باستخدام extract_script.yaml)
 # ⬇️
-# 🔧 Job 2: setup (باستخدام setup_steps.yaml)
+# 🔧 Job 2: setup (باستخدام setup_env.yaml)
 # ⬇️
-# 🚀 Job 3: deploy (باستخدام deploy_steps.yaml)
+# 🚀 Job 3: deploy (باستخدام deploy_script.yaml)
 # ⬇️
-# 🔨 Job 4: build (باستخدام build_steps.yaml)
+# 🔨 Job 4: build (باستخدام build_script.yaml)
 on:
     push:
         branches: [prod, dev]
@@ -15,25 +15,115 @@ permissions:
     contents: write
 jobs:
     extract_version:
-        uses: ./.github/workflows/extract_version.yaml
+        uses: ./.github/workflows/extract_script.yaml
         outputs:
             version: ${{ jobs.extract_version.outputs.version }}
             flavor: ${{ jobs.extract_version.outputs.flavor }}
 
     setup:
         needs: extract_version
-        uses: ./.github/workflows/setup_steps.yaml
+        uses: ./.github/workflows/setup_env.yaml
 
     deploy:
         needs: [extract_version, setup]
-        uses: ./.github/workflows/deploy_steps.yaml
-        with:
-            version: ${{ needs.extract_version.outputs.version }}
-            flavor: ${{ needs.extract_version.outputs.flavor }}
+        runs-on: windows-latest
+        environment: ${{ needs.extract_version.outputs.flavor }}
+        env:
+            SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+        steps:
+            - uses: actions/checkout@v4
+            - shell: pwsh
+              run: |
+                  $version = "${{ needs.extract_version.outputs.version }}"
+                  $flavor = "${{ needs.extract_version.outputs.flavor }}"
+                  $TARGET_ID = if ($flavor -eq "prod") { 
+                      "ed427ccb-5edb-4594-a376-2ee9636bef4e" 
+                  } else { 
+                      "e962126d-ee7a-48f2-b89d-fb0349f4a05f" 
+                  }
+                  (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
+                  Write-Host "✅ App ID Switched to: $TARGET_ID" -ForegroundColor Green
+
+                  Write-Host "🚀 Trying PATCH first..."
+                  shorebird patch windows --release-version=$version --dart-define=ENV=$flavor --verbose
+
+                  if ($LASTEXITCODE -ne 0) {
+                      Write-Host "📦 Patch failed → fallback to RELEASE" -ForegroundColor Yellow
+                      shorebird release windows --dart-define=ENV=$flavor --verbose
+                      
+                      if ($LASTEXITCODE -ne 0) {
+                          Write-Host "❌ Both PATCH and RELEASE failed!" -ForegroundColor Red
+                          exit 1
+                      } else {
+                          Write-Host "✅ Release succeeded" -ForegroundColor Green
+                      }
+                  } else {
+                      Write-Host "✅ Patch succeeded" -ForegroundColor Green
+                  }
 
     build:
         needs: [extract_version, deploy]
-        uses: ./.github/workflows/build_steps.yaml
-        with:
-            version: ${{ needs.extract_version.outputs.version }}
-            flavor: ${{ needs.extract_version.outputs.flavor }}
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v4
+            - shell: pwsh
+              run: |
+                  $version = "${{ needs.extract_version.outputs.version }}"
+                  $flavor = "${{ needs.extract_version.outputs.flavor }}"
+
+                  $issPath = "installers/abujena_setup.iss"
+                  if (Test-Path $issPath) {
+                    $content = Get-Content $issPath -Raw
+                    $newContent = $content -replace "APP_VERSION_PLACEHOLDER", "$version"
+                    [System.IO.File::WriteAllText((Get-Item $issPath).FullName, $newContent)
+                    Write-Host "✅ ISS file updated successfully" -ForegroundColor Green
+                  } else {
+                    Write-Warning "⚠️ ISS file not found at $issPath" -ForegroundColor Yellow
+                  }
+
+                  try {
+                    Write-Host "🔨 Compiling installer..."
+                    & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" ./installers/abujena_setup.iss
+                    Write-Host "✅ Installer compiled successfully"
+                  } catch {
+                    Write-Host "❌ Installer compilation failed: $_"
+                    exit 1
+                  }
+
+                  $newName = if ($flavor -eq "dev") { "abujena_dawajen_dev.exe" } else { "abujena_dawajen.exe" }
+                  $setupFile = Get-ChildItem "installers/*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+                  Rename-Item -Path $setupFile.FullName -NewName $newName
+                  echo "FINAL_FILE_NAME=$newName" >> $env:GITHUB_ENV
+
+                  $fileName = "$env:FINAL_FILE_NAME"
+                  $filePath = "installers/$fileName"
+                  $fileLength = if (Test-Path $filePath) { (Get-Item $filePath).Length } else { 0 }
+                  $url = "https://github.com/${{ github.repository }}/releases/latest/download/$fileName"
+                  $xmlPath = "desktop_appcast.xml"
+                  $currentDate = Get-Date -Format "ddd, dd MMM yyyy HH:mm:ss K"
+                  if (Test-Path $xmlPath) {
+                    $content = Get-Content $xmlPath -Raw
+                    $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""$version"""
+                    $content = $content -replace 'sparkle:shortVersionString="[^"]*"', "sparkle:shortVersionString=""$version"""
+                    $content = $content -replace 'url="[^"]*"', "url=""$url"""
+                    $content = $content -replace 'length="[^"]*"', "length=""$fileLength"""
+                    $content = $content -replace '<title>Version [^<]*</title>', "<title>Version $version</title>"
+                    $content = $content -replace '<pubDate>[^<]*</pubDate>', "<pubDate>$currentDate</pubDate>"
+                    [System.IO.File::WriteAllText((Get-Item $xmlPath).FullName, $content)
+                    git config --global user.name "github-actions[bot]"
+                    git config --global user.email "github-actions[bot]@users.noreply.github.com"
+                    git add $xmlPath
+                    git commit -m "chore: sync appcast to $version [skip ci]" || echo "No changes"
+                    git push origin $flavor
+                  }
+
+            - name: Create Release
+              uses: softprops/action-gh-release@v2
+              with:
+                  tag_name: latest
+                  name: "Latest (${{ needs.extract_version.outputs.flavor }})"
+                  body: "Version: ${{ needs.extract_version.outputs.version }}"
+                  files: installers/${{ env.FINAL_FILE_NAME }}
+                  make_latest: true
+                  prerelease: ${{ needs.extract_version.outputs.flavor == 'dev' }}
+                  draft: false
