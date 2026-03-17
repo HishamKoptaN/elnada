@@ -59,25 +59,29 @@ jobs:
                   # 3. فحص وجود الإصدار (الحل الاحترافي باستخدام API)
                   Write-Host "📡 Fetching releases via API..."
 
+                  # تنظيف التوكن من أي مسافات أو newlines
+                  $token = $env:SHOREBIRD_TOKEN.Trim()
+                  Write-Host "🔑 Token Length: $($token.Length)"
+
                   try {
                       $headers = @{
-                          "Authorization" = "Bearer $env:SHOREBIRD_TOKEN"
+                          "Authorization" = "Bearer $token"
                           "Content-Type"  = "application/json"
                       }
-
+                      
                       $url = "https://api.shorebird.dev/api/v1/apps/$TARGET_ID/releases"
                       Write-Host "🌐 Calling: $url"
-
+                      
                       $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Get
-
+                      
                       if (-not $response -or -not $response.releases) {
                           throw "Empty response from API"
                       }
-
+                      
                       $versions = $response.releases | ForEach-Object { $_.version }
-
+                      
                       Write-Host "📦 Existing Versions: $($versions -join ', ')"
-
+                      
                       if ($versions -contains $version) {
                           echo "DEPLOY_MODE=PATCH" >> $env:GITHUB_ENV
                           Write-Host "⚠️ Version exists → PATCH" -ForegroundColor Yellow
@@ -88,7 +92,7 @@ jobs:
                   } catch {
                       Write-Host "❌ API ERROR:"
                       Write-Host $_.Exception.Message
-
+                      
                       # 🔥 fallback آمن بدون crash
                       echo "DEPLOY_MODE=RELEASE" >> $env:GITHUB_ENV
                       Write-Host "🟡 Fallback → RELEASE" -ForegroundColor Cyan
