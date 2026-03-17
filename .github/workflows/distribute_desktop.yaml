@@ -1,22 +1,28 @@
 name: Distribute Desktop
+
 on:
     push:
         branches: [prod, dev]
+
 permissions:
     contents: write
+
 jobs:
     build_desktop:
         runs-on: windows-latest
         env:
             SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+
         steps:
             - uses: actions/checkout@v4
               with:
                   fetch-depth: 0
+
             - uses: subosito/flutter-action@v2
               with:
                   channel: stable
                   cache: true
+
             - id: get_version
               shell: pwsh
               run: |
@@ -24,7 +30,8 @@ jobs:
                   $fullVersion = ($line -split " ")[1].Trim()
                   $version = $fullVersion.Split("+")[0]
                   echo "FULL_VERSION=$version" >> $env:GITHUB_OUTPUT
-            - name: Update Version in ISS
+
+            - name: Update ISS
               shell: pwsh
               run: |
                   $issPath = "installers/abujena_setup.iss"
@@ -33,31 +40,32 @@ jobs:
                     $newContent = $content -replace "APP_VERSION_PLACEHOLDER", "${{ steps.get_version.outputs.FULL_VERSION }}"
                     [System.IO.File]::WriteAllText((Get-Item $issPath).FullName, $newContent)
                   }
+
             - run: flutter config --enable-windows-desktop
             - run: flutter pub get
-            - name: Enable Long Paths
-              run: git config --system core.longpaths true
-            - name: Check if Release exists on Shorebird
+            - run: git config --system core.longpaths true
+
+            - name: Check Release
               shell: pwsh
               run: |
                   $VERSION = "${{ steps.get_version.outputs.FULL_VERSION }}"
-                  Write-Host "Checking if release $VERSION exists on Shorebird..."
+                  Write-Host "🔍 Checking: $VERSION"
 
-                  # Try to get releases list and check if version exists
                   try {
                     $releases = shorebird releases list
                     $exists = $releases | Select-String $VERSION
                     if ($exists) {
-                       echo "SHOULD_PATCH=true" >> $env:GITHUB_ENV
-                       echo "الإصدار موجود بالفعل، سنقوم بعمل Patch فقط."
+                      echo "SHOULD_PATCH=true" >> $env:GITHUB_ENV
+                      Write-Host "📦 Patch mode"
                     } else {
-                       echo "SHOULD_PATCH=false" >> $env:GITHUB_ENV
-                       echo "إصدار جديد، سنقوم بعمل Release."
+                      echo "SHOULD_PATCH=false" >> $env:GITHUB_ENV
+                      Write-Host "🚀 Release mode"
                     }
                   } catch {
                     echo "SHOULD_PATCH=false" >> $env:GITHUB_ENV
-                    echo "فشل في جلب قائمة الإصدارات، سنقوم بعمل Release جديد."
+                    Write-Host "⚠️ Default to Release"
                   }
+
             - name: Install Shorebird
               shell: pwsh
               run: |
@@ -65,116 +73,81 @@ jobs:
                   Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
                   ./install.ps1
                   echo "$env:USERPROFILE\.shorebird\bin" >> $env:GITHUB_PATH
-            - run: shorebird --version
-            # 9️⃣ Validate Shorebird Token
-            - name: Validate Shorebird Token
+
+            - name: Validate Token
               run: |
                   if ([string]::IsNullOrEmpty($env:SHOREBIRD_TOKEN)) {
-                    Write-Error "❌ SHOREBIRD_TOKEN is not set or empty!"
-                    Write-Error "Please run 'shorebird login:ci' locally and add the token to GitHub Secrets."
+                    Write-Error "❌ Token missing!"
                     exit 1
                   }
-                  Write-Host "✅ SHOREBIRD_TOKEN is set"
-                  # Test token format (should be a long string)
                   if ($env:SHOREBIRD_TOKEN.Length -lt 50) {
-                    Write-Error "❌ SHOREBIRD_TOKEN appears to be too short. Please regenerate using 'shorebird login:ci'"
+                    Write-Error "❌ Token too short!"
                     exit 1
                   }
-                  Write-Host "✅ SHOREBIRD_TOKEN length looks correct"
-              env:
-                  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+                  Write-Host "✅ Token OK"
 
-            # 10️⃣ Shorebird Release (only if version doesn't exist) - NO --force
             - name: Shorebird Release
               if: env.SHOULD_PATCH == 'false'
               run: |
-                  if ([string]::IsNullOrEmpty($env:SHOREBIRD_TOKEN)) {
-                    Write-Error "SHOREBIRD_TOKEN is not set. Please add it to GitHub Secrets."
-                    exit 1
-                  }
-                  # Use flavor from shorebird.yaml based on branch
                   $flavor = "${{ github.ref_name }}"
-                  Write-Host "🚀 Creating Shorebird Release for flavor: $flavor"
+                  Write-Host "🚀 Release: $flavor"
                   shorebird release windows --flavor=$flavor --dart-define=ENV=$flavor
-              env:
-                  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 
-            # 11️⃣ Shorebird Patch (only if version exists) - NO --force
             - name: Shorebird Patch
               if: env.SHOULD_PATCH == 'true'
               run: |
-                  if ([string]::IsNullOrEmpty($env:SHOREBIRD_TOKEN)) {
-                    Write-Error "SHOREBIRD_TOKEN is not set. Please add it to GitHub Secrets."
-                    exit 1
-                  }
-                  # Use flavor from shorebird.yaml based on branch
                   $flavor = "${{ github.ref_name }}"
-                  Write-Host "🔧 Creating Shorebird Patch for flavor: $flavor"
+                  Write-Host "🔧 Patch: $flavor"
                   shorebird patch windows --flavor=$flavor --release-version=${{ steps.get_version.outputs.FULL_VERSION }} --dart-define=ENV=$flavor
-              env:
-                  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-            - name: Compile Inno Setup
+
+            - name: Compile Installer
               shell: pwsh
               run: |
                   & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" ./installers/abujena_setup.iss
+
             - id: prepare_assets
               shell: pwsh
               run: |
-                  if ("${{ github.ref_name }}" -eq "dev") {
-                      $newName = "abujena_dawajen_dev.exe"
-                  } else {
-                      $newName = "abujena_dawajen.exe"
-                  }
+                  $newName = if ("${{ github.ref_name }}" -eq "dev") { "abujena_dawajen_dev.exe" } else { "abujena_dawajen.exe" }
                   $setupFile = Get-ChildItem "installers/*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
                   Rename-Item -Path $setupFile.FullName -NewName $newName
                   echo "FINAL_FILE_NAME=$newName" >> $env:GITHUB_ENV
-            - name: Update Appcast XML & Push
+
+            - name: Update Appcast
               if: env.SHOULD_PATCH == 'false'
               shell: pwsh
               run: |
                   $version = "${{ steps.get_version.outputs.FULL_VERSION }}"
                   $fileName = "${{ env.FINAL_FILE_NAME }}"
                   $filePath = "installers/$fileName"
-                  $fileLength = 0
-                  if (Test-Path $filePath) {
-                      $fileLength = (Get-Item $filePath).Length
-                  }
+                  $fileLength = if (Test-Path $filePath) { (Get-Item $filePath).Length } else { 0 }
                   $url = "https://github.com/${{ github.repository }}/releases/latest/download/$fileName"
                   $xmlPath = "desktop_appcast.xml"
                   $currentDate = Get-Date -Format "ddd, dd MMM yyyy HH:mm:ss K"
 
                   if (Test-Path $xmlPath) {
-                      $content = Get-Content $xmlPath -Raw
+                    $content = Get-Content $xmlPath -Raw
+                    $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""$version"""
+                    $content = $content -replace 'sparkle:shortVersionString="[^"]*"', "sparkle:shortVersionString=""$version"""
+                    $content = $content -replace 'url="[^"]*"', "url=""$url"""
+                    $content = $content -replace 'length="[^"]*"', "length=""$fileLength"""
+                    $content = $content -replace '<title>Version [^<]*</title>', "<title>Version $version</title>"
+                    $content = $content -replace '<pubDate>[^<]*</pubDate>', "<pubDate>$currentDate</pubDate>"
+                    [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
+                    
+                    git config --global user.name "github-actions[bot]"
+                    git config --global user.email "github-actions[bot]@users.noreply.github.com"
+                    git add $xmlPath
+                    git commit -m "chore: sync appcast to $version [skip ci]" || echo "No changes"
+                    git push origin ${{ github.ref_name }}
 
-                      # Replace/update enclosure attributes
-                      $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""$version"""
-                      if ($content -notmatch 'sparkle:shortVersionString="[^"]*"') {
-                          $content = $content -replace '(<enclosure[^>]+)', '$1 sparkle:shortVersionString="' + $version + '"'
-                      } else {
-                          $content = $content -replace 'sparkle:shortVersionString="[^"]*"', "sparkle:shortVersionString=""$version"""
-                      }
-                      $content = $content -replace 'url="[^"]*"', "url=""$url"""
-                      $content = $content -replace 'length="[^"]*"', "length=""$fileLength"""
-                      $content = $content -replace '<title>Version [^<]*</title>', "<title>Version $version</title>"
-                      $content = $content -replace '<pubDate>[^<]*</pubDate>', "<pubDate>$currentDate</pubDate>"
-
-                      [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
-
-                      git config --global user.name "github-actions[bot]"
-                      git config --global user.email "github-actions[bot]@users.noreply.github.com"
-                      git add $xmlPath
-                      git commit -m "chore: sync appcast to $version [skip ci]" || echo "No changes to commit"
-                      git push origin ${{ github.ref_name }}
-                  }
-            - name: Create/Update Latest Release
+            - name: Create Release
               uses: softprops/action-gh-release@v2
               with:
                   tag_name: latest
                   name: "Latest (${{ github.ref_name }})"
-                  body: "تم تحديث الإصدار تلقائياً. النسخة الحالية: ${{ steps.get_version.outputs.FULL_VERSION }}"
+                  body: "Version: ${{ steps.get_version.outputs.FULL_VERSION }}"
                   files: installers/${{ env.FINAL_FILE_NAME }}
                   make_latest: true
                   prerelease: ${{ github.ref_name == 'dev' }}
                   draft: false
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
