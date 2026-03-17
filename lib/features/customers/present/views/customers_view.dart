@@ -62,7 +62,7 @@ class _CustomersViewState extends State<CustomersView> {
           .get(
             Uri.parse(url),
             headers: {
-              'User-Agent': 'AbujenaApp-Updater', // ضروري لتجنب حظر GitHub
+              'User-Agent': 'AbujenaApp-Updater',
               'Accept': 'application/xml',
             },
           )
