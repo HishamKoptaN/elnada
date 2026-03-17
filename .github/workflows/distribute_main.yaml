@@ -177,7 +177,7 @@ jobs:
               with:
                   tag_name: latest
                   name: "Latest (${{ github.ref_name }})"
-                  body: "Version: ${{ steps.get_version.outputs.FULL_VERSION }}"
+                  body: "Version: ${{ env.FULL_VERSION }}"
                   files: installers/${{ env.FINAL_FILE_NAME }}
                   make_latest: true
                   prerelease: ${{ github.ref_name == 'dev' }}
