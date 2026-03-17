@@ -1,0 +1,41 @@
+name: Check Shorebird Token
+
+on:
+    workflow_dispatch:
+    push:
+        branches: [dev]
+
+jobs:
+    validate-token:
+        runs-on: windows-latest
+
+        steps:
+            - name: 1. Setup Shorebird
+              uses: shorebirdtech/setup-shorebird@v1
+
+            - name: 2. Verify Token Presence and Format
+              shell: pwsh
+              env:
+                  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+              run: |
+                  if ([string]::IsNullOrEmpty($env:SHOREBIRD_TOKEN)) {
+                    Write-Error "❌ Error: SHOREBIRD_TOKEN is empty or not found in Secrets!"
+                    exit 1
+                  }
+
+                  Write-Host "✅ Token found in environment variables."
+
+                  # فحص إذا كان يبدأ بـ ey (تشفير Base64 المعتاد لـ Shorebird)
+                  if ($env:SHOREBIRD_TOKEN.StartsWith("ey")) {
+                    Write-Host "✅ Token format looks correct (starts with 'ey')."
+                  } else {
+                    Write-Warning "⚠️ Token doesn't start with 'ey'. Please verify you copied the full string."
+                  }
+
+            - name: 3. Test Authentication with Shorebird CLI
+              shell: pwsh
+              env:
+                  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+              run: |
+                  Write-Host "Checking Shorebird authentication status..."
+                  shorebird me
