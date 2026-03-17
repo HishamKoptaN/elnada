@@ -5,11 +5,28 @@ on:
     push:
         branches: [dev]
 
+env:
+    CACHE_BUSTER: ${{ github.run_id }}-${{ github.run_attempt }}
+
 jobs:
     validate-token:
         runs-on: windows-latest
 
         steps:
+            - name: Clear cache and checkout
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+                  clean: true
+
+            - name: Force environment refresh
+              shell: pwsh
+              run: |
+                  Write-Host "🔄 Refreshing environment variables..."
+                  Write-Host "📅 Cache buster: ${{ env.CACHE_BUSTER }}"
+                  $env:SHOREBIRD_TOKEN = "${{ secrets.SHOREBIRD_TOKEN }}"
+                  Write-Host "📏 Token length: $($env:SHOREBIRD_TOKEN.Length)"
+
             - name: 1. Setup Shorebird
               uses: shorebirdtech/setup-shorebird@v1
 
@@ -18,8 +35,12 @@ jobs:
               env:
                   SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
               run: |
+                  Write-Host "🔍 Checking token..."
+                  Write-Host "📏 Token length: $($env:SHOREBIRD_TOKEN.Length)"
+
                   if ([string]::IsNullOrEmpty($env:SHOREBIRD_TOKEN)) {
                     Write-Error "❌ Error: SHOREBIRD_TOKEN is empty or not found in Secrets!"
+                    Write-Host "🔧 Please check GitHub Secrets settings"
                     exit 1
                   }
 
@@ -30,6 +51,7 @@ jobs:
                     Write-Host "✅ Token format looks correct (starts with 'ey')."
                   } else {
                     Write-Warning "⚠️ Token doesn't start with 'ey'. Please verify you copied the full string."
+                    Write-Host "📋 Token preview: $($env:SHOREBIRD_TOKEN.Substring(0, 20))..."
                   }
 
             - name: 3. Test Authentication with Shorebird CLI
@@ -37,5 +59,11 @@ jobs:
               env:
                   SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
               run: |
-                  Write-Host "Checking Shorebird authentication status..."
-                  shorebird me
+                  Write-Host "🔐 Testing Shorebird authentication..."
+                  try {
+                    shorebird me
+                    Write-Host "✅ Authentication successful!"
+                  } catch {
+                    Write-Host "❌ Authentication failed: $_"
+                    exit 1
+                  }
