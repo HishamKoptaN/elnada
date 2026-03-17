@@ -15,17 +15,18 @@ import 'package:universal_io/io.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
+// Prod environment specific main
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // Debug: Print current environment
+  // Force prod environment
   if (kDebugMode) {
+    print('🔍 FORCED: Running in PROD environment');
     print('🔍 Current Environment: ${EnvConfig.currentEnv}');
     print('🔍 Is Dev: ${EnvConfig.isDev}');
     print('🔍 Is Prod: ${EnvConfig.isProd}');
-    print('🔍 Env Config: ${EnvConfig.config.envName}');
   }
-
+  
+  WidgetsFlutterBinding.ensureInitialized();
+  
   if (Platform.isWindows) {
     if (Platform.isWindows) {
       await setupAutoUpdater();
@@ -57,22 +58,21 @@ Future<void> initLogging() async {
       await dir.create(recursive: true);
     }
     if (await file.exists() && await file.length() > 2 * 1024 * 1024) {
-      await file.writeAsString(
-        '${DateTime.now()}: --- السجلات قديمة (تم تصفير الملف للحفاظ على المساحة) ---\n',
-        mode: FileMode.write,
-      );
+      await file.delete();
     }
-    final DebugPrintCallback oldDebugPrint = debugPrint;
-    debugPrint = (String? message, {int? wrapWidth}) {
-      oldDebugPrint(message, wrapWidth: wrapWidth);
-      file.writeAsString(
-        '${DateTime.now().toIso8601String()}: $message\n',
-        mode: FileMode.append,
-        flush: false,
-      );
-    };
-    debugPrint('🚀 نظام السجلات جاهز. المسار: ${file.path}');
-  } catch (e) {}
+  } catch (e) {
+    if (kDebugMode) {
+      print('Failed to initialize logging: $e');
+    }
+  }
+}
+
+Future<void> setupAutoUpdater() async {
+  final env = "prod";
+  await autoUpdater.setFeedURL(
+    'https://raw.githubusercontent.com/HishamKoptaN/elnada/refs/heads/$env/desktop_appcast.xml',
+  );
+  await autoUpdater.setScheduledCheckInterval(3600);
 }
 
 void _handleError({
@@ -80,21 +80,8 @@ void _handleError({
   required StackTrace stackTrace,
   required String context,
 }) {
-  runApp(
-    ErrorApp(
-      errorDetails: FlutterErrorDetails(
-        exception: error,
-        stack: stackTrace,
-        library: 'app',
-        context: ErrorDescription(context),
-      ),
-    ),
-  );
-}
-
-Future<void> setupAutoUpdater() async {
-  await autoUpdater.setFeedURL(
-    'https://raw.githubusercontent.com/HishamKoptaN/elnada/refs/heads/${EnvConfig.config.envName}/desktop_appcast.xml',
-  );
-  await autoUpdater.setScheduledCheckInterval(3600); // تحقق كل ساعة
+  if (kDebugMode) {
+    print('Error in $context: $error');
+    print('StackTrace: $stackTrace');
+  }
 }

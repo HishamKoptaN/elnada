@@ -105,10 +105,29 @@ jobs:
 
             - name: Shorebird Release
               if: env.SHOULD_PATCH == 'false'
+              shell: pwsh
               run: |
                   $flavor = "${{ github.ref_name }}"
-                  Write-Host "🚀 Release: $flavor"
+
+                  # 1. تحديد المعرف الصحيح بناءً على الفرع
+                  if ($flavor -eq "prod") {
+                    $TARGET_ID = "ed427ccb-5edb-4594-a376-2ee9636bef4e" # معرف الـ Prod
+                  } else {
+                    $TARGET_ID = "e962126d-ee7a-48f2-b89d-fb0349f4a05f" # معرف الـ Dev
+                  }
+
+                  Write-Host "🔄 Switching Shorebird App ID to: $TARGET_ID ($flavor)"
+
+                  # 2. تبديل المعرف داخل ملف shorebird.yaml برمجياً
+                  (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
+
+                  # 3. التحقق من التغيير
+                  $newAppId = (Get-Content shorebird.yaml | Select-String "^app_id:").ToString().Split(":")[1].Trim()
+                  Write-Host "✅ App ID updated to: $newAppId"
+
+                  Write-Host "🚀 Launching Release for Windows..."
                   try {
+                    # استخدام main.dart مع dart-define للبيئة
                     shorebird release windows --dart-define=ENV=$flavor
                     Write-Host "✅ Release completed successfully"
                   } catch {
@@ -118,10 +137,29 @@ jobs:
 
             - name: Shorebird Patch
               if: env.SHOULD_PATCH == 'true'
+              shell: pwsh
               run: |
                   $flavor = "${{ github.ref_name }}"
-                  Write-Host "🔧 Patch: $flavor"
+
+                  # 1. تحديد المعرف الصحيح بناءً على الفرع
+                  if ($flavor -eq "prod") {
+                    $TARGET_ID = "ed427ccb-5edb-4594-a376-2ee9636bef4e" # معرف الـ Prod
+                  } else {
+                    $TARGET_ID = "e962126d-ee7a-48f2-b89d-fb0349f4a05f" # معرف الـ Dev
+                  }
+
+                  Write-Host "🔄 Switching Shorebird App ID to: $TARGET_ID ($flavor)"
+
+                  # 2. تبديل المعرف داخل ملف shorebird.yaml برمجياً
+                  (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
+
+                  # 3. التحقق من التغيير
+                  $newAppId = (Get-Content shorebird.yaml | Select-String "^app_id:").ToString().Split(":")[1].Trim()
+                  Write-Host "✅ App ID updated to: $newAppId"
+
+                  Write-Host "🔧 Launching Patch for Windows..."
                   try {
+                    # استخدام main.dart مع dart-define للبيئة
                     shorebird patch windows --release-version=${{ steps.get_version.outputs.FULL_VERSION }} --dart-define=ENV=$flavor
                     Write-Host "✅ Patch completed successfully"
                   } catch {
