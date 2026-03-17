@@ -4,12 +4,12 @@
         <title>Abu Jena Updates</title>
         <item>
             <title>Version 1.0.0</title>
-            <pubDate>Mon, 17 Mar 2026 00:00:00 +00:00</pubDate>
-            <enclosure url="https://github.com/HishamKoptaN/elnada/releases/download/latest/abujena_dawajen_dev.exe"
-                       sparkle:version="1.0.0+1"
+            <pubDate>Tue, 17 Mar 2026 00:09:03 +00:00</pubDate>
+            <enclosure url="https://github.com/HishamKoptaN/elnada/releases/latest/download/abujena_dawajen_dev.exe"
+                       sparkle:version="1.0.0"
                        sparkle:shortVersionString="1.0.0"
                        sparkle:os="windows"
-                       length="0"
+                       length="13297015"
                        type="application/octet-stream" />
         </item>
     </channel>
