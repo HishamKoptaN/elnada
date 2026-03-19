@@ -55,7 +55,7 @@ extension CustomersEventPatterns on CustomersEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _GetCustomers value)?  getCustomers,TResult Function( _GetCustomerDailyReport value)?  getCustomerDailyReport,TResult Function( _GetCustomerStatement value)?  getCustomerStatement,TResult Function( _SearchCustomers value)?  searchCustomers,TResult Function( _DisposeSearch value)?  disposeSearch,TResult Function( _PriceChanged value)?  priceChanged,TResult Function( _UpdateCustomerDailyReport value)?  updateCustomerDailyReport,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _GetCustomers value)?  getCustomers,TResult Function( _GetCustomerDailyReport value)?  getCustomerDailyReport,TResult Function( _GetCustomerStatement value)?  getCustomerStatement,TResult Function( _SearchCustomers value)?  searchCustomers,TResult Function( _DisposeSearch value)?  disposeSearch,TResult Function( _PriceChanged value)?  priceChanged,TResult Function( _UpdateCustomerDailyReport value)?  updateCustomerDailyReport,TResult Function( _Print value)?  print,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _GetCustomers() when getCustomers != null:
@@ -65,7 +65,8 @@ return getCustomerStatement(_that);case _SearchCustomers() when searchCustomers 
 return searchCustomers(_that);case _DisposeSearch() when disposeSearch != null:
 return disposeSearch(_that);case _PriceChanged() when priceChanged != null:
 return priceChanged(_that);case _UpdateCustomerDailyReport() when updateCustomerDailyReport != null:
-return updateCustomerDailyReport(_that);case _:
+return updateCustomerDailyReport(_that);case _Print() when print != null:
+return print(_that);case _:
   return orElse();
 
 }
@@ -83,7 +84,7 @@ return updateCustomerDailyReport(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _GetCustomers value)  getCustomers,required TResult Function( _GetCustomerDailyReport value)  getCustomerDailyReport,required TResult Function( _GetCustomerStatement value)  getCustomerStatement,required TResult Function( _SearchCustomers value)  searchCustomers,required TResult Function( _DisposeSearch value)  disposeSearch,required TResult Function( _PriceChanged value)  priceChanged,required TResult Function( _UpdateCustomerDailyReport value)  updateCustomerDailyReport,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _GetCustomers value)  getCustomers,required TResult Function( _GetCustomerDailyReport value)  getCustomerDailyReport,required TResult Function( _GetCustomerStatement value)  getCustomerStatement,required TResult Function( _SearchCustomers value)  searchCustomers,required TResult Function( _DisposeSearch value)  disposeSearch,required TResult Function( _PriceChanged value)  priceChanged,required TResult Function( _UpdateCustomerDailyReport value)  updateCustomerDailyReport,required TResult Function( _Print value)  print,}){
 final _that = this;
 switch (_that) {
 case _GetCustomers():
@@ -93,7 +94,8 @@ return getCustomerStatement(_that);case _SearchCustomers():
 return searchCustomers(_that);case _DisposeSearch():
 return disposeSearch(_that);case _PriceChanged():
 return priceChanged(_that);case _UpdateCustomerDailyReport():
-return updateCustomerDailyReport(_that);case _:
+return updateCustomerDailyReport(_that);case _Print():
+return print(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -110,7 +112,7 @@ return updateCustomerDailyReport(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _GetCustomers value)?  getCustomers,TResult? Function( _GetCustomerDailyReport value)?  getCustomerDailyReport,TResult? Function( _GetCustomerStatement value)?  getCustomerStatement,TResult? Function( _SearchCustomers value)?  searchCustomers,TResult? Function( _DisposeSearch value)?  disposeSearch,TResult? Function( _PriceChanged value)?  priceChanged,TResult? Function( _UpdateCustomerDailyReport value)?  updateCustomerDailyReport,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _GetCustomers value)?  getCustomers,TResult? Function( _GetCustomerDailyReport value)?  getCustomerDailyReport,TResult? Function( _GetCustomerStatement value)?  getCustomerStatement,TResult? Function( _SearchCustomers value)?  searchCustomers,TResult? Function( _DisposeSearch value)?  disposeSearch,TResult? Function( _PriceChanged value)?  priceChanged,TResult? Function( _UpdateCustomerDailyReport value)?  updateCustomerDailyReport,TResult? Function( _Print value)?  print,}){
 final _that = this;
 switch (_that) {
 case _GetCustomers() when getCustomers != null:
@@ -120,7 +122,8 @@ return getCustomerStatement(_that);case _SearchCustomers() when searchCustomers 
 return searchCustomers(_that);case _DisposeSearch() when disposeSearch != null:
 return disposeSearch(_that);case _PriceChanged() when priceChanged != null:
 return priceChanged(_that);case _UpdateCustomerDailyReport() when updateCustomerDailyReport != null:
-return updateCustomerDailyReport(_that);case _:
+return updateCustomerDailyReport(_that);case _Print() when print != null:
+return print(_that);case _:
   return null;
 
 }
@@ -137,7 +140,7 @@ return updateCustomerDailyReport(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( DateTime date)?  getCustomers,TResult Function( int id)?  getCustomerDailyReport,TResult Function( int customerId,  int? days)?  getCustomerStatement,TResult Function( DateTime selectedDate,  String query)?  searchCustomers,TResult Function()?  disposeSearch,TResult Function( ProductDailyPriceEntity productPrice)?  priceChanged,TResult Function( CustomerDailyReportEntity customerDailyReport)?  updateCustomerDailyReport,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( DateTime date)?  getCustomers,TResult Function( int id)?  getCustomerDailyReport,TResult Function( int customerId,  int? days)?  getCustomerStatement,TResult Function( DateTime selectedDate,  String query)?  searchCustomers,TResult Function()?  disposeSearch,TResult Function( ProductDailyPriceEntity productPrice)?  priceChanged,TResult Function( CustomerDailyReportEntity customerDailyReport)?  updateCustomerDailyReport,TResult Function( List<CustomerDailyReportEntity> reports)?  print,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GetCustomers() when getCustomers != null:
 return getCustomers(_that.date);case _GetCustomerDailyReport() when getCustomerDailyReport != null:
@@ -146,7 +149,8 @@ return getCustomerStatement(_that.customerId,_that.days);case _SearchCustomers()
 return searchCustomers(_that.selectedDate,_that.query);case _DisposeSearch() when disposeSearch != null:
 return disposeSearch();case _PriceChanged() when priceChanged != null:
 return priceChanged(_that.productPrice);case _UpdateCustomerDailyReport() when updateCustomerDailyReport != null:
-return updateCustomerDailyReport(_that.customerDailyReport);case _:
+return updateCustomerDailyReport(_that.customerDailyReport);case _Print() when print != null:
+return print(_that.reports);case _:
   return orElse();
 
 }
@@ -164,7 +168,7 @@ return updateCustomerDailyReport(_that.customerDailyReport);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( DateTime date)  getCustomers,required TResult Function( int id)  getCustomerDailyReport,required TResult Function( int customerId,  int? days)  getCustomerStatement,required TResult Function( DateTime selectedDate,  String query)  searchCustomers,required TResult Function()  disposeSearch,required TResult Function( ProductDailyPriceEntity productPrice)  priceChanged,required TResult Function( CustomerDailyReportEntity customerDailyReport)  updateCustomerDailyReport,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( DateTime date)  getCustomers,required TResult Function( int id)  getCustomerDailyReport,required TResult Function( int customerId,  int? days)  getCustomerStatement,required TResult Function( DateTime selectedDate,  String query)  searchCustomers,required TResult Function()  disposeSearch,required TResult Function( ProductDailyPriceEntity productPrice)  priceChanged,required TResult Function( CustomerDailyReportEntity customerDailyReport)  updateCustomerDailyReport,required TResult Function( List<CustomerDailyReportEntity> reports)  print,}) {final _that = this;
 switch (_that) {
 case _GetCustomers():
 return getCustomers(_that.date);case _GetCustomerDailyReport():
@@ -173,7 +177,8 @@ return getCustomerStatement(_that.customerId,_that.days);case _SearchCustomers()
 return searchCustomers(_that.selectedDate,_that.query);case _DisposeSearch():
 return disposeSearch();case _PriceChanged():
 return priceChanged(_that.productPrice);case _UpdateCustomerDailyReport():
-return updateCustomerDailyReport(_that.customerDailyReport);case _:
+return updateCustomerDailyReport(_that.customerDailyReport);case _Print():
+return print(_that.reports);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -190,7 +195,7 @@ return updateCustomerDailyReport(_that.customerDailyReport);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( DateTime date)?  getCustomers,TResult? Function( int id)?  getCustomerDailyReport,TResult? Function( int customerId,  int? days)?  getCustomerStatement,TResult? Function( DateTime selectedDate,  String query)?  searchCustomers,TResult? Function()?  disposeSearch,TResult? Function( ProductDailyPriceEntity productPrice)?  priceChanged,TResult? Function( CustomerDailyReportEntity customerDailyReport)?  updateCustomerDailyReport,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( DateTime date)?  getCustomers,TResult? Function( int id)?  getCustomerDailyReport,TResult? Function( int customerId,  int? days)?  getCustomerStatement,TResult? Function( DateTime selectedDate,  String query)?  searchCustomers,TResult? Function()?  disposeSearch,TResult? Function( ProductDailyPriceEntity productPrice)?  priceChanged,TResult? Function( CustomerDailyReportEntity customerDailyReport)?  updateCustomerDailyReport,TResult? Function( List<CustomerDailyReportEntity> reports)?  print,}) {final _that = this;
 switch (_that) {
 case _GetCustomers() when getCustomers != null:
 return getCustomers(_that.date);case _GetCustomerDailyReport() when getCustomerDailyReport != null:
@@ -199,7 +204,8 @@ return getCustomerStatement(_that.customerId,_that.days);case _SearchCustomers()
 return searchCustomers(_that.selectedDate,_that.query);case _DisposeSearch() when disposeSearch != null:
 return disposeSearch();case _PriceChanged() when priceChanged != null:
 return priceChanged(_that.productPrice);case _UpdateCustomerDailyReport() when updateCustomerDailyReport != null:
-return updateCustomerDailyReport(_that.customerDailyReport);case _:
+return updateCustomerDailyReport(_that.customerDailyReport);case _Print() when print != null:
+return print(_that.reports);case _:
   return null;
 
 }
@@ -655,6 +661,78 @@ $CustomerDailyReportEntityCopyWith<$Res> get customerDailyReport {
     return _then(_self.copyWith(customerDailyReport: value));
   });
 }
+}
+
+/// @nodoc
+
+
+class _Print implements CustomersEvent {
+  const _Print({required final  List<CustomerDailyReportEntity> reports}): _reports = reports;
+  
+
+ final  List<CustomerDailyReportEntity> _reports;
+ List<CustomerDailyReportEntity> get reports {
+  if (_reports is EqualUnmodifiableListView) return _reports;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_reports);
+}
+
+
+/// Create a copy of CustomersEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$PrintCopyWith<_Print> get copyWith => __$PrintCopyWithImpl<_Print>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Print&&const DeepCollectionEquality().equals(other._reports, _reports));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_reports));
+
+@override
+String toString() {
+  return 'CustomersEvent.print(reports: $reports)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$PrintCopyWith<$Res> implements $CustomersEventCopyWith<$Res> {
+  factory _$PrintCopyWith(_Print value, $Res Function(_Print) _then) = __$PrintCopyWithImpl;
+@useResult
+$Res call({
+ List<CustomerDailyReportEntity> reports
+});
+
+
+
+
+}
+/// @nodoc
+class __$PrintCopyWithImpl<$Res>
+    implements _$PrintCopyWith<$Res> {
+  __$PrintCopyWithImpl(this._self, this._then);
+
+  final _Print _self;
+  final $Res Function(_Print) _then;
+
+/// Create a copy of CustomersEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? reports = null,}) {
+  return _then(_Print(
+reports: null == reports ? _self._reports : reports // ignore: cast_nullable_to_non_nullable
+as List<CustomerDailyReportEntity>,
+  ));
+}
+
+
 }
 
 /// @nodoc

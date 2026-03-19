@@ -5,6 +5,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../../core/errors/api_error_model.dart';
 import '../../../../core/networking/api_result.dart';
+import '../../../customers/domain/entities/customer_daily_reports_res_entity.dart';
 import '../../../customers/present/bloc/customers_bloc.dart';
 import '../../domain/entities/create_daily_collaction_req_entity.dart';
 import '../../domain/entities/update_daily_collection_req_entity.dart';
@@ -43,14 +44,11 @@ class UpdateDailyCollectionsBloc
                     updateDailyCollectionReq: state.updateDailyCollectionReq
                         .copyWith(amount: null),
                   );
-                  final currentState = customersBloc.state;
-                  final selectedDate =
-                      currentState.mapOrNull(
-                        loaded: (state) => state.selectedDate,
-                      ) ??
-                      DateTime.now();
                   customersBloc.add(
-                    CustomersEvent.getCustomers(date: selectedDate),
+                    CustomersEvent.updateCustomerDailyReport(
+                      customerDailyReport:
+                          res ?? const CustomerDailyReportEntity(),
+                    ),
                   );
                   emit(const UpdateDailyCollectionsState.success());
                 },

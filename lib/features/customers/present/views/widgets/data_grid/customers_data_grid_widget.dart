@@ -2,12 +2,15 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import '../../../../../../core/utils/devices_utiles.dart' as devices;
-import '../../../../domain/entities/customer_daily_reports_res_entity.dart';
 import '../../../bloc/customers_bloc.dart';
 import 'customer_details_dialog.dart';
 import 'daily_customer_reports_data_source.dart';
+import 'package:syncfusion_flutter_xlsio/xlsio.dart'; // المكتبة المطلوبة
 
 class CustomersDataGridWidget extends StatelessWidget {
   CustomersDataGridWidget({
@@ -20,6 +23,7 @@ class CustomersDataGridWidget extends StatelessWidget {
   final DailyCustomerReportsDataSource employeeDataSource;
   final bool canInsertPreviusDayData;
   final DataGridController _dataGridController = DataGridController();
+
   @override
   Widget build(BuildContext context) {
     final bool isDesktop =

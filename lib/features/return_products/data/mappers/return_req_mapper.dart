@@ -8,6 +8,7 @@ extension ReturnProductWeightReqEntityMapper on ReturnProductWeightReqEntity {
       customerId: customerId?.value ?? 0,
       productId: productId?.value ?? 0,
       weight: double.parse(weight?.value ?? "0"),
+      date: date,
     );
   }
 }

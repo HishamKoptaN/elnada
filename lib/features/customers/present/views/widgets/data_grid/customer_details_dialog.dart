@@ -51,6 +51,8 @@ class CustomerDetailsDialog {
             customer: customerDailyReport.customer!,
             productId: 1,
             title: 'راجع التسمين',
+            selectedDate: selectedDate,
+            canInsertPreviusDayData: canInsertPreviusDayData,
           );
         }
         break;
@@ -76,9 +78,11 @@ class CustomerDetailsDialog {
         if (selectedDate.isToday || canInsertPreviusDayData) {
           ReturnWeightDialog.show(
             context: context,
+            title: 'راجع الأمهات',
             customer: customerDailyReport.customer!,
             productId: 2,
-            title: 'راجع الأمهات',
+            selectedDate: selectedDate,
+            canInsertPreviusDayData: canInsertPreviusDayData,
           );
         }
         break;

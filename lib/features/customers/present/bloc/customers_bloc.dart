@@ -123,31 +123,36 @@ class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
         updateCustomerDailyReport: (customerDailyReport) {
           state.mapOrNull(
             loaded: (state) {
+              final existingReports =
+                  state.customersRes.customerDailyReports ?? [];
+              final existingIndex = existingReports.indexWhere(
+                (report) => report.id == customerDailyReport.id,
+              );
+
+              final updatedReports = List<CustomerDailyReportEntity>.from(
+                existingReports,
+              );
+
+              if (existingIndex != -1) {
+                updatedReports[existingIndex] = customerDailyReport;
+              } else {
+                updatedReports.add(customerDailyReport);
+              }
               emit(
                 state.copyWith(
                   customersRes: state.customersRes.copyWith(
-                    customerDailyReports: state
-                        .customersRes
-                        .customerDailyReports
-                        ?.map((p) {
-                          if (p.id == customerDailyReport.id) {
-                            return customerDailyReport;
-                          }
-                          return p;
-                        })
-                        .toList(),
+                    customerDailyReports: updatedReports,
                   ),
                   selectedDate: state.selectedDate,
                 ),
               );
             },
           );
-        },
+        }, print: (List<CustomerDailyReportEntity> reports) {  },
       );
     });
   }
   final CustomersUseCases customersUseCases;
-
   @override
   CustomersState? fromJson(Map<String, dynamic> json) {
     try {

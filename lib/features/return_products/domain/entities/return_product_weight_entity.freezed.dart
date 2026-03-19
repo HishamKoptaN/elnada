@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ReturnProductWeightReqEntity {
 
- GenericFormzInput<int>? get id; GenericFormzInput<int>? get customerId; GenericFormzInput<int>? get productId; GenericFormzInput<String>? get weight;
+ GenericFormzInput<int>? get id; GenericFormzInput<int>? get customerId; GenericFormzInput<int>? get productId; GenericFormzInput<String>? get weight; DateTime? get date;
 /// Create a copy of ReturnProductWeightReqEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $ReturnProductWeightReqEntityCopyWith<ReturnProductWeightReqEntity> get copyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReturnProductWeightReqEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.customerId, customerId) || other.customerId == customerId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.weight, weight) || other.weight == weight));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReturnProductWeightReqEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.customerId, customerId) || other.customerId == customerId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.date, date) || other.date == date));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,customerId,productId,weight);
+int get hashCode => Object.hash(runtimeType,id,customerId,productId,weight,date);
 
 @override
 String toString() {
-  return 'ReturnProductWeightReqEntity(id: $id, customerId: $customerId, productId: $productId, weight: $weight)';
+  return 'ReturnProductWeightReqEntity(id: $id, customerId: $customerId, productId: $productId, weight: $weight, date: $date)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $ReturnProductWeightReqEntityCopyWith<$Res>  {
   factory $ReturnProductWeightReqEntityCopyWith(ReturnProductWeightReqEntity value, $Res Function(ReturnProductWeightReqEntity) _then) = _$ReturnProductWeightReqEntityCopyWithImpl;
 @useResult
 $Res call({
- GenericFormzInput<int>? id, GenericFormzInput<int>? customerId, GenericFormzInput<int>? productId, GenericFormzInput<String>? weight
+ GenericFormzInput<int>? id, GenericFormzInput<int>? customerId, GenericFormzInput<int>? productId, GenericFormzInput<String>? weight, DateTime? date
 });
 
 
@@ -62,13 +62,14 @@ class _$ReturnProductWeightReqEntityCopyWithImpl<$Res>
 
 /// Create a copy of ReturnProductWeightReqEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? customerId = freezed,Object? productId = freezed,Object? weight = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? customerId = freezed,Object? productId = freezed,Object? weight = freezed,Object? date = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as GenericFormzInput<int>?,customerId: freezed == customerId ? _self.customerId : customerId // ignore: cast_nullable_to_non_nullable
 as GenericFormzInput<int>?,productId: freezed == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
 as GenericFormzInput<int>?,weight: freezed == weight ? _self.weight : weight // ignore: cast_nullable_to_non_nullable
-as GenericFormzInput<String>?,
+as GenericFormzInput<String>?,date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 
@@ -89,10 +90,10 @@ extension ReturnProductWeightReqEntityPatterns on ReturnProductWeightReqEntity {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ReturnWeightReqModel value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ReturnProductWeightReqEntity value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _ReturnWeightReqModel() when $default != null:
+case _ReturnProductWeightReqEntity() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -111,10 +112,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ReturnWeightReqModel value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ReturnProductWeightReqEntity value)  $default,){
 final _that = this;
 switch (_that) {
-case _ReturnWeightReqModel():
+case _ReturnProductWeightReqEntity():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -132,10 +133,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ReturnWeightReqModel value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ReturnProductWeightReqEntity value)?  $default,){
 final _that = this;
 switch (_that) {
-case _ReturnWeightReqModel() when $default != null:
+case _ReturnProductWeightReqEntity() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -153,10 +154,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( GenericFormzInput<int>? id,  GenericFormzInput<int>? customerId,  GenericFormzInput<int>? productId,  GenericFormzInput<String>? weight)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( GenericFormzInput<int>? id,  GenericFormzInput<int>? customerId,  GenericFormzInput<int>? productId,  GenericFormzInput<String>? weight,  DateTime? date)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _ReturnWeightReqModel() when $default != null:
-return $default(_that.id,_that.customerId,_that.productId,_that.weight);case _:
+case _ReturnProductWeightReqEntity() when $default != null:
+return $default(_that.id,_that.customerId,_that.productId,_that.weight,_that.date);case _:
   return orElse();
 
 }
@@ -174,10 +175,10 @@ return $default(_that.id,_that.customerId,_that.productId,_that.weight);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( GenericFormzInput<int>? id,  GenericFormzInput<int>? customerId,  GenericFormzInput<int>? productId,  GenericFormzInput<String>? weight)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( GenericFormzInput<int>? id,  GenericFormzInput<int>? customerId,  GenericFormzInput<int>? productId,  GenericFormzInput<String>? weight,  DateTime? date)  $default,) {final _that = this;
 switch (_that) {
-case _ReturnWeightReqModel():
-return $default(_that.id,_that.customerId,_that.productId,_that.weight);case _:
+case _ReturnProductWeightReqEntity():
+return $default(_that.id,_that.customerId,_that.productId,_that.weight,_that.date);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -194,10 +195,10 @@ return $default(_that.id,_that.customerId,_that.productId,_that.weight);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( GenericFormzInput<int>? id,  GenericFormzInput<int>? customerId,  GenericFormzInput<int>? productId,  GenericFormzInput<String>? weight)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( GenericFormzInput<int>? id,  GenericFormzInput<int>? customerId,  GenericFormzInput<int>? productId,  GenericFormzInput<String>? weight,  DateTime? date)?  $default,) {final _that = this;
 switch (_that) {
-case _ReturnWeightReqModel() when $default != null:
-return $default(_that.id,_that.customerId,_that.productId,_that.weight);case _:
+case _ReturnProductWeightReqEntity() when $default != null:
+return $default(_that.id,_that.customerId,_that.productId,_that.weight,_that.date);case _:
   return null;
 
 }
@@ -208,46 +209,47 @@ return $default(_that.id,_that.customerId,_that.productId,_that.weight);case _:
 /// @nodoc
 
 
-class _ReturnWeightReqModel implements ReturnProductWeightReqEntity {
-  const _ReturnWeightReqModel({this.id, this.customerId, this.productId, this.weight});
+class _ReturnProductWeightReqEntity implements ReturnProductWeightReqEntity {
+  const _ReturnProductWeightReqEntity({this.id, this.customerId, this.productId, this.weight, this.date});
   
 
 @override final  GenericFormzInput<int>? id;
 @override final  GenericFormzInput<int>? customerId;
 @override final  GenericFormzInput<int>? productId;
 @override final  GenericFormzInput<String>? weight;
+@override final  DateTime? date;
 
 /// Create a copy of ReturnProductWeightReqEntity
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$ReturnWeightReqModelCopyWith<_ReturnWeightReqModel> get copyWith => __$ReturnWeightReqModelCopyWithImpl<_ReturnWeightReqModel>(this, _$identity);
+_$ReturnProductWeightReqEntityCopyWith<_ReturnProductWeightReqEntity> get copyWith => __$ReturnProductWeightReqEntityCopyWithImpl<_ReturnProductWeightReqEntity>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReturnWeightReqModel&&(identical(other.id, id) || other.id == id)&&(identical(other.customerId, customerId) || other.customerId == customerId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.weight, weight) || other.weight == weight));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReturnProductWeightReqEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.customerId, customerId) || other.customerId == customerId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.date, date) || other.date == date));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,customerId,productId,weight);
+int get hashCode => Object.hash(runtimeType,id,customerId,productId,weight,date);
 
 @override
 String toString() {
-  return 'ReturnProductWeightReqEntity(id: $id, customerId: $customerId, productId: $productId, weight: $weight)';
+  return 'ReturnProductWeightReqEntity(id: $id, customerId: $customerId, productId: $productId, weight: $weight, date: $date)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$ReturnWeightReqModelCopyWith<$Res> implements $ReturnProductWeightReqEntityCopyWith<$Res> {
-  factory _$ReturnWeightReqModelCopyWith(_ReturnWeightReqModel value, $Res Function(_ReturnWeightReqModel) _then) = __$ReturnWeightReqModelCopyWithImpl;
+abstract mixin class _$ReturnProductWeightReqEntityCopyWith<$Res> implements $ReturnProductWeightReqEntityCopyWith<$Res> {
+  factory _$ReturnProductWeightReqEntityCopyWith(_ReturnProductWeightReqEntity value, $Res Function(_ReturnProductWeightReqEntity) _then) = __$ReturnProductWeightReqEntityCopyWithImpl;
 @override @useResult
 $Res call({
- GenericFormzInput<int>? id, GenericFormzInput<int>? customerId, GenericFormzInput<int>? productId, GenericFormzInput<String>? weight
+ GenericFormzInput<int>? id, GenericFormzInput<int>? customerId, GenericFormzInput<int>? productId, GenericFormzInput<String>? weight, DateTime? date
 });
 
 
@@ -255,22 +257,23 @@ $Res call({
 
 }
 /// @nodoc
-class __$ReturnWeightReqModelCopyWithImpl<$Res>
-    implements _$ReturnWeightReqModelCopyWith<$Res> {
-  __$ReturnWeightReqModelCopyWithImpl(this._self, this._then);
+class __$ReturnProductWeightReqEntityCopyWithImpl<$Res>
+    implements _$ReturnProductWeightReqEntityCopyWith<$Res> {
+  __$ReturnProductWeightReqEntityCopyWithImpl(this._self, this._then);
 
-  final _ReturnWeightReqModel _self;
-  final $Res Function(_ReturnWeightReqModel) _then;
+  final _ReturnProductWeightReqEntity _self;
+  final $Res Function(_ReturnProductWeightReqEntity) _then;
 
 /// Create a copy of ReturnProductWeightReqEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? customerId = freezed,Object? productId = freezed,Object? weight = freezed,}) {
-  return _then(_ReturnWeightReqModel(
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? customerId = freezed,Object? productId = freezed,Object? weight = freezed,Object? date = freezed,}) {
+  return _then(_ReturnProductWeightReqEntity(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as GenericFormzInput<int>?,customerId: freezed == customerId ? _self.customerId : customerId // ignore: cast_nullable_to_non_nullable
 as GenericFormzInput<int>?,productId: freezed == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
 as GenericFormzInput<int>?,weight: freezed == weight ? _self.weight : weight // ignore: cast_nullable_to_non_nullable
-as GenericFormzInput<String>?,
+as GenericFormzInput<String>?,date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 

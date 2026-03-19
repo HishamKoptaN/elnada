@@ -17,15 +17,6 @@ import 'package:path_provider/path_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Debug: Print current environment
-  if (kDebugMode) {
-    print('🔍 Current Environment: ${EnvConfig.currentEnv}');
-    print('🔍 Is Dev: ${EnvConfig.isDev}');
-    print('🔍 Is Prod: ${EnvConfig.isProd}');
-    print('🔍 Env Config: ${EnvConfig.config.envName}');
-  }
-
   if (Platform.isWindows) {
     if (Platform.isWindows) {
       await setupAutoUpdater();

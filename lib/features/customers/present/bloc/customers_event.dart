@@ -21,4 +21,7 @@ abstract class CustomersEvent with _$CustomersEvent {
   const factory CustomersEvent.updateCustomerDailyReport({
     required CustomerDailyReportEntity customerDailyReport,
   }) = _UpdateCustomerDailyReport;
+  const factory CustomersEvent.print({
+    required List<CustomerDailyReportEntity> reports,
+  }) = _Print;
 }

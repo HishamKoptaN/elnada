@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
+import '../../../../../../../core/utils/date_helpers.dart';
 import '../../../../../../return_products/domain/entities/return_product_weight_entity.dart';
 import '../../../../../domain/entities/customer_daily_reports_res_entity.dart';
 import '../../../../../../../core/di/dependency_injection.dart';
@@ -14,6 +15,8 @@ class ReturnWeightDialog {
     required BuildContext context,
     required CustomerEntity customer,
     required int productId,
+    required DateTime selectedDate,
+    required bool canInsertPreviusDayData,
     required String title,
   }) {
     final FocusNode weightFocus = FocusNode();
@@ -27,6 +30,9 @@ class ReturnWeightDialog {
             returnProductWeightReq: ReturnProductWeightReqEntity(
               customerId: GenericFormzInput.dirty(customer.id),
               productId: GenericFormzInput.dirty(productId),
+              date: !selectedDate.isToday && canInsertPreviusDayData
+                  ? selectedDate
+                  : null,
             ),
           ),
         );

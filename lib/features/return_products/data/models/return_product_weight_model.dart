@@ -9,6 +9,7 @@ abstract class ReturnProductWeightReqModel with _$ReturnProductWeightReqModel {
     @JsonKey(name: 'customer_id') required int customerId,
     @JsonKey(name: 'product_id') required int productId,
     @JsonKey(name: 'weight') required double weight,
+    @JsonKey(name: 'date') DateTime? date,
   }) = _ReturnProductWeightReqModel;
   factory ReturnProductWeightReqModel.fromJson(Map<String, Object?> json) =>
       _$ReturnProductWeightReqModelFromJson(json);

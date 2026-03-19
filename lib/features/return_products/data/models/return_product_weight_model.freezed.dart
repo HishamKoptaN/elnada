@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ReturnProductWeightReqModel {
 
-@JsonKey(name: 'id') int get id;@JsonKey(name: 'customer_id') int get customerId;@JsonKey(name: 'product_id') int get productId;@JsonKey(name: 'weight') double get weight;
+@JsonKey(name: 'id') int get id;@JsonKey(name: 'customer_id') int get customerId;@JsonKey(name: 'product_id') int get productId;@JsonKey(name: 'weight') double get weight;@JsonKey(name: 'date') DateTime? get date;
 /// Create a copy of ReturnProductWeightReqModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ReturnProductWeightReqModelCopyWith<ReturnProductWeightReqModel> get copyWith =
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReturnProductWeightReqModel&&(identical(other.id, id) || other.id == id)&&(identical(other.customerId, customerId) || other.customerId == customerId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.weight, weight) || other.weight == weight));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReturnProductWeightReqModel&&(identical(other.id, id) || other.id == id)&&(identical(other.customerId, customerId) || other.customerId == customerId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.date, date) || other.date == date));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,customerId,productId,weight);
+int get hashCode => Object.hash(runtimeType,id,customerId,productId,weight,date);
 
 @override
 String toString() {
-  return 'ReturnProductWeightReqModel(id: $id, customerId: $customerId, productId: $productId, weight: $weight)';
+  return 'ReturnProductWeightReqModel(id: $id, customerId: $customerId, productId: $productId, weight: $weight, date: $date)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ReturnProductWeightReqModelCopyWith<$Res>  {
   factory $ReturnProductWeightReqModelCopyWith(ReturnProductWeightReqModel value, $Res Function(ReturnProductWeightReqModel) _then) = _$ReturnProductWeightReqModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'id') int id,@JsonKey(name: 'customer_id') int customerId,@JsonKey(name: 'product_id') int productId,@JsonKey(name: 'weight') double weight
+@JsonKey(name: 'id') int id,@JsonKey(name: 'customer_id') int customerId,@JsonKey(name: 'product_id') int productId,@JsonKey(name: 'weight') double weight,@JsonKey(name: 'date') DateTime? date
 });
 
 
@@ -65,13 +65,14 @@ class _$ReturnProductWeightReqModelCopyWithImpl<$Res>
 
 /// Create a copy of ReturnProductWeightReqModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? customerId = null,Object? productId = null,Object? weight = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? customerId = null,Object? productId = null,Object? weight = null,Object? date = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,customerId: null == customerId ? _self.customerId : customerId // ignore: cast_nullable_to_non_nullable
 as int,productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
 as int,weight: null == weight ? _self.weight : weight // ignore: cast_nullable_to_non_nullable
-as double,
+as double,date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 
@@ -156,10 +157,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int id, @JsonKey(name: 'customer_id')  int customerId, @JsonKey(name: 'product_id')  int productId, @JsonKey(name: 'weight')  double weight)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int id, @JsonKey(name: 'customer_id')  int customerId, @JsonKey(name: 'product_id')  int productId, @JsonKey(name: 'weight')  double weight, @JsonKey(name: 'date')  DateTime? date)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ReturnProductWeightReqModel() when $default != null:
-return $default(_that.id,_that.customerId,_that.productId,_that.weight);case _:
+return $default(_that.id,_that.customerId,_that.productId,_that.weight,_that.date);case _:
   return orElse();
 
 }
@@ -177,10 +178,10 @@ return $default(_that.id,_that.customerId,_that.productId,_that.weight);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int id, @JsonKey(name: 'customer_id')  int customerId, @JsonKey(name: 'product_id')  int productId, @JsonKey(name: 'weight')  double weight)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'id')  int id, @JsonKey(name: 'customer_id')  int customerId, @JsonKey(name: 'product_id')  int productId, @JsonKey(name: 'weight')  double weight, @JsonKey(name: 'date')  DateTime? date)  $default,) {final _that = this;
 switch (_that) {
 case _ReturnProductWeightReqModel():
-return $default(_that.id,_that.customerId,_that.productId,_that.weight);case _:
+return $default(_that.id,_that.customerId,_that.productId,_that.weight,_that.date);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -197,10 +198,10 @@ return $default(_that.id,_that.customerId,_that.productId,_that.weight);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'id')  int id, @JsonKey(name: 'customer_id')  int customerId, @JsonKey(name: 'product_id')  int productId, @JsonKey(name: 'weight')  double weight)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'id')  int id, @JsonKey(name: 'customer_id')  int customerId, @JsonKey(name: 'product_id')  int productId, @JsonKey(name: 'weight')  double weight, @JsonKey(name: 'date')  DateTime? date)?  $default,) {final _that = this;
 switch (_that) {
 case _ReturnProductWeightReqModel() when $default != null:
-return $default(_that.id,_that.customerId,_that.productId,_that.weight);case _:
+return $default(_that.id,_that.customerId,_that.productId,_that.weight,_that.date);case _:
   return null;
 
 }
@@ -212,13 +213,14 @@ return $default(_that.id,_that.customerId,_that.productId,_that.weight);case _:
 @JsonSerializable()
 
 class _ReturnProductWeightReqModel implements ReturnProductWeightReqModel {
-  const _ReturnProductWeightReqModel({@JsonKey(name: 'id') required this.id, @JsonKey(name: 'customer_id') required this.customerId, @JsonKey(name: 'product_id') required this.productId, @JsonKey(name: 'weight') required this.weight});
+  const _ReturnProductWeightReqModel({@JsonKey(name: 'id') required this.id, @JsonKey(name: 'customer_id') required this.customerId, @JsonKey(name: 'product_id') required this.productId, @JsonKey(name: 'weight') required this.weight, @JsonKey(name: 'date') this.date});
   factory _ReturnProductWeightReqModel.fromJson(Map<String, dynamic> json) => _$ReturnProductWeightReqModelFromJson(json);
 
 @override@JsonKey(name: 'id') final  int id;
 @override@JsonKey(name: 'customer_id') final  int customerId;
 @override@JsonKey(name: 'product_id') final  int productId;
 @override@JsonKey(name: 'weight') final  double weight;
+@override@JsonKey(name: 'date') final  DateTime? date;
 
 /// Create a copy of ReturnProductWeightReqModel
 /// with the given fields replaced by the non-null parameter values.
@@ -233,16 +235,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReturnProductWeightReqModel&&(identical(other.id, id) || other.id == id)&&(identical(other.customerId, customerId) || other.customerId == customerId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.weight, weight) || other.weight == weight));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReturnProductWeightReqModel&&(identical(other.id, id) || other.id == id)&&(identical(other.customerId, customerId) || other.customerId == customerId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.date, date) || other.date == date));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,customerId,productId,weight);
+int get hashCode => Object.hash(runtimeType,id,customerId,productId,weight,date);
 
 @override
 String toString() {
-  return 'ReturnProductWeightReqModel(id: $id, customerId: $customerId, productId: $productId, weight: $weight)';
+  return 'ReturnProductWeightReqModel(id: $id, customerId: $customerId, productId: $productId, weight: $weight, date: $date)';
 }
 
 
@@ -253,7 +255,7 @@ abstract mixin class _$ReturnProductWeightReqModelCopyWith<$Res> implements $Ret
   factory _$ReturnProductWeightReqModelCopyWith(_ReturnProductWeightReqModel value, $Res Function(_ReturnProductWeightReqModel) _then) = __$ReturnProductWeightReqModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'id') int id,@JsonKey(name: 'customer_id') int customerId,@JsonKey(name: 'product_id') int productId,@JsonKey(name: 'weight') double weight
+@JsonKey(name: 'id') int id,@JsonKey(name: 'customer_id') int customerId,@JsonKey(name: 'product_id') int productId,@JsonKey(name: 'weight') double weight,@JsonKey(name: 'date') DateTime? date
 });
 
 
@@ -270,13 +272,14 @@ class __$ReturnProductWeightReqModelCopyWithImpl<$Res>
 
 /// Create a copy of ReturnProductWeightReqModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? customerId = null,Object? productId = null,Object? weight = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? customerId = null,Object? productId = null,Object? weight = null,Object? date = freezed,}) {
   return _then(_ReturnProductWeightReqModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,customerId: null == customerId ? _self.customerId : customerId // ignore: cast_nullable_to_non_nullable
 as int,productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
 as int,weight: null == weight ? _self.weight : weight // ignore: cast_nullable_to_non_nullable
-as double,
+as double,date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 

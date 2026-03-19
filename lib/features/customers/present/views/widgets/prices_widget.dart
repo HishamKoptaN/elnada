@@ -24,9 +24,6 @@ class PricesWidget extends StatelessWidget {
   final bool canInsertPreviusDayData;
   @override
   Widget build(BuildContext context) {
-    if (prices.isEmpty) {
-      return const Center(child: Text('لا توجد أسعار متاحة'));
-    }
     return SizedBox(
       height: 70.h,
       child: Row(

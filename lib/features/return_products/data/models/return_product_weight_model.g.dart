@@ -13,6 +13,7 @@ _ReturnProductWeightReqModel _$ReturnProductWeightReqModelFromJson(
   customerId: (json['customer_id'] as num).toInt(),
   productId: (json['product_id'] as num).toInt(),
   weight: (json['weight'] as num).toDouble(),
+  date: json['date'] == null ? null : DateTime.parse(json['date'] as String),
 );
 
 Map<String, dynamic> _$ReturnProductWeightReqModelToJson(
@@ -22,4 +23,5 @@ Map<String, dynamic> _$ReturnProductWeightReqModelToJson(
   'customer_id': instance.customerId,
   'product_id': instance.productId,
   'weight': instance.weight,
+  'date': instance.date?.toIso8601String(),
 };

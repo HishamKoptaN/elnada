@@ -10,5 +10,6 @@ abstract class ReturnProductWeightReqEntity
     GenericFormzInput<int>? customerId,
     GenericFormzInput<int>? productId,
     GenericFormzInput<String>? weight,
-  }) = _ReturnWeightReqModel;
+    DateTime? date,
+  }) = _ReturnProductWeightReqEntity;
 }

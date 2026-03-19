@@ -13,7 +13,6 @@ import '../../features/transactions_details/present/bloc/transactions_details_bl
 import '../config/app_config.dart';
 import '../di/dependency_injection.dart';
 import '../routing/app_router.dart';
-
 class TahaApp extends StatelessWidget {
   const TahaApp({super.key});
   @override

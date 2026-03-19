@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart' hide DeviceType;
+import 'package:font_awesome_flutter/font_awesome_flutter.dart'
+    show FaIcon, FontAwesomeIcons;
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
 import 'package:auto_updater/auto_updater.dart';
 import 'package:http/http.dart' as http;
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:xml/xml.dart';
 import '../../../../config/env_config.dart';
 import '../../../../core/di/dependency_injection.dart';
+import '../../domain/entities/customer_daily_reports_res_entity.dart';
 import '../bloc/customers_bloc.dart';
 import 'widgets/prices_widget.dart';
 import 'widgets/data_grid/daily_customer_reports_data_source.dart';
 import 'widgets/date/date_header_widget.dart';
 import 'widgets/data_grid/customers_data_grid_widget.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class CustomersView extends StatefulWidget {
   const CustomersView({super.key});
@@ -22,16 +31,21 @@ class CustomersView extends StatefulWidget {
 }
 
 class _CustomersViewState extends State<CustomersView> {
+  final GlobalKey<SfDataGridState> _key = GlobalKey<SfDataGridState>();
+
   late DailyCustomerReportsDataSource _employeeDataSource;
   final updater = ShorebirdUpdater();
   String _updateStatus = 'جاري التحقق من التحديثات...';
   String _updateUrl = '';
-
   @override
   void initState() {
     super.initState();
     getIt<CustomersBloc>().add(
       CustomersEvent.getCustomers(date: DateTime.now()),
+    );
+    _employeeDataSource = DailyCustomerReportsDataSource(
+      customers: [],
+      isDesktop: false,
     );
     updater.readCurrentPatch().then((currentPatch) {});
     _checkForUpdates();
@@ -71,25 +85,18 @@ class _CustomersViewState extends State<CustomersView> {
       if (response.statusCode == 200) {
         final document = XmlDocument.parse(response.body);
         final enclosure = document.findAllElements('enclosure').first;
-
-        // قراءة النسخة بطريقة مرنة تتجاهل الـ namespace
         final latestVersion = enclosure.attributes
             .firstWhere(
               (attr) => attr.name.local == 'version',
               orElse: () => throw Exception('نسخة التحديث غير موجودة في الملف'),
             )
             .value;
-
-        debugPrint(
-          '✅ النسخة الحالية: $currentVersion | نسخة السيرفر: $latestVersion',
-        );
-
         if (latestVersion.trim() != currentVersion.trim()) {
           setState(() {
             _updateStatus = '🔄 تحديث جديد متاح: $latestVersion';
             _updateUrl = enclosure.getAttribute('url') ?? '';
           });
-          _showUpdateDialog(); // إظهار الديالوج تلقائياً عند اكتشاف تحديث
+          _showUpdateDialog();
         } else {
           setState(() {
             _updateStatus = '✅ التطبيق محدث';
@@ -161,6 +168,70 @@ class _CustomersViewState extends State<CustomersView> {
     }
   }
 
+  Future<void> printDataGrid({
+    required DailyCustomerReportsDataSource source,
+  }) async {
+    final fontData = await rootBundle.load(
+      'assets/fonts/Cairo-VariableFont_slnt,wght.ttf',
+    );
+    final ttf = pw.Font.ttf(fontData);
+    final pdf = pw.Document();
+    pdf.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        orientation: pw.PageOrientation.natural,
+        textDirection: pw.TextDirection.rtl,
+        theme: pw.ThemeData.withFont(base: ttf),
+        build: (context) {
+          return [
+            pw.Center(
+              child: pw.Text(
+                'تقرير عملاء شركة أبو جينة',
+                style: pw.TextStyle(
+                  font: ttf,
+                  fontSize: 20,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
+            ),
+            pw.SizedBox(height: 20),
+            pw.Table.fromTextArray(
+              headers: [
+                'الاسم',
+                'الباقي',
+                'تسمين',
+                'راجع ت',
+                'امهات',
+                'اماهت ت',
+                'التحصيل',
+                'الصافي',
+              ].reversed.toList(),
+              data: source.rows.map((row) {
+                return row
+                    .getCells()
+                    .map((cell) => cell.value.toString())
+                    .toList()
+                    .reversed
+                    .toList();
+              }).toList(),
+              cellStyle: pw.TextStyle(font: ttf, fontSize: 12),
+              headerStyle: pw.TextStyle(
+                font: ttf,
+                fontWeight: pw.FontWeight.bold,
+              ),
+              cellAlignment: pw.Alignment.center,
+            ),
+          ];
+        },
+      ),
+    );
+    await Printing.layoutPdf(
+      onLayout: (PdfPageFormat format) async => pdf.save(),
+      usePrinterSettings: true,
+      format: PdfPageFormat.a4,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -177,10 +248,6 @@ class _CustomersViewState extends State<CustomersView> {
                 loaded: (s) => s.customersRes.productDailyPrices ?? [],
               ) ??
               [];
-          _employeeDataSource = DailyCustomerReportsDataSource(
-            customers: customers,
-            isDesktop: isDesktop,
-          ).copyWith(customers: customers, isDesktop: isDesktop);
           return Container(
             margin: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
             child: Column(
@@ -264,13 +331,107 @@ class _CustomersViewState extends State<CustomersView> {
                       DateTime.now(),
                   canInsertPreviusDayData:
                       state.mapOrNull(
-                        loaded: (s) => s.customersRes.canInsertPreviusDayData,
+                        loaded: (s) {
+                          return s.customersRes.canInsertPreviusDayData;
+                        },
                       ) ??
                       false,
                 ),
+                Row(
+                  mainAxisAlignment: .end,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(2.5),
+                      child: MaterialButton(
+                        onPressed: () async {
+                          await printDataGrid(
+                            source: DailyCustomerReportsDataSource(
+                              customers: customers,
+                              isDesktop: isDesktop,
+                            ),
+                          );
+                        },
+                        color: Colors.green,
+                        child: Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 8.0,
+                                right: 8.0,
+                              ),
+                              child: FaIcon(
+                                FontAwesomeIcons.print,
+                                size: 20.sp,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const Text(
+                              'طباعة',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    // MaterialButton(
+                    //   onPressed: () async {
+                    //     Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //         builder: (context) {
+                    //           return Scaffold(
+                    //             appBar: AppBar(
+                    //               title: const Text('معاينة الطباعة'),
+                    //             ),
+                    //             body: PdfPreview(
+                    //               build: (format) {
+                    //                 return _generatePdf(
+                    //                   source: DailyCustomerReportsDataSource(
+                    //                     customers: customers,
+                    //                     isDesktop: isDesktop,
+                    //                   ),
+                    //                   productDailyPrices:
+                    //                       state.mapOrNull(
+                    //                         loaded: (s) {
+                    //                           return s
+                    //                                   .customersRes
+                    //                                   .productDailyPrices ??
+                    //                               [];
+                    //                         },
+                    //                       ) ??
+                    //                       [],
+                    //                   selectedDate:
+                    //                       state.mapOrNull(
+                    //                         loaded: (s) => s.selectedDate,
+                    //                       ) ??
+                    //                       DateTime.now(),
+                    //                 );
+                    //               },
+                    //               pdfFileName: 'report.pdf',
+                    //             ),
+                    //           );
+                    //         },
+                    //       ),
+                    //     );
+                    //   },
+                    //   color: Colors.green,
+                    //   child: const SizedBox(
+                    //     child: Row(
+                    //       children: <Widget>[
+                    //         Text('عرض', style: TextStyle(color: Colors.white)),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
+
                 CustomersDataGridWidget(
                   state: state,
-                  employeeDataSource: _employeeDataSource,
+                  employeeDataSource: DailyCustomerReportsDataSource(
+                    customers: customers,
+                    isDesktop: isDesktop,
+                  ),
                   canInsertPreviusDayData:
                       state.mapOrNull(
                         loaded: (s) => s.customersRes.canInsertPreviusDayData,
@@ -283,6 +444,135 @@ class _CustomersViewState extends State<CustomersView> {
         },
       ),
     );
+  }
+
+  Future<Uint8List> _generatePdf({
+    required DailyCustomerReportsDataSource source,
+    required List<ProductPriceEntity> productDailyPrices,
+    required DateTime selectedDate,
+  }) async {
+    final pdf = pw.Document();
+    final arabicFont = pw.Font.ttf(
+      await rootBundle.load('assets/fonts/Cairo-VariableFont_slnt,wght.ttf'),
+    );
+    pdf.addPage(
+      pw.MultiPage(
+        margin: const pw.EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 5),
+        pageFormat: PdfPageFormat.a4,
+        orientation: pw.PageOrientation.portrait,
+        textDirection: pw.TextDirection.rtl,
+        theme: pw.ThemeData.withFont(base: arabicFont),
+        header: (pw.Context context) {
+          return pw.Header(
+            level: 0,
+            decoration: const pw.BoxDecoration(border: null),
+            child: pw.Column(
+              children: [
+                pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                  children: [
+                    pw.Text(
+                      'أبو جنة للدواجن',
+                      style: pw.TextStyle(
+                        font: arabicFont,
+                        fontSize: 14,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                  children: [
+                    pw.Text(
+                      DateFormat('EEEE', 'ar').format(selectedDate),
+                      style: pw.TextStyle(
+                        font: arabicFont,
+                        fontWeight: pw.FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
+                    pw.Text(
+                      '${selectedDate.year} / ${selectedDate.month} / ${selectedDate.day}',
+                      style: pw.TextStyle(font: arabicFont, fontSize: 10),
+                    ),
+                  ],
+                ),
+                pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                  children: productDailyPrices.take(4).map((price) {
+                    return pw.Expanded(
+                      child: pw.Container(
+                        margin: const pw.EdgeInsets.symmetric(horizontal: 2),
+                        decoration: pw.BoxDecoration(
+                          border: pw.Border.all(color: PdfColors.grey300),
+                        ),
+                        child: pw.Text(
+                          '${price.product?.name ?? ''}: ${price.productDailyprice?.price ?? ''}',
+                          style: pw.TextStyle(
+                            font: arabicFont,
+                            fontSize: 12,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                          textAlign: pw.TextAlign.center,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+          );
+        },
+
+        footer: (pw.Context context) {
+          return pw.Container(
+            alignment: pw.Alignment.centerLeft,
+            padding: const pw.EdgeInsets.only(top: 5),
+            child: pw.Text(
+              'صفحة ${context.pageNumber} من ${context.pagesCount}',
+              style: pw.TextStyle(
+                font: arabicFont,
+                fontSize: 8,
+                color: PdfColors.grey700,
+              ),
+            ),
+          );
+        },
+        build: (pw.Context context) {
+          return [
+            pw.TableHelper.fromTextArray(
+              headers: source.rows.first
+                  .getCells()
+                  .map((c) => c.columnName)
+                  .toList()
+                  .reversed
+                  .toList()
+                  .skip(2)
+                  .toList(),
+              data: source.rows.map((row) {
+                return row
+                    .getCells()
+                    .map((cell) => cell.value.toString())
+                    .toList()
+                    .reversed
+                    .toList()
+                    .skip(2)
+                    .toList();
+              }).toList(),
+              headerStyle: pw.TextStyle(
+                font: arabicFont,
+                fontSize: 10,
+                fontWeight: pw.FontWeight.bold,
+              ),
+              cellStyle: pw.TextStyle(font: arabicFont, fontSize: 10),
+              cellAlignment: pw.Alignment.center,
+            ),
+          ];
+        },
+      ),
+    );
+    return pdf.save();
   }
 
   bool _isDesktop(BuildContext context) =>
