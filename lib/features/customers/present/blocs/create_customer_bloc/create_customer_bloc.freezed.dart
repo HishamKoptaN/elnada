@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'daily_collections_bloc.dart';
+part of 'create_customer_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,7 +12,7 @@ part of 'daily_collections_bloc.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$DailyCollectionsEvent {
+mixin _$CreateCustomerEvent {
 
 
 
@@ -20,7 +20,7 @@ mixin _$DailyCollectionsEvent {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DailyCollectionsEvent);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateCustomerEvent);
 }
 
 
@@ -29,20 +29,20 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'DailyCollectionsEvent()';
+  return 'CreateCustomerEvent()';
 }
 
 
 }
 
 /// @nodoc
-class $DailyCollectionsEventCopyWith<$Res>  {
-$DailyCollectionsEventCopyWith(DailyCollectionsEvent _, $Res Function(DailyCollectionsEvent) __);
+class $CreateCustomerEventCopyWith<$Res>  {
+$CreateCustomerEventCopyWith(CreateCustomerEvent _, $Res Function(CreateCustomerEvent) __);
 }
 
 
-/// Adds pattern-matching-related methods to [DailyCollectionsEvent].
-extension DailyCollectionsEventPatterns on DailyCollectionsEvent {
+/// Adds pattern-matching-related methods to [CreateCustomerEvent].
+extension CreateCustomerEventPatterns on CreateCustomerEvent {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -122,10 +122,10 @@ return create(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( CreateDailyCollectionReqEntity createDailyCollectionReq)?  dataChanged,TResult Function()?  create,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( CreateCustomerReqEntity createCustomerReq)?  dataChanged,TResult Function()?  create,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DataChanged() when dataChanged != null:
-return dataChanged(_that.createDailyCollectionReq);case _Create() when create != null:
+return dataChanged(_that.createCustomerReq);case _Create() when create != null:
 return create();case _:
   return orElse();
 
@@ -144,10 +144,10 @@ return create();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( CreateDailyCollectionReqEntity createDailyCollectionReq)  dataChanged,required TResult Function()  create,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( CreateCustomerReqEntity createCustomerReq)  dataChanged,required TResult Function()  create,}) {final _that = this;
 switch (_that) {
 case _DataChanged():
-return dataChanged(_that.createDailyCollectionReq);case _Create():
+return dataChanged(_that.createCustomerReq);case _Create():
 return create();case _:
   throw StateError('Unexpected subclass');
 
@@ -165,10 +165,10 @@ return create();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( CreateDailyCollectionReqEntity createDailyCollectionReq)?  dataChanged,TResult? Function()?  create,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( CreateCustomerReqEntity createCustomerReq)?  dataChanged,TResult? Function()?  create,}) {final _that = this;
 switch (_that) {
 case _DataChanged() when dataChanged != null:
-return dataChanged(_that.createDailyCollectionReq);case _Create() when create != null:
+return dataChanged(_that.createCustomerReq);case _Create() when create != null:
 return create();case _:
   return null;
 
@@ -180,13 +180,13 @@ return create();case _:
 /// @nodoc
 
 
-class _DataChanged implements DailyCollectionsEvent {
-  const _DataChanged({required this.createDailyCollectionReq});
+class _DataChanged implements CreateCustomerEvent {
+  const _DataChanged({required this.createCustomerReq});
   
 
- final  CreateDailyCollectionReqEntity createDailyCollectionReq;
+ final  CreateCustomerReqEntity createCustomerReq;
 
-/// Create a copy of DailyCollectionsEvent
+/// Create a copy of CreateCustomerEvent
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
@@ -196,31 +196,31 @@ _$DataChangedCopyWith<_DataChanged> get copyWith => __$DataChangedCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DataChanged&&(identical(other.createDailyCollectionReq, createDailyCollectionReq) || other.createDailyCollectionReq == createDailyCollectionReq));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DataChanged&&(identical(other.createCustomerReq, createCustomerReq) || other.createCustomerReq == createCustomerReq));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,createDailyCollectionReq);
+int get hashCode => Object.hash(runtimeType,createCustomerReq);
 
 @override
 String toString() {
-  return 'DailyCollectionsEvent.dataChanged(createDailyCollectionReq: $createDailyCollectionReq)';
+  return 'CreateCustomerEvent.dataChanged(createCustomerReq: $createCustomerReq)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$DataChangedCopyWith<$Res> implements $DailyCollectionsEventCopyWith<$Res> {
+abstract mixin class _$DataChangedCopyWith<$Res> implements $CreateCustomerEventCopyWith<$Res> {
   factory _$DataChangedCopyWith(_DataChanged value, $Res Function(_DataChanged) _then) = __$DataChangedCopyWithImpl;
 @useResult
 $Res call({
- CreateDailyCollectionReqEntity createDailyCollectionReq
+ CreateCustomerReqEntity createCustomerReq
 });
 
 
-
+$CreateCustomerReqEntityCopyWith<$Res> get createCustomerReq;
 
 }
 /// @nodoc
@@ -231,22 +231,31 @@ class __$DataChangedCopyWithImpl<$Res>
   final _DataChanged _self;
   final $Res Function(_DataChanged) _then;
 
-/// Create a copy of DailyCollectionsEvent
+/// Create a copy of CreateCustomerEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? createDailyCollectionReq = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? createCustomerReq = null,}) {
   return _then(_DataChanged(
-createDailyCollectionReq: null == createDailyCollectionReq ? _self.createDailyCollectionReq : createDailyCollectionReq // ignore: cast_nullable_to_non_nullable
-as CreateDailyCollectionReqEntity,
+createCustomerReq: null == createCustomerReq ? _self.createCustomerReq : createCustomerReq // ignore: cast_nullable_to_non_nullable
+as CreateCustomerReqEntity,
   ));
 }
 
-
+/// Create a copy of CreateCustomerEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CreateCustomerReqEntityCopyWith<$Res> get createCustomerReq {
+  
+  return $CreateCustomerReqEntityCopyWith<$Res>(_self.createCustomerReq, (value) {
+    return _then(_self.copyWith(createCustomerReq: value));
+  });
+}
 }
 
 /// @nodoc
 
 
-class _Create implements DailyCollectionsEvent {
+class _Create implements CreateCustomerEvent {
   const _Create();
   
 
@@ -266,7 +275,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'DailyCollectionsEvent.create()';
+  return 'CreateCustomerEvent.create()';
 }
 
 
@@ -276,7 +285,7 @@ String toString() {
 
 
 /// @nodoc
-mixin _$DailyCollectionsState {
+mixin _$CreateCustomerState {
 
 
 
@@ -284,7 +293,7 @@ mixin _$DailyCollectionsState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DailyCollectionsState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateCustomerState);
 }
 
 
@@ -293,20 +302,20 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'DailyCollectionsState()';
+  return 'CreateCustomerState()';
 }
 
 
 }
 
 /// @nodoc
-class $DailyCollectionsStateCopyWith<$Res>  {
-$DailyCollectionsStateCopyWith(DailyCollectionsState _, $Res Function(DailyCollectionsState) __);
+class $CreateCustomerStateCopyWith<$Res>  {
+$CreateCustomerStateCopyWith(CreateCustomerState _, $Res Function(CreateCustomerState) __);
 }
 
 
-/// Adds pattern-matching-related methods to [DailyCollectionsState].
-extension DailyCollectionsStatePatterns on DailyCollectionsState {
+/// Adds pattern-matching-related methods to [CreateCustomerState].
+extension CreateCustomerStatePatterns on CreateCustomerState {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -395,12 +404,12 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( CreateDailyCollectionReqEntity createDailyCollectionReq,  FormzSubmissionStatus formzSubmissionStatus)?  loaded,TResult Function()?  success,TResult Function( ApiErrorModel apiErrorModel)?  failure,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( CreateCustomerReqEntity createCustomerReq,  FormzSubmissionStatus formzSubmissionStatus)?  loaded,TResult Function()?  success,TResult Function( ApiErrorModel apiErrorModel)?  failure,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Loaded() when loaded != null:
-return loaded(_that.createDailyCollectionReq,_that.formzSubmissionStatus);case _Success() when success != null:
+return loaded(_that.createCustomerReq,_that.formzSubmissionStatus);case _Success() when success != null:
 return success();case _Failure() when failure != null:
 return failure(_that.apiErrorModel);case _:
   return orElse();
@@ -420,12 +429,12 @@ return failure(_that.apiErrorModel);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( CreateDailyCollectionReqEntity createDailyCollectionReq,  FormzSubmissionStatus formzSubmissionStatus)  loaded,required TResult Function()  success,required TResult Function( ApiErrorModel apiErrorModel)  failure,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( CreateCustomerReqEntity createCustomerReq,  FormzSubmissionStatus formzSubmissionStatus)  loaded,required TResult Function()  success,required TResult Function( ApiErrorModel apiErrorModel)  failure,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case _Loading():
 return loading();case _Loaded():
-return loaded(_that.createDailyCollectionReq,_that.formzSubmissionStatus);case _Success():
+return loaded(_that.createCustomerReq,_that.formzSubmissionStatus);case _Success():
 return success();case _Failure():
 return failure(_that.apiErrorModel);case _:
   throw StateError('Unexpected subclass');
@@ -444,12 +453,12 @@ return failure(_that.apiErrorModel);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( CreateDailyCollectionReqEntity createDailyCollectionReq,  FormzSubmissionStatus formzSubmissionStatus)?  loaded,TResult? Function()?  success,TResult? Function( ApiErrorModel apiErrorModel)?  failure,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( CreateCustomerReqEntity createCustomerReq,  FormzSubmissionStatus formzSubmissionStatus)?  loaded,TResult? Function()?  success,TResult? Function( ApiErrorModel apiErrorModel)?  failure,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Loaded() when loaded != null:
-return loaded(_that.createDailyCollectionReq,_that.formzSubmissionStatus);case _Success() when success != null:
+return loaded(_that.createCustomerReq,_that.formzSubmissionStatus);case _Success() when success != null:
 return success();case _Failure() when failure != null:
 return failure(_that.apiErrorModel);case _:
   return null;
@@ -462,7 +471,7 @@ return failure(_that.apiErrorModel);case _:
 /// @nodoc
 
 
-class _Initial implements DailyCollectionsState {
+class _Initial implements CreateCustomerState {
   const _Initial();
   
 
@@ -482,7 +491,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'DailyCollectionsState.initial()';
+  return 'CreateCustomerState.initial()';
 }
 
 
@@ -494,7 +503,7 @@ String toString() {
 /// @nodoc
 
 
-class _Loading implements DailyCollectionsState {
+class _Loading implements CreateCustomerState {
   const _Loading();
   
 
@@ -514,7 +523,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'DailyCollectionsState.loading()';
+  return 'CreateCustomerState.loading()';
 }
 
 
@@ -526,14 +535,14 @@ String toString() {
 /// @nodoc
 
 
-class _Loaded implements DailyCollectionsState {
-  const _Loaded({required this.createDailyCollectionReq, required this.formzSubmissionStatus});
+class _Loaded implements CreateCustomerState {
+  const _Loaded({required this.createCustomerReq, required this.formzSubmissionStatus});
   
 
- final  CreateDailyCollectionReqEntity createDailyCollectionReq;
+ final  CreateCustomerReqEntity createCustomerReq;
  final  FormzSubmissionStatus formzSubmissionStatus;
 
-/// Create a copy of DailyCollectionsState
+/// Create a copy of CreateCustomerState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
@@ -543,31 +552,31 @@ _$LoadedCopyWith<_Loaded> get copyWith => __$LoadedCopyWithImpl<_Loaded>(this, _
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Loaded&&(identical(other.createDailyCollectionReq, createDailyCollectionReq) || other.createDailyCollectionReq == createDailyCollectionReq)&&(identical(other.formzSubmissionStatus, formzSubmissionStatus) || other.formzSubmissionStatus == formzSubmissionStatus));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Loaded&&(identical(other.createCustomerReq, createCustomerReq) || other.createCustomerReq == createCustomerReq)&&(identical(other.formzSubmissionStatus, formzSubmissionStatus) || other.formzSubmissionStatus == formzSubmissionStatus));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,createDailyCollectionReq,formzSubmissionStatus);
+int get hashCode => Object.hash(runtimeType,createCustomerReq,formzSubmissionStatus);
 
 @override
 String toString() {
-  return 'DailyCollectionsState.loaded(createDailyCollectionReq: $createDailyCollectionReq, formzSubmissionStatus: $formzSubmissionStatus)';
+  return 'CreateCustomerState.loaded(createCustomerReq: $createCustomerReq, formzSubmissionStatus: $formzSubmissionStatus)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$LoadedCopyWith<$Res> implements $DailyCollectionsStateCopyWith<$Res> {
+abstract mixin class _$LoadedCopyWith<$Res> implements $CreateCustomerStateCopyWith<$Res> {
   factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) = __$LoadedCopyWithImpl;
 @useResult
 $Res call({
- CreateDailyCollectionReqEntity createDailyCollectionReq, FormzSubmissionStatus formzSubmissionStatus
+ CreateCustomerReqEntity createCustomerReq, FormzSubmissionStatus formzSubmissionStatus
 });
 
 
-
+$CreateCustomerReqEntityCopyWith<$Res> get createCustomerReq;
 
 }
 /// @nodoc
@@ -578,23 +587,32 @@ class __$LoadedCopyWithImpl<$Res>
   final _Loaded _self;
   final $Res Function(_Loaded) _then;
 
-/// Create a copy of DailyCollectionsState
+/// Create a copy of CreateCustomerState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? createDailyCollectionReq = null,Object? formzSubmissionStatus = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? createCustomerReq = null,Object? formzSubmissionStatus = null,}) {
   return _then(_Loaded(
-createDailyCollectionReq: null == createDailyCollectionReq ? _self.createDailyCollectionReq : createDailyCollectionReq // ignore: cast_nullable_to_non_nullable
-as CreateDailyCollectionReqEntity,formzSubmissionStatus: null == formzSubmissionStatus ? _self.formzSubmissionStatus : formzSubmissionStatus // ignore: cast_nullable_to_non_nullable
+createCustomerReq: null == createCustomerReq ? _self.createCustomerReq : createCustomerReq // ignore: cast_nullable_to_non_nullable
+as CreateCustomerReqEntity,formzSubmissionStatus: null == formzSubmissionStatus ? _self.formzSubmissionStatus : formzSubmissionStatus // ignore: cast_nullable_to_non_nullable
 as FormzSubmissionStatus,
   ));
 }
 
-
+/// Create a copy of CreateCustomerState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CreateCustomerReqEntityCopyWith<$Res> get createCustomerReq {
+  
+  return $CreateCustomerReqEntityCopyWith<$Res>(_self.createCustomerReq, (value) {
+    return _then(_self.copyWith(createCustomerReq: value));
+  });
+}
 }
 
 /// @nodoc
 
 
-class _Success implements DailyCollectionsState {
+class _Success implements CreateCustomerState {
   const _Success();
   
 
@@ -614,7 +632,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'DailyCollectionsState.success()';
+  return 'CreateCustomerState.success()';
 }
 
 
@@ -626,13 +644,13 @@ String toString() {
 /// @nodoc
 
 
-class _Failure implements DailyCollectionsState {
+class _Failure implements CreateCustomerState {
   const _Failure({required this.apiErrorModel});
   
 
  final  ApiErrorModel apiErrorModel;
 
-/// Create a copy of DailyCollectionsState
+/// Create a copy of CreateCustomerState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
@@ -651,14 +669,14 @@ int get hashCode => Object.hash(runtimeType,apiErrorModel);
 
 @override
 String toString() {
-  return 'DailyCollectionsState.failure(apiErrorModel: $apiErrorModel)';
+  return 'CreateCustomerState.failure(apiErrorModel: $apiErrorModel)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$FailureCopyWith<$Res> implements $DailyCollectionsStateCopyWith<$Res> {
+abstract mixin class _$FailureCopyWith<$Res> implements $CreateCustomerStateCopyWith<$Res> {
   factory _$FailureCopyWith(_Failure value, $Res Function(_Failure) _then) = __$FailureCopyWithImpl;
 @useResult
 $Res call({
@@ -677,7 +695,7 @@ class __$FailureCopyWithImpl<$Res>
   final _Failure _self;
   final $Res Function(_Failure) _then;
 
-/// Create a copy of DailyCollectionsState
+/// Create a copy of CreateCustomerState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? apiErrorModel = null,}) {
   return _then(_Failure(

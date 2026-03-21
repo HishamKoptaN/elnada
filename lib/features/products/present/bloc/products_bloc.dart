@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../../core/errors/api_error_model.dart';
 import '../../../../core/networking/api_result.dart';
 import '../../../customers/domain/entities/customer_daily_reports_res_entity.dart';
-import '../../../customers/present/bloc/customers_bloc.dart';
+import '../../../customers/present/blocs/bloc/customers_bloc.dart';
 import '../../domain/entities/product_entity.dart';
 import '../../domain/usecases/product_use_cases.dart';
 part 'products_bloc.freezed.dart';

@@ -4,11 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
-import '../../../../../../../core/utils/date_helpers.dart';
-import '../../../../../../return_products/domain/entities/return_product_weight_entity.dart';
-import '../../../../../domain/entities/customer_daily_reports_res_entity.dart';
-import '../../../../../../../core/di/dependency_injection.dart';
-import '../../../../../../return_products/present/bloc/return_products_bloc.dart';
+import '../../../../../../../../core/utils/date_helpers.dart';
+import '../../../../../../../../core/widgets/custom_circular_progress.dart';
+import '../../../../../../../return_products/domain/entities/return_product_weight_entity.dart';
+import '../../../../../../domain/entities/customer_daily_reports_res_entity.dart';
+import '../../../../../../../../core/di/dependency_injection.dart';
+import '../../../../../../../return_products/present/bloc/return_products_bloc.dart';
 
 class ReturnWeightDialog {
   static void show({
@@ -119,7 +120,11 @@ class ReturnWeightDialog {
                           Colors.white,
                         ),
                       ),
-                      child: Text('إضافة', style: TextStyle(fontSize: 16.sp)),
+                      child:
+                          state.formzSubmissionStatus ==
+                              FormzSubmissionStatus.inProgress
+                          ? const CustomCircularProgress()
+                          : Text('إضافة', style: TextStyle(fontSize: 16.sp)),
                     ),
                   ],
                 );

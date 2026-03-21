@@ -14,7 +14,8 @@ import 'package:xml/xml.dart';
 import '../../../../config/env_config.dart';
 import '../../../../core/di/dependency_injection.dart';
 import '../../domain/entities/customer_daily_reports_res_entity.dart';
-import '../bloc/customers_bloc.dart';
+import '../blocs/bloc/customers_bloc.dart';
+import 'widgets/customer_details_dialog/types/create_customer_dialog.dart';
 import 'widgets/prices_widget.dart';
 import 'widgets/data_grid/daily_customer_reports_data_source.dart';
 import 'widgets/date/date_header_widget.dart';
@@ -373,6 +374,34 @@ class _CustomersViewState extends State<CustomersView> {
                         ),
                       ),
                     ),
+                    Container(
+                      padding: const EdgeInsets.all(2.5),
+                      child: MaterialButton(
+                        onPressed: () async {
+                          CreateCustomerDialog.show(context: context);
+                        },
+                        color: Colors.green,
+                        child: Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 8.0,
+                                right: 8.0,
+                              ),
+                              child: FaIcon(
+                                FontAwesomeIcons.add,
+                                size: 20.sp,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const Text(
+                              'اضافة زبون',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     // MaterialButton(
                     //   onPressed: () async {
                     //     Navigator.push(
@@ -425,7 +454,6 @@ class _CustomersViewState extends State<CustomersView> {
                     // ),
                   ],
                 ),
-
                 CustomersDataGridWidget(
                   state: state,
                   employeeDataSource: DailyCustomerReportsDataSource(

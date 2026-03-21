@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import '../../../bloc/customers_bloc.dart';
+import '../../../blocs/bloc/customers_bloc.dart';
 import 'cell_tap_handler.dart';
 import 'grid_columns.dart';
 

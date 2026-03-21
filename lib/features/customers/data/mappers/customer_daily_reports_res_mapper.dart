@@ -36,7 +36,7 @@ extension CustomerMapper on CustomerModel {
   CustomerEntity toEntity() {
     return CustomerEntity(
       id: id ?? 0,
-      number: number ?? 0,
+      number: number.toString(),
       name: name ?? '',
       phone: phone ?? '',
     );

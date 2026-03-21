@@ -7,7 +7,8 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import '../../../../../../core/utils/devices_utiles.dart' as devices;
-import '../../../bloc/customers_bloc.dart';
+import '../../../../../../core/widgets/custom_circular_progress.dart';
+import '../../../blocs/bloc/customers_bloc.dart';
 import 'customer_details_dialog.dart';
 import 'daily_customer_reports_data_source.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart'; // المكتبة المطلوبة
@@ -95,7 +96,7 @@ class CustomersDataGridWidget extends StatelessWidget {
         );
       },
       orElse: () =>
-          const Expanded(child: Center(child: CircularProgressIndicator())),
+          const Expanded(child: Center(child: CustomCircularProgress())),
     );
   }
 
@@ -180,6 +181,7 @@ class CustomersDataGridWidget extends StatelessWidget {
 
   List<GridColumn> _buildColumns({required bool isDesktop}) {
     return [
+      _GridColumn('رقم'),
       _GridColumn('الاسم'),
       _GridColumn('الاصل'),
       if (isDesktop) ...[_GridColumn('تسمين')],
@@ -196,6 +198,7 @@ class CustomersDataGridWidget extends StatelessWidget {
   }
 
   static const List<String> _masterColumns = [
+    'رقم',
     'الاسم',
     'الاصل',
     'تسمين',

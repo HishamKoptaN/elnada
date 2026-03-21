@@ -5,7 +5,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../../core/errors/api_error_model.dart';
 import '../../../../core/networking/api_result.dart';
-import '../../../customers/present/bloc/customers_bloc.dart';
+import '../../../customers/present/blocs/bloc/customers_bloc.dart';
 import '../../domain/entities/update_transaction_details_req_entity.dart';
 import '../../domain/usecases/transactions_details_use_cases.dart';
 part 'transactions_details_bloc.freezed.dart';

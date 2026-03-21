@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
 import '../../../../../../../../core/di/dependency_injection.dart';
+import '../../../../../../../../core/widgets/custom_circular_progress.dart';
 import '../../../../../../../daily_collections/domain/entities/daily_collection_entity.dart';
 import '../../../../../../../daily_collections/domain/entities/update_daily_collection_req_entity.dart';
 import '../../../../../../../daily_collections/present/update_collection_bloc/update_daily_collections_bloc.dart';
@@ -113,7 +114,11 @@ class UpdateCollectionDialog {
                           Colors.white,
                         ),
                       ),
-                      child: Text('حفظ', style: TextStyle(fontSize: 16.sp)),
+                      child:
+                          state.formzSubmissionStatus ==
+                              FormzSubmissionStatus.inProgress
+                          ? const CustomCircularProgress()
+                          : Text('حفظ', style: TextStyle(fontSize: 16.sp)),
                     ),
                   ],
                 );

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/di/dependency_injection.dart';
 import '../../../../../core/widgets/custom_circular_progress.dart';
-import '../../bloc/customers_bloc.dart';
+import '../../blocs/bloc/customers_bloc.dart';
 import 'statement_data_grid_widget.dart';
 import 'statement_data_source.dart';
 import 'widgets/error_state_widget.dart';

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import '../../../../../../core/di/dependency_injection.dart';
-import '../../../bloc/customers_bloc.dart';
+import '../../../blocs/bloc/customers_bloc.dart';
 import 'navigation_button.dart';
 
 class DateHeaderWidget extends StatelessWidget {

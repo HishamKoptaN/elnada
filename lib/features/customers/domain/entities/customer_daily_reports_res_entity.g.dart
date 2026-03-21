@@ -68,7 +68,7 @@ Map<String, dynamic> _$CustomerDailyReportEntityToJson(
 _CustomerEntity _$CustomerEntityFromJson(Map<String, dynamic> json) =>
     _CustomerEntity(
       id: (json['id'] as num?)?.toInt(),
-      number: (json['number'] as num?)?.toInt(),
+      number: json['number'] as String?,
       name: json['name'] as String?,
       phone: json['phone'] as String?,
     );

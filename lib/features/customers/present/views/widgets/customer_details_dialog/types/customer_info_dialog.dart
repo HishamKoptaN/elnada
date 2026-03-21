@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../../core/di/dependency_injection.dart';
 import '../../../../../domain/entities/customer_daily_reports_res_entity.dart';
-import '../../../../bloc/customers_bloc.dart';
+import '../../../../blocs/bloc/customers_bloc.dart';
 import '../widgets/customer_dialog_content_widget.dart';
 
 class CustomerInfoDialog {

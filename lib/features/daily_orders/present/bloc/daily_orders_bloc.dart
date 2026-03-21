@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../../core/errors/api_error_model.dart';
 import '../../../../core/networking/api_result.dart';
 import '../../../customers/domain/entities/customer_daily_reports_res_entity.dart';
-import '../../../customers/present/bloc/customers_bloc.dart';
+import '../../../customers/present/blocs/bloc/customers_bloc.dart';
 import '../../domain/entities/create_daily_order_req_entity.dart';
 import '../../domain/usecases/daily_orders_use_cases.dart';
 part 'daily_orders_bloc.freezed.dart';
@@ -13,8 +13,6 @@ part 'daily_orders_state.dart';
 
 @singleton
 class DailyOrdersBloc extends Bloc<DailyOrdersEvent, DailyOrdersState> {
-  final DailyOrdersUseCases dailyOrdersUseCases;
-  final CustomersBloc customersBloc;
   DailyOrdersBloc(this.dailyOrdersUseCases, this.customersBloc)
     : super(const DailyOrdersState.initial()) {
     on<DailyOrdersEvent>((event, emit) async {
@@ -42,10 +40,11 @@ class DailyOrdersBloc extends Bloc<DailyOrdersEvent, DailyOrdersState> {
                   );
                   customersBloc.add(
                     CustomersEvent.updateCustomerDailyReport(
-                      customerDailyReport: res ?? CustomerDailyReportEntity(),
+                      customerDailyReport:
+                          res ?? const CustomerDailyReportEntity(),
                     ),
                   );
-                  emit(DailyOrdersState.success());
+                  emit(const DailyOrdersState.success());
                 },
                 failure: (apiErrorModel) async {
                   emitFaliure(apiErrorModel: apiErrorModel, emit: emit);
@@ -57,6 +56,8 @@ class DailyOrdersBloc extends Bloc<DailyOrdersEvent, DailyOrdersState> {
       );
     });
   }
+  final DailyOrdersUseCases dailyOrdersUseCases;
+  final CustomersBloc customersBloc;
   void emitFaliure({
     required Emitter<DailyOrdersState> emit,
     required ApiErrorModel apiErrorModel,

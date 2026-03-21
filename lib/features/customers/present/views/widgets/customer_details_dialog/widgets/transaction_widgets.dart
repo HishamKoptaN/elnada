@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../daily_transactions/domain/entities/daily_transaction_entity.dart';
-import '../types/update_transaction_details_dialog.dart';
+import '../types/transaction/update_transaction_details_dialog.dart';
 
 class TransactionSectionWidget extends StatelessWidget {
   const TransactionSectionWidget({

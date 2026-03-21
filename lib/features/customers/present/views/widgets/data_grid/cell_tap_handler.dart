@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import '../../../bloc/customers_bloc.dart';
+import '../../../blocs/bloc/customers_bloc.dart';
 import 'customer_details_dialog.dart';
 import 'grid_columns.dart';
 

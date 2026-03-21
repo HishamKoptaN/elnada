@@ -4,20 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
-import '../../../../../../../core/utils/date_helpers.dart';
-import '../../../../../../daily_transactions/domain/entities/create_daily_transaction_req_entity.dart';
-import '../../../../../../daily_transactions/present/bloc/daily_transactions_bloc.dart';
-import '../../../../../domain/entities/customer_daily_reports_res_entity.dart';
-import '../../../../../../../core/di/dependency_injection.dart';
+import '../../../../../../../../core/widgets/custom_circular_progress.dart';
+import '../../../../../../../daily_transactions/domain/entities/daily_transaction_entity.dart';
+import '../../../../../../../transactions_details/domain/entities/update_transaction_details_req_entity.dart';
+import '../../../../../../../transactions_details/present/bloc/transactions_details_bloc.dart';
+import '../../../../../../../../core/di/dependency_injection.dart';
 
-class TransactionDialog {
+class UpdateTransactionDetailsDialog {
   static void show({
     required BuildContext context,
-    required CustomerEntity customer,
-    required int productId,
-    required DateTime selectedDate,
-    required bool canInsertPreviusDayData,
-    required String title,
+    required TransactionDetailEntity transactionDetail,
   }) {
     final FocusNode weightFocus = FocusNode();
     final FocusNode cageFocus = FocusNode();
@@ -25,19 +21,16 @@ class TransactionDialog {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        Future.delayed(Duration.zero, () => weightFocus.requestFocus());
-        getIt<DailyTransactionsBloc>().add(
-          DailyTransactionsEvent.dataChanged(
-            createDailyTransactionReq: CreateDailyTransactionReqEntity(
-              customerId: GenericFormzInput.dirty(customer.id),
-              productId: GenericFormzInput.dirty(productId),
-              date: !selectedDate.isToday && canInsertPreviusDayData
-                  ? selectedDate
-                  : null,
-            ),
+        Future.delayed(Duration.zero, () {
+          weightFocus.requestFocus();
+        });
+        getIt<TransactionsDetailsBloc>().add(
+          TransactionsDetailsEvent.dataChanged(
+            updateTransactionDetailsReq:
+                UpdateTransactionDetailsReqEntity.fromEntity(transactionDetail),
           ),
         );
-        return BlocConsumer<DailyTransactionsBloc, DailyTransactionsState>(
+        return BlocConsumer<TransactionsDetailsBloc, TransactionsDetailsState>(
           listener: (context, state) {
             state.maybeMap(
               success: (s) {
@@ -53,28 +46,20 @@ class TransactionDialog {
                     state.formzSubmissionStatus ==
                     FormzSubmissionStatus.success;
                 return AlertDialog(
-                  title: Text(title, style: TextStyle(fontSize: 16.sp)),
+                  title: Text('تعديل', style: TextStyle(fontSize: 16.sp)),
                   content: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     spacing: 20.h,
                     children: [
-                      Text(
-                        customer.name ?? '',
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
                       SizedBox(height: 16.h),
                       TextFormField(
                         focusNode: weightFocus,
                         initialValue: state.maybeMap(
-                          loaded: (s) => s
-                              .createDailyTransactionReq
-                              .weight
-                              ?.value
-                              .toString(),
+                          loaded: (s) {
+                            return s.createDailyTransactionReq.weight?.value
+                                .toString();
+                          },
                           orElse: () => '',
                         ),
                         keyboardType: TextInputType.number,
@@ -83,14 +68,12 @@ class TransactionDialog {
                             RegExp(r'^\d*\.?\d*'),
                           ),
                         ],
-                        onChanged: (value) {
-                          getIt<DailyTransactionsBloc>().add(
-                            DailyTransactionsEvent.dataChanged(
-                              createDailyTransactionReq: state
+                        onChanged: (v) {
+                          getIt<TransactionsDetailsBloc>().add(
+                            TransactionsDetailsEvent.dataChanged(
+                              updateTransactionDetailsReq: state
                                   .createDailyTransactionReq
-                                  .copyWith(
-                                    weight: GenericFormzInput.dirty(value),
-                                  ),
+                                  .copyWith(weight: GenericFormzInput.dirty(v)),
                             ),
                           );
                         },
@@ -104,11 +87,10 @@ class TransactionDialog {
                       TextFormField(
                         focusNode: cageFocus,
                         initialValue: state.maybeMap(
-                          loaded: (s) => s
-                              .createDailyTransactionReq
-                              .weight
-                              ?.value
-                              .toString(),
+                          loaded: (s) {
+                            return s.createDailyTransactionReq.cage?.value
+                                .toString();
+                          },
                           orElse: () => '',
                         ),
                         decoration: InputDecoration(
@@ -120,18 +102,18 @@ class TransactionDialog {
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
                         ],
-                        onChanged: (value) {
-                          getIt<DailyTransactionsBloc>().add(
-                            DailyTransactionsEvent.dataChanged(
-                              createDailyTransactionReq: state
+                        onChanged: (v) {
+                          getIt<TransactionsDetailsBloc>().add(
+                            TransactionsDetailsEvent.dataChanged(
+                              updateTransactionDetailsReq: state
                                   .createDailyTransactionReq
-                                  .copyWith(
-                                    cage: GenericFormzInput.dirty(value),
-                                  ),
+                                  .copyWith(cage: GenericFormzInput.dirty(v)),
                             ),
                           );
                         },
-                        onFieldSubmitted: (_) => buttonFocus.requestFocus(),
+                        onFieldSubmitted: (_) {
+                          buttonFocus.requestFocus();
+                        },
                       ),
                       SizedBox(height: 16.h),
                     ],
@@ -145,8 +127,8 @@ class TransactionDialog {
                       focusNode: buttonFocus,
                       onPressed: isValid
                           ? () {
-                              getIt<DailyTransactionsBloc>().add(
-                                const DailyTransactionsEvent.create(),
+                              getIt<TransactionsDetailsBloc>().add(
+                                const TransactionsDetailsEvent.update(),
                               );
                             }
                           : null,
@@ -158,7 +140,9 @@ class TransactionDialog {
                           Colors.white,
                         ),
                       ),
-                      child: Text('إضافة', style: TextStyle(fontSize: 16.sp)),
+                      child: state.formzSubmissionStatus.isInProgress
+                          ? const CustomCircularProgress()
+                          : Text('إضافة', style: TextStyle(fontSize: 16.sp)),
                     ),
                   ],
                 );

@@ -6,36 +6,32 @@ import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
 import '../../../../../../../core/di/dependency_injection.dart';
 import '../../../../../../../core/widgets/custom_circular_progress.dart';
-import '../../../../../../price_discount/domain/entities/price_discount_entity.dart';
-import '../../../../../../price_discount/domain/entities/price_discount_req_entity.dart';
-import '../../../../../../price_discount/present/update_collection_bloc/update_price_discount_bloc.dart';
+import '../../../../../../daily_orders/domain/entities/create_daily_order_req_entity.dart';
+import '../../../../../../daily_orders/present/bloc/daily_orders_bloc.dart';
 import '../../../../../domain/entities/customer_daily_reports_res_entity.dart';
 
-class PriceDiscountDialog {
+class CustomerNumberDialog {
   static void show({
     required BuildContext context,
     required CustomerEntity customer,
-    required PriceDiscountEntity priceDiscount,
-    required int productId,
   }) {
-    final FocusNode countFocus = FocusNode();
+    final FocusNode numberFocus = FocusNode();
     final FocusNode buttonFocus = FocusNode();
     showDialog(
       context: context,
       builder: (BuildContext context) {
         Future.delayed(Duration.zero, () {
-          countFocus.requestFocus();
+          numberFocus.requestFocus();
         });
-        getIt<PriceDiscountBloc>().add(
-          PriceDiscountEvent.dataChanged(
-            priceDiscountReq: PriceDiscountReqEntity(
-              priceDiscount: priceDiscount,
-              productId: GenericFormzInput.dirty(productId),
-              customerId: GenericFormzInput.dirty(customer.id),
-            ),
-          ),
-        );
-        return BlocConsumer<PriceDiscountBloc, PriceDiscountState>(
+        // getIt<DailyOrdersBloc>().add(
+        //   DailyOrdersEvent.dataChanged(
+        //     createDailyOrderReq: CreateDailyOrderReqEntity(
+        //       productId: GenericFormzInput.dirty(productId),
+        //       customerId: GenericFormzInput.dirty(customer.id),
+        //     ),
+        //   ),
+        // );
+        return BlocConsumer<DailyOrdersBloc, DailyOrdersState>(
           listener: (context, state) {
             state.maybeMap(
               success: (s) {
@@ -48,29 +44,24 @@ class PriceDiscountDialog {
             return state.maybeMap(
               loaded: (state) {
                 return AlertDialog(
-                  title: Text(
-                    ' فرق سعر ${productId == 1 ? "تسمين" : "أمهات"}',
-                    style: TextStyle(fontSize: 16.sp),
-                  ),
+                  title: Text('', style: TextStyle(fontSize: 16.sp)),
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         ' ${customer.name ?? ''}',
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: TextStyle(fontSize: 16.sp),
                       ),
                       SizedBox(height: 16.h),
                       TextFormField(
-                        focusNode: countFocus,
-                        onChanged: (v) {
-                          getIt<PriceDiscountBloc>().add(
-                            PriceDiscountEvent.dataChanged(
-                              priceDiscountReq: state.priceDiscountReq.copyWith(
-                                priceDiscountAmount: GenericFormzInput.dirty(v),
-                              ),
+                        focusNode: numberFocus,
+                        onChanged: (value) {
+                          getIt<DailyOrdersBloc>().add(
+                            DailyOrdersEvent.dataChanged(
+                              createDailyOrderReq: state.createDailyOrderReq
+                                  .copyWith(
+                                    count: GenericFormzInput.dirty(value),
+                                  ),
                             ),
                           );
                         },
@@ -79,7 +70,7 @@ class PriceDiscountDialog {
                           FilteringTextInputFormatter.digitsOnly,
                         ],
                         decoration: const InputDecoration(
-                          labelText: 'فرق السعر',
+                          labelText: 'رفم',
                           border: OutlineInputBorder(),
                         ),
                         onFieldSubmitted: (_) {
@@ -97,17 +88,13 @@ class PriceDiscountDialog {
                     ElevatedButton(
                       focusNode: buttonFocus,
                       onPressed: () {
-                        if (state.formzSubmissionStatus ==
-                            FormzSubmissionStatus.success) {
-                          getIt<PriceDiscountBloc>().add(
-                            const PriceDiscountEvent.update(),
-                          );
-                        }
+                        getIt<DailyOrdersBloc>().add(
+                          const DailyOrdersEvent.create(),
+                        );
                       },
                       style: ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(
-                          state.formzSubmissionStatus ==
-                                  FormzSubmissionStatus.success
+                          state.createDailyOrderReq.isValid
                               ? Colors.green
                               : Colors.grey,
                         ),
@@ -116,7 +103,7 @@ class PriceDiscountDialog {
                         ),
                       ),
                       child:
-                          state.formzSubmissionStatus ==
+                          state.createDailyOrderReq.formzSubmissionStatus ==
                               FormzSubmissionStatus.inProgress
                           ? const CustomCircularProgress()
                           : Text('حفظ', style: TextStyle(fontSize: 16.sp)),

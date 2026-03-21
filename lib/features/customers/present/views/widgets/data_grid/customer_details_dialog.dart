@@ -3,9 +3,10 @@ import '../../../../../../core/utils/date_helpers.dart';
 import '../../../../../price_discount/domain/entities/price_discount_entity.dart';
 import '../../../../domain/entities/customer_daily_reports_res_entity.dart';
 import '../customer_details_dialog/types/customer_info_dialog.dart';
+import '../customer_details_dialog/types/number_dialog.dart';
 import '../customer_details_dialog/types/price_discount_dialog.dart';
-import '../customer_details_dialog/types/return_weight_dialog.dart';
-import '../customer_details_dialog/types/transaction_dialog.dart';
+import '../customer_details_dialog/types/transaction/return_weight_dialog.dart';
+import '../customer_details_dialog/types/transaction/transaction_dialog.dart';
 import '../customer_details_dialog/types/collection/collection_dialog.dart';
 import '../customer_details_dialog/types/order_dialog.dart';
 
@@ -20,13 +21,19 @@ class CustomerDetailsDialog {
   }) {
     switch (index) {
       case 0:
+        CustomerNumberDialog.show(
+          context: context,
+          customer: customerDailyReport.customer!,
+        );
+        break;
+      case 1:
         CustomerInfoDialog.show(
           context: context,
           customer: customerDailyReport.customer!,
           id: customerDailyReport.id!,
         );
         break;
-      case 2:
+      case 3:
         if (productDailyPrices.any((element) {
           return element.product?.id == 1 &&
               element.productDailyprice?.price != null &&
@@ -44,7 +51,7 @@ class CustomerDetailsDialog {
           }
         }
         break;
-      case 3:
+      case 4:
         if (selectedDate.isToday || canInsertPreviusDayData) {
           ReturnWeightDialog.show(
             context: context,
@@ -56,7 +63,7 @@ class CustomerDetailsDialog {
           );
         }
         break;
-      case 4:
+      case 5:
         if (productDailyPrices.any((element) {
           return element.product?.id == 2 &&
               element.productDailyprice?.price != null &&
@@ -74,7 +81,7 @@ class CustomerDetailsDialog {
           }
         }
         break;
-      case 5:
+      case 6:
         if (selectedDate.isToday || canInsertPreviusDayData) {
           ReturnWeightDialog.show(
             context: context,
@@ -86,7 +93,7 @@ class CustomerDetailsDialog {
           );
         }
         break;
-      case 6:
+      case 7:
         if (selectedDate.isToday || canInsertPreviusDayData) {
           CollectionDialog.show(
             context: context,
@@ -96,7 +103,7 @@ class CustomerDetailsDialog {
           );
         }
         break;
-      case 8:
+      case 9:
         if (selectedDate.isToday || canInsertPreviusDayData) {
           OrderDialog.show(
             context: context,
@@ -105,7 +112,7 @@ class CustomerDetailsDialog {
           );
         }
         break;
-      case 9:
+      case 10:
         if (selectedDate.isToday || canInsertPreviusDayData) {
           OrderDialog.show(
             context: context,
@@ -114,7 +121,7 @@ class CustomerDetailsDialog {
           );
         }
         break;
-      case 10:
+      case 11:
         PriceDiscountDialog.show(
           context: context,
           priceDiscount:
@@ -127,7 +134,7 @@ class CustomerDetailsDialog {
           productId: 1,
         );
         break;
-      case 11:
+      case 12:
         PriceDiscountDialog.show(
           context: context,
           priceDiscount:

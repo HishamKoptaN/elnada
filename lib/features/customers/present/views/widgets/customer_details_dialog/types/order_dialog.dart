@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_inputs/form_inputs.dart';
+import 'package:formz/formz.dart';
 import '../../../../../../../core/di/dependency_injection.dart';
+import '../../../../../../../core/widgets/custom_circular_progress.dart';
 import '../../../../../../daily_orders/domain/entities/create_daily_order_req_entity.dart';
 import '../../../../../../daily_orders/present/bloc/daily_orders_bloc.dart';
 import '../../../../../domain/entities/customer_daily_reports_res_entity.dart';
@@ -104,7 +106,11 @@ class OrderDialog {
                           Colors.white,
                         ),
                       ),
-                      child: Text('حفظ', style: TextStyle(fontSize: 16.sp)),
+                      child:
+                          state.createDailyOrderReq.formzSubmissionStatus ==
+                              FormzSubmissionStatus.inProgress
+                          ? const CustomCircularProgress()
+                          : Text('حفظ', style: TextStyle(fontSize: 16.sp)),
                     ),
                   ],
                 );

@@ -643,7 +643,7 @@ $CustomerEntityCopyWith<$Res>? get customer {
 /// @nodoc
 mixin _$CustomerEntity {
 
- int? get id; int? get number; String? get name; String? get phone;
+ int? get id; String? get number; String? get name; String? get phone;
 /// Create a copy of CustomerEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -676,7 +676,7 @@ abstract mixin class $CustomerEntityCopyWith<$Res>  {
   factory $CustomerEntityCopyWith(CustomerEntity value, $Res Function(CustomerEntity) _then) = _$CustomerEntityCopyWithImpl;
 @useResult
 $Res call({
- int? id, int? number, String? name, String? phone
+ int? id, String? number, String? name, String? phone
 });
 
 
@@ -697,7 +697,7 @@ class _$CustomerEntityCopyWithImpl<$Res>
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,number: freezed == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
-as int?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -784,7 +784,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  int? number,  String? name,  String? phone)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  String? number,  String? name,  String? phone)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CustomerEntity() when $default != null:
 return $default(_that.id,_that.number,_that.name,_that.phone);case _:
@@ -805,7 +805,7 @@ return $default(_that.id,_that.number,_that.name,_that.phone);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  int? number,  String? name,  String? phone)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  String? number,  String? name,  String? phone)  $default,) {final _that = this;
 switch (_that) {
 case _CustomerEntity():
 return $default(_that.id,_that.number,_that.name,_that.phone);case _:
@@ -825,7 +825,7 @@ return $default(_that.id,_that.number,_that.name,_that.phone);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  int? number,  String? name,  String? phone)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  String? number,  String? name,  String? phone)?  $default,) {final _that = this;
 switch (_that) {
 case _CustomerEntity() when $default != null:
 return $default(_that.id,_that.number,_that.name,_that.phone);case _:
@@ -844,7 +844,7 @@ class _CustomerEntity implements CustomerEntity {
   factory _CustomerEntity.fromJson(Map<String, dynamic> json) => _$CustomerEntityFromJson(json);
 
 @override final  int? id;
-@override final  int? number;
+@override final  String? number;
 @override final  String? name;
 @override final  String? phone;
 
@@ -881,7 +881,7 @@ abstract mixin class _$CustomerEntityCopyWith<$Res> implements $CustomerEntityCo
   factory _$CustomerEntityCopyWith(_CustomerEntity value, $Res Function(_CustomerEntity) _then) = __$CustomerEntityCopyWithImpl;
 @override @useResult
 $Res call({
- int? id, int? number, String? name, String? phone
+ int? id, String? number, String? name, String? phone
 });
 
 
@@ -902,7 +902,7 @@ class __$CustomerEntityCopyWithImpl<$Res>
   return _then(_CustomerEntity(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,number: freezed == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
-as int?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
 as String?,
   ));

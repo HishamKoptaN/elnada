@@ -1,5 +1,5 @@
 class ApiConstants {
-  // Auth endpoints
+  static const String customers = 'customers';
   static const String customerDailyReports = 'customer-daily-reports';
   static const String products = 'products';
   static const String productsPrice = 'products/price';
@@ -10,8 +10,6 @@ class ApiConstants {
   static const String dailyOrders = 'orders';
   static const String priceDiscounts = 'price-discounts';
   static const String refreshToken = 'refresh-token';
-  // Other endpoints
-  static const String customers = 'customers';
   // Headers
   static const String authToken = 'auth-token';
   static const String contentType = 'Content-Type';

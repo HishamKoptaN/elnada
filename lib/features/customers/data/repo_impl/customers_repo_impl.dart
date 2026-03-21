@@ -1,7 +1,9 @@
+import 'package:abujena_dawajen/features/customers/data/models/create_customer_req_model.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../../../core/networking/api_result.dart';
 import '../../../../../core/errors/api_error_handler.dart';
+import '../../domain/entities/create_customer_req_entity.dart';
 import '../../domain/entities/customer_daily_report_details_res_entity.dart';
 import '../../domain/entities/customer_daily_reports_res_entity.dart';
 import '../../domain/entities/customer_statement_res_entity.dart';
@@ -62,6 +64,27 @@ class CustomersRepoImpl implements CustomersRepo {
       final res = await customersApi.getCustomerDailyReportStatement(
         id: id,
         days: days,
+      );
+      return ApiResult.success(data: res.toEntity());
+    } catch (error, stackTrace) {
+      return ApiResult.failure(
+        apiErrorModel: ApiErrorHandler.handle(
+          error: error,
+          stackTrace: stackTrace,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<ApiResult<CustomerDailyReportEntity>> create({
+    required CreateCustomerReqEntity createCustomerReq,
+  }) async {
+    try {
+      final res = await customersApi.create(
+        createCustomer: CreateCustomerModel.fromEntity(
+          entity: createCustomerReq,
+        ),
       );
       return ApiResult.success(data: res.toEntity());
     } catch (error, stackTrace) {

@@ -37,7 +37,7 @@ abstract class CustomerDailyReportEntity with _$CustomerDailyReportEntity {
 abstract class CustomerEntity with _$CustomerEntity {
   const factory CustomerEntity({
     int? id,
-    int? number,
+    String? number,
     String? name,
     String? phone,
   }) = _CustomerEntity;

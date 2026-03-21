@@ -2,13 +2,13 @@ import 'package:abujena_dawajen/features/customers/domain/entities/customer_dail
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:injectable/injectable.dart';
-import '../../../../../core/errors/api_error_model.dart';
-import '../../../../../core/networking/api_result.dart';
-import '../../data/mappers/customer_daily_reports_res_mapper.dart';
-import '../../data/models/customer_daily_reports_res_model.dart';
-import '../../domain/entities/customer_daily_reports_res_entity.dart';
-import '../../domain/entities/customer_statement_res_entity.dart';
-import '../../domain/usecases/customers_use_cases.dart';
+import '../../../../../../core/errors/api_error_model.dart';
+import '../../../../../../core/networking/api_result.dart';
+import '../../../data/mappers/customer_daily_reports_res_mapper.dart';
+import '../../../data/models/customer_daily_reports_res_model.dart';
+import '../../../domain/entities/customer_daily_reports_res_entity.dart';
+import '../../../domain/entities/customer_statement_res_entity.dart';
+import '../../../domain/usecases/customers_use_cases.dart';
 part 'customers_bloc.freezed.dart';
 part 'customers_event.dart';
 part 'customers_state.dart';
@@ -148,7 +148,8 @@ class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
               );
             },
           );
-        }, print: (List<CustomerDailyReportEntity> reports) {  },
+        },
+        print: (reports) {},
       );
     });
   }

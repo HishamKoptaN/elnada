@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../../core/errors/api_error_model.dart';
 import '../../../../core/networking/api_result.dart';
 import '../../../customers/domain/entities/customer_daily_reports_res_entity.dart';
-import '../../../customers/present/bloc/customers_bloc.dart';
+import '../../../customers/present/blocs/bloc/customers_bloc.dart';
 import '../../domain/entities/price_discount_req_entity.dart';
 import '../../domain/usecases/price_discount_use_cases.dart';
 part 'update_price_discount_bloc.freezed.dart';

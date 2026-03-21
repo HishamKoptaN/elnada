@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../features/customers/present/bloc/customers_bloc.dart';
+import '../../features/customers/present/blocs/bloc/customers_bloc.dart';
 import '../../features/daily_collections/present/bloc/daily_collections_bloc.dart';
 import '../../features/daily_collections/present/update_collection_bloc/update_daily_collections_bloc.dart';
 import '../../features/daily_orders/present/bloc/daily_orders_bloc.dart';

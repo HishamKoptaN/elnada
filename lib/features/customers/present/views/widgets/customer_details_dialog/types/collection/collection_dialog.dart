@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_inputs/form_inputs.dart';
+import 'package:formz/formz.dart';
 import '../../../../../../../../core/di/dependency_injection.dart';
 import '../../../../../../../../core/utils/date_helpers.dart';
+import '../../../../../../../../core/widgets/custom_circular_progress.dart';
 import '../../../../../../../daily_collections/domain/entities/create_daily_collaction_req_entity.dart';
 import '../../../../../../../daily_collections/present/bloc/daily_collections_bloc.dart';
 import '../../../../../../domain/entities/customer_daily_reports_res_entity.dart';
@@ -119,7 +121,11 @@ class CollectionDialog {
                           Colors.white,
                         ),
                       ),
-                      child: Text('حفظ', style: TextStyle(fontSize: 16.sp)),
+                      child:
+                          state.formzSubmissionStatus ==
+                              FormzSubmissionStatus.inProgress
+                          ? const CustomCircularProgress()
+                          : Text('حفظ', style: TextStyle(fontSize: 16.sp)),
                     ),
                   ],
                 );

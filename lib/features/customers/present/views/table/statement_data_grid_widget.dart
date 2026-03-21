@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import '../../bloc/customers_bloc.dart';
+import '../../../../../core/widgets/custom_circular_progress.dart'
+    show CustomCircularProgress;
+import '../../blocs/bloc/customers_bloc.dart';
 import 'statement_data_source.dart';
 
 class StatementDataGridWidget extends StatelessWidget {
@@ -19,21 +21,23 @@ class StatementDataGridWidget extends StatelessWidget {
         return Expanded(
           child: SfDataGrid(
             headerRowHeight: 55.h,
-            columnWidthMode: ColumnWidthMode.fill,
+            columnWidthMode: ColumnWidthMode.fitByColumnName,
             rowHeight: 70.h,
             source: statementDataSource,
             columnWidthCalculationRange: ColumnWidthCalculationRange.allRows,
             columns: [
               GridColumn(
-                columnName: 'التاريخ',
+                columnWidthMode: ColumnWidthMode.auto,
+                columnName: 'الاسم',
                 label: Container(
                   padding: const EdgeInsets.all(8.0),
                   alignment: Alignment.center,
-                  child: Text('التاريخ', style: TextStyle(fontSize: 16.sp)),
+                  child: Text('الاسم', style: TextStyle(fontSize: 16.sp)),
                 ),
               ),
               GridColumn(
                 columnName: 'باقي يوم قبل',
+                columnWidthMode: ColumnWidthMode.fitByCellValue,
                 label: Container(
                   padding: const EdgeInsets.all(8.0),
                   alignment: Alignment.center,
@@ -75,7 +79,7 @@ class StatementDataGridWidget extends StatelessWidget {
         );
       },
       orElse: () =>
-          const Expanded(child: Center(child: CircularProgressIndicator())),
+          const Expanded(child: Center(child: CustomCircularProgress())),
     );
   }
 }

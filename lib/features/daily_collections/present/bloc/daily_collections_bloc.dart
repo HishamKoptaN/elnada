@@ -1,10 +1,12 @@
+import 'package:form_inputs/form_inputs/generic_formz_input.dart';
+import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../../core/errors/api_error_model.dart';
 import '../../../../core/networking/api_result.dart';
 import '../../../customers/domain/entities/customer_daily_reports_res_entity.dart';
-import '../../../customers/present/bloc/customers_bloc.dart';
+import '../../../customers/present/blocs/bloc/customers_bloc.dart';
 import '../../domain/entities/create_daily_collaction_req_entity.dart';
 import '../../domain/usecases/daily_collections_use_cases.dart';
 part 'daily_collections_bloc.freezed.dart';
@@ -30,6 +32,7 @@ class DailyCollectionsBloc
               emitLoaded(
                 emit: emit,
                 createDailyCollectionReq: state.createDailyCollectionReq,
+                formzSubmissionStatus: FormzSubmissionStatus.inProgress,
               );
               final res = await dailyCollectionsUseCases.create(
                 createDailyCollectionReq: state.createDailyCollectionReq,
@@ -40,6 +43,7 @@ class DailyCollectionsBloc
                     emit: emit,
                     createDailyCollectionReq: state.createDailyCollectionReq
                         .copyWith(amount: null),
+                    formzSubmissionStatus: null,
                   );
                   customersBloc.add(
                     CustomersEvent.updateCustomerDailyReport(
@@ -71,10 +75,21 @@ class DailyCollectionsBloc
   void emitLoaded({
     required Emitter<DailyCollectionsState> emit,
     required CreateDailyCollectionReqEntity createDailyCollectionReq,
+    FormzSubmissionStatus? formzSubmissionStatus,
   }) {
     emit(
       DailyCollectionsState.loaded(
         createDailyCollectionReq: createDailyCollectionReq,
+        formzSubmissionStatus:
+            formzSubmissionStatus ??
+            (Formz.validate([
+                  createDailyCollectionReq.customerId,
+                  createDailyCollectionReq.customerId,
+                  createDailyCollectionReq.amount ??
+                      const GenericFormzInput.dirty(''),
+                ])
+                ? FormzSubmissionStatus.success
+                : FormzSubmissionStatus.failure),
       ),
     );
   }

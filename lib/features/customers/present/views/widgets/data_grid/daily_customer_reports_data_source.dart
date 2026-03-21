@@ -10,16 +10,17 @@ class DailyCustomerReportsDataSource extends DataGridSource {
   }) {
     _buildData(customers, isDesktop);
   }
-
   List<DataGridRow> _customerData = [];
-
   @override
   List<DataGridRow> get rows => _customerData;
-
   void _buildData(List<CustomerDailyReportEntity> customers, bool isDesktop) {
     _customerData = customers.map((e) {
       return DataGridRow(
         cells: [
+          DataGridCell<String>(
+            columnName: 'رقم',
+            value: e.customer?.number ?? '',
+          ),
           DataGridCell<String>(
             columnName: 'الاسم',
             value: e.customer?.name ?? '',
