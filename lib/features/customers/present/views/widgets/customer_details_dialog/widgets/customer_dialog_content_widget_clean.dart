@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_esc_pos_utils/flutter_esc_pos_utils.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../domain/entities/customer_daily_report_details_res_entity.dart';
 import '../../../../../domain/entities/customer_daily_reports_res_entity.dart';
@@ -64,14 +63,6 @@ class CustomerDialogContentWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              //    FloatingActionButton(
-              //   heroTag: 'print1',
-              //   onPressed: () async {
-              //     await PrintService.printDataGrid(source: _employeeDataSource);
-              //   },
-              //   backgroundColor: Colors.blue,
-              //   child: Icon(Icons.print, size: 24.sp),
-              // ),
               ElevatedButton.icon(
                 onPressed: () {
                   CustomerInvoicePrintService.printCustomerInvoice(
@@ -79,28 +70,27 @@ class CustomerDialogContentWidget extends StatelessWidget {
                     details: details,
                   );
                 },
-                icon: Icon(Icons.print, size: 18.sp),
-                label: Text('طباعة', style: TextStyle(fontSize: 12.sp)),
+                icon: Icon(Icons.picture_as_pdf, size: 18.sp),
+                label: Text('طباعة PDF', style: TextStyle(fontSize: 12.sp)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.w,
-                    vertical: 6.h,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
                 ),
               ),
               ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  ThermalPrinterService.printThermalInvoice(
+                    customer: customer,
+                    details: details,
+                  );
+                },
                 icon: Icon(Icons.print, size: 18.sp),
-                label: Text('', style: TextStyle(fontSize: 12.sp)),
+                label: Text('طابعة حرارية', style: TextStyle(fontSize: 12.sp)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.w,
-                    vertical: 6.h,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
                 ),
               ),
             ],

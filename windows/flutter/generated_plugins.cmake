@@ -4,10 +4,14 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   auto_updater_windows
+  charset_converter
   connectivity_plus
   flutter_secure_storage_windows
+  flutter_thermal_printer
+  permission_handler_windows
   printing
   share_plus
+  universal_ble
   url_launcher_windows
 )
 

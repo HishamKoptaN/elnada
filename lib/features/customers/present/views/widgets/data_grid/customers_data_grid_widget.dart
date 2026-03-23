@@ -2,16 +2,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import '../../../../../../core/utils/devices_utiles.dart' as devices;
 import '../../../../../../core/widgets/custom_circular_progress.dart';
 import '../../../blocs/bloc/customers_bloc.dart';
 import 'customer_details_dialog.dart';
 import 'daily_customer_reports_data_source.dart';
-import 'package:syncfusion_flutter_xlsio/xlsio.dart'; // المكتبة المطلوبة
 
 class CustomersDataGridWidget extends StatelessWidget {
   CustomersDataGridWidget({
@@ -91,6 +87,61 @@ class CustomersDataGridWidget extends StatelessWidget {
                 );
               },
               columns: _buildColumns(isDesktop: isDesktop),
+              tableSummaryRows: [
+                GridTableSummaryRow(
+                  showSummaryInRow: false,
+                  position: GridTableSummaryRowPosition.bottom,
+                  columns: [
+                    const GridSummaryColumn(
+                      name: 'الاصل',
+                      columnName: 'الاصل',
+                      summaryType: GridSummaryType.sum,
+                    ),
+                    if (isDesktop) ...[
+                      const GridSummaryColumn(
+                        name: 'تسمين',
+                        columnName: 'تسمين',
+                        summaryType: GridSummaryType.sum,
+                      ),
+                      const GridSummaryColumn(
+                        name: 'امهات',
+                        columnName: 'امهات',
+                        summaryType: GridSummaryType.sum,
+                      ),
+                    ],
+                    const GridSummaryColumn(
+                      name: 'مرتجع تسمين',
+                      columnName: 'مرتجع تسمين',
+                      summaryType: GridSummaryType.sum,
+                    ),
+                    const GridSummaryColumn(
+                      name: 'مرتجع امهات',
+                      columnName: 'مرتجع امهات',
+                      summaryType: GridSummaryType.sum,
+                    ),
+                    const GridSummaryColumn(
+                      name: 'التحصيل',
+                      columnName: 'التحصيل',
+                      summaryType: GridSummaryType.sum,
+                    ),
+                    const GridSummaryColumn(
+                      name: 'الصافي',
+                      columnName: 'الصافي',
+                      summaryType: GridSummaryType.sum,
+                    ),
+                    const GridSummaryColumn(
+                      name: 'طلب ت',
+                      columnName: 'طلب ت',
+                      summaryType: GridSummaryType.sum,
+                    ),
+                    const GridSummaryColumn(
+                      name: 'طلب م',
+                      columnName: 'طلب م',
+                      summaryType: GridSummaryType.sum,
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         );
@@ -181,19 +232,19 @@ class CustomersDataGridWidget extends StatelessWidget {
 
   List<GridColumn> _buildColumns({required bool isDesktop}) {
     return [
-      _GridColumn('رقم'),
-      _GridColumn('الاسم'),
-      _GridColumn('الاصل'),
-      if (isDesktop) ...[_GridColumn('تسمين')],
-      _GridColumn('مرتجع تسمين'),
-      if (isDesktop) ...[_GridColumn('امهات')],
-      _GridColumn('مرتجع امهات'),
-      _GridColumn('التحصيل'),
-      _GridColumn('الصافي'),
-      _GridColumn('طلب ت'),
-      _GridColumn('طلب م'),
-      _GridColumn('فرق سعر ت'),
-      _GridColumn('فرق سعر م'),
+      _GridColumn(name: 'رقم', width: 50.w),
+      _GridColumn(name: 'الاسم', width: 150.w),
+      _GridColumn(name: 'الاصل', width: 150.w),
+      if (isDesktop) ...[_GridColumn(name: 'تسمين', width: 125.w)],
+      _GridColumn(name: 'مرتجع تسمين', width: 75.w),
+      if (isDesktop) ...[_GridColumn(name: 'امهات', width: 125.w)],
+      _GridColumn(name: 'مرتجع امهات', width: 75.w),
+      _GridColumn(name: 'التحصيل', width: 150.w),
+      _GridColumn(name: 'الصافي', width: 150.w),
+      _GridColumn(name: 'طلب ت', width: 75.w),
+      _GridColumn(name: 'طلب م', width: 75.w),
+      _GridColumn(name: 'فرق سعر ت', width: 75.w),
+      _GridColumn(name: 'فرق سعر م', width: 75.w),
     ];
   }
 
@@ -215,10 +266,12 @@ class CustomersDataGridWidget extends StatelessWidget {
 }
 
 class _GridColumn extends GridColumn {
-  _GridColumn(String name, [double? width])
+  _GridColumn({required String name, double? width})
     : super(
+        width: width ?? 100.w,
         columnName: name,
         label: Container(
+          width: width,
           padding: const EdgeInsets.all(8.0),
           alignment: Alignment.center,
           child: Text(name, style: TextStyle(fontSize: 16.sp)),

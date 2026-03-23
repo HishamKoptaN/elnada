@@ -25,73 +25,91 @@ class DailyCustomerReportsDataSource extends DataGridSource {
             columnName: 'الاسم',
             value: e.customer?.name ?? '',
           ),
-          DataGridCell<String>(
+          DataGridCell<num>(
             columnName: 'الاصل',
-            value: e.yesterdayClosedBalance ?? '',
+            value: num.tryParse(e.yesterdayClosedBalance ?? ''),
           ),
           if (isDesktop)
-            DataGridCell<String>(
+            DataGridCell<num>(
               columnName: 'تسمين',
               value:
-                  e.productDailyTotals
-                      ?.where((t) => t.productId == 1)
-                      .map((t) => '${t.totalWeight ?? 0}')
-                      .join('\n') ??
-                  '',
+                  num.tryParse(
+                    e.productDailyTotals
+                            ?.where((t) => t.productId == 1)
+                            .map((t) => '${t.totalWeight ?? 0}')
+                            .join('\n') ??
+                        '',
+                  ) ??
+                  0,
             ),
-          DataGridCell<String>(
-            columnName: 'راجع ت',
+          DataGridCell<num>(
+            columnName: 'مرتجع تسمين',
             value:
-                e.returns
-                    ?.where((t) => t.product?.id == 1)
-                    .map((t) => '${t.totalWeight ?? 0}')
-                    .join('\n') ??
-                '',
+                num.tryParse(
+                  e.returns
+                          ?.where((t) => t.product?.id == 1)
+                          .map((t) => '${t.totalWeight ?? 0}')
+                          .join('\n') ??
+                      '',
+                ) ??
+                0,
           ),
           if (isDesktop)
-            DataGridCell<String>(
+            DataGridCell<num>(
               columnName: 'امهات',
               value:
-                  e.productDailyTotals
-                      ?.where((t) => t.productId == 2)
-                      .map((t) => '${t.totalWeight ?? 0}')
-                      .join('\n') ??
-                  '',
+                  num.tryParse(
+                    e.productDailyTotals
+                            ?.where((t) => t.productId == 2)
+                            .map((t) => '${t.totalWeight ?? 0}')
+                            .join('\n') ??
+                        '0',
+                  ) ??
+                  0,
             ),
-          DataGridCell<String>(
-            columnName: 'راجع م',
+          DataGridCell<num>(
+            columnName: 'مرتجع امهات',
             value:
-                e.returns
-                    ?.where((t) => t.product?.id == 2)
-                    .map((t) => '${t.totalWeight ?? 0}')
-                    .join('\n') ??
-                '',
+                num.tryParse(
+                  e.returns
+                          ?.where((t) => t.product?.id == 2)
+                          .map((t) => '${t.totalWeight ?? 0}')
+                          .join('\n') ??
+                      '0',
+                ) ??
+                0,
           ),
-          DataGridCell<String>(
+          DataGridCell<num>(
             columnName: 'التحصيل',
-            value: e.totalCollections ?? '',
+            value: num.tryParse(e.totalCollections ?? '0') ?? 0,
           ),
-          DataGridCell<String>(
+          DataGridCell<num>(
             columnName: 'الصافي',
-            value: e.closingBalance?.toString() ?? '',
+            value: num.tryParse(e.closingBalance?.toString() ?? '0') ?? 0,
           ),
-          DataGridCell<String>(
+          DataGridCell<num>(
             columnName: 'طلب ت',
             value:
-                e.productOrders
-                    ?.where((t) => t.productId == 1)
-                    .map((t) => '${t.totalCount ?? 0}')
-                    .join('\n') ??
-                '',
+                num.tryParse(
+                  e.productOrders
+                          ?.where((t) => t.productId == 1)
+                          .map((t) => '${t.totalCount ?? 0}')
+                          .join('\n') ??
+                      '0',
+                ) ??
+                0,
           ),
-          DataGridCell<String>(
+          DataGridCell<num>(
             columnName: 'طلب م',
             value:
-                e.productOrders
-                    ?.where((t) => t.productId == 2)
-                    .map((t) => '${t.totalCount ?? 0}')
-                    .join('\n') ??
-                '',
+                num.tryParse(
+                  e.productOrders
+                          ?.where((t) => t.productId == 2)
+                          .map((t) => '${t.totalCount ?? 0}')
+                          .join('\n') ??
+                      '0',
+                ) ??
+                0,
           ),
           DataGridCell<String>(
             columnName: 'فرق سعر ت',
@@ -122,6 +140,27 @@ class DailyCustomerReportsDataSource extends DataGridSource {
   }) {
     _buildData(customers, isDesktop);
     notifyListeners();
+  }
+
+  @override
+  Widget? buildTableSummaryCellWidget(
+    GridTableSummaryRow summaryRow,
+    GridSummaryColumn? summaryColumn,
+    RowColumnIndex rowColumnIndex,
+    String summaryValue,
+  ) {
+    return Container(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.all(8),
+      child: Text(
+        summaryValue,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16.sp,
+          color: Colors.green,
+        ),
+      ),
+    );
   }
 
   @override

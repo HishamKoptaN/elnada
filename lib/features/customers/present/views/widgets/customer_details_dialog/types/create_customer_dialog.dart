@@ -40,6 +40,7 @@ class CreateCustomerDialog {
                     ),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
+                      spacing: 15.h,
                       children: [
                         TextFormField(
                           focusNode: nameFocus,
@@ -84,7 +85,6 @@ class CreateCustomerDialog {
                             buttonFocus.requestFocus();
                           },
                         ),
-                        const SizedBox(height: 16),
                       ],
                     ),
                     actions: [
