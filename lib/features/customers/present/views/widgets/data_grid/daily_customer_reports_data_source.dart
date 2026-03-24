@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import '../../../../../../core/common/utils/number_formatter.dart';
 import '../../../../domain/entities/customer_daily_reports_res_entity.dart';
 
 class DailyCustomerReportsDataSource extends DataGridSource {
@@ -43,7 +45,7 @@ class DailyCustomerReportsDataSource extends DataGridSource {
                   0,
             ),
           DataGridCell<num>(
-            columnName: 'مرتجع تسمين',
+            columnName: 'راجع تسمين',
             value:
                 num.tryParse(
                   e.returns
@@ -68,7 +70,7 @@ class DailyCustomerReportsDataSource extends DataGridSource {
                   0,
             ),
           DataGridCell<num>(
-            columnName: 'مرتجع امهات',
+            columnName: 'راجع امهات',
             value:
                 num.tryParse(
                   e.returns
@@ -149,11 +151,15 @@ class DailyCustomerReportsDataSource extends DataGridSource {
     RowColumnIndex rowColumnIndex,
     String summaryValue,
   ) {
+    final double? value = double.tryParse(summaryValue);
+    final String formattedValue = value != null
+        ? NumberFormat('#,###.##', 'en_US').format(value)
+        : summaryValue;
     return Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.all(8),
       child: Text(
-        summaryValue,
+        formattedValue,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 16.sp,
@@ -193,7 +199,7 @@ class DailyCustomerReportsDataSource extends DataGridSource {
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            e.value.toString(),
+            NumberFormatter.format(e.value),
             style: TextStyle(fontSize: 18.sp, color: getTextColor()),
           ),
         );

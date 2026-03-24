@@ -70,26 +70,6 @@ class _CustomersViewState extends State<CustomersView> {
           ],
         ),
       ),
-      // persistentFooterButtons: [
-      //   Padding(
-      //     padding: const EdgeInsets.all(2.5),
-      //     child: MaterialButton(
-      //       onPressed: () async {},
-      //       color: Colors.green,
-      //       child: Row(
-      //         mainAxisSize: MainAxisSize.min,
-      //         children: [
-      //           Icon(Icons.add, size: 20.sp, color: Colors.white),
-      //           SizedBox(width: 8.w),
-      //           Text(
-      //             'زبون جديد',
-      //             style: TextStyle(fontSize: 16.sp, color: Colors.white),
-      //           ),
-      //         ],
-      //       ),
-      //     ),
-      //   ),
-      // ],
     );
   }
 }

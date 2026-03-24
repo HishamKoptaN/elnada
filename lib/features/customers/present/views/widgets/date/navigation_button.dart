@@ -17,9 +17,15 @@ class NavigationNextButton extends StatelessWidget {
   final IconData icon;
   @override
   Widget build(BuildContext context) {
-    final currentDate =
-        state.mapOrNull(loaded: (s) => s.selectedDate) ?? DateTime.now();
-    final targetDate = currentDate.add(const Duration(days: 1));
+    final targetDate =
+        state
+            .mapOrNull(
+              loaded: (s) {
+                return s.selectedDate;
+              },
+            )
+            ?.add(const Duration(days: 1)) ??
+        DateTime.now();
     final dayName = DateFormat('EEEE', 'ar').format(targetDate);
     final bool isFuture =
         targetDate.isAfter(DateTime.now()) &&
@@ -68,9 +74,15 @@ class NavigationPreviousButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentDate =
-        state.mapOrNull(loaded: (s) => s.selectedDate) ?? DateTime.now();
-    final targetDate = currentDate.subtract(const Duration(days: 1));
+    final targetDate =
+        state
+            .mapOrNull(
+              loaded: (s) {
+                return s.selectedDate;
+              },
+            )
+            ?.subtract(const Duration(days: 1)) ??
+        DateTime.now();
     final dayName = DateFormat('EEEE', 'ar').format(targetDate);
     final bool passed = targetDate.isBefore(DateTime(2026, 3, 13));
     if (passed) {

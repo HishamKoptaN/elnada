@@ -1,4 +1,6 @@
 import 'package:abujena_dawajen/features/customers/domain/entities/customer_daily_report_details_res_entity.dart';
+import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -151,7 +153,7 @@ class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
         },
         print: (reports) {},
       );
-    });
+    }, transformer: restartable());
   }
   final CustomersUseCases customersUseCases;
   @override
@@ -191,8 +193,12 @@ class CustomersBloc extends HydratedBloc<CustomersEvent, CustomersState> {
   @override
   Map<String, dynamic>? toJson(CustomersState state) {
     return state.when(
-      initial: () => {'type': 'initial'},
-      loading: () => {'type': 'loading'},
+      initial: () {
+        return {'type': 'initial'};
+      },
+      loading: () {
+        return {'type': 'loading'};
+      },
       loaded:
           (
             selectedDate,
