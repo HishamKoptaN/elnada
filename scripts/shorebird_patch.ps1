@@ -4,22 +4,7 @@ if ($pubspec -match 'version:\s*([^\s]+)') {
     $currentVersion = $matches[1].Trim()
     Write-Host "🔍 Current Version: $currentVersion" -ForegroundColor Cyan
     
-    # Extract version and build number
-    if ($currentVersion -match '^(.+)\+(\d+)$') {
-        $version = $matches[1]
-        $buildNumber = [int]$matches[2] + 1
-        $newVersion = "$version+$buildNumber"
-        
-        Write-Host "📝 Bumping version to: $newVersion" -ForegroundColor Yellow
-        
-        # Update pubspec.yaml
-        (Get-Content pubspec.yaml) -replace "version:\s*$currentVersion", "version: $newVersion" | Set-Content pubspec.yaml
-        
-        echo "FULL_VERSION=$newVersion" >> $env:GITHUB_ENV
-    } else {
-        echo "FULL_VERSION=$currentVersion" >> $env:GITHUB_ENV
-        $newVersion = $currentVersion
-    }
+    echo "FULL_VERSION=$currentVersion" >> $env:GITHUB_ENV
 } else {
     Write-Error "❌ Could not find version in pubspec.yaml"
     exit 1
@@ -35,12 +20,26 @@ $TARGET_ID = if ($flavor -eq "prod") {
 (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
 Write-Host "✅ App ID Switched to: $TARGET_ID" -ForegroundColor Green
 
-Write-Host "🚀 Creating PATCH with new version..."
-shorebird patch windows --release-version=$newVersion --dart-define=ENV=$flavor --verbose
+Write-Host "🚀 Trying PATCH first..."
+shorebird patch windows --release-version=$currentVersion --dart-define=ENV=$flavor --verbose
 
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "❌ Patch failed!" -ForegroundColor Red
-    exit 1
+    # If patch fails due to existing version, try with --force
+    Write-Host "📦 Patch failed (version exists) → trying with --force" -ForegroundColor Yellow
+    shorebird patch windows --release-version=$currentVersion --dart-define=ENV=$flavor --verbose --force
+    
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "📦 Force patch failed → fallback to RELEASE" -ForegroundColor Yellow
+        shorebird release windows --dart-define=ENV=$flavor --verbose
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "❌ All attempts failed!" -ForegroundColor Red
+            exit 1
+        } else {
+            Write-Host "✅ Release succeeded" -ForegroundColor Green
+        }
+    } else {
+        Write-Host "✅ Force patch succeeded" -ForegroundColor Green
+    }
 } else {
-    Write-Host "✅ Patch succeeded with version $newVersion" -ForegroundColor Green
+    Write-Host "✅ Patch succeeded" -ForegroundColor Green
 }
