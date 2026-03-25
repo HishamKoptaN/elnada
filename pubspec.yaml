@@ -1,7 +1,7 @@
 name: abujena_dawajen
 description: "abujena dawajen"
 publish_to: 'none'
-version: 1.0.0+2
+version: 1.0.0+1
 environment:
   sdk: ^3.11.0
 dependencies:
