@@ -20,26 +20,18 @@ $TARGET_ID = if ($flavor -eq "prod") {
 (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
 Write-Host "✅ App ID Switched to: $TARGET_ID" -ForegroundColor Green
 
-Write-Host "🚀 Trying PATCH first..."
-shorebird patch windows --release-version=$currentVersion --dart-define=ENV=$flavor --verbose
+Write-Host "🚀 Trying PATCH with --force (for existing version)..."
+shorebird patch windows --release-version=$currentVersion --dart-define=ENV=$flavor --verbose --force
 
 if ($LASTEXITCODE -ne 0) {
-    # If patch fails due to existing version, try with --force
-    Write-Host "📦 Patch failed (version exists) → trying with --force" -ForegroundColor Yellow
-    shorebird patch windows --release-version=$currentVersion --dart-define=ENV=$flavor --verbose --force
-    
+    Write-Host "📦 Force patch failed → fallback to RELEASE" -ForegroundColor Yellow
+    shorebird release windows --dart-define=ENV=$flavor --verbose
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "📦 Force patch failed → fallback to RELEASE" -ForegroundColor Yellow
-        shorebird release windows --dart-define=ENV=$flavor --verbose
-        if ($LASTEXITCODE -ne 0) {
-            Write-Host "❌ All attempts failed!" -ForegroundColor Red
-            exit 1
-        } else {
-            Write-Host "✅ Release succeeded" -ForegroundColor Green
-        }
+        Write-Host "❌ All attempts failed!" -ForegroundColor Red
+        exit 1
     } else {
-        Write-Host "✅ Force patch succeeded" -ForegroundColor Green
+        Write-Host "✅ Release succeeded" -ForegroundColor Green
     }
 } else {
-    Write-Host "✅ Patch succeeded" -ForegroundColor Green
+    Write-Host "✅ Force patch succeeded" -ForegroundColor Green
 }
