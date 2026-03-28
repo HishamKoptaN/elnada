@@ -60,17 +60,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-flutter-build-
 
-      - run: |
-          cd .github/scripts/automation_tool
+      - name: Prepare Automation Tool
+        working-directory: .github/scripts/automation_tool
+        run: |
           dart pub get
           dart run build_runner build --delete-conflicting-outputs
 
       - id: deploy_logic
+        name: Execute Deploy Logic
+        working-directory: .github/scripts/automation_tool
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
           FLAVOR: ${{ github.ref_name }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-        working-directory: .github/scripts/automation_tool
         run: dart bin/main.dart deploy
 
       - if: steps.deploy_logic.outputs.is_new_release == 'true'
@@ -98,14 +100,10 @@ jobs:
           git push
 
       - if: steps.deploy_logic.outputs.is_new_release == 'true'
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
-      - if: steps.deploy_logic.outputs.is_new_release == 'true'
+        name: Firebase Cleanup
+        working-directory: .github/scripts/automation_tool
         env:
           FIREBASE_PROJECT_NUMBER: "448994699498"
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
-        run: |
-          cd .github/scripts/automation_tool
-          dart bin/main.dart cleanup
+        run: dart bin/main.dart cleanup
         continue-on-error: true
