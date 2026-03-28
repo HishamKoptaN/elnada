@@ -46,14 +46,13 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    final configModule = _$ConfigModule();
     final dioModule = _$DioModule();
+    final configModule = _$ConfigModule();
     gh.singleton<_i534.DeployBloc>(() => _i534.DeployBloc());
     gh.singleton<_i475.FirebaseLocalDataSource>(
         () => _i475.FirebaseLocalDataSource());
     gh.singleton<_i44.ShorebirdLocalDataSource>(
         () => _i44.ShorebirdLocalDataSource());
-    gh.singleton<_i494.DeploymentConfig>(() => configModule.deploymentConfig);
     gh.singleton<_i361.Dio>(() => dioModule.dio);
     gh.singleton<String>(
       () => configModule.projectRoot,
@@ -83,6 +82,12 @@ extension GetItInjectableX on _i174.GetIt {
       () => configModule.appId,
       instanceName: 'appId',
     );
+    gh.singleton<_i494.DeploymentConfig>(() => configModule.getDeploymentConfig(
+          gh<String>(instanceName: 'flavor'),
+          gh<String>(instanceName: 'shorebirdToken'),
+          gh<String>(instanceName: 'firebaseToken'),
+          gh<String>(instanceName: 'githubRepository'),
+        ));
     gh.singleton<_i112.ShorebirdRepo>(() => _i166.ShorebirdRepoImpl(
           localDataSource: gh<_i44.ShorebirdLocalDataSource>(),
           apiService: gh<_i250.ShorebirdApiService>(),
@@ -112,6 +117,6 @@ extension GetItInjectableX on _i174.GetIt {
   }
 }
 
-class _$ConfigModule extends _i194.ConfigModule {}
-
 class _$DioModule extends _i479.DioModule {}
+
+class _$ConfigModule extends _i194.ConfigModule {}
