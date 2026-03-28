@@ -1,52 +1,123 @@
 name: Distribute Main
 on:
     push:
-        branches: [prod, dev]
+        branches: [test, test]
 jobs:
     build_desktop:
         runs-on: windows-latest
         environment: ${{ github.ref_name }}
+        outputs:
+            full_version: ${{ steps.version.outputs.full_version }}
         steps:
-            - uses: actions/checkout@v4
+            - name: Checkout code
+              uses: actions/checkout@v4
               with:
                   fetch-depth: 0
-            - uses: shorebirdtech/setup-shorebird@v1
+
+            - name: Setup Shorebird
+              uses: shorebirdtech/setup-shorebird@v1
               with:
                   cache: true
-            - uses: subosito/flutter-action@v2
+
+            - name: Setup Flutter
+              uses: subosito/flutter-action@v2
               with:
                   channel: stable
                   cache: true
-            - run: shorebird upgrade
-            - run: git config --system core.longpaths true
-            - shell: pwsh
-              env:
-                  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+
+            - name: Configure Git
+              run: git config --system core.longpaths true
+
+            - name: Upgrade Shorebird
+              run: shorebird upgrade
+
+            # === VERSION DETECTION PHASE ===
+            - name: Extract version info
+              id: version
+              shell: pwsh
               run: |
                   $pubspec = Get-Content pubspec.yaml | Out-String
                   if ($pubspec -match 'version:\s*([^\s]+)') {
                       $version = $matches[1].Trim()
+                      echo "full_version=$version" >> $env:GITHUB_OUTPUT
                       echo "FULL_VERSION=$version" >> $env:GITHUB_ENV
+                      echo "ORIGINAL_VERSION=$version" >> $env:GITHUB_ENV
                       Write-Host "🔍 Target Version: $version" -ForegroundColor Cyan
                   } else {
                       Write-Error "❌ Could not find version in pubspec.yaml"
                       exit 1
                   }
+
+            # === SHOREBIRD DEPLOYMENT PHASE ===
+            - name: Deploy with Shorebird
+              shell: pwsh
+              env:
+                  SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+              run: |
+                  $version = "${{ env.FULL_VERSION }}"
                   $flavor = "${{ github.ref_name }}"
                   $TARGET_ID = if ($flavor -eq "prod") { 
                       "ed427ccb-5edb-4594-a376-2ee9636bef4e" 
                   } else { 
                       "e962126d-ee7a-48f2-b89d-fb0349f4a05f" 
                   }
+
+                  # Switch App ID
                   (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
                   Write-Host "✅ App ID Switched to: $TARGET_ID" -ForegroundColor Green
-                  Write-Host "🚀 Trying PATCH first..."
+
+                  # Try PATCH first
+                  Write-Host "🚀 Attempting Shorebird PATCH for version $version..." -ForegroundColor Cyan
                   shorebird patch windows --release-version=$version --dart-define=ENV=$flavor --verbose
+
                   if ($LASTEXITCODE -ne 0) {
-                      Write-Host "📦 Patch failed → fallback to RELEASE" -ForegroundColor Yellow
-                      shorebird release windows --dart-define=ENV=$flavor --verbose
+                      Write-Host "⚠️ Patch failed. Checking if we need to create a new RELEASE..." -ForegroundColor Yellow
+
+                      # Check if the error is about version already exists
+                      $errorOutput = shorebird release windows --dart-define=ENV=$flavor --verbose 2>&1
+                      if ($errorOutput -match "existing.*release.*version.*Please bump your version number") {
+                          Write-Host "🔄 Version $version already exists. Auto-bumping version..." -ForegroundColor Yellow
+
+                          # Auto-bump version
+                          $versionParts = $version.Split('+')
+                          if ($versionParts.Count -eq 2) {
+                              $baseVersion = $versionParts[0]
+                              $buildNumber = [int]$versionParts[1]
+                              $newBuildNumber = $buildNumber + 1
+                              $newVersion = "$baseVersion+$newBuildNumber"
+
+                              Write-Host "📈 Bumping version to: $newVersion" -ForegroundColor Green
+
+                              # Update pubspec.yaml
+                              (Get-Content pubspec.yaml) -replace "version:\s*$version", "version: $newVersion" | Set-Content pubspec.yaml
+
+                              # Update environment variable
+                              echo "FULL_VERSION=$newVersion" >> $env:GITHUB_ENV
+
+                              # Commit and push version bump
+                              git config --global user.name "github-actions[bot]"
+                              git config --global user.email "github-actions[bot]@users.noreply.github.com"
+                              git add pubspec.yaml
+                              git commit -m "chore: bump version to $newVersion for $flavor release [skip ci]"
+                              git push origin $flavor
+
+                              Write-Host "🚀 Now creating new RELEASE with version $newVersion..." -ForegroundColor Cyan
+                              shorebird release windows --dart-define=ENV=$flavor --verbose
+
+                              if ($LASTEXITCODE -ne 0) {
+                                  Write-Host "❌ Release failed even after version bump" -ForegroundColor Red
+                                  exit 1
+                              } else {
+                                  Write-Host "✅ Release succeeded with new version $newVersion" -ForegroundColor Green
+                              }
+                          } else {
+                              Write-Host "❌ Invalid version format: $version" -ForegroundColor Red
+                              exit 1
+                          }
+                      }
+
                       if ($LASTEXITCODE -ne 0) {
-                          Write-Host "❌ Both PATCH and RELEASE failed!" -ForegroundColor Red
+                          Write-Host "❌ Failed to Patch or Release. Check the logs above for specific errors." -ForegroundColor Red
                           exit 1
                       } else {
                           Write-Host "✅ Release succeeded" -ForegroundColor Green
@@ -54,7 +125,38 @@ jobs:
                   } else {
                       Write-Host "✅ Patch succeeded" -ForegroundColor Green
                   }
-            - shell: pwsh
+
+    # === INSTALLER AND RELEASE PHASE ===
+    build_and_release:
+        needs: build_desktop
+        runs-on: windows-latest
+        environment: ${{ github.ref_name }}
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Configure Git
+              run: git config --system core.longpaths true
+
+            # === INSTALLER PREPARATION PHASE ===
+            - name: Prepare installer template
+              shell: pwsh
+              run: |
+                  $issPath = "./installers/abujena_setup.iss"
+                  if (Test-Path $issPath) {
+                      $issContent = Get-Content $issPath -Raw
+                      $newIssContent = $issContent -replace "APP_VERSION_PLACEHOLDER", "${{ needs.build_desktop.outputs.full_version }}"
+                      [System.IO.File]::WriteAllText((Get-Item $issPath).FullName, $newIssContent)
+                      Write-Host "✅ Installer template prepared" -ForegroundColor Green
+                  } else {
+                      Write-Warning "⚠️ ISS file not found at $issPath. Skipping template preparation."
+                  }
+
+            # === INSTALLER BUILD PHASE ===
+            - name: Build installer
+              shell: pwsh
               run: |
                   try {
                     Write-Host "🔨 Compiling installer..."
@@ -64,15 +166,30 @@ jobs:
                     Write-Host "❌ Installer compilation failed: $_"
                     exit 1
                   }
-            - shell: pwsh
+
+            # === ASSET PREPARATION PHASE ===
+            - name: Prepare final assets
+              id: prepare_final_assets
+              shell: pwsh
               run: |
-                  $version = "${{ env.FULL_VERSION }}"
+                  $newName = if ("${{ github.ref_name }}" -eq "dev") { "abujena_dawajen_dev.exe" } else { "abujena_dawajen.exe" }
+                  $setupFile = Get-ChildItem "installers/*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+                  Rename-Item -Path $setupFile.FullName -NewName $newName
+                  echo "FINAL_FILE_NAME=$newName" >> $env:GITHUB_ENV
+                  Write-Host "✅ Final asset prepared: $newName" -ForegroundColor Green
+
+            # === APPCAST UPDATE PHASE ===
+            - name: Update appcast
+              shell: pwsh
+              run: |
+                  $version = "${{ needs.build_desktop.outputs.full_version }}"
                   $fileName = "${{ env.FINAL_FILE_NAME }}"
                   $filePath = "installers/$fileName"
                   $fileLength = if (Test-Path $filePath) { (Get-Item $filePath).Length } else { 0 }
                   $url = "https://github.com/${{ github.repository }}/releases/latest/download/$fileName"
                   $xmlPath = "desktop_appcast.xml"
                   $currentDate = Get-Date -Format "ddd, dd MMM yyyy HH:mm:ss K"
+
                   if (Test-Path $xmlPath) {
                     $content = Get-Content $xmlPath -Raw
                     $content = $content -replace 'sparkle:version="[^"]*"', "sparkle:version=""$version"""
@@ -82,37 +199,25 @@ jobs:
                     $content = $content -replace '<title>Version [^<]*</title>', "<title>Version $version</title>"
                     $content = $content -replace '<pubDate>[^<]*</pubDate>', "<pubDate>$currentDate</pubDate>"
                     [System.IO.File]::WriteAllText((Get-Item $xmlPath).FullName, $content)
+                    
                     git config --global user.name "github-actions[bot]"
                     git config --global user.email "github-actions[bot]@users.noreply.github.com"
                     git add $xmlPath
                     git commit -m "chore: sync appcast to $version [skip ci]" || echo "No changes"
                     git push origin ${{ github.ref_name }}
+                    
+                    Write-Host "✅ Appcast updated" -ForegroundColor Green
+                  } else {
+                    Write-Warning "⚠️ Appcast file not found. Skipping update."
                   }
 
-            - shell: pwsh
-              run: |
-                  $issPath = "./installers/abujena_setup.iss"
-                  if (Test-Path $issPath) {
-                      $issContent = Get-Content $issPath -Raw
-                      $newIssContent = $issContent -replace "APP_VERSION_PLACEHOLDER", "${{ env.FULL_VERSION }}"
-                      [System.IO.File]::WriteAllText((Get-Item $issPath).FullName, $newIssContent)
-                      Write-Host "🔨 Compiling Installer..."
-                      & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" $issPath
-                  } else {
-                      Write-Warning "⚠️ ISS file not found at $issPath. Skipping compilation."
-                  }
-            - id: prepare_final_assets
-              shell: pwsh
-              run: |
-                  $newName = if ("${{ github.ref_name }}" -eq "dev") { "abujena_dawajen_dev.exe" } else { "abujena_dawajen.exe" }
-                  $setupFile = Get-ChildItem "installers/*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-                  Rename-Item -Path $setupFile.FullName -NewName $newName
-                  echo "FINAL_FILE_NAME=$newName" >> $env:GITHUB_ENV
-            - uses: softprops/action-gh-release@v2
+            # === RELEASE PHASE ===
+            - name: Create GitHub Release
+              uses: softprops/action-gh-release@v2
               with:
                   tag_name: latest
                   name: "Latest (${{ github.ref_name }})"
-                  body: "Version: ${{ env.FULL_VERSION }}"
+                  body: "Version: ${{ needs.build_desktop.outputs.full_version }}"
                   files: installers/${{ env.FINAL_FILE_NAME }}
                   make_latest: true
                   prerelease: ${{ github.ref_name == 'dev' }}
