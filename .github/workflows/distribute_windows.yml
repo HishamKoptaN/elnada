@@ -20,6 +20,9 @@ jobs:
 
       - uses: shorebirdtech/setup-shorebird@v1
 
+      - name: Configure Git for long paths
+        run: git config --system core.longpaths true
+
       - uses: actions/cache@v4
         with:
           path: ~/.shorebird
@@ -33,7 +36,7 @@ jobs:
       - name: Shorebird Release Windows
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-        run: shorebird release windows --flavor=${{ github.ref_name }}
+        run: shorebird release windows
 
       - name: Find Shorebird Build Output
         id: find_build
