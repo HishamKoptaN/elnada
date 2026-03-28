@@ -1,6 +1,5 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'build_state.freezed.dart';
+part of 'build_bloc.dart';
 
 /// States for Build BLoC
 @freezed

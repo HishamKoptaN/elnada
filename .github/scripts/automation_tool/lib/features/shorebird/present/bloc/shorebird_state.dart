@@ -1,9 +1,5 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:abujena_automation/features/shorebird/domain/entities/version_info.dart';
+part of 'shorebird_bloc.dart';
 
-part 'shorebird_state.freezed.dart';
-
-/// States for Shorebird BLoC
 @freezed
 class ShorebirdState with _$ShorebirdState {
   const factory ShorebirdState.initial() = ShorebirdStateInitial;

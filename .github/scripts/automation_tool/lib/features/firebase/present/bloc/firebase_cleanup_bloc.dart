@@ -2,10 +2,11 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
 import '../../domain/usecases/firebase_usecases.dart';
-import 'firebase_cleanup_event.dart';
-import 'firebase_cleanup_state.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+part 'firebase_cleanup_bloc.freezed.dart';
+part 'firebase_cleanup_event.dart';
+part 'firebase_cleanup_state.dart';
 
-/// BLoC for Firebase cleanup operations
 @injectable
 class FirebaseCleanupBloc
     extends Bloc<FirebaseCleanupEvent, FirebaseCleanupState> {

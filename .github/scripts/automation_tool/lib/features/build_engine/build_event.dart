@@ -1,6 +1,5 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'build_event.freezed.dart';
+part of 'build_bloc.dart';
 
 /// Events for Build BLoC
 @freezed

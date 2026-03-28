@@ -2,25 +2,19 @@ import 'package:injectable/injectable.dart';
 import '../entities/deployment_config.dart';
 import '../entities/deployment_result.dart';
 import '../entities/version_info.dart';
-import '../repositories/shorebird_repo.dart';
+import '../../repos/shorebird_repo.dart';
 
-/// Use cases for Shorebird deployment operations
 @singleton
 class ShorebirdUseCases {
   final ShorebirdRepo _repo;
-
   ShorebirdUseCases(this._repo);
-
-  /// Deploy a patch if possible
   Future<DeploymentResult> deployPatch(DeploymentConfig config) async {
     final isPossible = await _repo.isPatchPossible(config);
-
     if (!isPossible) {
       return const DeploymentResult.failure(
         reason: 'Patch not possible - no existing release found',
       );
     }
-
     try {
       await _repo.executePatch(config);
       return const DeploymentResult.patch();
@@ -29,20 +23,17 @@ class ShorebirdUseCases {
     }
   }
 
-  /// Deploy a release if possible
   Future<DeploymentResult> deployRelease(
     DeploymentConfig config,
     VersionInfo version,
   ) async {
     final isPossible = await _repo.isReleasePossible(config);
-
     if (!isPossible) {
       return DeploymentResult.failure(
         reason:
             'Release not possible - version ${version.cleanVersion} may already exist',
       );
     }
-
     try {
       await _repo.executeRelease(config);
       return DeploymentResult.release(version: version.cleanVersion);
@@ -51,12 +42,10 @@ class ShorebirdUseCases {
     }
   }
 
-  /// Get existing releases
   Future<List<VersionInfo>> getExistingReleases(DeploymentConfig config) async {
     return await _repo.getExistingReleases(config);
   }
 
-  /// Check if version exists
   Future<bool> versionExists(
     DeploymentConfig config,
     VersionInfo version,

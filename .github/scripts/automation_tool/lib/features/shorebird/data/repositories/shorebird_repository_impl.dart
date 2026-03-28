@@ -2,13 +2,13 @@ import 'package:injectable/injectable.dart';
 import '../../domain/entities/deployment_config.dart';
 import '../../domain/entities/deployment_result.dart';
 import '../../domain/entities/version_info.dart';
-import '../../domain/repositories/shorebird_repo.dart';
+import '../../domain/repos/shorebird_repo.dart';
 import '../datasources/shorebird_local_datasource.dart';
 import '../datasources/shorebird_api_service.dart';
 
 /// Repository implementation for Shorebird
 @Singleton(as: ShorebirdRepo)
-class ShorebirdRepoImpl implements ShorebirdRepo   {
+class ShorebirdRepoImpl implements ShorebirdRepo {
   final ShorebirdLocalDataSource _localDataSource;
   final ShorebirdApiService? _apiService;
 

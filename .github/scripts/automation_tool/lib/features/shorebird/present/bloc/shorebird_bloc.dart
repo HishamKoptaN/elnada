@@ -5,10 +5,12 @@ import 'package:abujena_automation/features/shorebird/domain/entities/deployment
 import 'package:abujena_automation/features/shorebird/domain/entities/deployment_result.dart';
 import 'package:abujena_automation/features/shorebird/domain/entities/version_info.dart';
 import 'package:abujena_automation/features/shorebird/domain/usecases/shorebird_usecases.dart';
-import 'shorebird_event.dart';
-import 'shorebird_state.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:abujena_automation/features/shorebird/domain/entities/version_info.dart';
+part 'shorebird_bloc.freezed.dart';
+part 'shorebird_event.dart';
+part 'shorebird_state.dart';
 
-/// BLoC for Shorebird deployment management
 @injectable
 class ShorebirdBloc extends Bloc<ShorebirdEvent, ShorebirdState> {
   final ShorebirdUseCases _useCases;

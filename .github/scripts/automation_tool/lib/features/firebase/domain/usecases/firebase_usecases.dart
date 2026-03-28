@@ -1,5 +1,5 @@
 import 'package:injectable/injectable.dart';
-import '../../data/repositories/firebase_repo.dart';
+import '../../data/repos/firebase_repo.dart';
 
 /// Use cases for Firebase operations
 @singleton

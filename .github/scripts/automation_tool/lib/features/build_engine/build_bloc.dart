@@ -1,8 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'build_engine.dart';
-import 'build_event.dart';
-import 'build_state.dart';
+part 'build_bloc.freezed.dart';
+part 'build_event.dart';
+part 'build_state.dart';
 
 @singleton
 class BuildBloc extends Bloc<BuildEvent, BuildState> {

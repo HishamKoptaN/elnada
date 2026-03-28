@@ -1,8 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-part 'deploy_event.freezed.dart';
-
-/// Events for Deployment orchestrator BLoC
+part of 'deploy_bloc.dart';
 @freezed
 class DeployEvent with _$DeployEvent {
   const factory DeployEvent.startDeployment() = DeployEventStartDeployment;

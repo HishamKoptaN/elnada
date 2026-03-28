@@ -1,9 +1,5 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:abujena_automation/features/shorebird/domain/entities/version_info.dart';
+part of 'deploy_bloc.dart';
 
-part 'deploy_state.freezed.dart';
-
-/// States for Deployment orchestrator BLoC
 @freezed
 class DeployState with _$DeployState {
   const factory DeployState.initial() = DeployStateInitial;

@@ -1,8 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-part 'shorebird_event.freezed.dart';
-
-/// Events for Shorebird BLoC
+part of 'shorebird_bloc.dart';
 @freezed
 class ShorebirdEvent with _$ShorebirdEvent {
   const factory ShorebirdEvent.started() = ShorebirdEventStarted;

@@ -2,10 +2,13 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:abujena_automation/features/shorebird/domain/entities/version_info.dart';
-import 'deploy_event.dart';
-import 'deploy_state.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:abujena_automation/features/shorebird/domain/entities/version_info.dart';
 
-/// Unified orchestrator BLoC that manages the entire deployment flow
+part 'deploy_bloc.freezed.dart';
+part 'deploy_event.dart';
+part 'deploy_state.dart';
+
 @singleton
 class DeployBloc extends Bloc<DeployEvent, DeployState> {
   DeployBloc() : super(const DeployState.initial()) {
