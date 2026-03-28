@@ -70,6 +70,7 @@ jobs:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
           FLAVOR: ${{ github.ref_name }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+        working-directory: .github/scripts/automation_tool
         run: dart bin/main.dart deploy
 
       - if: steps.deploy_logic.outputs.is_new_release == 'true'
