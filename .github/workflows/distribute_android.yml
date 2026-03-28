@@ -65,7 +65,12 @@ jobs:
           FLAVOR: ${{ github.ref_name }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           PROJECT_ROOT: ${{ github.workspace }}
-        run: dart .github/scripts/automation_tool/bin/main.dart deploy
+        run: |
+          dart .github/scripts/automation_tool/bin/main.dart deploy
+          echo "=== Deployment Outputs ==="
+          echo "is_new_release: ${{ steps.deploy_logic.outputs.is_new_release }}"
+          echo "version: ${{ steps.deploy_logic.outputs.version }}"
+          echo "apk_path: ${{ steps.deploy_logic.outputs.apk_path }}"
 
       - if: steps.deploy_logic.outputs.is_new_release == 'true'
         uses: wzieba/Firebase-Distribution-Github-Action@v1

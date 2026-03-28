@@ -8,6 +8,16 @@ import 'package:abujena_automation/features/build_engine/build_bloc.dart';
 import 'package:abujena_automation/features/shorebird/present/bloc/shorebird_bloc.dart';
 import 'package:abujena_automation/features/firebase/present/bloc/firebase_cleanup_bloc.dart';
 
+void setGithubOutput(String name, String value) {
+  final githubOutput = Platform.environment['GITHUB_OUTPUT'];
+  if (githubOutput != null && githubOutput.isNotEmpty) {
+    final file = File(githubOutput);
+    file.writeAsStringSync('$name=$value\n', mode: FileMode.append);
+  }
+  // Fallback to legacy syntax for compatibility
+  print('::set-output name=$name::$value');
+}
+
 void main(List<String> arguments) async {
   configureDependencies();
 
@@ -75,8 +85,8 @@ Future<void> _runFullDeployment() async {
         isNewRelease = true;
 
         // Set GitHub Actions outputs
-        print('::set-output name=is_new_release::true');
-        print('::set-output name=version::${version.cleanVersion}');
+        setGithubOutput('is_new_release', 'true');
+        setGithubOutput('version', version.cleanVersion);
 
         deployBloc.reportReleaseSuccess(version);
       },
@@ -177,7 +187,7 @@ Future<void> _runBuildOnly() async {
       building: (platform) => print('📦 بناء $platform...'),
       success: (platform, outputPath) {
         print('✅ تم بناء $platform: $outputPath');
-        print('::set-output name=apk_path::$outputPath');
+        setGithubOutput('apk_path', outputPath);
         if (!completer.isCompleted) completer.complete();
       },
       failure: (platform, error) {
@@ -202,8 +212,8 @@ Future<void> _runCleanupOnly() async {
       loading: () => print('🧹 تنظيف Firebase...'),
       success: (deleted, remaining) {
         print('✅ تم حذف $deleted إصدار - $remaining متبقي');
-        print('::set-output name=deleted_count::$deleted');
-        print('::set-output name=remaining_count::$remaining');
+        setGithubOutput('deleted_count', deleted.toString());
+        setGithubOutput('remaining_count', remaining.toString());
         if (!completer.isCompleted) completer.complete();
       },
       failure: (error) {
