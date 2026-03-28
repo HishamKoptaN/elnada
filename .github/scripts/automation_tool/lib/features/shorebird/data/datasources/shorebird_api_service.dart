@@ -1,24 +1,31 @@
-import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
-part 'shorebird_api_service.g.dart';
+/// Dio-based API service for Shorebird
+class ShorebirdApiService {
+  final Dio _dio;
 
-/// Retrofit API service for Shorebird
-@RestApi()
-abstract class ShorebirdApiService {
-  factory ShorebirdApiService(Dio dio, {String baseUrl}) = _ShorebirdApiService;
+  ShorebirdApiService(this._dio);
 
-  @GET('/releases')
-  Future<List<ReleaseInfo>> getReleases(
-    @Header('Authorization') String token,
-    @Query('app_id') String appId,
-  );
+  Future<List<ReleaseInfo>> getReleases(String token, String appId) async {
+    final response = await _dio.get(
+      '/releases',
+      queryParameters: {'app_id': appId},
+      options: Options(headers: {'Authorization': token}),
+    );
 
-  @POST('/patches')
-  Future<void> createPatch(
-    @Header('Authorization') String token,
-    @Body() PatchRequest request,
-  );
+    final List<dynamic> releases = response.data as List<dynamic>;
+    return releases
+        .map((e) => ReleaseInfo.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<void> createPatch(String token, PatchRequest request) async {
+    await _dio.post(
+      '/patches',
+      data: request.toJson(),
+      options: Options(headers: {'Authorization': token}),
+    );
+  }
 }
 
 /// Release information model
@@ -34,16 +41,16 @@ class ReleaseInfo {
   });
 
   factory ReleaseInfo.fromJson(Map<String, dynamic> json) => ReleaseInfo(
-        version: json['version'] as String,
-        platform: json['platform'] as String,
-        createdAt: DateTime.parse(json['created_at'] as String),
-      );
+    version: json['version'] as String,
+    platform: json['platform'] as String,
+    createdAt: DateTime.parse(json['created_at'] as String),
+  );
 
   Map<String, dynamic> toJson() => {
-        'version': version,
-        'platform': platform,
-        'created_at': createdAt.toIso8601String(),
-      };
+    'version': version,
+    'platform': platform,
+    'created_at': createdAt.toIso8601String(),
+  };
 }
 
 /// Patch request model
@@ -59,8 +66,8 @@ class PatchRequest {
   });
 
   Map<String, dynamic> toJson() => {
-        'app_id': appId,
-        'version': version,
-        'platform': platform,
-      };
+    'app_id': appId,
+    'version': version,
+    'platform': platform,
+  };
 }

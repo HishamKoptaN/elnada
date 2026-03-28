@@ -1,26 +1,37 @@
-import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 import '../domain/entities/firebase_release.dart';
 
-part 'firebase_api_service.g.dart';
+/// Dio-based API service for Firebase App Distribution
+class FirebaseApiService {
+  final Dio _dio;
 
-/// Retrofit API service for Firebase App Distribution
-@RestApi()
-abstract class FirebaseApiService {
-  factory FirebaseApiService(Dio dio, {String baseUrl}) = _FirebaseApiService;
+  FirebaseApiService(this._dio);
 
-  @GET('/v1/projects/{projectNumber}/apps/{appId}/releases')
   Future<List<FirebaseRelease>> getReleases(
-    @Header('Authorization') String auth,
-    @Path('projectNumber') String projectNumber,
-    @Path('appId') String appId,
-  );
+    String auth,
+    String projectNumber,
+    String appId,
+  ) async {
+    final response = await _dio.get(
+      '/v1/projects/$projectNumber/apps/$appId/releases',
+      options: Options(headers: {'Authorization': auth}),
+    );
 
-  @DELETE('/v1/projects/{projectNumber}/apps/{appId}/releases/{releaseId}')
+    final List<dynamic> releases = response.data['releases'] ?? [];
+    return releases
+        .map((e) => FirebaseRelease.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
   Future<void> deleteRelease(
-    @Header('Authorization') String auth,
-    @Path('projectNumber') String projectNumber,
-    @Path('appId') String appId,
-    @Path('releaseId') String releaseId,
-  );
+    String auth,
+    String projectNumber,
+    String appId,
+    String releaseId,
+  ) async {
+    await _dio.delete(
+      '/v1/projects/$projectNumber/apps/$appId/releases/$releaseId',
+      options: Options(headers: {'Authorization': auth}),
+    );
+  }
 }
