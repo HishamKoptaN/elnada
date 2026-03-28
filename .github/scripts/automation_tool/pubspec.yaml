@@ -2,24 +2,19 @@ name: abujena_automation
 description: نظام أتمتة بناء وتوزيع تطبيق أبوجنى باستخدام Clean Architecture و BLoC
 version: 1.0.0
 publish_to: 'none'
-
 environment:
   sdk: '>=3.0.0 <4.0.0'
-
 dependencies:
   dio: ^5.4.0
   get_it: ^7.6.4
   bloc: ^8.1.2
   injectable: ^2.4.2
-  
   freezed_annotation: ^2.4.1
   json_annotation: ^4.8.1
-  
   process_run: ^1.1.0
   args: ^2.4.2
   yaml: ^3.1.2
   path: ^1.9.0
-
 dev_dependencies:
   build_runner: ^2.4.8
   freezed: ^2.4.7

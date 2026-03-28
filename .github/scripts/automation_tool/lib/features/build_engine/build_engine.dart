@@ -14,10 +14,10 @@ class BuildEngine {
     String flavor = 'prod',
     bool release = true,
   }) async {
+    final args = ['build', 'apk', '--flavor=$flavor', if (release) '--release'];
+
     print('🔨 Building Android APK (flavor: $flavor) in $_projectRoot...');
     print('   Running: flutter ${args.join(" ")}');
-
-    final args = ['build', 'apk', '--flavor=$flavor', if (release) '--release'];
 
     final result = await runExecutableArguments(
       'flutter',
