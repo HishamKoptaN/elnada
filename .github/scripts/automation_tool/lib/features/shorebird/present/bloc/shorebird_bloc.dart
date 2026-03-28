@@ -48,6 +48,15 @@ class ShorebirdBloc extends Bloc<ShorebirdEvent, ShorebirdState> {
 
       if (releases.isEmpty) {
         // No existing release, need to create one
+        // Set a default version for new release
+        _currentVersion = const VersionInfo(
+          fullVersion: '1.0.0+1',
+          cleanVersion: '1.0.0',
+          major: 1,
+          minor: 0,
+          patch: 0,
+          buildNumber: 1,
+        );
         emit(const ShorebirdState.releaseReady());
         return;
       }
