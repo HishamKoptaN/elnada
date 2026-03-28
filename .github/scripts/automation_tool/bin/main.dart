@@ -117,6 +117,8 @@ Future<void> _runFullDeployment() async {
       success: (platform, outputPath) {
         apkPath = outputPath;
         print('   ✅ $platform تم بنجاح');
+        // Notify DeployBloc that build completed
+        deployBloc.reportBuildSuccess(outputPath);
       },
       failure: (platform, error) {
         print('   ❌ فشل بناء $platform: $error');

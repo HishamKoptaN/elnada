@@ -1,4 +1,4 @@
-name: Build Windows Desktop
+name: Distribute Windows
 on:
   push:
     branches: [prod, dev]
