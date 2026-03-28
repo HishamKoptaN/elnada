@@ -33,7 +33,7 @@ class BuildBloc extends Bloc<BuildEvent, BuildState> {
 
     try {
       final apkPath = await _buildEngine.buildAndroid(
-        flavor: event.flavor ?? 'production',
+        flavor: event.flavor ?? 'prod',
       );
       emit(BuildState.success(platform: 'Android', outputPath: apkPath));
     } catch (e) {

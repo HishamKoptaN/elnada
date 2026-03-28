@@ -22,17 +22,13 @@ class DeployBloc extends Bloc<DeployEvent, DeployState> {
     Emitter<DeployState> emit,
   ) async {
     emit(const DeployState.loading(message: 'Starting deployment...'));
-
-    // Step 1: Build
     add(const DeployEvent.startBuild());
   }
-
   Future<void> _onStartBuild(
     DeployEventStartBuild event,
     Emitter<DeployState> emit,
   ) async {
     emit(const DeployState.building());
-    // Build is handled by BuildBloc, main.dart will call reportBuildSuccess when done
   }
 
   Future<void> _onStartCleanup(
@@ -40,18 +36,11 @@ class DeployBloc extends Bloc<DeployEvent, DeployState> {
     Emitter<DeployState> emit,
   ) async {
     emit(const DeployState.cleaningFirebase());
-
-    // Cleanup is handled by FirebaseCleanupBloc
-    // This state signals the main.dart to trigger cleanup
   }
-
-  /// Report build success from BuildBloc
   void reportBuildSuccess(String outputPath) {
     emit(DeployState.buildSuccess(outputPath: outputPath));
     emit(const DeployState.checkingVersion());
   }
-
-  /// Report patch success from ShorebirdBloc
   void reportPatchSuccess() {
     emit(const DeployState.patchSuccess());
     emit(const DeployState.completed());

@@ -6,13 +6,17 @@ import 'config.dart';
 @module
 abstract class ConfigModule {
   @singleton
-  DeploymentConfig get deploymentConfig {
-    final config = AutomationConfig.fromEnvironment();
+  DeploymentConfig getDeploymentConfig(
+    @Named('flavor') String flavor,
+    @Named('shorebirdToken') String shorebirdToken,
+    @Named('firebaseToken') String firebaseToken,
+    @Named('githubRepository') String githubRepository,
+  ) {
     return DeploymentConfig(
-      flavor: config.flavor,
-      shorebirdToken: config.shorebirdToken,
-      firebaseToken: config.firebaseToken,
-      githubRepository: config.githubRepository,
+      flavor: flavor,
+      shorebirdToken: shorebirdToken,
+      firebaseToken: firebaseToken.isEmpty ? null : firebaseToken,
+      githubRepository: githubRepository,
     );
   }
 
