@@ -12,6 +12,7 @@ import 'features/shorebird/data/repositories/shorebird_repository_impl.dart';
 import 'features/shorebird/domain/repositories/shorebird_repository.dart';
 import 'features/shorebird/domain/usecases/shorebird_usecases.dart';
 import 'features/shorebird/presentation/bloc/shorebird_bloc.dart';
+import 'features/shorebird/domain/entities/deployment_config.dart';
 
 // Firebase Feature
 import 'features/firebase/data/datasources/firebase_api_service.dart';

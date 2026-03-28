@@ -2,14 +2,16 @@ import 'dart:io';
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import '../lib/service_locator.dart';
-import '../lib/core/config.dart';
-import '../lib/features/deploy/deploy_bloc.dart';
-import '../lib/features/build_engine/build_bloc.dart';
-import '../lib/features/shorebird/presentation/bloc/shorebird_bloc.dart';
-import '../lib/features/shorebird/presentation/bloc/shorebird_event.dart';
-import '../lib/features/firebase/presentation/bloc/firebase_cleanup_bloc.dart';
-import '../lib/features/firebase/presentation/bloc/firebase_cleanup_event.dart';
+import 'package:abujena_automation/service_locator.dart';
+import 'package:abujena_automation/core/config.dart';
+import 'package:abujena_automation/features/deploy/deploy_bloc.dart';
+import 'package:abujena_automation/features/deploy/deploy_event.dart';
+import 'package:abujena_automation/features/build_engine/build_bloc.dart';
+import 'package:abujena_automation/features/build_engine/build_event.dart';
+import 'package:abujena_automation/features/shorebird/presentation/bloc/shorebird_bloc.dart';
+import 'package:abujena_automation/features/shorebird/presentation/bloc/shorebird_event.dart';
+import 'package:abujena_automation/features/firebase/presentation/bloc/firebase_cleanup_bloc.dart';
+import 'package:abujena_automation/features/firebase/presentation/bloc/firebase_cleanup_event.dart';
 
 /// Main entry point for the automation tool
 ///
@@ -69,7 +71,7 @@ Future<void> _runFullDeployment() async {
       buildSuccess: (outputPath) {
         apkPath = outputPath;
         print('✅ تم البناء: $outputPath');
-        deployBloc.reportBuildSuccess();
+        deployBloc.reportBuildSuccess(outputPath);
       },
       checkingVersion: () {
         print('🔍 فحص الإصدار...');

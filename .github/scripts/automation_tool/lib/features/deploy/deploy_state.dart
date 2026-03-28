@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../shorebird/domain/entities/version_info.dart';
+import 'package:abujena_automation/features/shorebird/domain/entities/version_info.dart';
 
 part 'deploy_state.freezed.dart';
 
@@ -7,9 +7,11 @@ part 'deploy_state.freezed.dart';
 @freezed
 class DeployState with _$DeployState {
   const factory DeployState.initial() = DeployStateInitial;
-  const factory DeployState.loading({required String message}) = DeployStateLoading;
+  const factory DeployState.loading({required String message}) =
+      DeployStateLoading;
   const factory DeployState.building() = DeployStateBuilding;
-  const factory DeployState.buildSuccess({required String outputPath}) = DeployStateBuildSuccess;
+  const factory DeployState.buildSuccess({required String outputPath}) =
+      DeployStateBuildSuccess;
   const factory DeployState.checkingVersion() = DeployStateCheckingVersion;
   const factory DeployState.deployingPatch() = DeployStateDeployingPatch;
   const factory DeployState.patchSuccess() = DeployStatePatchSuccess;
@@ -19,7 +21,8 @@ class DeployState with _$DeployState {
     required bool isNewRelease,
   }) = DeployStateReleaseSuccess;
   const factory DeployState.cleaningFirebase() = DeployStateCleaningFirebase;
-  const factory DeployState.cleanupSuccess({required int deletedCount}) = DeployStateCleanupSuccess;
+  const factory DeployState.cleanupSuccess({required int deletedCount}) =
+      DeployStateCleanupSuccess;
   const factory DeployState.failure({
     required String step,
     required String error,

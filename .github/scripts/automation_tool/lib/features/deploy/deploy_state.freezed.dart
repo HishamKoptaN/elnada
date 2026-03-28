@@ -1637,6 +1637,8 @@ abstract class _$$DeployStateReleaseSuccessImplCopyWith<$Res> {
       __$$DeployStateReleaseSuccessImplCopyWithImpl<$Res>;
   @useResult
   $Res call({VersionInfo version, bool isNewRelease});
+
+  $VersionInfoCopyWith<$Res> get version;
 }
 
 /// @nodoc
@@ -1653,11 +1655,11 @@ class __$$DeployStateReleaseSuccessImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? version = freezed,
+    Object? version = null,
     Object? isNewRelease = null,
   }) {
     return _then(_$DeployStateReleaseSuccessImpl(
-      version: freezed == version
+      version: null == version
           ? _value.version
           : version // ignore: cast_nullable_to_non_nullable
               as VersionInfo,
@@ -1666,6 +1668,16 @@ class __$$DeployStateReleaseSuccessImplCopyWithImpl<$Res>
           : isNewRelease // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
+  }
+
+  /// Create a copy of DeployState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $VersionInfoCopyWith<$Res> get version {
+    return $VersionInfoCopyWith<$Res>(_value.version, (value) {
+      return _then(_value.copyWith(version: value));
+    });
   }
 }
 
@@ -1690,14 +1702,13 @@ class _$DeployStateReleaseSuccessImpl implements DeployStateReleaseSuccess {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DeployStateReleaseSuccessImpl &&
-            const DeepCollectionEquality().equals(other.version, version) &&
+            (identical(other.version, version) || other.version == version) &&
             (identical(other.isNewRelease, isNewRelease) ||
                 other.isNewRelease == isNewRelease));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(version), isNewRelease);
+  int get hashCode => Object.hash(runtimeType, version, isNewRelease);
 
   /// Create a copy of DeployState
   /// with the given fields replaced by the non-null parameter values.

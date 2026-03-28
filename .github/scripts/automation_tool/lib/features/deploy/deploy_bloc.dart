@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import '../shorebird/domain/entities/version_info.dart';
+import 'package:abujena_automation/features/shorebird/domain/entities/version_info.dart';
 import 'deploy_event.dart';
 import 'deploy_state.dart';
 

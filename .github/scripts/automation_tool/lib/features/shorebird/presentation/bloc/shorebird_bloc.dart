@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import '../../domain/entities/deployment_config.dart';
-import '../../domain/entities/deployment_result.dart';
-import '../../domain/entities/version_info.dart';
-import '../../domain/usecases/shorebird_usecases.dart';
+import 'package:abujena_automation/features/shorebird/domain/entities/deployment_config.dart';
+import 'package:abujena_automation/features/shorebird/domain/entities/deployment_result.dart';
+import 'package:abujena_automation/features/shorebird/domain/entities/version_info.dart';
+import 'package:abujena_automation/features/shorebird/domain/usecases/shorebird_usecases.dart';
 import 'shorebird_event.dart';
 import 'shorebird_state.dart';
 

@@ -1,4 +1,4 @@
-import '../data/repositories/firebase_repository.dart';
+import '../../data/repositories/firebase_repository.dart';
 
 /// Use cases for Firebase operations
 class FirebaseUseCases {
@@ -12,11 +12,7 @@ class FirebaseUseCases {
     String token, {
     int keepLatest = 3,
   }) async {
-    await _repository.deleteOldReleases(
-      appId,
-      token,
-      keepLatest: keepLatest,
-    );
+    await _repository.deleteOldReleases(appId, token, keepLatest: keepLatest);
   }
 
   /// Get release count
