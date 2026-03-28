@@ -14,7 +14,8 @@ class BuildEngine {
     String flavor = 'prod',
     bool release = true,
   }) async {
-    print('🔨 Building Android APK (flavor: $flavor)...');
+    print('🔨 Building Android APK (flavor: $flavor) in $_projectRoot...');
+    print('   Running: flutter ${args.join(" ")}');
 
     final args = ['build', 'apk', '--flavor=$flavor', if (release) '--release'];
 
@@ -25,8 +26,12 @@ class BuildEngine {
     );
 
     if (result.exitCode != 0) {
+      print('   ❌ Build failed with exit code ${result.exitCode}');
+      print('   Stderr: ${result.stderr}');
       throw Exception('Android build failed: ${result.stderr}');
     }
+    print('   ✅ Build succeeded');
+    print('   Output: ${result.stdout}');
 
     // Find APK path from output
     final output = result.stdout.toString();
@@ -36,11 +41,14 @@ class BuildEngine {
       // Default path based on flavor
       final defaultPath =
           '$_projectRoot/build/app/outputs/flutter-apk/app-$flavor-release.apk';
+      print('   🔍 Looking for APK at: $defaultPath');
       if (File(defaultPath).existsSync()) {
+        print('   ✅ Found APK at default path');
         return defaultPath;
       }
       throw Exception('APK not found after build');
     }
+    print('   ✅ Found APK at: $apkPath');
 
     return apkPath;
   }
