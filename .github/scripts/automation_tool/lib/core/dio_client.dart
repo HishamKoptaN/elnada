@@ -1,10 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:injectable/injectable.dart';
 
 /// Dio client configuration for API calls
-@singleton
 class DioClient {
-  @factoryMethod
   static Dio create({String? baseUrl}) {
     final dio = Dio(
       BaseOptions(

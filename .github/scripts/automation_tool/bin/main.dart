@@ -1,21 +1,17 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:abujena_automation/service_locator.dart';
+import 'package:abujena_automation/injection.dart';
 import 'package:abujena_automation/core/config.dart';
 import 'package:abujena_automation/features/deploy/deploy_bloc.dart';
-import 'package:abujena_automation/features/deploy/deploy_event.dart';
 import 'package:abujena_automation/features/build_engine/build_bloc.dart';
-import 'package:abujena_automation/features/build_engine/build_event.dart';
 import 'package:abujena_automation/features/shorebird/present/bloc/shorebird_bloc.dart';
-import 'package:abujena_automation/features/shorebird/present/bloc/shorebird_event.dart';
 import 'package:abujena_automation/features/firebase/present/bloc/firebase_cleanup_bloc.dart';
-import 'package:abujena_automation/features/firebase/present/bloc/firebase_cleanup_event.dart';
 
 void main(List<String> arguments) async {
-  setupLocator();
+  configureDependencies();
 
-  final config = getIt<AutomationConfig>();
+  final config = AutomationConfig.fromEnvironment();
   final command = arguments.isNotEmpty ? arguments.first : 'deploy';
 
   try {
@@ -33,9 +29,8 @@ void main(List<String> arguments) async {
         exit(1);
     }
   } catch (e, stackTrace) {
-    if (Platform.environment['DEBUG'] == 'true') {
-      print(stackTrace);
-    }
+    print('Error: $e');
+    print(stackTrace);
     exit(1);
   }
 }

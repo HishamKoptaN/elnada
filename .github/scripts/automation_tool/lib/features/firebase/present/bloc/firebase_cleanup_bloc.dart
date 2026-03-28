@@ -16,8 +16,8 @@ class FirebaseCleanupBloc
 
   FirebaseCleanupBloc({
     required FirebaseUseCases useCases,
-    required String appId,
-    required String token,
+    @Named('appId') required String appId,
+    @Named('shorebirdToken') required String token,
   }) : _useCases = useCases,
        _appId = appId,
        _token = token,

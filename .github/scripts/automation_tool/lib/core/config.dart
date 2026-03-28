@@ -1,7 +1,5 @@
 import 'dart:io';
-import 'package:injectable/injectable.dart';
 
-@singleton
 class AutomationConfig {
   final String projectRoot;
   final String shorebirdToken;

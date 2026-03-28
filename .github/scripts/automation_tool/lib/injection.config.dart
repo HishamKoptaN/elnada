@@ -13,9 +13,7 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
-import 'core/config.dart' as _i934;
 import 'core/config_module.dart' as _i194;
-import 'core/dio_client.dart' as _i951;
 import 'core/dio_module.dart' as _i479;
 import 'features/build_engine/build_bloc.dart' as _i304;
 import 'features/build_engine/build_engine.dart' as _i883;
@@ -57,10 +55,34 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i44.ShorebirdLocalDataSource());
     gh.singleton<_i494.DeploymentConfig>(() => configModule.deploymentConfig);
     gh.singleton<_i361.Dio>(() => dioModule.dio);
+    gh.singleton<String>(
+      () => configModule.projectRoot,
+      instanceName: 'projectRoot',
+    );
+    gh.singleton<String>(
+      () => configModule.flavor,
+      instanceName: 'flavor',
+    );
+    gh.singleton<String>(
+      () => configModule.firebaseToken,
+      instanceName: 'firebaseToken',
+    );
+    gh.singleton<String>(
+      () => configModule.githubRepository,
+      instanceName: 'githubRepository',
+    );
+    gh.singleton<String>(
+      () => configModule.shorebirdToken,
+      instanceName: 'shorebirdToken',
+    );
     gh.singleton<_i1007.FirebaseApiService>(
         () => _i1007.FirebaseApiService(gh<_i361.Dio>()));
     gh.singleton<_i250.ShorebirdApiService>(
         () => _i250.ShorebirdApiService(gh<_i361.Dio>()));
+    gh.singleton<String>(
+      () => configModule.appId,
+      instanceName: 'appId',
+    );
     gh.singleton<_i112.ShorebirdRepo>(() => _i166.ShorebirdRepoImpl(
           localDataSource: gh<_i44.ShorebirdLocalDataSource>(),
           apiService: gh<_i250.ShorebirdApiService>(),
@@ -68,19 +90,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i524.ShorebirdUseCases>(
         () => _i524.ShorebirdUseCases(gh<_i112.ShorebirdRepo>()));
     gh.singleton<_i883.BuildEngine>(
-        () => _i883.BuildEngine(projectRoot: gh<String>()));
-    gh.singleton<_i951.DioClient>(
-        () => _i951.DioClient.create(baseUrl: gh<String>()));
+        () => _i883.BuildEngine(gh<String>(instanceName: 'projectRoot')));
     gh.singleton<_i427.FirebaseRepo>(() => _i427.FirebaseRepo(
           apiService: gh<_i1007.FirebaseApiService>(),
           localDataSource: gh<_i475.FirebaseLocalDataSource>(),
-        ));
-    gh.singleton<_i934.AutomationConfig>(() => _i934.AutomationConfig(
-          projectRoot: gh<String>(),
-          shorebirdToken: gh<String>(),
-          firebaseToken: gh<String>(),
-          flavor: gh<String>(),
-          githubRepository: gh<String>(),
         ));
     gh.factory<_i1063.ShorebirdBloc>(() => _i1063.ShorebirdBloc(
           useCases: gh<_i524.ShorebirdUseCases>(),
@@ -90,8 +103,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i418.FirebaseUseCases(gh<_i427.FirebaseRepo>()));
     gh.factory<_i338.FirebaseCleanupBloc>(() => _i338.FirebaseCleanupBloc(
           useCases: gh<_i418.FirebaseUseCases>(),
-          appId: gh<String>(),
-          token: gh<String>(),
+          appId: gh<String>(instanceName: 'appId'),
+          token: gh<String>(instanceName: 'shorebirdToken'),
         ));
     gh.singleton<_i304.BuildBloc>(
         () => _i304.BuildBloc(buildEngine: gh<_i883.BuildEngine>()));

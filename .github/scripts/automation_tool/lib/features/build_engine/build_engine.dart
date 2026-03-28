@@ -1,18 +1,17 @@
+import 'dart:io';
 import 'package:injectable/injectable.dart';
 import 'package:process_run/process_run.dart';
-import 'dart:io';
 
 /// Build engine for Flutter apps
 @singleton
 class BuildEngine {
   final String _projectRoot;
 
-  BuildEngine({String? projectRoot})
-    : _projectRoot = projectRoot ?? Directory.current.path;
+  BuildEngine(@Named('projectRoot') this._projectRoot);
 
   /// Build Android APK
   Future<String> buildAndroid({
-    String flavor = 'production',
+    String flavor = 'prod',
     bool release = true,
   }) async {
     print('🔨 Building Android APK (flavor: $flavor)...');

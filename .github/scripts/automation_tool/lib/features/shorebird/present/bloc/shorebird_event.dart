@@ -1,4 +1,5 @@
 part of 'shorebird_bloc.dart';
+
 @freezed
 class ShorebirdEvent with _$ShorebirdEvent {
   const factory ShorebirdEvent.started() = ShorebirdEventStarted;
