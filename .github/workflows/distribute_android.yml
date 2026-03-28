@@ -73,6 +73,13 @@ jobs:
           echo "apk_path: ${{ steps.deploy_logic.outputs.apk_path }}"
 
       - if: steps.deploy_logic.outputs.is_new_release == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk-${{ github.ref_name }}
+          path: build/app/outputs/flutter-apk/*.apk
+          retention-days: 30
+
+      - if: steps.deploy_logic.outputs.is_new_release == 'true'
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
