@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:injectable/injectable.dart';
+import 'package:yaml/yaml.dart';
 import '../features/shorebird/domain/entities/deployment_config.dart';
 import 'config.dart';
 
@@ -22,7 +23,10 @@ abstract class ConfigModule {
 
   @Named('projectRoot')
   @singleton
-  String get projectRoot => Directory.current.path;
+  String get projectRoot {
+    final envRoot = Platform.environment['PROJECT_ROOT'];
+    return envRoot ?? Directory.current.path;
+  }
 
   @Named('shorebirdToken')
   @singleton
@@ -51,13 +55,30 @@ abstract class ConfigModule {
   @singleton
   String get appId {
     final flavor = Platform.environment['FLAVOR'] ?? 'prod';
+    final shorebirdYaml = File('shorebird.yaml');
+    if (shorebirdYaml.existsSync()) {
+      try {
+        final content = shorebirdYaml.readAsStringSync();
+        final yaml = loadYaml(content);
+        final flavors = yaml['flavors'] as YamlMap?;
+        if (flavors != null && flavors.containsKey(flavor)) {
+          return flavors[flavor] as String;
+        }
+        // fallback to default app_id if no flavor match
+        final appId = yaml['app_id'] as String?;
+        if (appId != null) return appId;
+      } catch (e) {
+        // ignore and fallback to hardcoded
+      }
+    }
+    // fallback hardcoded values
     switch (flavor) {
       case 'prod':
-        return '1:123456789:android:production';
-      case 'staging':
-        return '1:123456789:android:staging';
+        return 'ed427ccb-5edb-4594-a376-2ee9636bef4e';
+      case 'dev':
+        return 'e962126d-ee7a-48f2-b89d-fb0349f4a05f';
       default:
-        return '1:123456789:android:development';
+        return 'ed427ccb-5edb-4594-a376-2ee9636bef4e';
     }
   }
 }
