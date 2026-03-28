@@ -24,9 +24,11 @@ class ShorebirdLocalDataSource {
   /// Execute patch
   Future<void> executePatch(DeploymentConfig config) async {
     print('🚀 Executing patch for flavor: ${config.flavor}');
+    final args = ['patch', 'android', '--flavor=${config.flavor}', '--force'];
+    print('   Running: shorebird ${args.join(" ")}');
     final result = await runExecutableArguments(
       'shorebird',
-      ['patch', '--flavor=${config.flavor}', '--force'],
+      args,
       environment: {'SHOREBIRD_TOKEN': config.shorebirdToken},
     );
 
@@ -68,9 +70,12 @@ class ShorebirdLocalDataSource {
   /// Execute release
   Future<void> executeRelease(DeploymentConfig config) async {
     print('🚀 Executing release for flavor: ${config.flavor}');
+    // Shorebird uses --flavor flag but format may vary by version
+    final args = ['release', 'android', '--flavor=${config.flavor}'];
+    print('   Running: shorebird ${args.join(" ")}');
     final result = await runExecutableArguments(
       'shorebird',
-      ['release', '--flavor=${config.flavor}'],
+      args,
       environment: {'SHOREBIRD_TOKEN': config.shorebirdToken},
     );
 
@@ -88,11 +93,14 @@ class ShorebirdLocalDataSource {
 
   /// Get existing releases from Shorebird CLI
   Future<List<VersionInfo>> getExistingReleases(DeploymentConfig config) async {
+    print('   📋 Getting existing releases for flavor: ${config.flavor}');
     final result = await runExecutableArguments(
       'shorebird',
       ['releases', 'list', '--flavor=${config.flavor}'],
       environment: {'SHOREBIRD_TOKEN': config.shorebirdToken},
     );
+
+    print('   Raw output:\n${result.stdout}');
 
     // Parse output to extract version info
     final lines = result.stdout.toString().split('\n');
@@ -103,10 +111,12 @@ class ShorebirdLocalDataSource {
       final match = RegExp(r'v(\d+\.\d+\.\d+)\+(\d+)').firstMatch(line);
       if (match != null) {
         final version = '${match.group(1)}+${match.group(2)}';
+        print('   Found version: $version');
         versions.add(VersionInfo.fromPubspecVersion(version));
       }
     }
 
+    print('   Total versions found: ${versions.length}');
     return versions;
   }
 }

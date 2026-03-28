@@ -51,6 +51,11 @@ class ShorebirdUseCases {
     VersionInfo version,
   ) async {
     final releases = await getExistingReleases(config);
-    return releases.any((r) => r.cleanVersion == version.cleanVersion);
+    print(
+      '   Checking if ${version.cleanVersion} exists in ${releases.map((r) => r.cleanVersion).toList()}',
+    );
+    final exists = releases.any((r) => r.cleanVersion == version.cleanVersion);
+    print('   Version exists: $exists');
+    return exists;
   }
 }
