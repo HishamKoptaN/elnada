@@ -73,9 +73,19 @@ jobs:
           echo "apk_path: ${{ steps.deploy_logic.outputs.apk_path }}"
 
       - if: steps.deploy_logic.outputs.is_new_release == 'true'
+        id: set_apk_name
+        run: |
+          if [ "${{ github.ref_name }}" = "prod" ]; then
+            echo "name=android-apk" >> $GITHUB_OUTPUT
+          else
+            echo "name=android-apk_${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          fi
+        shell: bash
+
+      - if: steps.deploy_logic.outputs.is_new_release == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: android-apk-${{ github.ref_name }}
+          name: ${{ steps.set_apk_name.outputs.name }}
           path: build/app/outputs/flutter-apk/*.apk
           retention-days: 30
 
