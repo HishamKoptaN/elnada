@@ -32,16 +32,7 @@ class DeployBloc extends Bloc<DeployEvent, DeployState> {
     Emitter<DeployState> emit,
   ) async {
     emit(const DeployState.building());
-
-    // Build is handled by separate BuildBloc
-    // This state signals the main.dart to trigger build
-    emit(const DeployState.buildSuccess(outputPath: ''));
-
-    // After build, check version and deploy
-    emit(const DeployState.checkingVersion());
-
-    // Shorebird deployment is handled by ShorebirdBloc
-    // This orchestrator manages the flow
+    // Build is handled by BuildBloc, main.dart will call reportBuildSuccess when done
   }
 
   Future<void> _onStartCleanup(
