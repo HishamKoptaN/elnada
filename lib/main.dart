@@ -87,5 +87,5 @@ Future<void> setupAutoUpdater() async {
   await autoUpdater.setFeedURL(
     'https://raw.githubusercontent.com/HishamKoptaN/elnada/refs/heads/${EnvConfig.config.envName}/desktop_appcast.xml',
   );
-  await autoUpdater.setScheduledCheckInterval(3600); // تحقق كل ساعة
+  await autoUpdater.setScheduledCheckInterval(3600); 
 }
