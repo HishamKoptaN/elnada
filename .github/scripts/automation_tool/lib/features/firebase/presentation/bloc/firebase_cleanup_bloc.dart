@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:injectable/injectable.dart';
 import '../../domain/usecases/firebase_usecases.dart';
 import 'firebase_cleanup_event.dart';
 import 'firebase_cleanup_state.dart';
 
 /// BLoC for Firebase cleanup operations
-class FirebaseCleanupBloc extends Bloc<FirebaseCleanupEvent, FirebaseCleanupState> {
+@injectable
+class FirebaseCleanupBloc
+    extends Bloc<FirebaseCleanupEvent, FirebaseCleanupState> {
   final FirebaseUseCases _useCases;
   final String _appId;
   final String _token;
@@ -14,10 +17,10 @@ class FirebaseCleanupBloc extends Bloc<FirebaseCleanupEvent, FirebaseCleanupStat
     required FirebaseUseCases useCases,
     required String appId,
     required String token,
-  })  : _useCases = useCases,
-        _appId = appId,
-        _token = token,
-        super(const FirebaseCleanupState.initial()) {
+  }) : _useCases = useCases,
+       _appId = appId,
+       _token = token,
+       super(const FirebaseCleanupState.initial()) {
     on<FirebaseCleanupEventStarted>(_onStarted);
     on<FirebaseCleanupEventClean>(_onClean);
   }
@@ -38,18 +41,20 @@ class FirebaseCleanupBloc extends Bloc<FirebaseCleanupEvent, FirebaseCleanupStat
     try {
       // Get initial count
       final initialCount = await _useCases.getReleaseCount(_appId, _token);
-      
+
       // Clean old releases
       await _useCases.cleanOldReleases(_appId, _token, keepLatest: 3);
-      
+
       // Get final count
       final finalCount = await _useCases.getReleaseCount(_appId, _token);
       final deletedCount = initialCount - finalCount;
 
-      emit(FirebaseCleanupState.success(
-        deletedCount: deletedCount,
-        remainingCount: finalCount,
-      ));
+      emit(
+        FirebaseCleanupState.success(
+          deletedCount: deletedCount,
+          remainingCount: finalCount,
+        ),
+      );
     } catch (e) {
       emit(FirebaseCleanupState.failure(error: e.toString()));
     }

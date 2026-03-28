@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:abujena_automation/features/shorebird/domain/entities/deployment_config.dart';
 import 'package:abujena_automation/features/shorebird/domain/entities/deployment_result.dart';
 import 'package:abujena_automation/features/shorebird/domain/entities/version_info.dart';
@@ -8,6 +9,7 @@ import 'shorebird_event.dart';
 import 'shorebird_state.dart';
 
 /// BLoC for Shorebird deployment management
+@injectable
 class ShorebirdBloc extends Bloc<ShorebirdEvent, ShorebirdState> {
   final ShorebirdUseCases _useCases;
   final DeploymentConfig _config;

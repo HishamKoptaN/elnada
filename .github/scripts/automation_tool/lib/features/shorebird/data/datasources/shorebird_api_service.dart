@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
 /// Dio-based API service for Shorebird
+@singleton
 class ShorebirdApiService {
   final Dio _dio;
 

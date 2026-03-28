@@ -1,3 +1,4 @@
+import 'package:injectable/injectable.dart';
 import '../../domain/entities/deployment_config.dart';
 import '../../domain/entities/deployment_result.dart';
 import '../../domain/entities/version_info.dart';
@@ -6,6 +7,7 @@ import '../datasources/shorebird_local_datasource.dart';
 import '../datasources/shorebird_api_service.dart';
 
 /// Repository implementation for Shorebird
+@singleton
 class ShorebirdRepositoryImpl implements ShorebirdRepository {
   final ShorebirdLocalDataSource _localDataSource;
   final ShorebirdApiService? _apiService;
@@ -13,8 +15,8 @@ class ShorebirdRepositoryImpl implements ShorebirdRepository {
   ShorebirdRepositoryImpl({
     required ShorebirdLocalDataSource localDataSource,
     ShorebirdApiService? apiService,
-  })  : _localDataSource = localDataSource,
-        _apiService = apiService;
+  }) : _localDataSource = localDataSource,
+       _apiService = apiService;
 
   @override
   Future<bool> isPatchPossible(DeploymentConfig config) async {

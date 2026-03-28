@@ -1,6 +1,8 @@
+import 'package:injectable/injectable.dart';
 import 'package:process_run/process_run.dart';
 
 /// Local data source for Firebase CLI operations
+@singleton
 class FirebaseLocalDataSource {
   /// Get releases using Firebase CLI
   Future<List<Map<String, dynamic>>> getReleases(

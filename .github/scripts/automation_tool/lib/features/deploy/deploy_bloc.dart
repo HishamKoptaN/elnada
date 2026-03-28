@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:abujena_automation/features/shorebird/domain/entities/version_info.dart';
 import 'deploy_event.dart';
 import 'deploy_state.dart';
 
 /// Unified orchestrator BLoC that manages the entire deployment flow
+@injectable
 class DeployBloc extends Bloc<DeployEvent, DeployState> {
   DeployBloc() : super(const DeployState.initial()) {
     on<DeployEventStartDeployment>(_onStartDeployment);

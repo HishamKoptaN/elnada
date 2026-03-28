@@ -1,8 +1,10 @@
+import 'package:injectable/injectable.dart';
 import '../../domain/entities/firebase_release.dart';
 import '../datasources/firebase_api_service.dart';
 import '../datasources/firebase_local_datasource.dart';
 
 /// Repository for Firebase operations
+@singleton
 class FirebaseRepository {
   final FirebaseApiService? _apiService;
   final FirebaseLocalDataSource _localDataSource;

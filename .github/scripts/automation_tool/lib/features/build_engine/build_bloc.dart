@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'build_engine.dart';
 import 'build_event.dart';
 import 'build_state.dart';
 
 /// BLoC for build operations
+@injectable
 class BuildBloc extends Bloc<BuildEvent, BuildState> {
   final BuildEngine _buildEngine;
 

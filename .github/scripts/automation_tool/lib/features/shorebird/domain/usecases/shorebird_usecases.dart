@@ -1,9 +1,11 @@
+import 'package:injectable/injectable.dart';
 import '../entities/deployment_config.dart';
 import '../entities/deployment_result.dart';
 import '../entities/version_info.dart';
 import '../repositories/shorebird_repository.dart';
 
 /// Use cases for Shorebird deployment operations
+@singleton
 class ShorebirdUseCases {
   final ShorebirdRepository _repository;
 
@@ -15,7 +17,8 @@ class ShorebirdUseCases {
 
     if (!isPossible) {
       return const DeploymentResult.failure(
-          reason: 'Patch not possible - no existing release found');
+        reason: 'Patch not possible - no existing release found',
+      );
     }
 
     try {
@@ -35,8 +38,9 @@ class ShorebirdUseCases {
 
     if (!isPossible) {
       return DeploymentResult.failure(
-          reason:
-              'Release not possible - version ${version.cleanVersion} may already exist');
+        reason:
+            'Release not possible - version ${version.cleanVersion} may already exist',
+      );
     }
 
     try {

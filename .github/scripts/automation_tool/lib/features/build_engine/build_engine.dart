@@ -1,7 +1,9 @@
+import 'package:injectable/injectable.dart';
 import 'package:process_run/process_run.dart';
 import 'dart:io';
 
 /// Build engine for Flutter apps
+@singleton
 class BuildEngine {
   final String _projectRoot;
 

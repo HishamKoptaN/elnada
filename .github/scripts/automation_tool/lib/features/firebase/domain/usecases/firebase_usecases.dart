@@ -1,6 +1,8 @@
+import 'package:injectable/injectable.dart';
 import '../../data/repositories/firebase_repository.dart';
 
 /// Use cases for Firebase operations
+@singleton
 class FirebaseUseCases {
   final FirebaseRepository _repository;
 

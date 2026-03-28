@@ -1,8 +1,10 @@
+import 'package:injectable/injectable.dart';
 import 'package:process_run/process_run.dart';
 import '../../domain/entities/deployment_config.dart';
 import '../../domain/entities/version_info.dart';
 
 /// Local data source for Shorebird CLI operations
+@singleton
 class ShorebirdLocalDataSource {
   /// Check if a patch is possible
   Future<bool> isPatchPossible(DeploymentConfig config) async {
