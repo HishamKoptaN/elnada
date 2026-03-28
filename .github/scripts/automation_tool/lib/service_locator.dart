@@ -39,30 +39,9 @@ void setupLocator() {
 
   // Shorebird Feature
   locator.registerLazySingleton(() => ShorebirdLocalDataSource());
-  locator.registerLazySingleton<ShorebirdApiService>(
-    () => ShorebirdApiService(locator<Dio>()),
-  );
-  locator.registerLazySingleton<ShorebirdRepository>(
-    () => ShorebirdRepositoryImpl(
-      localDataSource: locator<ShorebirdLocalDataSource>(),
-      apiService: locator<ShorebirdApiService>(),
-    ),
-  );
-  locator.registerLazySingleton(
-    () => ShorebirdUseCases(locator<ShorebirdRepository>()),
-  );
 
   // Firebase Feature
   locator.registerLazySingleton(() => FirebaseLocalDataSource());
-  locator.registerLazySingleton<FirebaseApiService>(
-    () => FirebaseApiService(locator<Dio>()),
-  );
-  locator.registerLazySingleton(
-    () => FirebaseRepository(
-      localDataSource: locator<FirebaseLocalDataSource>(),
-      apiService: locator<FirebaseApiService>(),
-    ),
-  );
   locator.registerLazySingleton(
     () => FirebaseUseCases(locator<FirebaseRepository>()),
   );

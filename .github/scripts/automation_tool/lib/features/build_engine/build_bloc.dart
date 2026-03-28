@@ -4,8 +4,7 @@ import 'build_engine.dart';
 import 'build_event.dart';
 import 'build_state.dart';
 
-/// BLoC for build operations
-@injectable
+@singleton
 class BuildBloc extends Bloc<BuildEvent, BuildState> {
   final BuildEngine _buildEngine;
 
@@ -21,7 +20,6 @@ class BuildBloc extends Bloc<BuildEvent, BuildState> {
     BuildEventStarted event,
     Emitter<BuildState> emit,
   ) async {
-    // Default: build Android
     add(const BuildEvent.buildAndroid());
   }
 

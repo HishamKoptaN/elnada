@@ -5,11 +5,11 @@ import '../datasources/firebase_local_datasource.dart';
 
 /// Repository for Firebase operations
 @singleton
-class FirebaseRepository {
+class FirebaseRepo {
   final FirebaseApiService? _apiService;
   final FirebaseLocalDataSource _localDataSource;
 
-  FirebaseRepository({
+  FirebaseRepo({
     FirebaseApiService? apiService,
     required FirebaseLocalDataSource localDataSource,
   }) : _apiService = apiService,

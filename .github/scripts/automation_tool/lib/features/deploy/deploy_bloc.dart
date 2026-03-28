@@ -6,7 +6,7 @@ import 'deploy_event.dart';
 import 'deploy_state.dart';
 
 /// Unified orchestrator BLoC that manages the entire deployment flow
-@injectable
+@singleton
 class DeployBloc extends Bloc<DeployEvent, DeployState> {
   DeployBloc() : super(const DeployState.initial()) {
     on<DeployEventStartDeployment>(_onStartDeployment);

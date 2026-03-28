@@ -1,12 +1,12 @@
 import 'package:injectable/injectable.dart';
-import '../../data/repositories/firebase_repository.dart';
+import '../../data/repositories/firebase_repo.dart';
 
 /// Use cases for Firebase operations
 @singleton
 class FirebaseUseCases {
-  final FirebaseRepository _repository;
+  final FirebaseRepo _repo;
 
-  FirebaseUseCases(this._repository);
+  FirebaseUseCases(this._repo);
 
   /// Clean old releases keeping only latest N
   Future<void> cleanOldReleases(
@@ -14,12 +14,12 @@ class FirebaseUseCases {
     String token, {
     int keepLatest = 3,
   }) async {
-    await _repository.deleteOldReleases(appId, token, keepLatest: keepLatest);
+    await _repo.deleteOldReleases(appId, token, keepLatest: keepLatest);
   }
 
   /// Get release count
   Future<int> getReleaseCount(String appId, String token) async {
-    final releases = await _repository.getReleases(appId, token);
+    final releases = await _repo.getReleases(appId, token);
     return releases.length;
   }
 
@@ -30,7 +30,7 @@ class FirebaseUseCases {
     String token, {
     String? releaseNotes,
   }) async {
-    await _repository.distributeApk(
+    await _repo.distributeApk(
       apkPath,
       appId,
       token,

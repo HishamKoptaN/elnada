@@ -4,8 +4,7 @@ import '../entities/deployment_result.dart';
 import '../entities/version_info.dart';
 
 /// Repository interface for Shorebird operations
-@singleton
-abstract class ShorebirdRepository {
+abstract class ShorebirdRepo {
   /// Check if a patch is possible for the given config
   Future<bool> isPatchPossible(DeploymentConfig config);
 

@@ -2,18 +2,18 @@ import 'package:injectable/injectable.dart';
 import '../entities/deployment_config.dart';
 import '../entities/deployment_result.dart';
 import '../entities/version_info.dart';
-import '../repositories/shorebird_repository.dart';
+import '../repositories/shorebird_repo.dart';
 
 /// Use cases for Shorebird deployment operations
 @singleton
 class ShorebirdUseCases {
-  final ShorebirdRepository _repository;
+  final ShorebirdRepo _repo;
 
-  ShorebirdUseCases(this._repository);
+  ShorebirdUseCases(this._repo);
 
   /// Deploy a patch if possible
   Future<DeploymentResult> deployPatch(DeploymentConfig config) async {
-    final isPossible = await _repository.isPatchPossible(config);
+    final isPossible = await _repo.isPatchPossible(config);
 
     if (!isPossible) {
       return const DeploymentResult.failure(
@@ -22,7 +22,7 @@ class ShorebirdUseCases {
     }
 
     try {
-      await _repository.executePatch(config);
+      await _repo.executePatch(config);
       return const DeploymentResult.patch();
     } catch (e) {
       return DeploymentResult.failure(reason: 'Patch failed: $e');
@@ -34,7 +34,7 @@ class ShorebirdUseCases {
     DeploymentConfig config,
     VersionInfo version,
   ) async {
-    final isPossible = await _repository.isReleasePossible(config);
+    final isPossible = await _repo.isReleasePossible(config);
 
     if (!isPossible) {
       return DeploymentResult.failure(
@@ -44,7 +44,7 @@ class ShorebirdUseCases {
     }
 
     try {
-      await _repository.executeRelease(config);
+      await _repo.executeRelease(config);
       return DeploymentResult.release(version: version.cleanVersion);
     } catch (e) {
       return DeploymentResult.failure(reason: 'Release failed: $e');
@@ -53,7 +53,7 @@ class ShorebirdUseCases {
 
   /// Get existing releases
   Future<List<VersionInfo>> getExistingReleases(DeploymentConfig config) async {
-    return await _repository.getExistingReleases(config);
+    return await _repo.getExistingReleases(config);
   }
 
   /// Check if version exists
