@@ -29,7 +29,7 @@ jobs:
       - uses: shorebirdtech/setup-shorebird@v1
 
       - run: |
-          cd .github/scripts
+          cd .github/scripts/automation_tool
           dart pub get
           dart run build_runner build --delete-conflicting-outputs
 
@@ -38,9 +38,8 @@ jobs:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
           FLAVOR: ${{ github.ref_name }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-        run: dart .github/scripts/features/distribution/lib/main.dart
+        run: dart bin/main.dart deploy
 
-      # 1. الرفع إلى Firebase (فقط في حال وجود Release جديد)
       - if: steps.deploy_logic.outputs.is_new_release == 'true'
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
@@ -49,7 +48,6 @@ jobs:
           groups: "internal-testers"
           file: build/app/outputs/flutter-apk/app-${{ github.ref_name }}-release.apk
 
-      # 2. إنشاء GitHub Release (فقط في حال وجود Release جديد)
       - if: steps.deploy_logic.outputs.is_new_release == 'true'
         uses: softprops/action-gh-release@v2
         with:
@@ -59,7 +57,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 3. تحديث الـ Appcast في المستودع
       - if: steps.deploy_logic.outputs.is_new_release == 'true'
         run: |
           git config --global user.name "github-actions[bot]"
@@ -68,7 +65,6 @@ jobs:
           git commit -m "chore: update appcast to ${{ steps.deploy_logic.outputs.version }} [skip ci]"
           git push
 
-      # 4. تنظيف النسخ القديمة من Firebase (الاحتفاظ بأحدث 3 نسخ فقط)
       - if: steps.deploy_logic.outputs.is_new_release == 'true'
         uses: google-github-actions/auth@v2
         with:
@@ -78,6 +74,6 @@ jobs:
           FIREBASE_PROJECT_NUMBER: "448994699498"
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
         run: |
-          TOKEN=$(gcloud auth print-access-token)
-          dart .github/scripts/features/cleanup/lib/main.dart
+          cd .github/scripts/automation_tool
+          dart bin/main.dart cleanup
         continue-on-error: true
