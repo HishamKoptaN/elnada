@@ -24,6 +24,7 @@ class DeployBloc extends Bloc<DeployEvent, DeployState> {
     emit(const DeployState.loading(message: 'Starting deployment...'));
     add(const DeployEvent.startBuild());
   }
+
   Future<void> _onStartBuild(
     DeployEventStartBuild event,
     Emitter<DeployState> emit,
@@ -37,10 +38,12 @@ class DeployBloc extends Bloc<DeployEvent, DeployState> {
   ) async {
     emit(const DeployState.cleaningFirebase());
   }
+
   void reportBuildSuccess(String outputPath) {
-    emit(DeployState.buildSuccess(outputPath: outputPath));
+    // Don't emit buildSuccess again, go directly to checking version
     emit(const DeployState.checkingVersion());
   }
+
   void reportPatchSuccess() {
     emit(const DeployState.patchSuccess());
     emit(const DeployState.completed());
