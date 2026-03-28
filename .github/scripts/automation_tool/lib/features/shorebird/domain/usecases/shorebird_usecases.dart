@@ -27,7 +27,7 @@ class ShorebirdUseCases {
     DeploymentConfig config,
     VersionInfo version,
   ) async {
-    final isPossible = await _repo.isReleasePossible(config);
+    final isPossible = await _repo.isReleasePossible(config, version);
     if (!isPossible) {
       return DeploymentResult.failure(
         reason:

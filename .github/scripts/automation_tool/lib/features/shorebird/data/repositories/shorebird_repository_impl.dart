@@ -29,8 +29,11 @@ class ShorebirdRepoImpl implements ShorebirdRepo {
   }
 
   @override
-  Future<bool> isReleasePossible(DeploymentConfig config) async {
-    return await _localDataSource.isReleasePossible(config);
+  Future<bool> isReleasePossible(
+    DeploymentConfig config,
+    VersionInfo version,
+  ) async {
+    return await _localDataSource.isReleasePossible(config, version);
   }
 
   @override

@@ -6,19 +6,15 @@ import '../../domain/entities/version_info.dart';
 /// Local data source for Shorebird CLI operations
 @singleton
 class ShorebirdLocalDataSource {
-  /// Check if a patch is possible
+  /// Check if a patch is possible (needs existing release)
   Future<bool> isPatchPossible(DeploymentConfig config) async {
     try {
       print('🔍 Checking if patch is possible for flavor: ${config.flavor}');
-      final result = await runExecutableArguments(
-        'shorebird',
-        ['patch', '--dry-run', '--flavor=${config.flavor}'],
-        environment: {'SHOREBIRD_TOKEN': config.shorebirdToken},
-      );
-      print('   Exit code: ${result.exitCode}');
-      print('   Stdout: ${result.stdout}');
-      print('   Stderr: ${result.stderr}');
-      return result.exitCode == 0;
+      // Check if there are any existing releases
+      final releases = await getExistingReleases(config);
+      final possible = releases.isNotEmpty;
+      print('   Found ${releases.length} releases, patch possible: $possible');
+      return possible;
     } catch (e) {
       print('   ❌ Error checking patch possibility: $e');
       return false;
@@ -46,19 +42,23 @@ class ShorebirdLocalDataSource {
     print('   ✅ Patch executed successfully');
   }
 
-  /// Check if release is possible
-  Future<bool> isReleasePossible(DeploymentConfig config) async {
+  /// Check if a release is possible (version doesn't exist yet)
+  Future<bool> isReleasePossible(
+    DeploymentConfig config,
+    VersionInfo version,
+  ) async {
     try {
       print('🔍 Checking if release is possible for flavor: ${config.flavor}');
-      final result = await runExecutableArguments(
-        'shorebird',
-        ['release', '--dry-run', '--flavor=${config.flavor}'],
-        environment: {'SHOREBIRD_TOKEN': config.shorebirdToken},
+      // Check if this version already exists
+      final releases = await getExistingReleases(config);
+      final versionExists = releases.any(
+        (r) => r.cleanVersion == version.cleanVersion,
       );
-      print('   Exit code: ${result.exitCode}');
-      print('   Stdout: ${result.stdout}');
-      print('   Stderr: ${result.stderr}');
-      return result.exitCode == 0;
+      final possible = !versionExists;
+      print(
+        '   Version ${version.cleanVersion} exists: $versionExists, release possible: $possible',
+      );
+      return possible;
     } catch (e) {
       print('   ❌ Error checking release possibility: $e');
       return false;
