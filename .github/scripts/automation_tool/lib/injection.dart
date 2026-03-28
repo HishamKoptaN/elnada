@@ -3,11 +3,11 @@ import 'package:injectable/injectable.dart';
 
 import 'injection.config.dart';
 
-final GetIt locator = GetIt.instance;
+final GetIt getIt = GetIt.instance;
 
 @InjectableInit(
   initializerName: 'init',
   preferRelativeImports: true,
   asExtension: true,
 )
-void configureDependencies() => locator.init();
+void configureDependencies() => getIt.init();

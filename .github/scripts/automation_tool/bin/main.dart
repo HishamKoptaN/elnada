@@ -1,30 +1,21 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-
 import 'package:abujena_automation/service_locator.dart';
 import 'package:abujena_automation/core/config.dart';
 import 'package:abujena_automation/features/deploy/deploy_bloc.dart';
 import 'package:abujena_automation/features/deploy/deploy_event.dart';
 import 'package:abujena_automation/features/build_engine/build_bloc.dart';
 import 'package:abujena_automation/features/build_engine/build_event.dart';
-import 'package:abujena_automation/features/shorebird/presentation/bloc/shorebird_bloc.dart';
-import 'package:abujena_automation/features/shorebird/presentation/bloc/shorebird_event.dart';
-import 'package:abujena_automation/features/firebase/presentation/bloc/firebase_cleanup_bloc.dart';
-import 'package:abujena_automation/features/firebase/presentation/bloc/firebase_cleanup_event.dart';
+import 'package:abujena_automation/features/shorebird/present/bloc/shorebird_bloc.dart';
+import 'package:abujena_automation/features/shorebird/present/bloc/shorebird_event.dart';
+import 'package:abujena_automation/features/firebase/present/bloc/firebase_cleanup_bloc.dart';
+import 'package:abujena_automation/features/firebase/present/bloc/firebase_cleanup_event.dart';
 
-/// Main entry point for the automation tool
-///
-/// Usage: dart bin/main.dart [command]
-///
-/// Commands:
-///   deploy     - Full deployment pipeline (build + shorebird + cleanup)
-///   build      - Build only
-///   cleanup    - Firebase cleanup only
 void main(List<String> arguments) async {
   setupLocator();
 
-  final config = locator<AutomationConfig>();
+  final config = getIt<AutomationConfig>();
   final command = arguments.isNotEmpty ? arguments.first : 'deploy';
 
   try {
@@ -50,10 +41,10 @@ void main(List<String> arguments) async {
 }
 
 Future<void> _runFullDeployment() async {
-  final deployBloc = locator<DeployBloc>();
-  final buildBloc = locator<BuildBloc>();
-  final shorebirdBloc = locator<ShorebirdBloc>();
-  final cleanupBloc = locator<FirebaseCleanupBloc>();
+  final deployBloc = getIt<DeployBloc>();
+  final buildBloc = getIt<BuildBloc>();
+  final shorebirdBloc = getIt<ShorebirdBloc>();
+  final cleanupBloc = getIt<FirebaseCleanupBloc>();
 
   final completer = Completer<void>();
   String? apkPath;
@@ -182,7 +173,7 @@ Future<void> _runFullDeployment() async {
 }
 
 Future<void> _runBuildOnly() async {
-  final buildBloc = locator<BuildBloc>();
+  final buildBloc = getIt<BuildBloc>();
   final completer = Completer<void>();
 
   buildBloc.stream.listen((state) {
@@ -207,7 +198,7 @@ Future<void> _runBuildOnly() async {
 }
 
 Future<void> _runCleanupOnly() async {
-  final cleanupBloc = locator<FirebaseCleanupBloc>();
+  final cleanupBloc = getIt<FirebaseCleanupBloc>();
   final completer = Completer<void>();
 
   cleanupBloc.stream.listen((state) {

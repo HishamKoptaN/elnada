@@ -2,7 +2,7 @@ import 'package:injectable/injectable.dart';
 import '../entities/deployment_config.dart';
 import '../entities/deployment_result.dart';
 import '../entities/version_info.dart';
-import '../../repos/shorebird_repo.dart';
+import '../repos/shorebird_repo.dart';
 
 @singleton
 class ShorebirdUseCases {

@@ -2,8 +2,9 @@ import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'core/dio_client.dart';
 import 'core/config.dart';
+import 'package:abujena_automation/injection.dart';
 
-final GetIt locator = GetIt.instance;
+
 void setupLocator() {
-  locator.registerLazySingleton(() => DioClient.create());
+  getIt.registerLazySingleton(() => DioClient.create());
 }

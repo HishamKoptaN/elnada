@@ -65,10 +65,10 @@ extension GetItInjectableX on _i174.GetIt {
           localDataSource: gh<_i44.ShorebirdLocalDataSource>(),
           apiService: gh<_i250.ShorebirdApiService>(),
         ));
+    gh.singleton<_i524.ShorebirdUseCases>(
+        () => _i524.ShorebirdUseCases(gh<_i112.ShorebirdRepo>()));
     gh.singleton<_i883.BuildEngine>(
         () => _i883.BuildEngine(projectRoot: gh<String>()));
-    gh.singleton<_i524.ShorebirdUseCases>(
-        () => _i524.ShorebirdUseCases(gh<InvalidType>()));
     gh.singleton<_i951.DioClient>(
         () => _i951.DioClient.create(baseUrl: gh<String>()));
     gh.singleton<_i427.FirebaseRepo>(() => _i427.FirebaseRepo(

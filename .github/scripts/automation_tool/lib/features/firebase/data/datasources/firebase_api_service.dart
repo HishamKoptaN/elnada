@@ -2,13 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import '../../domain/entities/firebase_release.dart';
 
-/// Dio-based API service for Firebase App Distribution
 @singleton
 class FirebaseApiService {
   final Dio _dio;
-
   FirebaseApiService(this._dio);
-
   Future<List<FirebaseRelease>> getReleases(
     String auth,
     String projectNumber,
