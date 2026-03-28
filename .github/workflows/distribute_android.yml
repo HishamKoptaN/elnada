@@ -10,39 +10,38 @@ jobs:
     environment: ${{ github.ref_name }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
+      - uses: actions/setup-java@v4
         with:
           java-version: "17"
           distribution: "temurin"
           cache: "gradle"
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.41.4"
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash"
 
-      - name: Setup Shorebird
-        uses: shorebirdtech/setup-shorebird@v1
+      - uses: shorebirdtech/setup-shorebird@v1
 
-      - name: Execute Deployment Logic (Dart)
-        id: deploy_logic
+      - run: |
+          cd .github/scripts
+          dart pub get
+          dart run build_runner build --delete-conflicting-outputs
+
+      - id: deploy_logic
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
           FLAVOR: ${{ github.ref_name }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-        run: dart .github/scripts/lib/main.dart
+        run: dart .github/scripts/features/distribution/lib/main.dart
 
       # 1. الرفع إلى Firebase (فقط في حال وجود Release جديد)
       - if: steps.deploy_logic.outputs.is_new_release == 'true'
-        name: Upload to Firebase Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
@@ -52,7 +51,6 @@ jobs:
 
       # 2. إنشاء GitHub Release (فقط في حال وجود Release جديد)
       - if: steps.deploy_logic.outputs.is_new_release == 'true'
-        name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.deploy_logic.outputs.version }}
@@ -63,7 +61,6 @@ jobs:
 
       # 3. تحديث الـ Appcast في المستودع
       - if: steps.deploy_logic.outputs.is_new_release == 'true'
-        name: Commit Appcast Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -73,16 +70,14 @@ jobs:
 
       # 4. تنظيف النسخ القديمة من Firebase (الاحتفاظ بأحدث 3 نسخ فقط)
       - if: steps.deploy_logic.outputs.is_new_release == 'true'
-        name: Cleanup Old Firebase Releases
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
       - if: steps.deploy_logic.outputs.is_new_release == 'true'
-        name: Run Cleanup Script
         env:
           FIREBASE_PROJECT_NUMBER: "448994699498"
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
         run: |
           TOKEN=$(gcloud auth print-access-token)
-          dart .github/scripts/cleanup_firebase.dart
+          dart .github/scripts/features/cleanup/lib/main.dart
         continue-on-error: true
