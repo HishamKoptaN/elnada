@@ -12,7 +12,7 @@ class ShorebirdLocalDataSource {
         ['patch', '--dry-run', '--flavor=${config.flavor}'],
         environment: {'SHOREBIRD_TOKEN': config.shorebirdToken},
       );
-      return result.first.exitCode == 0;
+      return result.exitCode == 0;
     } catch (e) {
       return false;
     }
@@ -25,9 +25,9 @@ class ShorebirdLocalDataSource {
       ['patch', '--flavor=${config.flavor}'],
       environment: {'SHOREBIRD_TOKEN': config.shorebirdToken},
     );
-    
-    if (result.first.exitCode != 0) {
-      throw Exception('Patch failed: ${result.first.stderr}');
+
+    if (result.exitCode != 0) {
+      throw Exception('Patch failed: ${result.stderr}');
     }
   }
 
@@ -39,7 +39,7 @@ class ShorebirdLocalDataSource {
         ['release', '--dry-run', '--flavor=${config.flavor}'],
         environment: {'SHOREBIRD_TOKEN': config.shorebirdToken},
       );
-      return result.first.exitCode == 0;
+      return result.exitCode == 0;
     } catch (e) {
       return false;
     }
@@ -52,9 +52,9 @@ class ShorebirdLocalDataSource {
       ['release', '--flavor=${config.flavor}'],
       environment: {'SHOREBIRD_TOKEN': config.shorebirdToken},
     );
-    
-    if (result.first.exitCode != 0) {
-      throw Exception('Release failed: ${result.first.stderr}');
+
+    if (result.exitCode != 0) {
+      throw Exception('Release failed: ${result.stderr}');
     }
   }
 
@@ -65,11 +65,11 @@ class ShorebirdLocalDataSource {
       ['releases', 'list', '--flavor=${config.flavor}'],
       environment: {'SHOREBIRD_TOKEN': config.shorebirdToken},
     );
-    
+
     // Parse output to extract version info
-    final lines = result.first.stdout.toString().split('\n');
+    final lines = result.stdout.toString().split('\n');
     final versions = <VersionInfo>[];
-    
+
     for (final line in lines) {
       // Parse version from output like "android v1.0.0+1 (production)"
       final match = RegExp(r'v(\d+\.\d+\.\d+)\+(\d+)').firstMatch(line);
@@ -78,7 +78,7 @@ class ShorebirdLocalDataSource {
         versions.add(VersionInfo.fromPubspecVersion(version));
       }
     }
-    
+
     return versions;
   }
 }

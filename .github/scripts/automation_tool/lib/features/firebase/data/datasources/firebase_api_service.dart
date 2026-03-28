@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import '../domain/entities/firebase_release.dart';
+import '../../domain/entities/firebase_release.dart';
 
 /// Dio-based API service for Firebase App Distribution
 class FirebaseApiService {

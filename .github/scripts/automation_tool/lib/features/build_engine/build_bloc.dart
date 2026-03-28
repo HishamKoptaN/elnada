@@ -9,7 +9,8 @@ part 'build_state.freezed.dart';
 @freezed
 class BuildEvent with _$BuildEvent {
   const factory BuildEvent.started() = BuildEventStarted;
-  const factory BuildEvent.buildAndroid({String? flavor}) = BuildEventBuildAndroid;
+  const factory BuildEvent.buildAndroid({String? flavor}) =
+      BuildEventBuildAndroid;
   const factory BuildEvent.buildWindows() = BuildEventBuildWindows;
 }
 
@@ -17,7 +18,8 @@ class BuildEvent with _$BuildEvent {
 @freezed
 class BuildState with _$BuildState {
   const factory BuildState.initial() = BuildStateInitial;
-  const factory BuildState.building({required String platform}) = BuildStateBuilding;
+  const factory BuildState.building({required String platform}) =
+      BuildStateBuilding;
   const factory BuildState.success({
     required String platform,
     required String outputPath,
@@ -33,8 +35,8 @@ class BuildBloc extends Bloc<BuildEvent, BuildState> {
   final BuildEngine _buildEngine;
 
   BuildBloc({required BuildEngine buildEngine})
-      : _buildEngine = buildEngine,
-        super(const BuildState.initial()) {
+    : _buildEngine = buildEngine,
+      super(const BuildState.initial()) {
     on<BuildEventStarted>(_onStarted);
     on<BuildEventBuildAndroid>(_onBuildAndroid);
     on<BuildEventBuildWindows>(_onBuildWindows);

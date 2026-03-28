@@ -5,8 +5,8 @@ import 'dart:io';
 class BuildEngine {
   final String _projectRoot;
 
-  BuildEngine({String? projectRoot}) 
-      : _projectRoot = projectRoot ?? Directory.current.path;
+  BuildEngine({String? projectRoot})
+    : _projectRoot = projectRoot ?? Directory.current.path;
 
   /// Build Android APK
   Future<String> buildAndroid({
@@ -15,12 +15,7 @@ class BuildEngine {
   }) async {
     print('🔨 Building Android APK (flavor: $flavor)...');
 
-    final args = [
-      'build',
-      'apk',
-      '--flavor=$flavor',
-      if (release) '--release',
-    ];
+    final args = ['build', 'apk', '--flavor=$flavor', if (release) '--release'];
 
     final result = await runExecutableArguments(
       'flutter',
@@ -28,17 +23,18 @@ class BuildEngine {
       workingDirectory: _projectRoot,
     );
 
-    if (result.first.exitCode != 0) {
-      throw Exception('Android build failed: ${result.first.stderr}');
+    if (result.exitCode != 0) {
+      throw Exception('Android build failed: ${result.stderr}');
     }
 
     // Find APK path from output
-    final output = result.first.stdout.toString();
+    final output = result.stdout.toString();
     final apkPath = _extractApkPath(output);
-    
+
     if (apkPath == null || !File(apkPath).existsSync()) {
       // Default path based on flavor
-      final defaultPath = '$_projectRoot/build/app/outputs/flutter-apk/app-$flavor-release.apk';
+      final defaultPath =
+          '$_projectRoot/build/app/outputs/flutter-apk/app-$flavor-release.apk';
       if (File(defaultPath).existsSync()) {
         return defaultPath;
       }
@@ -49,16 +45,10 @@ class BuildEngine {
   }
 
   /// Build Windows executable
-  Future<String> buildWindows({
-    bool release = true,
-  }) async {
+  Future<String> buildWindows({bool release = true}) async {
     print('🔨 Building Windows app...');
 
-    final args = [
-      'build',
-      'windows',
-      if (release) '--release',
-    ];
+    final args = ['build', 'windows', if (release) '--release'];
 
     final result = await runExecutableArguments(
       'flutter',
@@ -66,13 +56,14 @@ class BuildEngine {
       workingDirectory: _projectRoot,
     );
 
-    if (result.first.exitCode != 0) {
-      throw Exception('Windows build failed: ${result.first.stderr}');
+    if (result.exitCode != 0) {
+      throw Exception('Windows build failed: ${result.stderr}');
     }
 
     // Find executable path
-    final exePath = '$_projectRoot/build/windows/x64/runner/Release/Abujena_Dawajen.exe';
-    
+    final exePath =
+        '$_projectRoot/build/windows/x64/runner/Release/Abujena_Dawajen.exe';
+
     if (!File(exePath).existsSync()) {
       throw Exception('Windows executable not found after build');
     }
@@ -83,14 +74,16 @@ class BuildEngine {
   /// Get version from pubspec.yaml
   Future<String> getVersion() async {
     final pubspecFile = File('$_projectRoot/pubspec.yaml');
-    
+
     if (!pubspecFile.existsSync()) {
       throw Exception('pubspec.yaml not found');
     }
 
     final content = await pubspecFile.readAsString();
-    final versionMatch = RegExp(r'version:\s*(\d+\.\d+\.\d+\+\d+)').firstMatch(content);
-    
+    final versionMatch = RegExp(
+      r'version:\s*(\d+\.\d+\.\d+\+\d+)',
+    ).firstMatch(content);
+
     if (versionMatch == null) {
       throw Exception('Version not found in pubspec.yaml');
     }

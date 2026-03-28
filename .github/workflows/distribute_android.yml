@@ -89,7 +89,6 @@ jobs:
           prerelease: ${{ github.ref_name == 'dev' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - if: steps.deploy_logic.outputs.is_new_release == 'true'
         run: |
           git config --global user.name "github-actions[bot]"

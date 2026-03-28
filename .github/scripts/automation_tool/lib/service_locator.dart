@@ -39,10 +39,7 @@ void setupLocator() {
   // Shorebird Feature
   locator.registerLazySingleton(() => ShorebirdLocalDataSource());
   locator.registerLazySingleton<ShorebirdApiService>(
-    () => ShorebirdApiService(
-      locator<Dio>(),
-      baseUrl: 'https://api.shorebird.dev/v1',
-    ),
+    () => ShorebirdApiService(locator<Dio>()),
   );
   locator.registerLazySingleton<ShorebirdRepository>(
     () => ShorebirdRepositoryImpl(
@@ -57,10 +54,7 @@ void setupLocator() {
   // Firebase Feature
   locator.registerLazySingleton(() => FirebaseLocalDataSource());
   locator.registerLazySingleton<FirebaseApiService>(
-    () => FirebaseApiService(
-      locator<Dio>(),
-      baseUrl: 'https://firebaseappdistribution.googleapis.com',
-    ),
+    () => FirebaseApiService(locator<Dio>()),
   );
   locator.registerLazySingleton(
     () => FirebaseRepository(
@@ -99,15 +93,5 @@ void setupLocator() {
     );
   });
 
-  locator.registerFactory(() {
-    final config = locator<AutomationConfig>();
-    return DeployBloc(
-      config: DeploymentConfig(
-        flavor: config.flavor,
-        shorebirdToken: config.shorebirdToken,
-        firebaseToken: config.firebaseToken,
-        githubRepository: config.githubRepository,
-      ),
-    );
-  });
+  locator.registerFactory(() => DeployBloc());
 }

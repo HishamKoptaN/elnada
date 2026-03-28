@@ -13,11 +13,11 @@ class FirebaseLocalDataSource {
       environment: {'FIREBASE_TOKEN': token},
     );
 
-    if (result.first.exitCode != 0) {
-      throw Exception('Failed to get releases: ${result.first.stderr}');
+    if (result.exitCode != 0) {
+      throw Exception('Failed to get releases: ${result.stderr}');
     }
 
-    final output = result.first.stdout.toString();
+    final output = result.stdout.toString();
     // Parse JSON output
     final List<dynamic> releases = [];
     // Parse output line by line for JSON
@@ -29,23 +29,20 @@ class FirebaseLocalDataSource {
         } catch (_) {}
       }
     }
-    
+
     return releases.cast<Map<String, dynamic>>();
   }
 
   /// Delete a release using Firebase CLI
-  Future<void> deleteRelease(
-    String releaseId,
-    String token,
-  ) async {
+  Future<void> deleteRelease(String releaseId, String token) async {
     final result = await runExecutableArguments(
       'firebase',
       ['appdistribution:releases:delete', releaseId, '--force'],
       environment: {'FIREBASE_TOKEN': token},
     );
 
-    if (result.first.exitCode != 0) {
-      throw Exception('Failed to delete release: ${result.first.stderr}');
+    if (result.exitCode != 0) {
+      throw Exception('Failed to delete release: ${result.stderr}');
     }
   }
 
@@ -58,12 +55,7 @@ class FirebaseLocalDataSource {
     List<String>? testers,
     List<String>? groups,
   }) async {
-    final args = [
-      'appdistribution:distribute',
-      apkPath,
-      '--app',
-      appId,
-    ];
+    final args = ['appdistribution:distribute', apkPath, '--app', appId];
 
     if (releaseNotes != null) {
       args.addAll(['--release-notes', releaseNotes]);
@@ -83,8 +75,8 @@ class FirebaseLocalDataSource {
       environment: {'FIREBASE_TOKEN': token},
     );
 
-    if (result.first.exitCode != 0) {
-      throw Exception('Failed to distribute APK: ${result.first.stderr}');
+    if (result.exitCode != 0) {
+      throw Exception('Failed to distribute APK: ${result.stderr}');
     }
   }
 }

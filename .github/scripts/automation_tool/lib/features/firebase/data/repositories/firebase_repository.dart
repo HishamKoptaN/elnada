@@ -1,6 +1,6 @@
-import '../domain/entities/firebase_release.dart';
-import '../data/datasources/firebase_api_service.dart';
-import '../data/datasources/firebase_local_datasource.dart';
+import '../../domain/entities/firebase_release.dart';
+import '../datasources/firebase_api_service.dart';
+import '../datasources/firebase_local_datasource.dart';
 
 /// Repository for Firebase operations
 class FirebaseRepository {
@@ -10,8 +10,8 @@ class FirebaseRepository {
   FirebaseRepository({
     FirebaseApiService? apiService,
     required FirebaseLocalDataSource localDataSource,
-  })  : _apiService = apiService,
-        _localDataSource = localDataSource;
+  }) : _apiService = apiService,
+       _localDataSource = localDataSource;
 
   /// Get all releases
   Future<List<FirebaseRelease>> getReleases(String appId, String token) async {
