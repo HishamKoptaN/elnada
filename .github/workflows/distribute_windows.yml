@@ -18,20 +18,39 @@ jobs:
           flutter-version: "3.41.4"
           cache: true
 
-      - name: Enable Windows Desktop
-        run: flutter config --enable-windows-desktop
+      - uses: shorebirdtech/setup-shorebird@v1
 
-      - name: Get dependencies
+      - uses: actions/cache@v4
+        with:
+          path: ~/.shorebird
+          key: ${{ runner.os }}-shorebird-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-shorebird-
+
+      - name: Get Flutter dependencies
         run: flutter pub get
 
-      - name: Build Windows Release
-        run: flutter build windows --release
+      - name: Shorebird Release Windows
+        env:
+          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+        run: shorebird release windows --flavor=${{ github.ref_name }}
+
+      - name: Find Shorebird Build Output
+        id: find_build
+        run: |
+          $outputPath = "build\windows\x64\runner\Release"
+          if (Test-Path $outputPath) {
+            echo "path=$outputPath" >> $env:GITHUB_OUTPUT
+          } else {
+            echo "path=build\windows\runner\Release" >> $env:GITHUB_OUTPUT
+          }
+        shell: pwsh
 
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4
         with:
           name: windows-desktop-${{ github.ref_name }}
-          path: build/windows/x64/runner/Release/
+          path: ${{ steps.find_build.outputs.path }}
           retention-days: 30
 
       - name: Create Installer with Inno Setup (if prod)
