@@ -49,6 +49,12 @@ class DeployBloc extends Bloc<DeployEvent, DeployState> {
     // This state signals the main.dart to trigger cleanup
   }
 
+  /// Report build success from BuildBloc
+  void reportBuildSuccess(String outputPath) {
+    emit(DeployState.buildSuccess(outputPath: outputPath));
+    emit(const DeployState.checkingVersion());
+  }
+
   /// Report patch success from ShorebirdBloc
   void reportPatchSuccess() {
     emit(const DeployState.patchSuccess());

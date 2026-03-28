@@ -7,18 +7,13 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
-  # Core
   dio: ^5.4.0
   get_it: ^7.6.4
-  
-  # State Management
   bloc: ^8.1.2
   
-  # Data Classes
   freezed_annotation: ^2.4.1
   json_annotation: ^4.8.1
   
-  # System Tools
   process_run: ^1.1.0
   args: ^2.4.2
   yaml: ^3.1.2
