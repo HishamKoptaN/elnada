@@ -28,6 +28,38 @@ jobs:
 
       - uses: shorebirdtech/setup-shorebird@v1
 
+      - uses: actions/cache@v4
+        with:
+          path: ~/.shorebird
+          key: ${{ runner.os }}-shorebird-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-shorebird-
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .github/scripts/automation_tool/.dart_tool
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - uses: actions/cache@v4
+        with:
+          path: .github/scripts/automation_tool/lib/**/*.g.dart
+          key: ${{ runner.os }}-generated-${{ hashFiles('**/*.dart') }}
+          restore-keys: |
+            ${{ runner.os }}-generated-
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            build/app
+            build/flutter_assets
+          key: ${{ runner.os }}-flutter-build-${{ hashFiles('**/pubspec.lock', 'lib/**/*.dart') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-build-
+
       - run: |
           cd .github/scripts/automation_tool
           dart pub get

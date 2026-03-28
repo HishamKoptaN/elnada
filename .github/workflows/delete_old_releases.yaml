@@ -2,8 +2,7 @@ name: clean_releases
 on:
   push:
     branches:
-      - prod
-      - dev
+      - test
 jobs:
   cleanup_old_releases:
     runs-on: ubuntu-latest
