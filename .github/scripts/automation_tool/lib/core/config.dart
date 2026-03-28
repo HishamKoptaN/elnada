@@ -18,7 +18,7 @@ class AutomationConfig {
     final projectRoot = Directory.current.path;
     final shorebirdToken = Platform.environment['SHOREBIRD_TOKEN'];
     final firebaseToken = Platform.environment['FIREBASE_TOKEN'];
-    final flavor = Platform.environment['FLAVOR'] ?? 'production';
+    final flavor = Platform.environment['FLAVOR'] ?? 'prod';
     final githubRepository = Platform.environment['GITHUB_REPOSITORY'] ?? '';
 
     if (shorebirdToken == null || shorebirdToken.isEmpty) {
@@ -36,7 +36,7 @@ class AutomationConfig {
 
   String get appId {
     switch (flavor) {
-      case 'production':
+      case 'prod':
         return '1:123456789:android:production';
       case 'staging':
         return '1:123456789:android:staging';

@@ -41,7 +41,7 @@ Future<void> _runFullDeployment() async {
   final shorebirdBloc = getIt<ShorebirdBloc>();
   final cleanupBloc = getIt<FirebaseCleanupBloc>();
 
-  final completer = Completer<void>();
+  final completer = SafeCompleter<void>();
   String? apkPath;
   bool isNewRelease = false;
 
@@ -169,7 +169,7 @@ Future<void> _runFullDeployment() async {
 
 Future<void> _runBuildOnly() async {
   final buildBloc = getIt<BuildBloc>();
-  final completer = Completer<void>();
+  final completer = SafeCompleter<void>();
 
   buildBloc.stream.listen((state) {
     state.when(
@@ -194,7 +194,7 @@ Future<void> _runBuildOnly() async {
 
 Future<void> _runCleanupOnly() async {
   final cleanupBloc = getIt<FirebaseCleanupBloc>();
-  final completer = Completer<void>();
+  final completer = SafeCompleter<void>();
 
   cleanupBloc.stream.listen((state) {
     state.when(
@@ -218,7 +218,7 @@ Future<void> _runCleanupOnly() async {
   await completer.future;
 }
 
-class Completer<T> {
+class SafeCompleter<T> {
   final _completer = Completer<T>();
 
   Future<T> get future => _completer.future;

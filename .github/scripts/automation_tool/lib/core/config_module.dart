@@ -36,7 +36,7 @@ abstract class ConfigModule {
 
   @Named('flavor')
   @singleton
-  String get flavor => Platform.environment['FLAVOR'] ?? 'production';
+  String get flavor => Platform.environment['FLAVOR'] ?? 'prod';
 
   @Named('githubRepository')
   @singleton
@@ -46,9 +46,9 @@ abstract class ConfigModule {
   @Named('appId')
   @singleton
   String get appId {
-    final flavor = Platform.environment['FLAVOR'] ?? 'production';
+    final flavor = Platform.environment['FLAVOR'] ?? 'prod';
     switch (flavor) {
-      case 'production':
+      case 'prod':
         return '1:123456789:android:production';
       case 'staging':
         return '1:123456789:android:staging';
