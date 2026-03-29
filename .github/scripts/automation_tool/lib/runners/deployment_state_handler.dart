@@ -3,24 +3,20 @@ import 'package:abujena_automation/features/build_engine/build_bloc.dart';
 import 'package:abujena_automation/features/deploy/deploy_bloc.dart';
 import 'package:abujena_automation/features/shorebird/present/bloc/shorebird_bloc.dart';
 import 'package:abujena_automation/features/firebase/present/bloc/firebase_cleanup_bloc.dart';
-import 'telegram_notifier.dart';
 
 /// Handles deployment state transitions
 class DeploymentStateHandler {
   final BuildBloc _buildBloc;
   final ShorebirdBloc _shorebirdBloc;
   final CleanupBloc _cleanupBloc;
-  final TelegramNotifier _notifier;
 
   DeploymentStateHandler({
     required BuildBloc buildBloc,
     required ShorebirdBloc shorebirdBloc,
     required CleanupBloc cleanupBloc,
-    required TelegramNotifier notifier,
   })  : _buildBloc = buildBloc,
         _shorebirdBloc = shorebirdBloc,
-        _cleanupBloc = cleanupBloc,
-        _notifier = notifier;
+        _cleanupBloc = cleanupBloc;
 
   Future<bool> handle(DeployState state) async {
     return state.map(
@@ -69,7 +65,6 @@ class DeploymentStateHandler {
 
   bool _handlePatchSuccess(_) {
     print('✅ تم نشر الباتش بنجاح');
-    _notifier.notifySuccess(isPatch: true);
     return true;
   }
 
@@ -85,7 +80,6 @@ class DeploymentStateHandler {
       'is_new_release': 'true',
       'version': version,
     });
-    _notifier.notifySuccess(isPatch: false, version: version);
     return true;
   }
 
@@ -108,7 +102,6 @@ class DeploymentStateHandler {
   Future<bool> _handleFailure(Failure state) async {
     print('❌ فشل في [${state.step}]: ${state.error}');
     print('::error::${state.step}: ${state.error}');
-    _notifier.notifyFailure(step: state.step, error: state.error);
     throw Exception('Deployment failed: ${state.error}');
   }
 }
