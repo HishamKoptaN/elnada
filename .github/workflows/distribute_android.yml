@@ -55,6 +55,7 @@ jobs:
 
       - working-directory: .github/scripts/automation_tool
         run: |
+          rm -f lib/**/*.freezed.dart lib/**/*.g.dart
           dart pub get
           dart run build_runner build --delete-conflicting-outputs
 
