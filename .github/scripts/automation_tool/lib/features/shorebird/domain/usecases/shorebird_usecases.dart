@@ -27,17 +27,25 @@ class ShorebirdUseCases {
     DeploymentConfig config,
     VersionInfo version,
   ) async {
-    final isPossible = await _repo.isReleasePossible(config, version);
-    if (!isPossible) {
-      return DeploymentResult.failure(
-        reason:
-            'Release not possible - version ${version.cleanVersion} may already exist',
-      );
-    }
     try {
       await _repo.executeRelease(config);
       return DeploymentResult.release(version: version.cleanVersion);
     } catch (e) {
+      final error = e.toString();
+      // If release exists, create a patch instead
+      if (error.contains('existing') ||
+          error.contains('bump your version') ||
+          error.contains('already exists')) {
+        print('   Release exists, creating patch instead...');
+        try {
+          await _repo.executePatch(config);
+          return const DeploymentResult.patch();
+        } catch (patchError) {
+          return DeploymentResult.failure(
+            reason: 'Patch failed after release existed: $patchError',
+          );
+        }
+      }
       return DeploymentResult.failure(reason: 'Release failed: $e');
     }
   }

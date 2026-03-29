@@ -8,17 +8,9 @@ import '../../domain/entities/version_info.dart';
 class ShorebirdLocalDataSource {
   /// Check if a patch is possible (needs existing release)
   Future<bool> isPatchPossible(DeploymentConfig config) async {
-    try {
-      print('🔍 Checking if patch is possible for flavor: ${config.flavor}');
-      // Check if there are any existing releases
-      final releases = await getExistingReleases(config);
-      final possible = releases.isNotEmpty;
-      print('   Found ${releases.length} releases, patch possible: $possible');
-      return possible;
-    } catch (e) {
-      print('   ❌ Error checking patch possibility: $e');
-      return false;
-    }
+    // We can't check without listing releases, assume possible
+    // The actual check happens when we try to patch
+    return true;
   }
 
   /// Execute patch
@@ -49,22 +41,9 @@ class ShorebirdLocalDataSource {
     DeploymentConfig config,
     VersionInfo version,
   ) async {
-    try {
-      print('🔍 Checking if release is possible for flavor: ${config.flavor}');
-      // Check if this version already exists
-      final releases = await getExistingReleases(config);
-      final versionExists = releases.any(
-        (r) => r.cleanVersion == version.cleanVersion,
-      );
-      final possible = !versionExists;
-      print(
-        '   Version ${version.cleanVersion} exists: $versionExists, release possible: $possible',
-      );
-      return possible;
-    } catch (e) {
-      print('   ❌ Error checking release possibility: $e');
-      return false;
-    }
+    // We can't check without listing releases, assume possible
+    // The actual check happens when we try to release
+    return true;
   }
 
   /// Execute release
@@ -92,31 +71,8 @@ class ShorebirdLocalDataSource {
 
   /// Get existing releases from Shorebird CLI
   Future<List<VersionInfo>> getExistingReleases(DeploymentConfig config) async {
-    print('   📋 Getting existing releases for flavor: ${config.flavor}');
-    // Use shorebird releases command without 'list' subcommand
-    final result = await runExecutableArguments(
-      'shorebird',
-      ['releases'],
-      environment: {'SHOREBIRD_TOKEN': config.shorebirdToken},
-    );
-
-    print('   Raw output:\n${result.stdout}');
-
-    // Parse output to extract version info
-    final lines = result.stdout.toString().split('\n');
-    final versions = <VersionInfo>[];
-
-    for (final line in lines) {
-      // Parse version from output like "android v1.0.0+1 (production)"
-      final match = RegExp(r'v(\d+\.\d+\.\d+)\+(\d+)').firstMatch(line);
-      if (match != null) {
-        final version = '${match.group(1)}+${match.group(2)}';
-        print('   Found version: $version');
-        versions.add(VersionInfo.fromPubspecVersion(version));
-      }
-    }
-
-    print('   Total versions found: ${versions.length}');
-    return versions;
+    // Shorebird CLI no longer supports listing releases directly
+    // Return empty list - we'll handle conflicts when executing
+    return [];
   }
 }
