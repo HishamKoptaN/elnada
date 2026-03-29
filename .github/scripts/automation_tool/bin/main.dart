@@ -3,39 +3,46 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:abujena_automation/injection.dart';
 import 'package:abujena_automation/core/config.dart';
+import 'package:abujena_automation/core/services/telegram_service.dart';
 import 'package:abujena_automation/features/deploy/deploy_bloc.dart';
 import 'package:abujena_automation/features/build_engine/build_bloc.dart';
 import 'package:abujena_automation/features/shorebird/present/bloc/shorebird_bloc.dart';
 import 'package:abujena_automation/features/firebase/present/bloc/firebase_cleanup_bloc.dart';
 
+/// Sets GitHub Actions output
 void setGithubOutput(String name, String value) {
   final githubOutput = Platform.environment['GITHUB_OUTPUT'];
   if (githubOutput != null && githubOutput.isNotEmpty) {
     final file = File(githubOutput);
     file.writeAsStringSync('$name=$value\n', mode: FileMode.append);
   }
-  // Fallback to legacy syntax for compatibility
   print('::set-output name=$name::$value');
+}
+
+/// Sets multiple GitHub outputs at once
+void setOutputs(Map<String, String> outputs) {
+  outputs.forEach((key, value) {
+    setGithubOutput(key, value);
+  });
 }
 
 void main(List<String> arguments) async {
   configureDependencies();
-
-  final config = AutomationConfig.fromEnvironment();
   final command = arguments.isNotEmpty ? arguments.first : 'deploy';
 
   try {
     switch (command) {
       case 'deploy':
-        await _runFullDeployment();
+        await DeploymentRunner().run();
         break;
       case 'build':
-        await _runBuildOnly();
+        await BuildRunner().run();
         break;
       case 'cleanup':
-        await _runCleanupOnly();
+        await CleanupRunner().run();
         break;
       default:
+        print('Unknown command: $command');
         exit(1);
     }
   } catch (e, stackTrace) {
@@ -45,206 +52,222 @@ void main(List<String> arguments) async {
   }
 }
 
-Future<void> _runFullDeployment() async {
-  final deployBloc = getIt<DeployBloc>();
-  final buildBloc = getIt<BuildBloc>();
-  final shorebirdBloc = getIt<ShorebirdBloc>();
-  final cleanupBloc = getIt<FirebaseCleanupBloc>();
+/// Orchestrates the full deployment flow
+class DeploymentRunner {
+  final DeployBloc _deployBloc = getIt<DeployBloc>();
+  final BuildBloc _buildBloc = getIt<BuildBloc>();
+  final ShorebirdBloc _shorebirdBloc = getIt<ShorebirdBloc>();
+  final CleanupBloc _cleanupBloc = getIt<FirebaseCleanupBloc>();
+  final TelegramService _telegram = getIt<TelegramService>();
 
-  final completer = SafeCompleter<void>();
-  String? apkPath;
-  bool isNewRelease = false;
+  Future<void> run() async {
+    _setupLogging();
 
-  // Listen to DeployBloc orchestration
-  deployBloc.stream.listen((state) {
-    state.when(
-      initial: () {},
-      loading: (message) => print('⏳ $message'),
-      building: () {
+    try {
+      await for (final state in _deployBloc.stream) {
+        final shouldContinue = await _handleDeployState(state);
+        if (!shouldContinue) break;
+      }
+    } finally {
+      _deployBloc.close();
+      _buildBloc.close();
+      _shorebirdBloc.close();
+      _cleanupBloc.close();
+    }
+  }
+
+  /// Handles deploy states and returns true to continue, false to stop
+  Future<bool> _handleDeployState(DeployState state) async {
+    return state.map(
+      initial: (_) => true,
+      loading: (s) {
+        print('⏳ ${s.message}');
+        return true;
+      },
+      building: (_) {
         print('🔨 بدء البناء...');
-        buildBloc.add(const BuildEvent.started());
+        _buildBloc.add(const BuildEvent.started());
+        return true;
       },
-      buildSuccess: (outputPath) {
-        apkPath = outputPath;
-        print('✅ تم البناء: $outputPath');
-        deployBloc.reportBuildSuccess(outputPath);
+      buildSuccess: (s) {
+        print('✅ تم البناء: ${s.outputPath}');
+        return true;
       },
-      checkingVersion: () {
+      checkingVersion: (_) {
         print('🔍 فحص الإصدار...');
-        shorebirdBloc.add(const ShorebirdEvent.started());
+        _shorebirdBloc.add(const ShorebirdEvent.started());
+        return true;
       },
-      deployingPatch: () => print('🩹 نشر الباتش...'),
-      patchSuccess: () {
+      deployingPatch: (_) {
+        print('🩹 نشر الباتش...');
+        return true;
+      },
+      patchSuccess: (_) {
         print('✅ تم نشر الباتش بنجاح');
-        isNewRelease = false;
-        deployBloc.reportPatchSuccess();
+        _notifySuccess(isPatch: true);
+        return true;
       },
-      deployingRelease: () => print('🚀 نشر النسخة الجديدة...'),
-      releaseSuccess: (version, _) {
-        print('✅ تم نشر النسخة ${version.cleanVersion}');
-        isNewRelease = true;
-
-        // Set GitHub Actions outputs
-        setGithubOutput('is_new_release', 'true');
-        setGithubOutput('version', version.cleanVersion);
-
-        deployBloc.reportReleaseSuccess(version);
+      deployingRelease: (_) {
+        print('🚀 نشر النسخة الجديدة...');
+        return true;
       },
-      cleaningFirebase: () {
+      releaseSuccess: (s) {
+        print('✅ تم نشر النسخة ${s.version.cleanVersion}');
+        setOutputs({
+          'is_new_release': 'true',
+          'version': s.version.cleanVersion,
+        });
+        _notifySuccess(isPatch: false, version: s.version.cleanVersion);
+        return true;
+      },
+      cleaningFirebase: (_) {
         print('🧹 تنظيف الإصدارات القديمة...');
-        cleanupBloc.add(const FirebaseCleanupEvent.started());
+        _cleanupBloc.add(const FirebaseCleanupEvent.started());
+        return true;
       },
-      cleanupSuccess: (deletedCount) {
-        print('✅ تم حذف $deletedCount إصدار قديم');
-        deployBloc.reportCleanupSuccess(deletedCount);
+      cleanupSuccess: (s) {
+        print('✅ تم حذف ${s.deletedCount} إصدار قديم');
+        return true;
       },
-      failure: (step, error) {
-        print('❌ فشل في [$step]: $error');
-        print('::error::$step: $error');
-        if (!completer.isCompleted) completer.completeError(error);
+      completed: (_) {
+        print('🎉 Deployment completed!');
+        return false; // Stop listening
       },
-      completed: () {
-        if (!completer.isCompleted) completer.complete();
-      },
-    );
-  });
-
-  // Listen to BuildBloc
-  buildBloc.stream.listen((state) {
-    state.when(
-      initial: () {},
-      building: (platform) => print('   📦 بناء $platform...'),
-      success: (platform, outputPath) {
-        apkPath = outputPath;
-        print('   ✅ $platform تم بنجاح');
-        // Notify DeployBloc that build completed
-        deployBloc.reportBuildSuccess(outputPath);
-      },
-      failure: (platform, error) {
-        print('   ❌ فشل بناء $platform: $error');
-        deployBloc.reportFailure('build_$platform', error);
+      failure: (s) {
+        print('❌ فشل في [${s.step}]: ${s.error}');
+        print('::error::${s.step}: ${s.error}');
+        _telegram.sendFailureNotification(
+          appName: 'abujena_dawajen',
+          error: s.error,
+          stage: s.step,
+        );
+        throw Exception('Deployment failed: ${s.error}');
       },
     );
-  });
+  }
 
-  // Listen to ShorebirdBloc
-  shorebirdBloc.stream.listen((state) {
-    state.when(
-      initial: () {},
-      checkingVersion: () => print('   🔍 فحص إصدارات Shorebird...'),
-      patchReady: () {
-        print('   🩹 جاهز للباتش');
-        shorebirdBloc.add(const ShorebirdEvent.deployPatch());
-      },
-      releaseReady: () {
-        print('   🚀 جاهز للإصدار الجديد');
-        shorebirdBloc.add(const ShorebirdEvent.deployRelease());
-      },
-      deployingPatch: () => print('   📤 جاري نشر الباتش...'),
-      patchSuccess: () {
-        print('   ✅ تم نشر الباتش');
-        deployBloc.reportPatchSuccess();
-      },
-      deployingRelease: () => print('   📤 جاري نشر الإصدار...'),
-      releaseSuccess: (version) {
-        print('   ✅ تم نشر الإصدار ${version.cleanVersion}');
-        deployBloc.reportReleaseSuccess(version);
-      },
-      failure: (error) {
-        print('   ❌ فشل: $error');
-        deployBloc.reportFailure('shorebird', error);
-      },
+  void _setupLogging() {
+    // Build logging
+    _buildBloc.stream.listen((state) {
+      state.whenOrNull(
+        building: (p) => print('   📦 بناء $p...'),
+        success: (p, path) => print('   ✅ $path'),
+        failure: (p, e) => print('   ❌ فشل $p: $e'),
+      );
+    });
+
+    // Shorebird logging
+    _shorebirdBloc.stream.listen((state) {
+      state.whenOrNull(
+        checkingVersion: () => print('   🔍 فحص إصدارات Shorebird...'),
+        patchReady: () => print('   🩹 جاهز للباتش'),
+        releaseReady: () => print('   🚀 جاهز للإصدار الجديد'),
+        deployingPatch: () => print('   📤 نشر الباتش...'),
+        patchSuccess: () => print('   ✅ تم نشر الباتش'),
+        deployingRelease: () => print('   📤 نشر الإصدار...'),
+        releaseSuccess: (v) => print('   ✅ تم نشر ${v.cleanVersion}'),
+        failure: (e) => print('   ❌ فشل: $e'),
+      );
+    });
+
+    // Cleanup logging
+    _cleanupBloc.stream.listen((state) {
+      state.whenOrNull(
+        loading: () => print('   🧹 جاري التنظيف...'),
+        success: (d, r) => print('   ✅ تم حذف $d - $r متبقي'),
+        failure: (e) => print('   ❌ فشل التنظيف: $e'),
+      );
+    });
+
+    // Start deployment
+    _deployBloc.add(const DeployEvent.started());
+  }
+
+  void _notifySuccess({required bool isPatch, String? version}) {
+    final flavor = Platform.environment['FLAVOR'] ?? 'prod';
+    _telegram.sendDeploymentNotification(
+      appName: 'abujena_dawajen ($flavor)',
+      version: version ?? '1.0.0',
+      platform: 'Android',
+      isPatch: isPatch,
     );
-  });
-
-  // Listen to CleanupBloc
-  cleanupBloc.stream.listen((state) {
-    state.when(
-      initial: () {},
-      loading: () => print('   🧹 جاري التنظيف...'),
-      success: (deleted, remaining) {
-        print('   ✅ تم حذف $deleted إصدار - $remaining متبقي');
-        deployBloc.reportCleanupSuccess(deleted);
-      },
-      failure: (error) {
-        print('   ❌ فشل التنظيف: $error');
-        deployBloc.reportFailure('cleanup', error);
-      },
-    );
-  });
-
-  // Start deployment
-  deployBloc.add(const DeployEvent.startDeployment());
-
-  await completer.future;
+  }
 }
 
-Future<void> _runBuildOnly() async {
-  final buildBloc = getIt<BuildBloc>();
-  final completer = SafeCompleter<void>();
+/// Handles build-only operations
+class BuildRunner {
+  final BuildBloc _buildBloc = getIt<BuildBloc>();
 
-  buildBloc.stream.listen((state) {
-    state.when(
-      initial: () {},
-      building: (platform) => print('📦 بناء $platform...'),
-      success: (platform, outputPath) {
-        print('✅ تم بناء $platform: $outputPath');
-        setGithubOutput('apk_path', outputPath);
-        if (!completer.isCompleted) completer.complete();
-      },
-      failure: (platform, error) {
-        print('❌ فشل بناء $platform: $error');
-        print('::error::build_$platform: $error');
-        if (!completer.isCompleted) completer.completeError(error);
-      },
-    );
-  });
-
-  buildBloc.add(const BuildEvent.started());
-  await completer.future;
-}
-
-Future<void> _runCleanupOnly() async {
-  final cleanupBloc = getIt<FirebaseCleanupBloc>();
-  final completer = SafeCompleter<void>();
-
-  cleanupBloc.stream.listen((state) {
-    state.when(
-      initial: () {},
-      loading: () => print('🧹 تنظيف Firebase...'),
-      success: (deleted, remaining) {
-        print('✅ تم حذف $deleted إصدار - $remaining متبقي');
-        setGithubOutput('deleted_count', deleted.toString());
-        setGithubOutput('remaining_count', remaining.toString());
-        if (!completer.isCompleted) completer.complete();
-      },
-      failure: (error) {
-        print('❌ فشل التنظيف: $error');
-        print('::error::cleanup: $error');
-        if (!completer.isCompleted) completer.completeError(error);
-      },
-    );
-  });
-
-  cleanupBloc.add(const FirebaseCleanupEvent.started());
-  await completer.future;
-}
-
-class SafeCompleter<T> {
-  final _completer = Completer<T>();
-
-  Future<T> get future => _completer.future;
-  bool get isCompleted => _completer.isCompleted;
-
-  void complete([T? value]) {
-    if (!_completer.isCompleted) {
-      _completer.complete(value);
+  Future<void> run() async {
+    try {
+      await for (final state in _buildBloc.stream) {
+        final shouldContinue = await _handleState(state);
+        if (!shouldContinue) break;
+      }
+    } finally {
+      _buildBloc.close();
     }
   }
 
-  void completeError(Object error, [StackTrace? stackTrace]) {
-    if (!_completer.isCompleted) {
-      _completer.completeError(error, stackTrace);
-    }
+  Future<bool> _handleState(BuildState state) async {
+    return state.map(
+      initial: (_) => true,
+      building: (s) {
+        print('📦 بناء ${s.platform}...');
+        return true;
+      },
+      success: (s) {
+        print('✅ تم بناء ${s.platform}: ${s.outputPath}');
+        setGithubOutput('apk_path', s.outputPath);
+        return false;
+      },
+      failure: (s) {
+        print('❌ فشل بناء ${s.platform}: ${s.error}');
+        print('::error::build_${s.platform}: ${s.error}');
+        throw Exception('Build failed: ${s.error}');
+      },
+    );
   }
 }
+
+/// Handles cleanup-only operations
+class CleanupRunner {
+  final CleanupBloc _cleanupBloc = getIt<FirebaseCleanupBloc>();
+
+  Future<void> run() async {
+    try {
+      await for (final state in _cleanupBloc.stream) {
+        final shouldContinue = await _handleState(state);
+        if (!shouldContinue) break;
+      }
+    } finally {
+      _cleanupBloc.close();
+    }
+  }
+
+  Future<bool> _handleState(CleanupState state) async {
+    return state.map(
+      initial: (_) => true,
+      loading: (_) {
+        print('🧹 تنظيف Firebase...');
+        return true;
+      },
+      success: (s) {
+        print('✅ تم حذف ${s.deleted} إصدار - ${s.remaining} متبقي');
+        setOutputs({
+          'deleted_count': s.deleted.toString(),
+          'remaining_count': s.remaining.toString(),
+        });
+        return false;
+      },
+      failure: (s) {
+        print('❌ فشل التنظيف: ${s.error}');
+        print('::error::cleanup: ${s.error}');
+        throw Exception('Cleanup failed: ${s.error}');
+      },
+    );
+  }
+}
+
+// Type alias for FirebaseCleanupBloc
+typedef CleanupBloc = FirebaseCleanupBloc;
