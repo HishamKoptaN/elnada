@@ -115,7 +115,7 @@ class DeploymentRunner {
       );
     });
 
-    _deployBloc.add(const DeployEvent.started());
+    _deployBloc.add(const DeployEvent.startDeployment());
   }
 
   void _closeBlocs() {
