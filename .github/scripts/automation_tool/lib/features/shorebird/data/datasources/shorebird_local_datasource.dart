@@ -24,8 +24,8 @@ class ShorebirdLocalDataSource {
       environment: {'SHOREBIRD_TOKEN': config.shorebirdToken},
     );
 
-    print('   Exit code: ${result.exitCode}');
-    print('   Stdout: ${result.stdout}');
+    print('Exit code: ${result.exitCode}');
+    print('Stdout: ${result.stdout}');
     if (result.stderr.toString().isNotEmpty) {
       print('   Stderr: ${result.stderr}');
     }

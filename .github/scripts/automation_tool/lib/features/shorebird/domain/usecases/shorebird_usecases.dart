@@ -31,11 +31,13 @@ class ShorebirdUseCases {
       await _repo.executeRelease(config);
       return DeploymentResult.release(version: version.cleanVersion);
     } catch (e) {
-      final error = e.toString();
+      final error = e.toString().toLowerCase();
+      final stderr = e is Exception ? e.toString() : '';
       // If release exists, create a patch instead
       if (error.contains('existing') ||
           error.contains('bump your version') ||
-          error.contains('already exists')) {
+          error.contains('already exists') ||
+          error.contains('have an existing')) {
         print('   Release exists, creating patch instead...');
         try {
           await _repo.executePatch(config);
