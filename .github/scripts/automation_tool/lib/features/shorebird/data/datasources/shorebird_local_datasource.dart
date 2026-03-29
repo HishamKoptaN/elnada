@@ -24,16 +24,12 @@ class ShorebirdLocalDataSource {
   /// Execute patch
   Future<void> executePatch(DeploymentConfig config) async {
     print('🚀 Executing patch for flavor: ${config.flavor}');
-    final args = ['patch', 'android', '--force'];
+    final args = ['patch', 'android', '--flavor=${config.flavor}', '--force'];
     print('   Running: shorebird ${args.join(" ")}');
-    print('   SHOREBIRD_APP_ID: ${config.shorebirdAppId}');
     final result = await runExecutableArguments(
       'shorebird',
       args,
-      environment: {
-        'SHOREBIRD_TOKEN': config.shorebirdToken,
-        'SHOREBIRD_APP_ID': config.shorebirdAppId,
-      },
+      environment: {'SHOREBIRD_TOKEN': config.shorebirdToken},
     );
 
     print('   Exit code: ${result.exitCode}');
@@ -74,18 +70,12 @@ class ShorebirdLocalDataSource {
   /// Execute release
   Future<void> executeRelease(DeploymentConfig config) async {
     print('🚀 Executing release for flavor: ${config.flavor}');
-    // Use SHOREBIRD_APP_ID env var to avoid flavor suffix in version name
-    // This creates version 1.0.0+1 instead of 1.0.0-dev+1
-    final args = ['release', 'android'];
+    final args = ['release', 'android', '--flavor=${config.flavor}'];
     print('   Running: shorebird ${args.join(" ")}');
-    print('   SHOREBIRD_APP_ID: ${config.shorebirdAppId}');
     final result = await runExecutableArguments(
       'shorebird',
       args,
-      environment: {
-        'SHOREBIRD_TOKEN': config.shorebirdToken,
-        'SHOREBIRD_APP_ID': config.shorebirdAppId,
-      },
+      environment: {'SHOREBIRD_TOKEN': config.shorebirdToken},
     );
 
     print('   Exit code: ${result.exitCode}');
@@ -103,13 +93,11 @@ class ShorebirdLocalDataSource {
   /// Get existing releases from Shorebird CLI
   Future<List<VersionInfo>> getExistingReleases(DeploymentConfig config) async {
     print('   📋 Getting existing releases for flavor: ${config.flavor}');
+    // Use shorebird releases command without 'list' subcommand
     final result = await runExecutableArguments(
       'shorebird',
-      ['releases', 'list'],
-      environment: {
-        'SHOREBIRD_TOKEN': config.shorebirdToken,
-        'SHOREBIRD_APP_ID': config.shorebirdAppId,
-      },
+      ['releases'],
+      environment: {'SHOREBIRD_TOKEN': config.shorebirdToken},
     );
 
     print('   Raw output:\n${result.stdout}');
