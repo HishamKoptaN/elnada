@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,11 +9,8 @@ part of 'deployment_result.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 DeploymentResult _$DeploymentResultFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
     case 'patch':
@@ -31,118 +28,13 @@ DeploymentResult _$DeploymentResultFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$DeploymentResult {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() patch,
-    required TResult Function(String version) release,
-    required TResult Function(String reason) failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? patch,
-    TResult? Function(String version)? release,
-    TResult? Function(String reason)? failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? patch,
-    TResult Function(String version)? release,
-    TResult Function(String reason)? failure,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(DeploymentResultPatch value) patch,
-    required TResult Function(DeploymentResultRelease value) release,
-    required TResult Function(DeploymentResultFailure value) failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(DeploymentResultPatch value)? patch,
-    TResult? Function(DeploymentResultRelease value)? release,
-    TResult? Function(DeploymentResultFailure value)? failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(DeploymentResultPatch value)? patch,
-    TResult Function(DeploymentResultRelease value)? release,
-    TResult Function(DeploymentResultFailure value)? failure,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-
   /// Serializes this DeploymentResult to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $DeploymentResultCopyWith<$Res> {
-  factory $DeploymentResultCopyWith(
-          DeploymentResult value, $Res Function(DeploymentResult) then) =
-      _$DeploymentResultCopyWithImpl<$Res, DeploymentResult>;
-}
-
-/// @nodoc
-class _$DeploymentResultCopyWithImpl<$Res, $Val extends DeploymentResult>
-    implements $DeploymentResultCopyWith<$Res> {
-  _$DeploymentResultCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of DeploymentResult
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-abstract class _$$DeploymentResultPatchImplCopyWith<$Res> {
-  factory _$$DeploymentResultPatchImplCopyWith(
-          _$DeploymentResultPatchImpl value,
-          $Res Function(_$DeploymentResultPatchImpl) then) =
-      __$$DeploymentResultPatchImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$DeploymentResultPatchImplCopyWithImpl<$Res>
-    extends _$DeploymentResultCopyWithImpl<$Res, _$DeploymentResultPatchImpl>
-    implements _$$DeploymentResultPatchImplCopyWith<$Res> {
-  __$$DeploymentResultPatchImplCopyWithImpl(_$DeploymentResultPatchImpl _value,
-      $Res Function(_$DeploymentResultPatchImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of DeploymentResult
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$DeploymentResultPatchImpl implements DeploymentResultPatch {
-  const _$DeploymentResultPatchImpl({final String? $type})
-      : $type = $type ?? 'patch';
-
-  factory _$DeploymentResultPatchImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DeploymentResultPatchImplFromJson(json);
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'DeploymentResult.patch()';
-  }
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$DeploymentResultPatchImpl);
+        (other.runtimeType == runtimeType && other is DeploymentResult);
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -150,60 +42,31 @@ class _$DeploymentResultPatchImpl implements DeploymentResultPatch {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() patch,
-    required TResult Function(String version) release,
-    required TResult Function(String reason) failure,
-  }) {
-    return patch();
+  String toString() {
+    return 'DeploymentResult()';
   }
+}
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? patch,
-    TResult? Function(String version)? release,
-    TResult? Function(String reason)? failure,
-  }) {
-    return patch?.call();
-  }
+/// @nodoc
+class $DeploymentResultCopyWith<$Res> {
+  $DeploymentResultCopyWith(
+      DeploymentResult _, $Res Function(DeploymentResult) __);
+}
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? patch,
-    TResult Function(String version)? release,
-    TResult Function(String reason)? failure,
-    required TResult orElse(),
-  }) {
-    if (patch != null) {
-      return patch();
-    }
-    return orElse();
-  }
+/// Adds pattern-matching-related methods to [DeploymentResult].
+extension DeploymentResultPatterns on DeploymentResult {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(DeploymentResultPatch value) patch,
-    required TResult Function(DeploymentResultRelease value) release,
-    required TResult Function(DeploymentResultFailure value) failure,
-  }) {
-    return patch(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(DeploymentResultPatch value)? patch,
-    TResult? Function(DeploymentResultRelease value)? release,
-    TResult? Function(DeploymentResultFailure value)? failure,
-  }) {
-    return patch?.call(this);
-  }
-
-  @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DeploymentResultPatch value)? patch,
@@ -211,56 +74,284 @@ class _$DeploymentResultPatchImpl implements DeploymentResultPatch {
     TResult Function(DeploymentResultFailure value)? failure,
     required TResult orElse(),
   }) {
-    if (patch != null) {
-      return patch(this);
+    final _that = this;
+    switch (_that) {
+      case DeploymentResultPatch() when patch != null:
+        return patch(_that);
+      case DeploymentResultRelease() when release != null:
+        return release(_that);
+      case DeploymentResultFailure() when failure != null:
+        return failure(_that);
+      case _:
+        return orElse();
     }
-    return orElse();
   }
 
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$DeploymentResultPatchImplToJson(
-      this,
-    );
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(DeploymentResultPatch value) patch,
+    required TResult Function(DeploymentResultRelease value) release,
+    required TResult Function(DeploymentResultFailure value) failure,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case DeploymentResultPatch():
+        return patch(_that);
+      case DeploymentResultRelease():
+        return release(_that);
+      case DeploymentResultFailure():
+        return failure(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
   }
-}
 
-abstract class DeploymentResultPatch implements DeploymentResult {
-  const factory DeploymentResultPatch() = _$DeploymentResultPatchImpl;
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
 
-  factory DeploymentResultPatch.fromJson(Map<String, dynamic> json) =
-      _$DeploymentResultPatchImpl.fromJson;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(DeploymentResultPatch value)? patch,
+    TResult? Function(DeploymentResultRelease value)? release,
+    TResult? Function(DeploymentResultFailure value)? failure,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case DeploymentResultPatch() when patch != null:
+        return patch(_that);
+      case DeploymentResultRelease() when release != null:
+        return release(_that);
+      case DeploymentResultFailure() when failure != null:
+        return failure(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? patch,
+    TResult Function(String version)? release,
+    TResult Function(String reason)? failure,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case DeploymentResultPatch() when patch != null:
+        return patch();
+      case DeploymentResultRelease() when release != null:
+        return release(_that.version);
+      case DeploymentResultFailure() when failure != null:
+        return failure(_that.reason);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() patch,
+    required TResult Function(String version) release,
+    required TResult Function(String reason) failure,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case DeploymentResultPatch():
+        return patch();
+      case DeploymentResultRelease():
+        return release(_that.version);
+      case DeploymentResultFailure():
+        return failure(_that.reason);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? patch,
+    TResult? Function(String version)? release,
+    TResult? Function(String reason)? failure,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case DeploymentResultPatch() when patch != null:
+        return patch();
+      case DeploymentResultRelease() when release != null:
+        return release(_that.version);
+      case DeploymentResultFailure() when failure != null:
+        return failure(_that.reason);
+      case _:
+        return null;
+    }
+  }
 }
 
 /// @nodoc
-abstract class _$$DeploymentResultReleaseImplCopyWith<$Res> {
-  factory _$$DeploymentResultReleaseImplCopyWith(
-          _$DeploymentResultReleaseImpl value,
-          $Res Function(_$DeploymentResultReleaseImpl) then) =
-      __$$DeploymentResultReleaseImplCopyWithImpl<$Res>;
+@JsonSerializable()
+class DeploymentResultPatch implements DeploymentResult {
+  const DeploymentResultPatch({final String? $type}) : $type = $type ?? 'patch';
+  factory DeploymentResultPatch.fromJson(Map<String, dynamic> json) =>
+      _$DeploymentResultPatchFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$DeploymentResultPatchToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is DeploymentResultPatch);
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'DeploymentResult.patch()';
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class DeploymentResultRelease implements DeploymentResult {
+  const DeploymentResultRelease({required this.version, final String? $type})
+      : $type = $type ?? 'release';
+  factory DeploymentResultRelease.fromJson(Map<String, dynamic> json) =>
+      _$DeploymentResultReleaseFromJson(json);
+
+  final String version;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  /// Create a copy of DeploymentResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $DeploymentResultReleaseCopyWith<DeploymentResultRelease> get copyWith =>
+      _$DeploymentResultReleaseCopyWithImpl<DeploymentResultRelease>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$DeploymentResultReleaseToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is DeploymentResultRelease &&
+            (identical(other.version, version) || other.version == version));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, version);
+
+  @override
+  String toString() {
+    return 'DeploymentResult.release(version: $version)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $DeploymentResultReleaseCopyWith<$Res>
+    implements $DeploymentResultCopyWith<$Res> {
+  factory $DeploymentResultReleaseCopyWith(DeploymentResultRelease value,
+          $Res Function(DeploymentResultRelease) _then) =
+      _$DeploymentResultReleaseCopyWithImpl;
   @useResult
   $Res call({String version});
 }
 
 /// @nodoc
-class __$$DeploymentResultReleaseImplCopyWithImpl<$Res>
-    extends _$DeploymentResultCopyWithImpl<$Res, _$DeploymentResultReleaseImpl>
-    implements _$$DeploymentResultReleaseImplCopyWith<$Res> {
-  __$$DeploymentResultReleaseImplCopyWithImpl(
-      _$DeploymentResultReleaseImpl _value,
-      $Res Function(_$DeploymentResultReleaseImpl) _then)
-      : super(_value, _then);
+class _$DeploymentResultReleaseCopyWithImpl<$Res>
+    implements $DeploymentResultReleaseCopyWith<$Res> {
+  _$DeploymentResultReleaseCopyWithImpl(this._self, this._then);
+
+  final DeploymentResultRelease _self;
+  final $Res Function(DeploymentResultRelease) _then;
 
   /// Create a copy of DeploymentResult
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
-  @override
   $Res call({
     Object? version = null,
   }) {
-    return _then(_$DeploymentResultReleaseImpl(
+    return _then(DeploymentResultRelease(
       version: null == version
-          ? _value.version
+          ? _self.version
           : version // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -269,199 +360,37 @@ class __$$DeploymentResultReleaseImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$DeploymentResultReleaseImpl implements DeploymentResultRelease {
-  const _$DeploymentResultReleaseImpl(
-      {required this.version, final String? $type})
-      : $type = $type ?? 'release';
-
-  factory _$DeploymentResultReleaseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DeploymentResultReleaseImplFromJson(json);
-
-  @override
-  final String version;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'DeploymentResult.release(version: $version)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$DeploymentResultReleaseImpl &&
-            (identical(other.version, version) || other.version == version));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, version);
-
-  /// Create a copy of DeploymentResult
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$DeploymentResultReleaseImplCopyWith<_$DeploymentResultReleaseImpl>
-      get copyWith => __$$DeploymentResultReleaseImplCopyWithImpl<
-          _$DeploymentResultReleaseImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() patch,
-    required TResult Function(String version) release,
-    required TResult Function(String reason) failure,
-  }) {
-    return release(version);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? patch,
-    TResult? Function(String version)? release,
-    TResult? Function(String reason)? failure,
-  }) {
-    return release?.call(version);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? patch,
-    TResult Function(String version)? release,
-    TResult Function(String reason)? failure,
-    required TResult orElse(),
-  }) {
-    if (release != null) {
-      return release(version);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(DeploymentResultPatch value) patch,
-    required TResult Function(DeploymentResultRelease value) release,
-    required TResult Function(DeploymentResultFailure value) failure,
-  }) {
-    return release(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(DeploymentResultPatch value)? patch,
-    TResult? Function(DeploymentResultRelease value)? release,
-    TResult? Function(DeploymentResultFailure value)? failure,
-  }) {
-    return release?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(DeploymentResultPatch value)? patch,
-    TResult Function(DeploymentResultRelease value)? release,
-    TResult Function(DeploymentResultFailure value)? failure,
-    required TResult orElse(),
-  }) {
-    if (release != null) {
-      return release(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$DeploymentResultReleaseImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class DeploymentResultRelease implements DeploymentResult {
-  const factory DeploymentResultRelease({required final String version}) =
-      _$DeploymentResultReleaseImpl;
-
-  factory DeploymentResultRelease.fromJson(Map<String, dynamic> json) =
-      _$DeploymentResultReleaseImpl.fromJson;
-
-  String get version;
-
-  /// Create a copy of DeploymentResult
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DeploymentResultReleaseImplCopyWith<_$DeploymentResultReleaseImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$DeploymentResultFailureImplCopyWith<$Res> {
-  factory _$$DeploymentResultFailureImplCopyWith(
-          _$DeploymentResultFailureImpl value,
-          $Res Function(_$DeploymentResultFailureImpl) then) =
-      __$$DeploymentResultFailureImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String reason});
-}
-
-/// @nodoc
-class __$$DeploymentResultFailureImplCopyWithImpl<$Res>
-    extends _$DeploymentResultCopyWithImpl<$Res, _$DeploymentResultFailureImpl>
-    implements _$$DeploymentResultFailureImplCopyWith<$Res> {
-  __$$DeploymentResultFailureImplCopyWithImpl(
-      _$DeploymentResultFailureImpl _value,
-      $Res Function(_$DeploymentResultFailureImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of DeploymentResult
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? reason = null,
-  }) {
-    return _then(_$DeploymentResultFailureImpl(
-      reason: null == reason
-          ? _value.reason
-          : reason // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$DeploymentResultFailureImpl implements DeploymentResultFailure {
-  const _$DeploymentResultFailureImpl(
-      {required this.reason, final String? $type})
+class DeploymentResultFailure implements DeploymentResult {
+  const DeploymentResultFailure({required this.reason, final String? $type})
       : $type = $type ?? 'failure';
+  factory DeploymentResultFailure.fromJson(Map<String, dynamic> json) =>
+      _$DeploymentResultFailureFromJson(json);
 
-  factory _$DeploymentResultFailureImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DeploymentResultFailureImplFromJson(json);
-
-  @override
   final String reason;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
+  /// Create a copy of DeploymentResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $DeploymentResultFailureCopyWith<DeploymentResultFailure> get copyWith =>
+      _$DeploymentResultFailureCopyWithImpl<DeploymentResultFailure>(
+          this, _$identity);
+
   @override
-  String toString() {
-    return 'DeploymentResult.failure(reason: $reason)';
+  Map<String, dynamic> toJson() {
+    return _$DeploymentResultFailureToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DeploymentResultFailureImpl &&
+            other is DeploymentResultFailure &&
             (identical(other.reason, reason) || other.reason == reason));
   }
 
@@ -469,103 +398,43 @@ class _$DeploymentResultFailureImpl implements DeploymentResultFailure {
   @override
   int get hashCode => Object.hash(runtimeType, reason);
 
+  @override
+  String toString() {
+    return 'DeploymentResult.failure(reason: $reason)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $DeploymentResultFailureCopyWith<$Res>
+    implements $DeploymentResultCopyWith<$Res> {
+  factory $DeploymentResultFailureCopyWith(DeploymentResultFailure value,
+          $Res Function(DeploymentResultFailure) _then) =
+      _$DeploymentResultFailureCopyWithImpl;
+  @useResult
+  $Res call({String reason});
+}
+
+/// @nodoc
+class _$DeploymentResultFailureCopyWithImpl<$Res>
+    implements $DeploymentResultFailureCopyWith<$Res> {
+  _$DeploymentResultFailureCopyWithImpl(this._self, this._then);
+
+  final DeploymentResultFailure _self;
+  final $Res Function(DeploymentResultFailure) _then;
+
   /// Create a copy of DeploymentResult
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
   @pragma('vm:prefer-inline')
-  _$$DeploymentResultFailureImplCopyWith<_$DeploymentResultFailureImpl>
-      get copyWith => __$$DeploymentResultFailureImplCopyWithImpl<
-          _$DeploymentResultFailureImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() patch,
-    required TResult Function(String version) release,
-    required TResult Function(String reason) failure,
+  $Res call({
+    Object? reason = null,
   }) {
-    return failure(reason);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? patch,
-    TResult? Function(String version)? release,
-    TResult? Function(String reason)? failure,
-  }) {
-    return failure?.call(reason);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? patch,
-    TResult Function(String version)? release,
-    TResult Function(String reason)? failure,
-    required TResult orElse(),
-  }) {
-    if (failure != null) {
-      return failure(reason);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(DeploymentResultPatch value) patch,
-    required TResult Function(DeploymentResultRelease value) release,
-    required TResult Function(DeploymentResultFailure value) failure,
-  }) {
-    return failure(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(DeploymentResultPatch value)? patch,
-    TResult? Function(DeploymentResultRelease value)? release,
-    TResult? Function(DeploymentResultFailure value)? failure,
-  }) {
-    return failure?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(DeploymentResultPatch value)? patch,
-    TResult Function(DeploymentResultRelease value)? release,
-    TResult Function(DeploymentResultFailure value)? failure,
-    required TResult orElse(),
-  }) {
-    if (failure != null) {
-      return failure(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$DeploymentResultFailureImplToJson(
-      this,
-    );
+    return _then(DeploymentResultFailure(
+      reason: null == reason
+          ? _self.reason
+          : reason // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
   }
 }
 
-abstract class DeploymentResultFailure implements DeploymentResult {
-  const factory DeploymentResultFailure({required final String reason}) =
-      _$DeploymentResultFailureImpl;
-
-  factory DeploymentResultFailure.fromJson(Map<String, dynamic> json) =
-      _$DeploymentResultFailureImpl.fromJson;
-
-  String get reason;
-
-  /// Create a copy of DeploymentResult
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DeploymentResultFailureImplCopyWith<_$DeploymentResultFailureImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

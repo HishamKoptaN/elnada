@@ -6,41 +6,41 @@ part of 'deployment_result.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$DeploymentResultPatchImpl _$$DeploymentResultPatchImplFromJson(
+DeploymentResultPatch _$DeploymentResultPatchFromJson(
         Map<String, dynamic> json) =>
-    _$DeploymentResultPatchImpl(
+    DeploymentResultPatch(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$DeploymentResultPatchImplToJson(
-        _$DeploymentResultPatchImpl instance) =>
+Map<String, dynamic> _$DeploymentResultPatchToJson(
+        DeploymentResultPatch instance) =>
     <String, dynamic>{
       'runtimeType': instance.$type,
     };
 
-_$DeploymentResultReleaseImpl _$$DeploymentResultReleaseImplFromJson(
+DeploymentResultRelease _$DeploymentResultReleaseFromJson(
         Map<String, dynamic> json) =>
-    _$DeploymentResultReleaseImpl(
+    DeploymentResultRelease(
       version: json['version'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$DeploymentResultReleaseImplToJson(
-        _$DeploymentResultReleaseImpl instance) =>
+Map<String, dynamic> _$DeploymentResultReleaseToJson(
+        DeploymentResultRelease instance) =>
     <String, dynamic>{
       'version': instance.version,
       'runtimeType': instance.$type,
     };
 
-_$DeploymentResultFailureImpl _$$DeploymentResultFailureImplFromJson(
+DeploymentResultFailure _$DeploymentResultFailureFromJson(
         Map<String, dynamic> json) =>
-    _$DeploymentResultFailureImpl(
+    DeploymentResultFailure(
       reason: json['reason'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$DeploymentResultFailureImplToJson(
-        _$DeploymentResultFailureImpl instance) =>
+Map<String, dynamic> _$DeploymentResultFailureToJson(
+        DeploymentResultFailure instance) =>
     <String, dynamic>{
       'reason': instance.reason,
       'runtimeType': instance.$type,

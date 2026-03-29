@@ -48,12 +48,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     final dioModule = _$DioModule();
     final configModule = _$ConfigModule();
+    gh.singleton<_i361.Dio>(() => dioModule.dio);
     gh.singleton<_i534.DeployBloc>(() => _i534.DeployBloc());
     gh.singleton<_i475.FirebaseLocalDataSource>(
         () => _i475.FirebaseLocalDataSource());
     gh.singleton<_i44.ShorebirdLocalDataSource>(
         () => _i44.ShorebirdLocalDataSource());
-    gh.singleton<_i361.Dio>(() => dioModule.dio);
     gh.singleton<String>(
       () => configModule.projectRoot,
       instanceName: 'projectRoot',

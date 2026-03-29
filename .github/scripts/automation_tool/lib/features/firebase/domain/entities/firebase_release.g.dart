@@ -6,9 +6,8 @@ part of 'firebase_release.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$FirebaseReleaseImpl _$$FirebaseReleaseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$FirebaseReleaseImpl(
+_FirebaseRelease _$FirebaseReleaseFromJson(Map<String, dynamic> json) =>
+    _FirebaseRelease(
       id: json['id'] as String,
       version: json['version'] as String,
       buildVersion: json['buildVersion'] as String,
@@ -17,8 +16,7 @@ _$FirebaseReleaseImpl _$$FirebaseReleaseImplFromJson(
       releaseNotes: json['releaseNotes'] as String?,
     );
 
-Map<String, dynamic> _$$FirebaseReleaseImplToJson(
-        _$FirebaseReleaseImpl instance) =>
+Map<String, dynamic> _$FirebaseReleaseToJson(_FirebaseRelease instance) =>
     <String, dynamic>{
       'id': instance.id,
       'version': instance.version,

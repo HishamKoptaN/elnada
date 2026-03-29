@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,54 +9,45 @@ part of 'shorebird_bloc.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ShorebirdEvent {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() started,
-    required TResult Function() checkVersion,
-    required TResult Function() deployPatch,
-    required TResult Function() deployRelease,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
-    TResult? Function()? checkVersion,
-    TResult? Function()? deployPatch,
-    TResult? Function()? deployRelease,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
-    TResult Function()? checkVersion,
-    TResult Function()? deployPatch,
-    TResult Function()? deployRelease,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ShorebirdEventStarted value) started,
-    required TResult Function(ShorebirdEventCheckVersion value) checkVersion,
-    required TResult Function(ShorebirdEventDeployPatch value) deployPatch,
-    required TResult Function(ShorebirdEventDeployRelease value) deployRelease,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ShorebirdEventStarted value)? started,
-    TResult? Function(ShorebirdEventCheckVersion value)? checkVersion,
-    TResult? Function(ShorebirdEventDeployPatch value)? deployPatch,
-    TResult? Function(ShorebirdEventDeployRelease value)? deployRelease,
-  }) =>
-      throw _privateConstructorUsedError;
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is ShorebirdEvent);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'ShorebirdEvent()';
+  }
+}
+
+/// @nodoc
+class $ShorebirdEventCopyWith<$Res> {
+  $ShorebirdEventCopyWith(ShorebirdEvent _, $Res Function(ShorebirdEvent) __);
+}
+
+/// Adds pattern-matching-related methods to [ShorebirdEvent].
+extension ShorebirdEventPatterns on ShorebirdEvent {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ShorebirdEventStarted value)? started,
@@ -64,554 +55,366 @@ mixin _$ShorebirdEvent {
     TResult Function(ShorebirdEventDeployPatch value)? deployPatch,
     TResult Function(ShorebirdEventDeployRelease value)? deployRelease,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ShorebirdEventStarted() when started != null:
+        return started(_that);
+      case ShorebirdEventCheckVersion() when checkVersion != null:
+        return checkVersion(_that);
+      case ShorebirdEventDeployPatch() when deployPatch != null:
+        return deployPatch(_that);
+      case ShorebirdEventDeployRelease() when deployRelease != null:
+        return deployRelease(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ShorebirdEventStarted value) started,
+    required TResult Function(ShorebirdEventCheckVersion value) checkVersion,
+    required TResult Function(ShorebirdEventDeployPatch value) deployPatch,
+    required TResult Function(ShorebirdEventDeployRelease value) deployRelease,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ShorebirdEventStarted():
+        return started(_that);
+      case ShorebirdEventCheckVersion():
+        return checkVersion(_that);
+      case ShorebirdEventDeployPatch():
+        return deployPatch(_that);
+      case ShorebirdEventDeployRelease():
+        return deployRelease(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ShorebirdEventStarted value)? started,
+    TResult? Function(ShorebirdEventCheckVersion value)? checkVersion,
+    TResult? Function(ShorebirdEventDeployPatch value)? deployPatch,
+    TResult? Function(ShorebirdEventDeployRelease value)? deployRelease,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ShorebirdEventStarted() when started != null:
+        return started(_that);
+      case ShorebirdEventCheckVersion() when checkVersion != null:
+        return checkVersion(_that);
+      case ShorebirdEventDeployPatch() when deployPatch != null:
+        return deployPatch(_that);
+      case ShorebirdEventDeployRelease() when deployRelease != null:
+        return deployRelease(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? checkVersion,
+    TResult Function()? deployPatch,
+    TResult Function()? deployRelease,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ShorebirdEventStarted() when started != null:
+        return started();
+      case ShorebirdEventCheckVersion() when checkVersion != null:
+        return checkVersion();
+      case ShorebirdEventDeployPatch() when deployPatch != null:
+        return deployPatch();
+      case ShorebirdEventDeployRelease() when deployRelease != null:
+        return deployRelease();
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() checkVersion,
+    required TResult Function() deployPatch,
+    required TResult Function() deployRelease,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ShorebirdEventStarted():
+        return started();
+      case ShorebirdEventCheckVersion():
+        return checkVersion();
+      case ShorebirdEventDeployPatch():
+        return deployPatch();
+      case ShorebirdEventDeployRelease():
+        return deployRelease();
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? checkVersion,
+    TResult? Function()? deployPatch,
+    TResult? Function()? deployRelease,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ShorebirdEventStarted() when started != null:
+        return started();
+      case ShorebirdEventCheckVersion() when checkVersion != null:
+        return checkVersion();
+      case ShorebirdEventDeployPatch() when deployPatch != null:
+        return deployPatch();
+      case ShorebirdEventDeployRelease() when deployRelease != null:
+        return deployRelease();
+      case _:
+        return null;
+    }
+  }
 }
 
 /// @nodoc
-abstract class $ShorebirdEventCopyWith<$Res> {
-  factory $ShorebirdEventCopyWith(
-          ShorebirdEvent value, $Res Function(ShorebirdEvent) then) =
-      _$ShorebirdEventCopyWithImpl<$Res, ShorebirdEvent>;
-}
 
-/// @nodoc
-class _$ShorebirdEventCopyWithImpl<$Res, $Val extends ShorebirdEvent>
-    implements $ShorebirdEventCopyWith<$Res> {
-  _$ShorebirdEventCopyWithImpl(this._value, this._then);
+class ShorebirdEventStarted implements ShorebirdEvent {
+  const ShorebirdEventStarted();
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is ShorebirdEventStarted);
+  }
 
-  /// Create a copy of ShorebirdEvent
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-abstract class _$$ShorebirdEventStartedImplCopyWith<$Res> {
-  factory _$$ShorebirdEventStartedImplCopyWith(
-          _$ShorebirdEventStartedImpl value,
-          $Res Function(_$ShorebirdEventStartedImpl) then) =
-      __$$ShorebirdEventStartedImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$ShorebirdEventStartedImplCopyWithImpl<$Res>
-    extends _$ShorebirdEventCopyWithImpl<$Res, _$ShorebirdEventStartedImpl>
-    implements _$$ShorebirdEventStartedImplCopyWith<$Res> {
-  __$$ShorebirdEventStartedImplCopyWithImpl(_$ShorebirdEventStartedImpl _value,
-      $Res Function(_$ShorebirdEventStartedImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ShorebirdEvent
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$ShorebirdEventStartedImpl implements ShorebirdEventStarted {
-  const _$ShorebirdEventStartedImpl();
+  @override
+  int get hashCode => runtimeType.hashCode;
 
   @override
   String toString() {
     return 'ShorebirdEvent.started()';
   }
+}
+
+/// @nodoc
+
+class ShorebirdEventCheckVersion implements ShorebirdEvent {
+  const ShorebirdEventCheckVersion();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ShorebirdEventStartedImpl);
+            other is ShorebirdEventCheckVersion);
   }
 
   @override
   int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() started,
-    required TResult Function() checkVersion,
-    required TResult Function() deployPatch,
-    required TResult Function() deployRelease,
-  }) {
-    return started();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
-    TResult? Function()? checkVersion,
-    TResult? Function()? deployPatch,
-    TResult? Function()? deployRelease,
-  }) {
-    return started?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
-    TResult Function()? checkVersion,
-    TResult Function()? deployPatch,
-    TResult Function()? deployRelease,
-    required TResult orElse(),
-  }) {
-    if (started != null) {
-      return started();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ShorebirdEventStarted value) started,
-    required TResult Function(ShorebirdEventCheckVersion value) checkVersion,
-    required TResult Function(ShorebirdEventDeployPatch value) deployPatch,
-    required TResult Function(ShorebirdEventDeployRelease value) deployRelease,
-  }) {
-    return started(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ShorebirdEventStarted value)? started,
-    TResult? Function(ShorebirdEventCheckVersion value)? checkVersion,
-    TResult? Function(ShorebirdEventDeployPatch value)? deployPatch,
-    TResult? Function(ShorebirdEventDeployRelease value)? deployRelease,
-  }) {
-    return started?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ShorebirdEventStarted value)? started,
-    TResult Function(ShorebirdEventCheckVersion value)? checkVersion,
-    TResult Function(ShorebirdEventDeployPatch value)? deployPatch,
-    TResult Function(ShorebirdEventDeployRelease value)? deployRelease,
-    required TResult orElse(),
-  }) {
-    if (started != null) {
-      return started(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ShorebirdEventStarted implements ShorebirdEvent {
-  const factory ShorebirdEventStarted() = _$ShorebirdEventStartedImpl;
-}
-
-/// @nodoc
-abstract class _$$ShorebirdEventCheckVersionImplCopyWith<$Res> {
-  factory _$$ShorebirdEventCheckVersionImplCopyWith(
-          _$ShorebirdEventCheckVersionImpl value,
-          $Res Function(_$ShorebirdEventCheckVersionImpl) then) =
-      __$$ShorebirdEventCheckVersionImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$ShorebirdEventCheckVersionImplCopyWithImpl<$Res>
-    extends _$ShorebirdEventCopyWithImpl<$Res, _$ShorebirdEventCheckVersionImpl>
-    implements _$$ShorebirdEventCheckVersionImplCopyWith<$Res> {
-  __$$ShorebirdEventCheckVersionImplCopyWithImpl(
-      _$ShorebirdEventCheckVersionImpl _value,
-      $Res Function(_$ShorebirdEventCheckVersionImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ShorebirdEvent
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$ShorebirdEventCheckVersionImpl implements ShorebirdEventCheckVersion {
-  const _$ShorebirdEventCheckVersionImpl();
 
   @override
   String toString() {
     return 'ShorebirdEvent.checkVersion()';
   }
+}
+
+/// @nodoc
+
+class ShorebirdEventDeployPatch implements ShorebirdEvent {
+  const ShorebirdEventDeployPatch();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ShorebirdEventCheckVersionImpl);
+            other is ShorebirdEventDeployPatch);
   }
 
   @override
   int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() started,
-    required TResult Function() checkVersion,
-    required TResult Function() deployPatch,
-    required TResult Function() deployRelease,
-  }) {
-    return checkVersion();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
-    TResult? Function()? checkVersion,
-    TResult? Function()? deployPatch,
-    TResult? Function()? deployRelease,
-  }) {
-    return checkVersion?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
-    TResult Function()? checkVersion,
-    TResult Function()? deployPatch,
-    TResult Function()? deployRelease,
-    required TResult orElse(),
-  }) {
-    if (checkVersion != null) {
-      return checkVersion();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ShorebirdEventStarted value) started,
-    required TResult Function(ShorebirdEventCheckVersion value) checkVersion,
-    required TResult Function(ShorebirdEventDeployPatch value) deployPatch,
-    required TResult Function(ShorebirdEventDeployRelease value) deployRelease,
-  }) {
-    return checkVersion(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ShorebirdEventStarted value)? started,
-    TResult? Function(ShorebirdEventCheckVersion value)? checkVersion,
-    TResult? Function(ShorebirdEventDeployPatch value)? deployPatch,
-    TResult? Function(ShorebirdEventDeployRelease value)? deployRelease,
-  }) {
-    return checkVersion?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ShorebirdEventStarted value)? started,
-    TResult Function(ShorebirdEventCheckVersion value)? checkVersion,
-    TResult Function(ShorebirdEventDeployPatch value)? deployPatch,
-    TResult Function(ShorebirdEventDeployRelease value)? deployRelease,
-    required TResult orElse(),
-  }) {
-    if (checkVersion != null) {
-      return checkVersion(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ShorebirdEventCheckVersion implements ShorebirdEvent {
-  const factory ShorebirdEventCheckVersion() = _$ShorebirdEventCheckVersionImpl;
-}
-
-/// @nodoc
-abstract class _$$ShorebirdEventDeployPatchImplCopyWith<$Res> {
-  factory _$$ShorebirdEventDeployPatchImplCopyWith(
-          _$ShorebirdEventDeployPatchImpl value,
-          $Res Function(_$ShorebirdEventDeployPatchImpl) then) =
-      __$$ShorebirdEventDeployPatchImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$ShorebirdEventDeployPatchImplCopyWithImpl<$Res>
-    extends _$ShorebirdEventCopyWithImpl<$Res, _$ShorebirdEventDeployPatchImpl>
-    implements _$$ShorebirdEventDeployPatchImplCopyWith<$Res> {
-  __$$ShorebirdEventDeployPatchImplCopyWithImpl(
-      _$ShorebirdEventDeployPatchImpl _value,
-      $Res Function(_$ShorebirdEventDeployPatchImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ShorebirdEvent
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$ShorebirdEventDeployPatchImpl implements ShorebirdEventDeployPatch {
-  const _$ShorebirdEventDeployPatchImpl();
 
   @override
   String toString() {
     return 'ShorebirdEvent.deployPatch()';
   }
+}
+
+/// @nodoc
+
+class ShorebirdEventDeployRelease implements ShorebirdEvent {
+  const ShorebirdEventDeployRelease();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ShorebirdEventDeployPatchImpl);
+            other is ShorebirdEventDeployRelease);
   }
 
   @override
   int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() started,
-    required TResult Function() checkVersion,
-    required TResult Function() deployPatch,
-    required TResult Function() deployRelease,
-  }) {
-    return deployPatch();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
-    TResult? Function()? checkVersion,
-    TResult? Function()? deployPatch,
-    TResult? Function()? deployRelease,
-  }) {
-    return deployPatch?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
-    TResult Function()? checkVersion,
-    TResult Function()? deployPatch,
-    TResult Function()? deployRelease,
-    required TResult orElse(),
-  }) {
-    if (deployPatch != null) {
-      return deployPatch();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ShorebirdEventStarted value) started,
-    required TResult Function(ShorebirdEventCheckVersion value) checkVersion,
-    required TResult Function(ShorebirdEventDeployPatch value) deployPatch,
-    required TResult Function(ShorebirdEventDeployRelease value) deployRelease,
-  }) {
-    return deployPatch(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ShorebirdEventStarted value)? started,
-    TResult? Function(ShorebirdEventCheckVersion value)? checkVersion,
-    TResult? Function(ShorebirdEventDeployPatch value)? deployPatch,
-    TResult? Function(ShorebirdEventDeployRelease value)? deployRelease,
-  }) {
-    return deployPatch?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ShorebirdEventStarted value)? started,
-    TResult Function(ShorebirdEventCheckVersion value)? checkVersion,
-    TResult Function(ShorebirdEventDeployPatch value)? deployPatch,
-    TResult Function(ShorebirdEventDeployRelease value)? deployRelease,
-    required TResult orElse(),
-  }) {
-    if (deployPatch != null) {
-      return deployPatch(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ShorebirdEventDeployPatch implements ShorebirdEvent {
-  const factory ShorebirdEventDeployPatch() = _$ShorebirdEventDeployPatchImpl;
-}
-
-/// @nodoc
-abstract class _$$ShorebirdEventDeployReleaseImplCopyWith<$Res> {
-  factory _$$ShorebirdEventDeployReleaseImplCopyWith(
-          _$ShorebirdEventDeployReleaseImpl value,
-          $Res Function(_$ShorebirdEventDeployReleaseImpl) then) =
-      __$$ShorebirdEventDeployReleaseImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$ShorebirdEventDeployReleaseImplCopyWithImpl<$Res>
-    extends _$ShorebirdEventCopyWithImpl<$Res,
-        _$ShorebirdEventDeployReleaseImpl>
-    implements _$$ShorebirdEventDeployReleaseImplCopyWith<$Res> {
-  __$$ShorebirdEventDeployReleaseImplCopyWithImpl(
-      _$ShorebirdEventDeployReleaseImpl _value,
-      $Res Function(_$ShorebirdEventDeployReleaseImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ShorebirdEvent
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$ShorebirdEventDeployReleaseImpl implements ShorebirdEventDeployRelease {
-  const _$ShorebirdEventDeployReleaseImpl();
 
   @override
   String toString() {
     return 'ShorebirdEvent.deployRelease()';
   }
+}
 
+/// @nodoc
+mixin _$ShorebirdState {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ShorebirdEventDeployReleaseImpl);
+        (other.runtimeType == runtimeType && other is ShorebirdState);
   }
 
   @override
   int get hashCode => runtimeType.hashCode;
 
   @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() started,
-    required TResult Function() checkVersion,
-    required TResult Function() deployPatch,
-    required TResult Function() deployRelease,
-  }) {
-    return deployRelease();
+  String toString() {
+    return 'ShorebirdState()';
   }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
-    TResult? Function()? checkVersion,
-    TResult? Function()? deployPatch,
-    TResult? Function()? deployRelease,
-  }) {
-    return deployRelease?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
-    TResult Function()? checkVersion,
-    TResult Function()? deployPatch,
-    TResult Function()? deployRelease,
-    required TResult orElse(),
-  }) {
-    if (deployRelease != null) {
-      return deployRelease();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ShorebirdEventStarted value) started,
-    required TResult Function(ShorebirdEventCheckVersion value) checkVersion,
-    required TResult Function(ShorebirdEventDeployPatch value) deployPatch,
-    required TResult Function(ShorebirdEventDeployRelease value) deployRelease,
-  }) {
-    return deployRelease(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ShorebirdEventStarted value)? started,
-    TResult? Function(ShorebirdEventCheckVersion value)? checkVersion,
-    TResult? Function(ShorebirdEventDeployPatch value)? deployPatch,
-    TResult? Function(ShorebirdEventDeployRelease value)? deployRelease,
-  }) {
-    return deployRelease?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ShorebirdEventStarted value)? started,
-    TResult Function(ShorebirdEventCheckVersion value)? checkVersion,
-    TResult Function(ShorebirdEventDeployPatch value)? deployPatch,
-    TResult Function(ShorebirdEventDeployRelease value)? deployRelease,
-    required TResult orElse(),
-  }) {
-    if (deployRelease != null) {
-      return deployRelease(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ShorebirdEventDeployRelease implements ShorebirdEvent {
-  const factory ShorebirdEventDeployRelease() =
-      _$ShorebirdEventDeployReleaseImpl;
 }
 
 /// @nodoc
-mixin _$ShorebirdState {
+class $ShorebirdStateCopyWith<$Res> {
+  $ShorebirdStateCopyWith(ShorebirdState _, $Res Function(ShorebirdState) __);
+}
+
+/// Adds pattern-matching-related methods to [ShorebirdState].
+extension ShorebirdStatePatterns on ShorebirdState {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
   @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() checkingVersion,
-    required TResult Function() patchReady,
-    required TResult Function() releaseReady,
-    required TResult Function() deployingPatch,
-    required TResult Function() patchSuccess,
-    required TResult Function() deployingRelease,
-    required TResult Function(VersionInfo version) releaseSuccess,
-    required TResult Function(String error) failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? checkingVersion,
-    TResult? Function()? patchReady,
-    TResult? Function()? releaseReady,
-    TResult? Function()? deployingPatch,
-    TResult? Function()? patchSuccess,
-    TResult? Function()? deployingRelease,
-    TResult? Function(VersionInfo version)? releaseSuccess,
-    TResult? Function(String error)? failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? checkingVersion,
-    TResult Function()? patchReady,
-    TResult Function()? releaseReady,
-    TResult Function()? deployingPatch,
-    TResult Function()? patchSuccess,
-    TResult Function()? deployingRelease,
-    TResult Function(VersionInfo version)? releaseSuccess,
-    TResult Function(String error)? failure,
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ShorebirdStateInitial value)? initial,
+    TResult Function(ShorebirdStateCheckingVersion value)? checkingVersion,
+    TResult Function(ShorebirdStatePatchReady value)? patchReady,
+    TResult Function(ShorebirdStateReleaseReady value)? releaseReady,
+    TResult Function(ShorebirdStateDeployingPatch value)? deployingPatch,
+    TResult Function(ShorebirdStatePatchSuccess value)? patchSuccess,
+    TResult Function(ShorebirdStateDeployingRelease value)? deployingRelease,
+    TResult Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
+    TResult Function(ShorebirdStateFailure value)? failure,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ShorebirdStateInitial() when initial != null:
+        return initial(_that);
+      case ShorebirdStateCheckingVersion() when checkingVersion != null:
+        return checkingVersion(_that);
+      case ShorebirdStatePatchReady() when patchReady != null:
+        return patchReady(_that);
+      case ShorebirdStateReleaseReady() when releaseReady != null:
+        return releaseReady(_that);
+      case ShorebirdStateDeployingPatch() when deployingPatch != null:
+        return deployingPatch(_that);
+      case ShorebirdStatePatchSuccess() when patchSuccess != null:
+        return patchSuccess(_that);
+      case ShorebirdStateDeployingRelease() when deployingRelease != null:
+        return deployingRelease(_that);
+      case ShorebirdStateReleaseSuccess() when releaseSuccess != null:
+        return releaseSuccess(_that);
+      case ShorebirdStateFailure() when failure != null:
+        return failure(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ShorebirdStateInitial value) initial,
@@ -627,8 +430,44 @@ mixin _$ShorebirdState {
     required TResult Function(ShorebirdStateReleaseSuccess value)
         releaseSuccess,
     required TResult Function(ShorebirdStateFailure value) failure,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ShorebirdStateInitial():
+        return initial(_that);
+      case ShorebirdStateCheckingVersion():
+        return checkingVersion(_that);
+      case ShorebirdStatePatchReady():
+        return patchReady(_that);
+      case ShorebirdStateReleaseReady():
+        return releaseReady(_that);
+      case ShorebirdStateDeployingPatch():
+        return deployingPatch(_that);
+      case ShorebirdStatePatchSuccess():
+        return patchSuccess(_that);
+      case ShorebirdStateDeployingRelease():
+        return deployingRelease(_that);
+      case ShorebirdStateReleaseSuccess():
+        return releaseSuccess(_that);
+      case ShorebirdStateFailure():
+        return failure(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ShorebirdStateInitial value)? initial,
@@ -640,1137 +479,366 @@ mixin _$ShorebirdState {
     TResult? Function(ShorebirdStateDeployingRelease value)? deployingRelease,
     TResult? Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
     TResult? Function(ShorebirdStateFailure value)? failure,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ShorebirdStateInitial() when initial != null:
+        return initial(_that);
+      case ShorebirdStateCheckingVersion() when checkingVersion != null:
+        return checkingVersion(_that);
+      case ShorebirdStatePatchReady() when patchReady != null:
+        return patchReady(_that);
+      case ShorebirdStateReleaseReady() when releaseReady != null:
+        return releaseReady(_that);
+      case ShorebirdStateDeployingPatch() when deployingPatch != null:
+        return deployingPatch(_that);
+      case ShorebirdStatePatchSuccess() when patchSuccess != null:
+        return patchSuccess(_that);
+      case ShorebirdStateDeployingRelease() when deployingRelease != null:
+        return deployingRelease(_that);
+      case ShorebirdStateReleaseSuccess() when releaseSuccess != null:
+        return releaseSuccess(_that);
+      case ShorebirdStateFailure() when failure != null:
+        return failure(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
   @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ShorebirdStateInitial value)? initial,
-    TResult Function(ShorebirdStateCheckingVersion value)? checkingVersion,
-    TResult Function(ShorebirdStatePatchReady value)? patchReady,
-    TResult Function(ShorebirdStateReleaseReady value)? releaseReady,
-    TResult Function(ShorebirdStateDeployingPatch value)? deployingPatch,
-    TResult Function(ShorebirdStatePatchSuccess value)? patchSuccess,
-    TResult Function(ShorebirdStateDeployingRelease value)? deployingRelease,
-    TResult Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
-    TResult Function(ShorebirdStateFailure value)? failure,
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? checkingVersion,
+    TResult Function()? patchReady,
+    TResult Function()? releaseReady,
+    TResult Function()? deployingPatch,
+    TResult Function()? patchSuccess,
+    TResult Function()? deployingRelease,
+    TResult Function(VersionInfo version)? releaseSuccess,
+    TResult Function(String error)? failure,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ShorebirdStateInitial() when initial != null:
+        return initial();
+      case ShorebirdStateCheckingVersion() when checkingVersion != null:
+        return checkingVersion();
+      case ShorebirdStatePatchReady() when patchReady != null:
+        return patchReady();
+      case ShorebirdStateReleaseReady() when releaseReady != null:
+        return releaseReady();
+      case ShorebirdStateDeployingPatch() when deployingPatch != null:
+        return deployingPatch();
+      case ShorebirdStatePatchSuccess() when patchSuccess != null:
+        return patchSuccess();
+      case ShorebirdStateDeployingRelease() when deployingRelease != null:
+        return deployingRelease();
+      case ShorebirdStateReleaseSuccess() when releaseSuccess != null:
+        return releaseSuccess(_that.version);
+      case ShorebirdStateFailure() when failure != null:
+        return failure(_that.error);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() checkingVersion,
+    required TResult Function() patchReady,
+    required TResult Function() releaseReady,
+    required TResult Function() deployingPatch,
+    required TResult Function() patchSuccess,
+    required TResult Function() deployingRelease,
+    required TResult Function(VersionInfo version) releaseSuccess,
+    required TResult Function(String error) failure,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ShorebirdStateInitial():
+        return initial();
+      case ShorebirdStateCheckingVersion():
+        return checkingVersion();
+      case ShorebirdStatePatchReady():
+        return patchReady();
+      case ShorebirdStateReleaseReady():
+        return releaseReady();
+      case ShorebirdStateDeployingPatch():
+        return deployingPatch();
+      case ShorebirdStatePatchSuccess():
+        return patchSuccess();
+      case ShorebirdStateDeployingRelease():
+        return deployingRelease();
+      case ShorebirdStateReleaseSuccess():
+        return releaseSuccess(_that.version);
+      case ShorebirdStateFailure():
+        return failure(_that.error);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? checkingVersion,
+    TResult? Function()? patchReady,
+    TResult? Function()? releaseReady,
+    TResult? Function()? deployingPatch,
+    TResult? Function()? patchSuccess,
+    TResult? Function()? deployingRelease,
+    TResult? Function(VersionInfo version)? releaseSuccess,
+    TResult? Function(String error)? failure,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ShorebirdStateInitial() when initial != null:
+        return initial();
+      case ShorebirdStateCheckingVersion() when checkingVersion != null:
+        return checkingVersion();
+      case ShorebirdStatePatchReady() when patchReady != null:
+        return patchReady();
+      case ShorebirdStateReleaseReady() when releaseReady != null:
+        return releaseReady();
+      case ShorebirdStateDeployingPatch() when deployingPatch != null:
+        return deployingPatch();
+      case ShorebirdStatePatchSuccess() when patchSuccess != null:
+        return patchSuccess();
+      case ShorebirdStateDeployingRelease() when deployingRelease != null:
+        return deployingRelease();
+      case ShorebirdStateReleaseSuccess() when releaseSuccess != null:
+        return releaseSuccess(_that.version);
+      case ShorebirdStateFailure() when failure != null:
+        return failure(_that.error);
+      case _:
+        return null;
+    }
+  }
 }
 
 /// @nodoc
-abstract class $ShorebirdStateCopyWith<$Res> {
-  factory $ShorebirdStateCopyWith(
-          ShorebirdState value, $Res Function(ShorebirdState) then) =
-      _$ShorebirdStateCopyWithImpl<$Res, ShorebirdState>;
-}
 
-/// @nodoc
-class _$ShorebirdStateCopyWithImpl<$Res, $Val extends ShorebirdState>
-    implements $ShorebirdStateCopyWith<$Res> {
-  _$ShorebirdStateCopyWithImpl(this._value, this._then);
+class ShorebirdStateInitial implements ShorebirdState {
+  const ShorebirdStateInitial();
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is ShorebirdStateInitial);
+  }
 
-  /// Create a copy of ShorebirdState
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-abstract class _$$ShorebirdStateInitialImplCopyWith<$Res> {
-  factory _$$ShorebirdStateInitialImplCopyWith(
-          _$ShorebirdStateInitialImpl value,
-          $Res Function(_$ShorebirdStateInitialImpl) then) =
-      __$$ShorebirdStateInitialImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$ShorebirdStateInitialImplCopyWithImpl<$Res>
-    extends _$ShorebirdStateCopyWithImpl<$Res, _$ShorebirdStateInitialImpl>
-    implements _$$ShorebirdStateInitialImplCopyWith<$Res> {
-  __$$ShorebirdStateInitialImplCopyWithImpl(_$ShorebirdStateInitialImpl _value,
-      $Res Function(_$ShorebirdStateInitialImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ShorebirdState
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$ShorebirdStateInitialImpl implements ShorebirdStateInitial {
-  const _$ShorebirdStateInitialImpl();
+  @override
+  int get hashCode => runtimeType.hashCode;
 
   @override
   String toString() {
     return 'ShorebirdState.initial()';
   }
+}
+
+/// @nodoc
+
+class ShorebirdStateCheckingVersion implements ShorebirdState {
+  const ShorebirdStateCheckingVersion();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ShorebirdStateInitialImpl);
+            other is ShorebirdStateCheckingVersion);
   }
 
   @override
   int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() checkingVersion,
-    required TResult Function() patchReady,
-    required TResult Function() releaseReady,
-    required TResult Function() deployingPatch,
-    required TResult Function() patchSuccess,
-    required TResult Function() deployingRelease,
-    required TResult Function(VersionInfo version) releaseSuccess,
-    required TResult Function(String error) failure,
-  }) {
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? checkingVersion,
-    TResult? Function()? patchReady,
-    TResult? Function()? releaseReady,
-    TResult? Function()? deployingPatch,
-    TResult? Function()? patchSuccess,
-    TResult? Function()? deployingRelease,
-    TResult? Function(VersionInfo version)? releaseSuccess,
-    TResult? Function(String error)? failure,
-  }) {
-    return initial?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? checkingVersion,
-    TResult Function()? patchReady,
-    TResult Function()? releaseReady,
-    TResult Function()? deployingPatch,
-    TResult Function()? patchSuccess,
-    TResult Function()? deployingRelease,
-    TResult Function(VersionInfo version)? releaseSuccess,
-    TResult Function(String error)? failure,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ShorebirdStateInitial value) initial,
-    required TResult Function(ShorebirdStateCheckingVersion value)
-        checkingVersion,
-    required TResult Function(ShorebirdStatePatchReady value) patchReady,
-    required TResult Function(ShorebirdStateReleaseReady value) releaseReady,
-    required TResult Function(ShorebirdStateDeployingPatch value)
-        deployingPatch,
-    required TResult Function(ShorebirdStatePatchSuccess value) patchSuccess,
-    required TResult Function(ShorebirdStateDeployingRelease value)
-        deployingRelease,
-    required TResult Function(ShorebirdStateReleaseSuccess value)
-        releaseSuccess,
-    required TResult Function(ShorebirdStateFailure value) failure,
-  }) {
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ShorebirdStateInitial value)? initial,
-    TResult? Function(ShorebirdStateCheckingVersion value)? checkingVersion,
-    TResult? Function(ShorebirdStatePatchReady value)? patchReady,
-    TResult? Function(ShorebirdStateReleaseReady value)? releaseReady,
-    TResult? Function(ShorebirdStateDeployingPatch value)? deployingPatch,
-    TResult? Function(ShorebirdStatePatchSuccess value)? patchSuccess,
-    TResult? Function(ShorebirdStateDeployingRelease value)? deployingRelease,
-    TResult? Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
-    TResult? Function(ShorebirdStateFailure value)? failure,
-  }) {
-    return initial?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ShorebirdStateInitial value)? initial,
-    TResult Function(ShorebirdStateCheckingVersion value)? checkingVersion,
-    TResult Function(ShorebirdStatePatchReady value)? patchReady,
-    TResult Function(ShorebirdStateReleaseReady value)? releaseReady,
-    TResult Function(ShorebirdStateDeployingPatch value)? deployingPatch,
-    TResult Function(ShorebirdStatePatchSuccess value)? patchSuccess,
-    TResult Function(ShorebirdStateDeployingRelease value)? deployingRelease,
-    TResult Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
-    TResult Function(ShorebirdStateFailure value)? failure,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ShorebirdStateInitial implements ShorebirdState {
-  const factory ShorebirdStateInitial() = _$ShorebirdStateInitialImpl;
-}
-
-/// @nodoc
-abstract class _$$ShorebirdStateCheckingVersionImplCopyWith<$Res> {
-  factory _$$ShorebirdStateCheckingVersionImplCopyWith(
-          _$ShorebirdStateCheckingVersionImpl value,
-          $Res Function(_$ShorebirdStateCheckingVersionImpl) then) =
-      __$$ShorebirdStateCheckingVersionImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$ShorebirdStateCheckingVersionImplCopyWithImpl<$Res>
-    extends _$ShorebirdStateCopyWithImpl<$Res,
-        _$ShorebirdStateCheckingVersionImpl>
-    implements _$$ShorebirdStateCheckingVersionImplCopyWith<$Res> {
-  __$$ShorebirdStateCheckingVersionImplCopyWithImpl(
-      _$ShorebirdStateCheckingVersionImpl _value,
-      $Res Function(_$ShorebirdStateCheckingVersionImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ShorebirdState
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$ShorebirdStateCheckingVersionImpl
-    implements ShorebirdStateCheckingVersion {
-  const _$ShorebirdStateCheckingVersionImpl();
 
   @override
   String toString() {
     return 'ShorebirdState.checkingVersion()';
   }
+}
+
+/// @nodoc
+
+class ShorebirdStatePatchReady implements ShorebirdState {
+  const ShorebirdStatePatchReady();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ShorebirdStateCheckingVersionImpl);
+        (other.runtimeType == runtimeType && other is ShorebirdStatePatchReady);
   }
 
   @override
   int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() checkingVersion,
-    required TResult Function() patchReady,
-    required TResult Function() releaseReady,
-    required TResult Function() deployingPatch,
-    required TResult Function() patchSuccess,
-    required TResult Function() deployingRelease,
-    required TResult Function(VersionInfo version) releaseSuccess,
-    required TResult Function(String error) failure,
-  }) {
-    return checkingVersion();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? checkingVersion,
-    TResult? Function()? patchReady,
-    TResult? Function()? releaseReady,
-    TResult? Function()? deployingPatch,
-    TResult? Function()? patchSuccess,
-    TResult? Function()? deployingRelease,
-    TResult? Function(VersionInfo version)? releaseSuccess,
-    TResult? Function(String error)? failure,
-  }) {
-    return checkingVersion?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? checkingVersion,
-    TResult Function()? patchReady,
-    TResult Function()? releaseReady,
-    TResult Function()? deployingPatch,
-    TResult Function()? patchSuccess,
-    TResult Function()? deployingRelease,
-    TResult Function(VersionInfo version)? releaseSuccess,
-    TResult Function(String error)? failure,
-    required TResult orElse(),
-  }) {
-    if (checkingVersion != null) {
-      return checkingVersion();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ShorebirdStateInitial value) initial,
-    required TResult Function(ShorebirdStateCheckingVersion value)
-        checkingVersion,
-    required TResult Function(ShorebirdStatePatchReady value) patchReady,
-    required TResult Function(ShorebirdStateReleaseReady value) releaseReady,
-    required TResult Function(ShorebirdStateDeployingPatch value)
-        deployingPatch,
-    required TResult Function(ShorebirdStatePatchSuccess value) patchSuccess,
-    required TResult Function(ShorebirdStateDeployingRelease value)
-        deployingRelease,
-    required TResult Function(ShorebirdStateReleaseSuccess value)
-        releaseSuccess,
-    required TResult Function(ShorebirdStateFailure value) failure,
-  }) {
-    return checkingVersion(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ShorebirdStateInitial value)? initial,
-    TResult? Function(ShorebirdStateCheckingVersion value)? checkingVersion,
-    TResult? Function(ShorebirdStatePatchReady value)? patchReady,
-    TResult? Function(ShorebirdStateReleaseReady value)? releaseReady,
-    TResult? Function(ShorebirdStateDeployingPatch value)? deployingPatch,
-    TResult? Function(ShorebirdStatePatchSuccess value)? patchSuccess,
-    TResult? Function(ShorebirdStateDeployingRelease value)? deployingRelease,
-    TResult? Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
-    TResult? Function(ShorebirdStateFailure value)? failure,
-  }) {
-    return checkingVersion?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ShorebirdStateInitial value)? initial,
-    TResult Function(ShorebirdStateCheckingVersion value)? checkingVersion,
-    TResult Function(ShorebirdStatePatchReady value)? patchReady,
-    TResult Function(ShorebirdStateReleaseReady value)? releaseReady,
-    TResult Function(ShorebirdStateDeployingPatch value)? deployingPatch,
-    TResult Function(ShorebirdStatePatchSuccess value)? patchSuccess,
-    TResult Function(ShorebirdStateDeployingRelease value)? deployingRelease,
-    TResult Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
-    TResult Function(ShorebirdStateFailure value)? failure,
-    required TResult orElse(),
-  }) {
-    if (checkingVersion != null) {
-      return checkingVersion(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ShorebirdStateCheckingVersion implements ShorebirdState {
-  const factory ShorebirdStateCheckingVersion() =
-      _$ShorebirdStateCheckingVersionImpl;
-}
-
-/// @nodoc
-abstract class _$$ShorebirdStatePatchReadyImplCopyWith<$Res> {
-  factory _$$ShorebirdStatePatchReadyImplCopyWith(
-          _$ShorebirdStatePatchReadyImpl value,
-          $Res Function(_$ShorebirdStatePatchReadyImpl) then) =
-      __$$ShorebirdStatePatchReadyImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$ShorebirdStatePatchReadyImplCopyWithImpl<$Res>
-    extends _$ShorebirdStateCopyWithImpl<$Res, _$ShorebirdStatePatchReadyImpl>
-    implements _$$ShorebirdStatePatchReadyImplCopyWith<$Res> {
-  __$$ShorebirdStatePatchReadyImplCopyWithImpl(
-      _$ShorebirdStatePatchReadyImpl _value,
-      $Res Function(_$ShorebirdStatePatchReadyImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ShorebirdState
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$ShorebirdStatePatchReadyImpl implements ShorebirdStatePatchReady {
-  const _$ShorebirdStatePatchReadyImpl();
 
   @override
   String toString() {
     return 'ShorebirdState.patchReady()';
   }
+}
+
+/// @nodoc
+
+class ShorebirdStateReleaseReady implements ShorebirdState {
+  const ShorebirdStateReleaseReady();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ShorebirdStatePatchReadyImpl);
+            other is ShorebirdStateReleaseReady);
   }
 
   @override
   int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() checkingVersion,
-    required TResult Function() patchReady,
-    required TResult Function() releaseReady,
-    required TResult Function() deployingPatch,
-    required TResult Function() patchSuccess,
-    required TResult Function() deployingRelease,
-    required TResult Function(VersionInfo version) releaseSuccess,
-    required TResult Function(String error) failure,
-  }) {
-    return patchReady();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? checkingVersion,
-    TResult? Function()? patchReady,
-    TResult? Function()? releaseReady,
-    TResult? Function()? deployingPatch,
-    TResult? Function()? patchSuccess,
-    TResult? Function()? deployingRelease,
-    TResult? Function(VersionInfo version)? releaseSuccess,
-    TResult? Function(String error)? failure,
-  }) {
-    return patchReady?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? checkingVersion,
-    TResult Function()? patchReady,
-    TResult Function()? releaseReady,
-    TResult Function()? deployingPatch,
-    TResult Function()? patchSuccess,
-    TResult Function()? deployingRelease,
-    TResult Function(VersionInfo version)? releaseSuccess,
-    TResult Function(String error)? failure,
-    required TResult orElse(),
-  }) {
-    if (patchReady != null) {
-      return patchReady();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ShorebirdStateInitial value) initial,
-    required TResult Function(ShorebirdStateCheckingVersion value)
-        checkingVersion,
-    required TResult Function(ShorebirdStatePatchReady value) patchReady,
-    required TResult Function(ShorebirdStateReleaseReady value) releaseReady,
-    required TResult Function(ShorebirdStateDeployingPatch value)
-        deployingPatch,
-    required TResult Function(ShorebirdStatePatchSuccess value) patchSuccess,
-    required TResult Function(ShorebirdStateDeployingRelease value)
-        deployingRelease,
-    required TResult Function(ShorebirdStateReleaseSuccess value)
-        releaseSuccess,
-    required TResult Function(ShorebirdStateFailure value) failure,
-  }) {
-    return patchReady(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ShorebirdStateInitial value)? initial,
-    TResult? Function(ShorebirdStateCheckingVersion value)? checkingVersion,
-    TResult? Function(ShorebirdStatePatchReady value)? patchReady,
-    TResult? Function(ShorebirdStateReleaseReady value)? releaseReady,
-    TResult? Function(ShorebirdStateDeployingPatch value)? deployingPatch,
-    TResult? Function(ShorebirdStatePatchSuccess value)? patchSuccess,
-    TResult? Function(ShorebirdStateDeployingRelease value)? deployingRelease,
-    TResult? Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
-    TResult? Function(ShorebirdStateFailure value)? failure,
-  }) {
-    return patchReady?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ShorebirdStateInitial value)? initial,
-    TResult Function(ShorebirdStateCheckingVersion value)? checkingVersion,
-    TResult Function(ShorebirdStatePatchReady value)? patchReady,
-    TResult Function(ShorebirdStateReleaseReady value)? releaseReady,
-    TResult Function(ShorebirdStateDeployingPatch value)? deployingPatch,
-    TResult Function(ShorebirdStatePatchSuccess value)? patchSuccess,
-    TResult Function(ShorebirdStateDeployingRelease value)? deployingRelease,
-    TResult Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
-    TResult Function(ShorebirdStateFailure value)? failure,
-    required TResult orElse(),
-  }) {
-    if (patchReady != null) {
-      return patchReady(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ShorebirdStatePatchReady implements ShorebirdState {
-  const factory ShorebirdStatePatchReady() = _$ShorebirdStatePatchReadyImpl;
-}
-
-/// @nodoc
-abstract class _$$ShorebirdStateReleaseReadyImplCopyWith<$Res> {
-  factory _$$ShorebirdStateReleaseReadyImplCopyWith(
-          _$ShorebirdStateReleaseReadyImpl value,
-          $Res Function(_$ShorebirdStateReleaseReadyImpl) then) =
-      __$$ShorebirdStateReleaseReadyImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$ShorebirdStateReleaseReadyImplCopyWithImpl<$Res>
-    extends _$ShorebirdStateCopyWithImpl<$Res, _$ShorebirdStateReleaseReadyImpl>
-    implements _$$ShorebirdStateReleaseReadyImplCopyWith<$Res> {
-  __$$ShorebirdStateReleaseReadyImplCopyWithImpl(
-      _$ShorebirdStateReleaseReadyImpl _value,
-      $Res Function(_$ShorebirdStateReleaseReadyImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ShorebirdState
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$ShorebirdStateReleaseReadyImpl implements ShorebirdStateReleaseReady {
-  const _$ShorebirdStateReleaseReadyImpl();
 
   @override
   String toString() {
     return 'ShorebirdState.releaseReady()';
   }
+}
+
+/// @nodoc
+
+class ShorebirdStateDeployingPatch implements ShorebirdState {
+  const ShorebirdStateDeployingPatch();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ShorebirdStateReleaseReadyImpl);
+            other is ShorebirdStateDeployingPatch);
   }
 
   @override
   int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() checkingVersion,
-    required TResult Function() patchReady,
-    required TResult Function() releaseReady,
-    required TResult Function() deployingPatch,
-    required TResult Function() patchSuccess,
-    required TResult Function() deployingRelease,
-    required TResult Function(VersionInfo version) releaseSuccess,
-    required TResult Function(String error) failure,
-  }) {
-    return releaseReady();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? checkingVersion,
-    TResult? Function()? patchReady,
-    TResult? Function()? releaseReady,
-    TResult? Function()? deployingPatch,
-    TResult? Function()? patchSuccess,
-    TResult? Function()? deployingRelease,
-    TResult? Function(VersionInfo version)? releaseSuccess,
-    TResult? Function(String error)? failure,
-  }) {
-    return releaseReady?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? checkingVersion,
-    TResult Function()? patchReady,
-    TResult Function()? releaseReady,
-    TResult Function()? deployingPatch,
-    TResult Function()? patchSuccess,
-    TResult Function()? deployingRelease,
-    TResult Function(VersionInfo version)? releaseSuccess,
-    TResult Function(String error)? failure,
-    required TResult orElse(),
-  }) {
-    if (releaseReady != null) {
-      return releaseReady();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ShorebirdStateInitial value) initial,
-    required TResult Function(ShorebirdStateCheckingVersion value)
-        checkingVersion,
-    required TResult Function(ShorebirdStatePatchReady value) patchReady,
-    required TResult Function(ShorebirdStateReleaseReady value) releaseReady,
-    required TResult Function(ShorebirdStateDeployingPatch value)
-        deployingPatch,
-    required TResult Function(ShorebirdStatePatchSuccess value) patchSuccess,
-    required TResult Function(ShorebirdStateDeployingRelease value)
-        deployingRelease,
-    required TResult Function(ShorebirdStateReleaseSuccess value)
-        releaseSuccess,
-    required TResult Function(ShorebirdStateFailure value) failure,
-  }) {
-    return releaseReady(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ShorebirdStateInitial value)? initial,
-    TResult? Function(ShorebirdStateCheckingVersion value)? checkingVersion,
-    TResult? Function(ShorebirdStatePatchReady value)? patchReady,
-    TResult? Function(ShorebirdStateReleaseReady value)? releaseReady,
-    TResult? Function(ShorebirdStateDeployingPatch value)? deployingPatch,
-    TResult? Function(ShorebirdStatePatchSuccess value)? patchSuccess,
-    TResult? Function(ShorebirdStateDeployingRelease value)? deployingRelease,
-    TResult? Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
-    TResult? Function(ShorebirdStateFailure value)? failure,
-  }) {
-    return releaseReady?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ShorebirdStateInitial value)? initial,
-    TResult Function(ShorebirdStateCheckingVersion value)? checkingVersion,
-    TResult Function(ShorebirdStatePatchReady value)? patchReady,
-    TResult Function(ShorebirdStateReleaseReady value)? releaseReady,
-    TResult Function(ShorebirdStateDeployingPatch value)? deployingPatch,
-    TResult Function(ShorebirdStatePatchSuccess value)? patchSuccess,
-    TResult Function(ShorebirdStateDeployingRelease value)? deployingRelease,
-    TResult Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
-    TResult Function(ShorebirdStateFailure value)? failure,
-    required TResult orElse(),
-  }) {
-    if (releaseReady != null) {
-      return releaseReady(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ShorebirdStateReleaseReady implements ShorebirdState {
-  const factory ShorebirdStateReleaseReady() = _$ShorebirdStateReleaseReadyImpl;
-}
-
-/// @nodoc
-abstract class _$$ShorebirdStateDeployingPatchImplCopyWith<$Res> {
-  factory _$$ShorebirdStateDeployingPatchImplCopyWith(
-          _$ShorebirdStateDeployingPatchImpl value,
-          $Res Function(_$ShorebirdStateDeployingPatchImpl) then) =
-      __$$ShorebirdStateDeployingPatchImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$ShorebirdStateDeployingPatchImplCopyWithImpl<$Res>
-    extends _$ShorebirdStateCopyWithImpl<$Res,
-        _$ShorebirdStateDeployingPatchImpl>
-    implements _$$ShorebirdStateDeployingPatchImplCopyWith<$Res> {
-  __$$ShorebirdStateDeployingPatchImplCopyWithImpl(
-      _$ShorebirdStateDeployingPatchImpl _value,
-      $Res Function(_$ShorebirdStateDeployingPatchImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ShorebirdState
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$ShorebirdStateDeployingPatchImpl
-    implements ShorebirdStateDeployingPatch {
-  const _$ShorebirdStateDeployingPatchImpl();
 
   @override
   String toString() {
     return 'ShorebirdState.deployingPatch()';
   }
+}
+
+/// @nodoc
+
+class ShorebirdStatePatchSuccess implements ShorebirdState {
+  const ShorebirdStatePatchSuccess();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ShorebirdStateDeployingPatchImpl);
+            other is ShorebirdStatePatchSuccess);
   }
 
   @override
   int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() checkingVersion,
-    required TResult Function() patchReady,
-    required TResult Function() releaseReady,
-    required TResult Function() deployingPatch,
-    required TResult Function() patchSuccess,
-    required TResult Function() deployingRelease,
-    required TResult Function(VersionInfo version) releaseSuccess,
-    required TResult Function(String error) failure,
-  }) {
-    return deployingPatch();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? checkingVersion,
-    TResult? Function()? patchReady,
-    TResult? Function()? releaseReady,
-    TResult? Function()? deployingPatch,
-    TResult? Function()? patchSuccess,
-    TResult? Function()? deployingRelease,
-    TResult? Function(VersionInfo version)? releaseSuccess,
-    TResult? Function(String error)? failure,
-  }) {
-    return deployingPatch?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? checkingVersion,
-    TResult Function()? patchReady,
-    TResult Function()? releaseReady,
-    TResult Function()? deployingPatch,
-    TResult Function()? patchSuccess,
-    TResult Function()? deployingRelease,
-    TResult Function(VersionInfo version)? releaseSuccess,
-    TResult Function(String error)? failure,
-    required TResult orElse(),
-  }) {
-    if (deployingPatch != null) {
-      return deployingPatch();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ShorebirdStateInitial value) initial,
-    required TResult Function(ShorebirdStateCheckingVersion value)
-        checkingVersion,
-    required TResult Function(ShorebirdStatePatchReady value) patchReady,
-    required TResult Function(ShorebirdStateReleaseReady value) releaseReady,
-    required TResult Function(ShorebirdStateDeployingPatch value)
-        deployingPatch,
-    required TResult Function(ShorebirdStatePatchSuccess value) patchSuccess,
-    required TResult Function(ShorebirdStateDeployingRelease value)
-        deployingRelease,
-    required TResult Function(ShorebirdStateReleaseSuccess value)
-        releaseSuccess,
-    required TResult Function(ShorebirdStateFailure value) failure,
-  }) {
-    return deployingPatch(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ShorebirdStateInitial value)? initial,
-    TResult? Function(ShorebirdStateCheckingVersion value)? checkingVersion,
-    TResult? Function(ShorebirdStatePatchReady value)? patchReady,
-    TResult? Function(ShorebirdStateReleaseReady value)? releaseReady,
-    TResult? Function(ShorebirdStateDeployingPatch value)? deployingPatch,
-    TResult? Function(ShorebirdStatePatchSuccess value)? patchSuccess,
-    TResult? Function(ShorebirdStateDeployingRelease value)? deployingRelease,
-    TResult? Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
-    TResult? Function(ShorebirdStateFailure value)? failure,
-  }) {
-    return deployingPatch?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ShorebirdStateInitial value)? initial,
-    TResult Function(ShorebirdStateCheckingVersion value)? checkingVersion,
-    TResult Function(ShorebirdStatePatchReady value)? patchReady,
-    TResult Function(ShorebirdStateReleaseReady value)? releaseReady,
-    TResult Function(ShorebirdStateDeployingPatch value)? deployingPatch,
-    TResult Function(ShorebirdStatePatchSuccess value)? patchSuccess,
-    TResult Function(ShorebirdStateDeployingRelease value)? deployingRelease,
-    TResult Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
-    TResult Function(ShorebirdStateFailure value)? failure,
-    required TResult orElse(),
-  }) {
-    if (deployingPatch != null) {
-      return deployingPatch(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ShorebirdStateDeployingPatch implements ShorebirdState {
-  const factory ShorebirdStateDeployingPatch() =
-      _$ShorebirdStateDeployingPatchImpl;
-}
-
-/// @nodoc
-abstract class _$$ShorebirdStatePatchSuccessImplCopyWith<$Res> {
-  factory _$$ShorebirdStatePatchSuccessImplCopyWith(
-          _$ShorebirdStatePatchSuccessImpl value,
-          $Res Function(_$ShorebirdStatePatchSuccessImpl) then) =
-      __$$ShorebirdStatePatchSuccessImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$ShorebirdStatePatchSuccessImplCopyWithImpl<$Res>
-    extends _$ShorebirdStateCopyWithImpl<$Res, _$ShorebirdStatePatchSuccessImpl>
-    implements _$$ShorebirdStatePatchSuccessImplCopyWith<$Res> {
-  __$$ShorebirdStatePatchSuccessImplCopyWithImpl(
-      _$ShorebirdStatePatchSuccessImpl _value,
-      $Res Function(_$ShorebirdStatePatchSuccessImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ShorebirdState
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$ShorebirdStatePatchSuccessImpl implements ShorebirdStatePatchSuccess {
-  const _$ShorebirdStatePatchSuccessImpl();
 
   @override
   String toString() {
     return 'ShorebirdState.patchSuccess()';
   }
+}
+
+/// @nodoc
+
+class ShorebirdStateDeployingRelease implements ShorebirdState {
+  const ShorebirdStateDeployingRelease();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ShorebirdStatePatchSuccessImpl);
+            other is ShorebirdStateDeployingRelease);
   }
 
   @override
   int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() checkingVersion,
-    required TResult Function() patchReady,
-    required TResult Function() releaseReady,
-    required TResult Function() deployingPatch,
-    required TResult Function() patchSuccess,
-    required TResult Function() deployingRelease,
-    required TResult Function(VersionInfo version) releaseSuccess,
-    required TResult Function(String error) failure,
-  }) {
-    return patchSuccess();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? checkingVersion,
-    TResult? Function()? patchReady,
-    TResult? Function()? releaseReady,
-    TResult? Function()? deployingPatch,
-    TResult? Function()? patchSuccess,
-    TResult? Function()? deployingRelease,
-    TResult? Function(VersionInfo version)? releaseSuccess,
-    TResult? Function(String error)? failure,
-  }) {
-    return patchSuccess?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? checkingVersion,
-    TResult Function()? patchReady,
-    TResult Function()? releaseReady,
-    TResult Function()? deployingPatch,
-    TResult Function()? patchSuccess,
-    TResult Function()? deployingRelease,
-    TResult Function(VersionInfo version)? releaseSuccess,
-    TResult Function(String error)? failure,
-    required TResult orElse(),
-  }) {
-    if (patchSuccess != null) {
-      return patchSuccess();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ShorebirdStateInitial value) initial,
-    required TResult Function(ShorebirdStateCheckingVersion value)
-        checkingVersion,
-    required TResult Function(ShorebirdStatePatchReady value) patchReady,
-    required TResult Function(ShorebirdStateReleaseReady value) releaseReady,
-    required TResult Function(ShorebirdStateDeployingPatch value)
-        deployingPatch,
-    required TResult Function(ShorebirdStatePatchSuccess value) patchSuccess,
-    required TResult Function(ShorebirdStateDeployingRelease value)
-        deployingRelease,
-    required TResult Function(ShorebirdStateReleaseSuccess value)
-        releaseSuccess,
-    required TResult Function(ShorebirdStateFailure value) failure,
-  }) {
-    return patchSuccess(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ShorebirdStateInitial value)? initial,
-    TResult? Function(ShorebirdStateCheckingVersion value)? checkingVersion,
-    TResult? Function(ShorebirdStatePatchReady value)? patchReady,
-    TResult? Function(ShorebirdStateReleaseReady value)? releaseReady,
-    TResult? Function(ShorebirdStateDeployingPatch value)? deployingPatch,
-    TResult? Function(ShorebirdStatePatchSuccess value)? patchSuccess,
-    TResult? Function(ShorebirdStateDeployingRelease value)? deployingRelease,
-    TResult? Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
-    TResult? Function(ShorebirdStateFailure value)? failure,
-  }) {
-    return patchSuccess?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ShorebirdStateInitial value)? initial,
-    TResult Function(ShorebirdStateCheckingVersion value)? checkingVersion,
-    TResult Function(ShorebirdStatePatchReady value)? patchReady,
-    TResult Function(ShorebirdStateReleaseReady value)? releaseReady,
-    TResult Function(ShorebirdStateDeployingPatch value)? deployingPatch,
-    TResult Function(ShorebirdStatePatchSuccess value)? patchSuccess,
-    TResult Function(ShorebirdStateDeployingRelease value)? deployingRelease,
-    TResult Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
-    TResult Function(ShorebirdStateFailure value)? failure,
-    required TResult orElse(),
-  }) {
-    if (patchSuccess != null) {
-      return patchSuccess(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ShorebirdStatePatchSuccess implements ShorebirdState {
-  const factory ShorebirdStatePatchSuccess() = _$ShorebirdStatePatchSuccessImpl;
-}
-
-/// @nodoc
-abstract class _$$ShorebirdStateDeployingReleaseImplCopyWith<$Res> {
-  factory _$$ShorebirdStateDeployingReleaseImplCopyWith(
-          _$ShorebirdStateDeployingReleaseImpl value,
-          $Res Function(_$ShorebirdStateDeployingReleaseImpl) then) =
-      __$$ShorebirdStateDeployingReleaseImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$ShorebirdStateDeployingReleaseImplCopyWithImpl<$Res>
-    extends _$ShorebirdStateCopyWithImpl<$Res,
-        _$ShorebirdStateDeployingReleaseImpl>
-    implements _$$ShorebirdStateDeployingReleaseImplCopyWith<$Res> {
-  __$$ShorebirdStateDeployingReleaseImplCopyWithImpl(
-      _$ShorebirdStateDeployingReleaseImpl _value,
-      $Res Function(_$ShorebirdStateDeployingReleaseImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ShorebirdState
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$ShorebirdStateDeployingReleaseImpl
-    implements ShorebirdStateDeployingRelease {
-  const _$ShorebirdStateDeployingReleaseImpl();
 
   @override
   String toString() {
     return 'ShorebirdState.deployingRelease()';
   }
+}
+
+/// @nodoc
+
+class ShorebirdStateReleaseSuccess implements ShorebirdState {
+  const ShorebirdStateReleaseSuccess({required this.version});
+
+  final VersionInfo version;
+
+  /// Create a copy of ShorebirdState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ShorebirdStateReleaseSuccessCopyWith<ShorebirdStateReleaseSuccess>
+      get copyWith => _$ShorebirdStateReleaseSuccessCopyWithImpl<
+          ShorebirdStateReleaseSuccess>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ShorebirdStateDeployingReleaseImpl);
+            other is ShorebirdStateReleaseSuccess &&
+            (identical(other.version, version) || other.version == version));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, version);
 
   @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() checkingVersion,
-    required TResult Function() patchReady,
-    required TResult Function() releaseReady,
-    required TResult Function() deployingPatch,
-    required TResult Function() patchSuccess,
-    required TResult Function() deployingRelease,
-    required TResult Function(VersionInfo version) releaseSuccess,
-    required TResult Function(String error) failure,
-  }) {
-    return deployingRelease();
+  String toString() {
+    return 'ShorebirdState.releaseSuccess(version: $version)';
   }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? checkingVersion,
-    TResult? Function()? patchReady,
-    TResult? Function()? releaseReady,
-    TResult? Function()? deployingPatch,
-    TResult? Function()? patchSuccess,
-    TResult? Function()? deployingRelease,
-    TResult? Function(VersionInfo version)? releaseSuccess,
-    TResult? Function(String error)? failure,
-  }) {
-    return deployingRelease?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? checkingVersion,
-    TResult Function()? patchReady,
-    TResult Function()? releaseReady,
-    TResult Function()? deployingPatch,
-    TResult Function()? patchSuccess,
-    TResult Function()? deployingRelease,
-    TResult Function(VersionInfo version)? releaseSuccess,
-    TResult Function(String error)? failure,
-    required TResult orElse(),
-  }) {
-    if (deployingRelease != null) {
-      return deployingRelease();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ShorebirdStateInitial value) initial,
-    required TResult Function(ShorebirdStateCheckingVersion value)
-        checkingVersion,
-    required TResult Function(ShorebirdStatePatchReady value) patchReady,
-    required TResult Function(ShorebirdStateReleaseReady value) releaseReady,
-    required TResult Function(ShorebirdStateDeployingPatch value)
-        deployingPatch,
-    required TResult Function(ShorebirdStatePatchSuccess value) patchSuccess,
-    required TResult Function(ShorebirdStateDeployingRelease value)
-        deployingRelease,
-    required TResult Function(ShorebirdStateReleaseSuccess value)
-        releaseSuccess,
-    required TResult Function(ShorebirdStateFailure value) failure,
-  }) {
-    return deployingRelease(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ShorebirdStateInitial value)? initial,
-    TResult? Function(ShorebirdStateCheckingVersion value)? checkingVersion,
-    TResult? Function(ShorebirdStatePatchReady value)? patchReady,
-    TResult? Function(ShorebirdStateReleaseReady value)? releaseReady,
-    TResult? Function(ShorebirdStateDeployingPatch value)? deployingPatch,
-    TResult? Function(ShorebirdStatePatchSuccess value)? patchSuccess,
-    TResult? Function(ShorebirdStateDeployingRelease value)? deployingRelease,
-    TResult? Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
-    TResult? Function(ShorebirdStateFailure value)? failure,
-  }) {
-    return deployingRelease?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ShorebirdStateInitial value)? initial,
-    TResult Function(ShorebirdStateCheckingVersion value)? checkingVersion,
-    TResult Function(ShorebirdStatePatchReady value)? patchReady,
-    TResult Function(ShorebirdStateReleaseReady value)? releaseReady,
-    TResult Function(ShorebirdStateDeployingPatch value)? deployingPatch,
-    TResult Function(ShorebirdStatePatchSuccess value)? patchSuccess,
-    TResult Function(ShorebirdStateDeployingRelease value)? deployingRelease,
-    TResult Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
-    TResult Function(ShorebirdStateFailure value)? failure,
-    required TResult orElse(),
-  }) {
-    if (deployingRelease != null) {
-      return deployingRelease(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ShorebirdStateDeployingRelease implements ShorebirdState {
-  const factory ShorebirdStateDeployingRelease() =
-      _$ShorebirdStateDeployingReleaseImpl;
 }
 
 /// @nodoc
-abstract class _$$ShorebirdStateReleaseSuccessImplCopyWith<$Res> {
-  factory _$$ShorebirdStateReleaseSuccessImplCopyWith(
-          _$ShorebirdStateReleaseSuccessImpl value,
-          $Res Function(_$ShorebirdStateReleaseSuccessImpl) then) =
-      __$$ShorebirdStateReleaseSuccessImplCopyWithImpl<$Res>;
+abstract mixin class $ShorebirdStateReleaseSuccessCopyWith<$Res>
+    implements $ShorebirdStateCopyWith<$Res> {
+  factory $ShorebirdStateReleaseSuccessCopyWith(
+          ShorebirdStateReleaseSuccess value,
+          $Res Function(ShorebirdStateReleaseSuccess) _then) =
+      _$ShorebirdStateReleaseSuccessCopyWithImpl;
   @useResult
   $Res call({VersionInfo version});
 
@@ -1778,25 +846,22 @@ abstract class _$$ShorebirdStateReleaseSuccessImplCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$ShorebirdStateReleaseSuccessImplCopyWithImpl<$Res>
-    extends _$ShorebirdStateCopyWithImpl<$Res,
-        _$ShorebirdStateReleaseSuccessImpl>
-    implements _$$ShorebirdStateReleaseSuccessImplCopyWith<$Res> {
-  __$$ShorebirdStateReleaseSuccessImplCopyWithImpl(
-      _$ShorebirdStateReleaseSuccessImpl _value,
-      $Res Function(_$ShorebirdStateReleaseSuccessImpl) _then)
-      : super(_value, _then);
+class _$ShorebirdStateReleaseSuccessCopyWithImpl<$Res>
+    implements $ShorebirdStateReleaseSuccessCopyWith<$Res> {
+  _$ShorebirdStateReleaseSuccessCopyWithImpl(this._self, this._then);
+
+  final ShorebirdStateReleaseSuccess _self;
+  final $Res Function(ShorebirdStateReleaseSuccess) _then;
 
   /// Create a copy of ShorebirdState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
-  @override
   $Res call({
     Object? version = null,
   }) {
-    return _then(_$ShorebirdStateReleaseSuccessImpl(
+    return _then(ShorebirdStateReleaseSuccess(
       version: null == version
-          ? _value.version
+          ? _self.version
           : version // ignore: cast_nullable_to_non_nullable
               as VersionInfo,
     ));
@@ -1807,356 +872,75 @@ class __$$ShorebirdStateReleaseSuccessImplCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $VersionInfoCopyWith<$Res> get version {
-    return $VersionInfoCopyWith<$Res>(_value.version, (value) {
-      return _then(_value.copyWith(version: value));
+    return $VersionInfoCopyWith<$Res>(_self.version, (value) {
+      return _then(_self.copyWith(version: value));
     });
   }
 }
 
 /// @nodoc
 
-class _$ShorebirdStateReleaseSuccessImpl
-    implements ShorebirdStateReleaseSuccess {
-  const _$ShorebirdStateReleaseSuccessImpl({required this.version});
+class ShorebirdStateFailure implements ShorebirdState {
+  const ShorebirdStateFailure({required this.error});
 
-  @override
-  final VersionInfo version;
-
-  @override
-  String toString() {
-    return 'ShorebirdState.releaseSuccess(version: $version)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ShorebirdStateReleaseSuccessImpl &&
-            (identical(other.version, version) || other.version == version));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, version);
-
-  /// Create a copy of ShorebirdState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ShorebirdStateReleaseSuccessImplCopyWith<
-          _$ShorebirdStateReleaseSuccessImpl>
-      get copyWith => __$$ShorebirdStateReleaseSuccessImplCopyWithImpl<
-          _$ShorebirdStateReleaseSuccessImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() checkingVersion,
-    required TResult Function() patchReady,
-    required TResult Function() releaseReady,
-    required TResult Function() deployingPatch,
-    required TResult Function() patchSuccess,
-    required TResult Function() deployingRelease,
-    required TResult Function(VersionInfo version) releaseSuccess,
-    required TResult Function(String error) failure,
-  }) {
-    return releaseSuccess(version);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? checkingVersion,
-    TResult? Function()? patchReady,
-    TResult? Function()? releaseReady,
-    TResult? Function()? deployingPatch,
-    TResult? Function()? patchSuccess,
-    TResult? Function()? deployingRelease,
-    TResult? Function(VersionInfo version)? releaseSuccess,
-    TResult? Function(String error)? failure,
-  }) {
-    return releaseSuccess?.call(version);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? checkingVersion,
-    TResult Function()? patchReady,
-    TResult Function()? releaseReady,
-    TResult Function()? deployingPatch,
-    TResult Function()? patchSuccess,
-    TResult Function()? deployingRelease,
-    TResult Function(VersionInfo version)? releaseSuccess,
-    TResult Function(String error)? failure,
-    required TResult orElse(),
-  }) {
-    if (releaseSuccess != null) {
-      return releaseSuccess(version);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ShorebirdStateInitial value) initial,
-    required TResult Function(ShorebirdStateCheckingVersion value)
-        checkingVersion,
-    required TResult Function(ShorebirdStatePatchReady value) patchReady,
-    required TResult Function(ShorebirdStateReleaseReady value) releaseReady,
-    required TResult Function(ShorebirdStateDeployingPatch value)
-        deployingPatch,
-    required TResult Function(ShorebirdStatePatchSuccess value) patchSuccess,
-    required TResult Function(ShorebirdStateDeployingRelease value)
-        deployingRelease,
-    required TResult Function(ShorebirdStateReleaseSuccess value)
-        releaseSuccess,
-    required TResult Function(ShorebirdStateFailure value) failure,
-  }) {
-    return releaseSuccess(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ShorebirdStateInitial value)? initial,
-    TResult? Function(ShorebirdStateCheckingVersion value)? checkingVersion,
-    TResult? Function(ShorebirdStatePatchReady value)? patchReady,
-    TResult? Function(ShorebirdStateReleaseReady value)? releaseReady,
-    TResult? Function(ShorebirdStateDeployingPatch value)? deployingPatch,
-    TResult? Function(ShorebirdStatePatchSuccess value)? patchSuccess,
-    TResult? Function(ShorebirdStateDeployingRelease value)? deployingRelease,
-    TResult? Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
-    TResult? Function(ShorebirdStateFailure value)? failure,
-  }) {
-    return releaseSuccess?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ShorebirdStateInitial value)? initial,
-    TResult Function(ShorebirdStateCheckingVersion value)? checkingVersion,
-    TResult Function(ShorebirdStatePatchReady value)? patchReady,
-    TResult Function(ShorebirdStateReleaseReady value)? releaseReady,
-    TResult Function(ShorebirdStateDeployingPatch value)? deployingPatch,
-    TResult Function(ShorebirdStatePatchSuccess value)? patchSuccess,
-    TResult Function(ShorebirdStateDeployingRelease value)? deployingRelease,
-    TResult Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
-    TResult Function(ShorebirdStateFailure value)? failure,
-    required TResult orElse(),
-  }) {
-    if (releaseSuccess != null) {
-      return releaseSuccess(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ShorebirdStateReleaseSuccess implements ShorebirdState {
-  const factory ShorebirdStateReleaseSuccess(
-          {required final VersionInfo version}) =
-      _$ShorebirdStateReleaseSuccessImpl;
-
-  VersionInfo get version;
-
-  /// Create a copy of ShorebirdState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ShorebirdStateReleaseSuccessImplCopyWith<
-          _$ShorebirdStateReleaseSuccessImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$ShorebirdStateFailureImplCopyWith<$Res> {
-  factory _$$ShorebirdStateFailureImplCopyWith(
-          _$ShorebirdStateFailureImpl value,
-          $Res Function(_$ShorebirdStateFailureImpl) then) =
-      __$$ShorebirdStateFailureImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String error});
-}
-
-/// @nodoc
-class __$$ShorebirdStateFailureImplCopyWithImpl<$Res>
-    extends _$ShorebirdStateCopyWithImpl<$Res, _$ShorebirdStateFailureImpl>
-    implements _$$ShorebirdStateFailureImplCopyWith<$Res> {
-  __$$ShorebirdStateFailureImplCopyWithImpl(_$ShorebirdStateFailureImpl _value,
-      $Res Function(_$ShorebirdStateFailureImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ShorebirdState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? error = null,
-  }) {
-    return _then(_$ShorebirdStateFailureImpl(
-      error: null == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$ShorebirdStateFailureImpl implements ShorebirdStateFailure {
-  const _$ShorebirdStateFailureImpl({required this.error});
-
-  @override
   final String error;
 
-  @override
-  String toString() {
-    return 'ShorebirdState.failure(error: $error)';
-  }
+  /// Create a copy of ShorebirdState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ShorebirdStateFailureCopyWith<ShorebirdStateFailure> get copyWith =>
+      _$ShorebirdStateFailureCopyWithImpl<ShorebirdStateFailure>(
+          this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ShorebirdStateFailureImpl &&
+            other is ShorebirdStateFailure &&
             (identical(other.error, error) || other.error == error));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, error);
 
+  @override
+  String toString() {
+    return 'ShorebirdState.failure(error: $error)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ShorebirdStateFailureCopyWith<$Res>
+    implements $ShorebirdStateCopyWith<$Res> {
+  factory $ShorebirdStateFailureCopyWith(ShorebirdStateFailure value,
+          $Res Function(ShorebirdStateFailure) _then) =
+      _$ShorebirdStateFailureCopyWithImpl;
+  @useResult
+  $Res call({String error});
+}
+
+/// @nodoc
+class _$ShorebirdStateFailureCopyWithImpl<$Res>
+    implements $ShorebirdStateFailureCopyWith<$Res> {
+  _$ShorebirdStateFailureCopyWithImpl(this._self, this._then);
+
+  final ShorebirdStateFailure _self;
+  final $Res Function(ShorebirdStateFailure) _then;
+
   /// Create a copy of ShorebirdState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
   @pragma('vm:prefer-inline')
-  _$$ShorebirdStateFailureImplCopyWith<_$ShorebirdStateFailureImpl>
-      get copyWith => __$$ShorebirdStateFailureImplCopyWithImpl<
-          _$ShorebirdStateFailureImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() checkingVersion,
-    required TResult Function() patchReady,
-    required TResult Function() releaseReady,
-    required TResult Function() deployingPatch,
-    required TResult Function() patchSuccess,
-    required TResult Function() deployingRelease,
-    required TResult Function(VersionInfo version) releaseSuccess,
-    required TResult Function(String error) failure,
+  $Res call({
+    Object? error = null,
   }) {
-    return failure(error);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? checkingVersion,
-    TResult? Function()? patchReady,
-    TResult? Function()? releaseReady,
-    TResult? Function()? deployingPatch,
-    TResult? Function()? patchSuccess,
-    TResult? Function()? deployingRelease,
-    TResult? Function(VersionInfo version)? releaseSuccess,
-    TResult? Function(String error)? failure,
-  }) {
-    return failure?.call(error);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? checkingVersion,
-    TResult Function()? patchReady,
-    TResult Function()? releaseReady,
-    TResult Function()? deployingPatch,
-    TResult Function()? patchSuccess,
-    TResult Function()? deployingRelease,
-    TResult Function(VersionInfo version)? releaseSuccess,
-    TResult Function(String error)? failure,
-    required TResult orElse(),
-  }) {
-    if (failure != null) {
-      return failure(error);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ShorebirdStateInitial value) initial,
-    required TResult Function(ShorebirdStateCheckingVersion value)
-        checkingVersion,
-    required TResult Function(ShorebirdStatePatchReady value) patchReady,
-    required TResult Function(ShorebirdStateReleaseReady value) releaseReady,
-    required TResult Function(ShorebirdStateDeployingPatch value)
-        deployingPatch,
-    required TResult Function(ShorebirdStatePatchSuccess value) patchSuccess,
-    required TResult Function(ShorebirdStateDeployingRelease value)
-        deployingRelease,
-    required TResult Function(ShorebirdStateReleaseSuccess value)
-        releaseSuccess,
-    required TResult Function(ShorebirdStateFailure value) failure,
-  }) {
-    return failure(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ShorebirdStateInitial value)? initial,
-    TResult? Function(ShorebirdStateCheckingVersion value)? checkingVersion,
-    TResult? Function(ShorebirdStatePatchReady value)? patchReady,
-    TResult? Function(ShorebirdStateReleaseReady value)? releaseReady,
-    TResult? Function(ShorebirdStateDeployingPatch value)? deployingPatch,
-    TResult? Function(ShorebirdStatePatchSuccess value)? patchSuccess,
-    TResult? Function(ShorebirdStateDeployingRelease value)? deployingRelease,
-    TResult? Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
-    TResult? Function(ShorebirdStateFailure value)? failure,
-  }) {
-    return failure?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ShorebirdStateInitial value)? initial,
-    TResult Function(ShorebirdStateCheckingVersion value)? checkingVersion,
-    TResult Function(ShorebirdStatePatchReady value)? patchReady,
-    TResult Function(ShorebirdStateReleaseReady value)? releaseReady,
-    TResult Function(ShorebirdStateDeployingPatch value)? deployingPatch,
-    TResult Function(ShorebirdStatePatchSuccess value)? patchSuccess,
-    TResult Function(ShorebirdStateDeployingRelease value)? deployingRelease,
-    TResult Function(ShorebirdStateReleaseSuccess value)? releaseSuccess,
-    TResult Function(ShorebirdStateFailure value)? failure,
-    required TResult orElse(),
-  }) {
-    if (failure != null) {
-      return failure(this);
-    }
-    return orElse();
+    return _then(ShorebirdStateFailure(
+      error: null == error
+          ? _self.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
   }
 }
 
-abstract class ShorebirdStateFailure implements ShorebirdState {
-  const factory ShorebirdStateFailure({required final String error}) =
-      _$ShorebirdStateFailureImpl;
-
-  String get error;
-
-  /// Create a copy of ShorebirdState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ShorebirdStateFailureImplCopyWith<_$ShorebirdStateFailureImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

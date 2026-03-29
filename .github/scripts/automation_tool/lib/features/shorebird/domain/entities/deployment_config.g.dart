@@ -6,9 +6,8 @@ part of 'deployment_config.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$DeploymentConfigImpl _$$DeploymentConfigImplFromJson(
-        Map<String, dynamic> json) =>
-    _$DeploymentConfigImpl(
+_DeploymentConfig _$DeploymentConfigFromJson(Map<String, dynamic> json) =>
+    _DeploymentConfig(
       flavor: json['flavor'] as String,
       shorebirdToken: json['shorebirdToken'] as String,
       shorebirdAppId: json['shorebirdAppId'] as String,
@@ -18,8 +17,7 @@ _$DeploymentConfigImpl _$$DeploymentConfigImplFromJson(
       skipGithub: json['skipGithub'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$DeploymentConfigImplToJson(
-        _$DeploymentConfigImpl instance) =>
+Map<String, dynamic> _$DeploymentConfigToJson(_DeploymentConfig instance) =>
     <String, dynamic>{
       'flavor': instance.flavor,
       'shorebirdToken': instance.shorebirdToken,
