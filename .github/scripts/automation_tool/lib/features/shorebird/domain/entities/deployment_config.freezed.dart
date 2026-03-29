@@ -22,6 +22,7 @@ DeploymentConfig _$DeploymentConfigFromJson(Map<String, dynamic> json) {
 mixin _$DeploymentConfig {
   String get flavor => throw _privateConstructorUsedError;
   String get shorebirdToken => throw _privateConstructorUsedError;
+  String get shorebirdAppId => throw _privateConstructorUsedError;
   String? get firebaseToken => throw _privateConstructorUsedError;
   String? get githubRepository => throw _privateConstructorUsedError;
   bool get skipFirebase => throw _privateConstructorUsedError;
@@ -46,6 +47,7 @@ abstract class $DeploymentConfigCopyWith<$Res> {
   $Res call(
       {String flavor,
       String shorebirdToken,
+      String shorebirdAppId,
       String? firebaseToken,
       String? githubRepository,
       bool skipFirebase,
@@ -69,6 +71,7 @@ class _$DeploymentConfigCopyWithImpl<$Res, $Val extends DeploymentConfig>
   $Res call({
     Object? flavor = null,
     Object? shorebirdToken = null,
+    Object? shorebirdAppId = null,
     Object? firebaseToken = freezed,
     Object? githubRepository = freezed,
     Object? skipFirebase = null,
@@ -82,6 +85,10 @@ class _$DeploymentConfigCopyWithImpl<$Res, $Val extends DeploymentConfig>
       shorebirdToken: null == shorebirdToken
           ? _value.shorebirdToken
           : shorebirdToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      shorebirdAppId: null == shorebirdAppId
+          ? _value.shorebirdAppId
+          : shorebirdAppId // ignore: cast_nullable_to_non_nullable
               as String,
       firebaseToken: freezed == firebaseToken
           ? _value.firebaseToken
@@ -114,6 +121,7 @@ abstract class _$$DeploymentConfigImplCopyWith<$Res>
   $Res call(
       {String flavor,
       String shorebirdToken,
+      String shorebirdAppId,
       String? firebaseToken,
       String? githubRepository,
       bool skipFirebase,
@@ -135,6 +143,7 @@ class __$$DeploymentConfigImplCopyWithImpl<$Res>
   $Res call({
     Object? flavor = null,
     Object? shorebirdToken = null,
+    Object? shorebirdAppId = null,
     Object? firebaseToken = freezed,
     Object? githubRepository = freezed,
     Object? skipFirebase = null,
@@ -148,6 +157,10 @@ class __$$DeploymentConfigImplCopyWithImpl<$Res>
       shorebirdToken: null == shorebirdToken
           ? _value.shorebirdToken
           : shorebirdToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      shorebirdAppId: null == shorebirdAppId
+          ? _value.shorebirdAppId
+          : shorebirdAppId // ignore: cast_nullable_to_non_nullable
               as String,
       firebaseToken: freezed == firebaseToken
           ? _value.firebaseToken
@@ -175,6 +188,7 @@ class _$DeploymentConfigImpl implements _DeploymentConfig {
   const _$DeploymentConfigImpl(
       {required this.flavor,
       required this.shorebirdToken,
+      required this.shorebirdAppId,
       this.firebaseToken,
       this.githubRepository,
       this.skipFirebase = false,
@@ -188,6 +202,8 @@ class _$DeploymentConfigImpl implements _DeploymentConfig {
   @override
   final String shorebirdToken;
   @override
+  final String shorebirdAppId;
+  @override
   final String? firebaseToken;
   @override
   final String? githubRepository;
@@ -200,7 +216,7 @@ class _$DeploymentConfigImpl implements _DeploymentConfig {
 
   @override
   String toString() {
-    return 'DeploymentConfig(flavor: $flavor, shorebirdToken: $shorebirdToken, firebaseToken: $firebaseToken, githubRepository: $githubRepository, skipFirebase: $skipFirebase, skipGithub: $skipGithub)';
+    return 'DeploymentConfig(flavor: $flavor, shorebirdToken: $shorebirdToken, shorebirdAppId: $shorebirdAppId, firebaseToken: $firebaseToken, githubRepository: $githubRepository, skipFirebase: $skipFirebase, skipGithub: $skipGithub)';
   }
 
   @override
@@ -211,6 +227,8 @@ class _$DeploymentConfigImpl implements _DeploymentConfig {
             (identical(other.flavor, flavor) || other.flavor == flavor) &&
             (identical(other.shorebirdToken, shorebirdToken) ||
                 other.shorebirdToken == shorebirdToken) &&
+            (identical(other.shorebirdAppId, shorebirdAppId) ||
+                other.shorebirdAppId == shorebirdAppId) &&
             (identical(other.firebaseToken, firebaseToken) ||
                 other.firebaseToken == firebaseToken) &&
             (identical(other.githubRepository, githubRepository) ||
@@ -223,8 +241,15 @@ class _$DeploymentConfigImpl implements _DeploymentConfig {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, flavor, shorebirdToken,
-      firebaseToken, githubRepository, skipFirebase, skipGithub);
+  int get hashCode => Object.hash(
+      runtimeType,
+      flavor,
+      shorebirdToken,
+      shorebirdAppId,
+      firebaseToken,
+      githubRepository,
+      skipFirebase,
+      skipGithub);
 
   /// Create a copy of DeploymentConfig
   /// with the given fields replaced by the non-null parameter values.
@@ -247,6 +272,7 @@ abstract class _DeploymentConfig implements DeploymentConfig {
   const factory _DeploymentConfig(
       {required final String flavor,
       required final String shorebirdToken,
+      required final String shorebirdAppId,
       final String? firebaseToken,
       final String? githubRepository,
       final bool skipFirebase,
@@ -259,6 +285,8 @@ abstract class _DeploymentConfig implements DeploymentConfig {
   String get flavor;
   @override
   String get shorebirdToken;
+  @override
+  String get shorebirdAppId;
   @override
   String? get firebaseToken;
   @override

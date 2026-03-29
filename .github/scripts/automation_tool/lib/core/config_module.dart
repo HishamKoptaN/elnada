@@ -12,10 +12,12 @@ abstract class ConfigModule {
     @Named('shorebirdToken') String shorebirdToken,
     @Named('firebaseToken') String firebaseToken,
     @Named('githubRepository') String githubRepository,
+    @Named('appId') String shorebirdAppId,
   ) {
     return DeploymentConfig(
       flavor: flavor,
       shorebirdToken: shorebirdToken,
+      shorebirdAppId: shorebirdAppId,
       firebaseToken: firebaseToken.isEmpty ? null : firebaseToken,
       githubRepository: githubRepository,
     );

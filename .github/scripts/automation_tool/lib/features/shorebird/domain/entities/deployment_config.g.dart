@@ -11,6 +11,7 @@ _$DeploymentConfigImpl _$$DeploymentConfigImplFromJson(
     _$DeploymentConfigImpl(
       flavor: json['flavor'] as String,
       shorebirdToken: json['shorebirdToken'] as String,
+      shorebirdAppId: json['shorebirdAppId'] as String,
       firebaseToken: json['firebaseToken'] as String?,
       githubRepository: json['githubRepository'] as String?,
       skipFirebase: json['skipFirebase'] as bool? ?? false,
@@ -22,6 +23,7 @@ Map<String, dynamic> _$$DeploymentConfigImplToJson(
     <String, dynamic>{
       'flavor': instance.flavor,
       'shorebirdToken': instance.shorebirdToken,
+      'shorebirdAppId': instance.shorebirdAppId,
       'firebaseToken': instance.firebaseToken,
       'githubRepository': instance.githubRepository,
       'skipFirebase': instance.skipFirebase,

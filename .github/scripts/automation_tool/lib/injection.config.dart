@@ -82,12 +82,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => configModule.appId,
       instanceName: 'appId',
     );
-    gh.singleton<_i494.DeploymentConfig>(() => configModule.getDeploymentConfig(
-          gh<String>(instanceName: 'flavor'),
-          gh<String>(instanceName: 'shorebirdToken'),
-          gh<String>(instanceName: 'firebaseToken'),
-          gh<String>(instanceName: 'githubRepository'),
-        ));
     gh.singleton<_i112.ShorebirdRepo>(() => _i166.ShorebirdRepoImpl(
           localDataSource: gh<_i44.ShorebirdLocalDataSource>(),
           apiService: gh<_i250.ShorebirdApiService>(),
@@ -100,9 +94,12 @@ extension GetItInjectableX on _i174.GetIt {
           apiService: gh<_i1007.FirebaseApiService>(),
           localDataSource: gh<_i475.FirebaseLocalDataSource>(),
         ));
-    gh.factory<_i1063.ShorebirdBloc>(() => _i1063.ShorebirdBloc(
-          useCases: gh<_i524.ShorebirdUseCases>(),
-          config: gh<_i494.DeploymentConfig>(),
+    gh.singleton<_i494.DeploymentConfig>(() => configModule.getDeploymentConfig(
+          gh<String>(instanceName: 'flavor'),
+          gh<String>(instanceName: 'shorebirdToken'),
+          gh<String>(instanceName: 'firebaseToken'),
+          gh<String>(instanceName: 'githubRepository'),
+          gh<String>(instanceName: 'appId'),
         ));
     gh.singleton<_i418.FirebaseUseCases>(
         () => _i418.FirebaseUseCases(gh<_i427.FirebaseRepo>()));
@@ -113,6 +110,10 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.singleton<_i304.BuildBloc>(
         () => _i304.BuildBloc(buildEngine: gh<_i883.BuildEngine>()));
+    gh.factory<_i1063.ShorebirdBloc>(() => _i1063.ShorebirdBloc(
+          useCases: gh<_i524.ShorebirdUseCases>(),
+          config: gh<_i494.DeploymentConfig>(),
+        ));
     return this;
   }
 }

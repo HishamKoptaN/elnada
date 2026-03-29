@@ -9,6 +9,7 @@ class DeploymentConfig with _$DeploymentConfig {
   const factory DeploymentConfig({
     required String flavor,
     required String shorebirdToken,
+    required String shorebirdAppId,
     String? firebaseToken,
     String? githubRepository,
     @Default(false) bool skipFirebase,
