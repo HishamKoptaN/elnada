@@ -1,13 +1,19 @@
 name: Distribute Main
 on:
     push:
-        branches: [test, test]
+        branches: [dev]
+
 jobs:
-    build_desktop:
+    # ============================================================
+    # JOB 1: Shorebird Deployment
+    # Deploy Windows app to Shorebird (Patch or Release)
+    # ============================================================
+    deploy_shorebird:
         runs-on: windows-latest
         environment: ${{ github.ref_name }}
         outputs:
             full_version: ${{ steps.version.outputs.full_version }}
+            version_changed: ${{ steps.deploy.outputs.version_changed }}
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -48,8 +54,8 @@ jobs:
                       exit 1
                   }
 
-            # === SHOREBIRD DEPLOYMENT PHASE ===
-            - name: Deploy with Shorebird
+            - name: Deploy to Shorebird
+              id: deploy
               shell: pwsh
               env:
                   SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
@@ -124,13 +130,21 @@ jobs:
                       }
                   } else {
                       Write-Host "✅ Patch succeeded" -ForegroundColor Green
+                      echo "version_changed=false" >> $env:GITHUB_OUTPUT
                   }
 
-    # === INSTALLER AND RELEASE PHASE ===
-    build_and_release:
-        needs: build_desktop
+    # ============================================================
+    # JOB 2: Build Installer
+    # Build Windows installer using Inno Setup
+    # Depends on: deploy_shorebird
+    # ============================================================
+    build_installer:
+        needs: deploy_shorebird
         runs-on: windows-latest
         environment: ${{ github.ref_name }}
+        outputs:
+            installer_name: ${{ steps.prepare_assets.outputs.installer_name }}
+            exe_name: ${{ steps.prepare_assets.outputs.exe_name }}
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -140,14 +154,13 @@ jobs:
             - name: Configure Git
               run: git config --system core.longpaths true
 
-            # === INSTALLER PREPARATION PHASE ===
             - name: Prepare installer template
               shell: pwsh
               run: |
                   $issPath = "./installers/abujena_setup.iss"
                   if (Test-Path $issPath) {
                       $issContent = Get-Content $issPath -Raw
-                      $newIssContent = $issContent -replace "APP_VERSION_PLACEHOLDER", "${{ needs.build_desktop.outputs.full_version }}"
+                      $newIssContent = $issContent -replace "APP_VERSION_PLACEHOLDER", "${{ needs.deploy_shorebird.outputs.full_version }}"
                       [System.IO.File]::WriteAllText((Get-Item $issPath).FullName, $newIssContent)
                       Write-Host "✅ Installer template prepared" -ForegroundColor Green
                   } else {
@@ -167,24 +180,70 @@ jobs:
                     exit 1
                   }
 
-            # === ASSET PREPARATION PHASE ===
             - name: Prepare final assets
-              id: prepare_final_assets
+              id: prepare_assets
               shell: pwsh
               run: |
                   $newName = if ("${{ github.ref_name }}" -eq "dev") { "abujena_dawajen_dev.exe" } else { "abujena_dawajen.exe" }
-                  $setupFile = Get-ChildItem "installers/*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-                  Rename-Item -Path $setupFile.FullName -NewName $newName
-                  echo "FINAL_FILE_NAME=$newName" >> $env:GITHUB_ENV
-                  Write-Host "✅ Final asset prepared: $newName" -ForegroundColor Green
+                  $installerName = if ("${{ github.ref_name }}" -eq "dev") { "abujena_setup_dev.exe" } else { "abujena_setup.exe" }
 
-            # === APPCAST UPDATE PHASE ===
+                  # Rename the output file if it exists
+                  $outputPath = "./Output/$installerName"
+                  if (Test-Path $outputPath) {
+                      Write-Host "✅ Found installer at: $outputPath" -ForegroundColor Green
+                  }
+
+                  echo "exe_name=$newName" >> $env:GITHUB_OUTPUT
+                  echo "installer_name=$installerName" >> $env:GITHUB_OUTPUT
+
+            - name: Upload installer artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: installer
+                  path: ./Output/${{ steps.prepare_assets.outputs.installer_name }}
+                  retention-days: 1
+
+    # ============================================================
+    # JOB 3: GitHub Release
+    # Create GitHub release and upload assets
+    # Depends on: build_installer
+    # ============================================================
+    github_release:
+        needs: [deploy_shorebird, build_installer]
+        runs-on: windows-latest
+        environment: ${{ github.ref_name }}
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Download artifacts
+              uses: actions/download-artifact@v4
+              with:
+                  path: ./artifacts
+
+            - name: Prepare release assets
+              shell: pwsh
+              run: |
+                  $installerName = "${{ needs.build_installer.outputs.installer_name }}"
+                  $sourcePath = "./artifacts/installer/$installerName"
+                  $destPath = "./Output/$installerName"
+
+                  if (Test-Path $sourcePath) {
+                      New-Item -ItemType Directory -Force -Path "./Output"
+                      Copy-Item $sourcePath $destPath
+                      Write-Host "✅ Prepared installer: $installerName" -ForegroundColor Green
+                  } else {
+                      Write-Warning "⚠️ Installer not found at $sourcePath"
+                  }
+
             - name: Update appcast
               shell: pwsh
               run: |
-                  $version = "${{ needs.build_desktop.outputs.full_version }}"
-                  $fileName = "${{ env.FINAL_FILE_NAME }}"
-                  $filePath = "installers/$fileName"
+                  $version = "${{ needs.deploy_shorebird.outputs.full_version }}"
+                  $fileName = "${{ needs.build_installer.outputs.installer_name }}"
+                  $filePath = "./Output/$fileName"
                   $fileLength = if (Test-Path $filePath) { (Get-Item $filePath).Length } else { 0 }
                   $url = "https://github.com/${{ github.repository }}/releases/latest/download/$fileName"
                   $xmlPath = "desktop_appcast.xml"
@@ -211,14 +270,57 @@ jobs:
                     Write-Warning "⚠️ Appcast file not found. Skipping update."
                   }
 
-            # === RELEASE PHASE ===
             - name: Create GitHub Release
               uses: softprops/action-gh-release@v2
               with:
-                  tag_name: latest
-                  name: "Latest (${{ github.ref_name }})"
-                  body: "Version: ${{ needs.build_desktop.outputs.full_version }}"
-                  files: installers/${{ env.FINAL_FILE_NAME }}
+                  tag_name: ${{ github.ref_name == 'prod' && 'latest' || format('latest_{0}', github.ref_name) }}
+                  name: ${{ github.ref_name == 'prod' && format('Release v{0}', needs.deploy_shorebird.outputs.full_version) || format('Release v{0} ({1})', needs.deploy_shorebird.outputs.full_version, github.ref_name) }}
+                  body: |
+                      ## 🚀 Release v${{ needs.deploy_shorebird.outputs.full_version }}
+
+                      ### Changes
+                      - Automated release from ${{ github.ref_name }} branch
+                      - Shorebird deployment: ${{ needs.deploy_shorebird.outputs.version_changed == 'true' && 'New Release' || 'Patch' }}
+
+                      ### Downloads
+                      - **Installer**: `${{ needs.build_installer.outputs.installer_name }}`
+                  files: ./Output/${{ needs.build_installer.outputs.installer_name }}
                   make_latest: true
                   prerelease: ${{ github.ref_name == 'dev' }}
                   draft: false
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # ============================================================
+    # JOB 4: Cleanup Releases
+    # Cleanup old Firebase releases
+    # Depends on: github_release
+    # ============================================================
+    cleanup_releases:
+        needs: github_release
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup Flutter
+              uses: subosito/flutter-action@v2
+              with:
+                  channel: stable
+                  cache: true
+
+            - name: Install dependencies for Automation Tool
+              run: |
+                  cd .github/scripts/automation_tool
+                  rm -f lib/**/*.freezed.dart lib/**/*.g.dart
+                  dart pub get
+                  dart run build_runner build --delete-conflicting-outputs
+
+            - name: Cleanup old releases
+              working-directory: .github/scripts/automation_tool
+              env:
+                  FIREBASE_PROJECT_NUMBER: "448994699498"
+                  FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+                  FIREBASE_ADMIN_SDK: ${{ secrets.FIREBASE_ADMIN_SDK }}
+              run: dart bin/main.dart cleanup
+              continue-on-error: true
