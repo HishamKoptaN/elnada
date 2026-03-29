@@ -33,10 +33,32 @@ jobs:
       - name: Get Flutter dependencies
         run: flutter pub get
 
+      - name: Get version from pubspec
+        id: version
+        run: |
+          $version = (Get-Content pubspec.yaml | Select-String "version:" | ForEach-Object { ($_ -split " ")[1] })
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+        shell: pwsh
+
       - name: Shorebird Release Windows
+        id: shorebird_release
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-        run: shorebird release windows
+        run: |
+          # Try to create release, if it fails (exists), create patch instead
+          shorebird release windows 2>&1 | Tee-Object -Variable output
+          if ($LASTEXITCODE -ne 0) {
+            if ($output -match "existing.*release" -or $output -match "bump your version") {
+              echo "Release exists, creating patch instead..."
+              shorebird patch windows
+              echo "is_patch=true" >> $env:GITHUB_OUTPUT
+            } else {
+              exit $LASTEXITCODE
+            }
+          } else {
+            echo "is_patch=false" >> $env:GITHUB_OUTPUT
+          }
+        shell: pwsh
 
       - name: Find Shorebird Build Output
         id: find_build
