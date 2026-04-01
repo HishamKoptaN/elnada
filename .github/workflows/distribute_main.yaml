@@ -35,3 +35,13 @@ jobs:
         secrets:
             FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
             FIREBASE_ADMIN_SDK: ${{ secrets.FIREBASE_ADMIN_SDK }}
+
+    distribute_android:
+        needs: deploy_shorebird
+        uses: ./.github/workflows/distribute-android.yml
+        with:
+            flavor: ${{ github.ref_name }}
+        secrets:
+            FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+            FIREBASE_ADMIN_SDK: ${{ secrets.FIREBASE_ADMIN_SDK }}
+            SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}

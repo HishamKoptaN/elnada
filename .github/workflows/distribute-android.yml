@@ -5,6 +5,13 @@ on:
       flavor:
         type: string
         required: true
+    secrets:
+      FIREBASE_APP_ID:
+        required: true
+      FIREBASE_ADMIN_SDK:
+        required: true
+      SHOREBIRD_TOKEN:
+        required: true
   workflow_dispatch:
 
 jobs:
