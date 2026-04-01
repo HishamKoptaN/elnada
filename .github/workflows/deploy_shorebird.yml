@@ -71,27 +71,45 @@ jobs:
           (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
           Write-Host "✅ App ID Switched to: $TARGET_ID" -ForegroundColor Green
 
-          # Check if release exists
-          Write-Host "� Checking if release $version exists..." -ForegroundColor Cyan
+          # Get releases
           $releasesResponse = Invoke-RestMethod -Uri "https://api.shorebird.dev/api/v1/apps/$TARGET_ID/releases" -Method GET
-          $releaseExists = $releasesResponse.releases | Where-Object { $_.version -eq $version -and $_.platform_statuses.windows }
+          $release = $releasesResponse.releases | Where-Object { $_.version -eq $version }
 
-          if ($releaseExists) {
-            Write-Host "✅ Release $version already exists. Creating PATCH..." -ForegroundColor Green
-            shorebird patch windows --release-version=$version --dart-define=ENV=$flavor --verbose --force
-            
-            if ($LASTEXITCODE -ne 0) {
-              Write-Host "❌ Patch failed even with --force" -ForegroundColor Red
-              exit 1
-            }
-            echo "version_changed=false" >> $env:GITHUB_OUTPUT
+          $versionChanged = $false
+
+          # ---------------- ANDROID ----------------
+          Write-Host "📱 Processing ANDROID..." -ForegroundColor Cyan
+
+          if ($release -and $release.platform_statuses.android) {
+            Write-Host "✅ Android release exists → PATCH" -ForegroundColor Green
+            shorebird patch android --release-version=$version --dart-define=ENV=$flavor --verbose --force
           } else {
-            Write-Host "🚀 Release $version does not exist. Creating new RELEASE..." -ForegroundColor Cyan
-            shorebird release windows --dart-define=ENV=$flavor --verbose
-            
-            if ($LASTEXITCODE -ne 0) {
-              Write-Host "❌ Release failed" -ForegroundColor Red
-              exit 1
-            }
-            echo "version_changed=true" >> $env:GITHUB_OUTPUT
+            Write-Host "🚀 Android release missing → RELEASE" -ForegroundColor Cyan
+            shorebird release android --dart-define=ENV=$flavor --verbose
+            $versionChanged = $true
           }
+
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "❌ Android step failed" -ForegroundColor Red
+            exit 1
+          }
+
+          # ---------------- WINDOWS ----------------
+          Write-Host "🖥️ Processing WINDOWS..." -ForegroundColor Cyan
+
+          if ($release -and $release.platform_statuses.windows) {
+            Write-Host "✅ Windows release exists → PATCH" -ForegroundColor Green
+            shorebird patch windows --release-version=$version --dart-define=ENV=$flavor --verbose --force
+          } else {
+            Write-Host "🚀 Windows release missing → RELEASE" -ForegroundColor Cyan
+            shorebird release windows --dart-define=ENV=$flavor --verbose
+            $versionChanged = $true
+          }
+
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "❌ Windows step failed" -ForegroundColor Red
+            exit 1
+          }
+
+          # Output
+          echo "version_changed=$versionChanged" >> $env:GITHUB_OUTPUT
