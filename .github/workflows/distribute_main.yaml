@@ -27,8 +27,6 @@ jobs:
             full_version: ${{ needs.deploy_shorebird.outputs.full_version }}
             version_changed: ${{ needs.deploy_shorebird.outputs.version_changed }}
             installer_name: ${{ needs.build_installer.outputs.installer_name }}
-        secrets:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     cleanup_releases:
         needs: github_release
