@@ -67,8 +67,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - run: shorebird upgrade
-
       - id: deploy
         shell: bash
         env:
@@ -133,7 +131,6 @@ jobs:
           cache: true
 
       - run: git config --system core.longpaths true
-      - run: shorebird upgrade
 
       - id: deploy
         shell: pwsh
