@@ -64,12 +64,11 @@ class CustomersDataGridWidget extends StatelessWidget {
               controller: _dataGridController,
               frozenColumnsCount: 1,
               headerRowHeight: 55.h,
-              columnWidthMode: ColumnWidthMode.fill,
+              columnWidthMode: ColumnWidthMode.lastColumnFill,
               navigationMode: GridNavigationMode.cell,
               selectionMode: SelectionMode.single,
               rowHeight: 70.h,
               source: employeeDataSource,
-              columnWidthCalculationRange: ColumnWidthCalculationRange.allRows,
               onCurrentCellActivated:
                   (currentRowColumnIndex, prevRowColumnIndex) {
                     debugPrint(
@@ -233,14 +232,14 @@ class CustomersDataGridWidget extends StatelessWidget {
   List<GridColumn> _buildColumns({required bool isDesktop}) {
     return [
       _GridColumn(name: 'رقم', width: 50.w),
-      _GridColumn(name: 'الاسم', width: 150.w),
-      _GridColumn(name: 'الاصل', width: 150.w),
-      if (isDesktop) ...[_GridColumn(name: 'تسمين', width: 125.w)],
+      _GridColumn(name: 'الاسم', width: 160.w),
+      _GridColumn(name: 'الاصل', width: 160.w),
+      if (isDesktop) ...[_GridColumn(name: 'تسمين', width: 130.w)],
       _GridColumn(name: 'راجع تسمين', width: 75.w),
-      if (isDesktop) ...[_GridColumn(name: 'امهات', width: 125.w)],
+      if (isDesktop) ...[_GridColumn(name: 'امهات', width: 130.w)],
       _GridColumn(name: 'راجع امهات', width: 75.w),
-      _GridColumn(name: 'التحصيل', width: 150.w),
-      _GridColumn(name: 'الصافي', width: 150.w),
+      _GridColumn(name: 'التحصيل', width: 160.w),
+      _GridColumn(name: 'الصافي', width: 160.w),
       _GridColumn(name: 'طلب ت', width: 75.w),
       _GridColumn(name: 'طلب م', width: 75.w),
       _GridColumn(name: 'فرق سعر ت', width: 75.w),

@@ -4,14 +4,11 @@ import 'package:abujena_automation/features/deploy/deploy_bloc.dart';
 import 'package:abujena_automation/features/shorebird/present/bloc/shorebird_bloc.dart';
 import 'package:abujena_automation/features/firebase/present/bloc/firebase_cleanup_bloc.dart';
 
-/// Single deployment command that handles full flow:
-/// 1. Build → 2. Check version → 3. Release or Patch → 4. Distribute → 5. Cleanup
 class DeploymentRunner {
   final DeployBloc _deployBloc = getIt<DeployBloc>();
   final BuildBloc _buildBloc = getIt<BuildBloc>();
   final ShorebirdBloc _shorebirdBloc = getIt<ShorebirdBloc>();
   final CleanupBloc _cleanupBloc = getIt<FirebaseCleanupBloc>();
-
   Future<void> run() async {
     _setupLogging();
 
@@ -83,7 +80,6 @@ class DeploymentRunner {
   }
 
   void _setupLogging() {
-    // Build logging
     _buildBloc.stream.listen((state) {
       state.whenOrNull(
         building: (p) => print('   📦 Building $p...'),
@@ -91,8 +87,6 @@ class DeploymentRunner {
         failure: (p, e) => print('   ❌ Build failed: $e'),
       );
     });
-
-    // Shorebird logging
     _shorebirdBloc.stream.listen((state) {
       state.whenOrNull(
         checkingVersion: () => print('   🔍 Checking Shorebird...'),
@@ -105,8 +99,6 @@ class DeploymentRunner {
         failure: (e) => print('   ❌ Shorebird error: $e'),
       );
     });
-
-    // Cleanup logging
     _cleanupBloc.stream.listen((state) {
       state.whenOrNull(
         loading: () => print('   🧹 Cleaning...'),
@@ -114,7 +106,6 @@ class DeploymentRunner {
         failure: (e) => print('   ❌ Cleanup error: $e'),
       );
     });
-
     _deployBloc.add(const DeployEvent.startDeployment());
   }
 

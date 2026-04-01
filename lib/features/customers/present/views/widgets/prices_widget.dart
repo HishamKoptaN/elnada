@@ -90,7 +90,7 @@ class PricesWidget extends StatelessWidget {
                 ),
               )
             else
-              FaIcon(FontAwesomeIcons.plus, color: Colors.blue, size: 20.0.sp),
+              FaIcon(FontAwesomeIcons.plus, color: Colors.blue, size: 30.w),
           ],
         ),
       ),
@@ -143,34 +143,54 @@ class PricesWidget extends StatelessWidget {
                     return AlertDialog(
                       title: Text(
                         'تعديل سعر ${productPrice.product?.name ?? ''}',
+                        style: TextStyle(fontSize: 18.sp),
                       ),
-                      content: TextFormField(
-                        initialValue:
-                            productPrice.productDailyprice?.price?.toString() ??
-                            '',
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        decoration: const InputDecoration(
-                          labelText: 'السعر',
-                          border: OutlineInputBorder(),
+                      content: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height * 0.2,
                         ),
-                        onChanged: (v) {
-                          getIt<ProductsBloc>().add(
-                            ProductsEvent.dataChanged(
-                              updateProductPriceReq: state.updateProductPriceReq
-                                  .copyWith(price: GenericFormzInput.dirty(v)),
+                        child: SingleChildScrollView(
+                          child: SizedBox(
+                            height: 50.h,
+                            child: TextFormField(
+                              cursorHeight: 20.h,
+                              initialValue:
+                                  productPrice.productDailyprice?.price
+                                      ?.toString() ??
+                                  '',
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
+                              decoration: InputDecoration(
+                                labelText: 'السعر',
+                                border: const OutlineInputBorder(),
+                                labelStyle: TextStyle(fontSize: 18.sp),
+                              ),
+                              onChanged: (v) {
+                                getIt<ProductsBloc>().add(
+                                  ProductsEvent.dataChanged(
+                                    updateProductPriceReq: state
+                                        .updateProductPriceReq
+                                        .copyWith(
+                                          price: GenericFormzInput.dirty(v),
+                                        ),
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
+                          ),
+                        ),
                       ),
                       actions: [
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          child: const Text('إلغاء'),
+                          child: Text(
+                            'إلغاء',
+                            style: TextStyle(fontSize: 18.sp),
+                          ),
                         ),
                         TextButton(
                           onPressed: hasChanges
@@ -196,6 +216,7 @@ class PricesWidget extends StatelessWidget {
                               : Text(
                                   'حفظ',
                                   style: TextStyle(
+                                    fontSize: 18.sp,
                                     color: hasChanges
                                         ? Colors.black
                                         : Colors.white30,

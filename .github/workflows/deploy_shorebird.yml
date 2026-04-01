@@ -1,0 +1,89 @@
+name: Deploy Shorebird
+
+on:
+  workflow_call:
+    inputs:
+      flavor:
+        type: string
+        required: true
+    outputs:
+      full_version:
+        value: ${{ jobs.deploy.outputs.full_version }}
+      version_changed:
+        value: ${{ jobs.deploy.outputs.version_changed }}
+    secrets:
+      SHOREBIRD_TOKEN:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: windows-latest
+    environment: ${{ inputs.flavor }}
+    outputs:
+      full_version: ${{ steps.version.outputs.full_version }}
+      version_changed: ${{ steps.deploy.outputs.version_changed }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: shorebirdtech/setup-shorebird@v1
+        with:
+          cache: true
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - run: git config --system core.longpaths true
+      - run: shorebird upgrade
+
+      - name: Extract version
+        id: version
+        shell: pwsh
+        run: |
+          $pubspec = Get-Content pubspec.yaml | Out-String
+          if ($pubspec -match 'version:\s*([^\s]+)') {
+            $version = $matches[1].Trim()
+            echo "full_version=$version" >> $env:GITHUB_OUTPUT
+            echo "FULL_VERSION=$version" >> $env:GITHUB_ENV
+            Write-Host "🔍 Target Version: $version" -ForegroundColor Cyan
+          } else {
+            Write-Error "❌ Could not find version in pubspec.yaml"
+            exit 1
+          }
+
+      - name: Deploy to Shorebird
+        id: deploy
+        shell: pwsh
+        env:
+          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+        run: |
+          $version = "${{ env.FULL_VERSION }}"
+          $flavor = "${{ inputs.flavor }}"
+          $TARGET_ID = if ($flavor -eq "prod") { 
+            "ed427ccb-5edb-4594-a376-2ee9636bef4e" 
+          } else { 
+            "e962126d-ee7a-48f2-b89d-fb0349f4a05f" 
+          }
+
+          (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
+          Write-Host "✅ App ID Switched to: $TARGET_ID" -ForegroundColor Green
+
+          Write-Host "🚀 Attempting Shorebird PATCH for version $version..." -ForegroundColor Cyan
+          shorebird patch windows --release-version=$version --dart-define=ENV=$flavor --verbose
+
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "⚠️ Patch failed. Creating new RELEASE..." -ForegroundColor Yellow
+            shorebird release windows --dart-define=ENV=$flavor --verbose
+            
+            if ($LASTEXITCODE -ne 0) {
+              Write-Host "❌ Failed to Patch or Release." -ForegroundColor Red
+              exit 1
+            }
+            echo "version_changed=true" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Host "✅ Patch succeeded" -ForegroundColor Green
+            echo "version_changed=false" >> $env:GITHUB_OUTPUT
+          }

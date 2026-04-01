@@ -21,10 +21,13 @@ class CustomersViewWidget extends StatelessWidget {
     return BlocBuilder<CustomersBloc, CustomersState>(
       builder: (context, state) {
         final isDesktop = _isDesktop(context);
-
         return state.when(
-          initial: () => const Center(child: CircularProgressIndicator()),
-          loading: () => const Center(child: CircularProgressIndicator()),
+          initial: () {
+            return const Center(child: CircularProgressIndicator());
+          },
+          loading: () {
+            return const Center(child: CircularProgressIndicator());
+          },
           loaded:
               (
                 selectedDate,

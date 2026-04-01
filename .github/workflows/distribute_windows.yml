@@ -1,7 +1,7 @@
 name: Distribute Windows
 on:
   push:
-    branches: [prod, dev]
+    branches: [prod, devt]
   workflow_dispatch:
 
 jobs:

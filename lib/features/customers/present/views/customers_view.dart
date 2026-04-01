@@ -20,7 +20,6 @@ class CustomersView extends StatefulWidget {
 }
 
 class _CustomersViewState extends State<CustomersView> {
-  final GlobalKey<SfDataGridState> _key = GlobalKey<SfDataGridState>();
   late DailyCustomerReportsDataSource _employeeDataSource;
 
   @override
@@ -40,7 +39,7 @@ class _CustomersViewState extends State<CustomersView> {
     return Scaffold(
       body: const Column(
         children: [
-          if (kDebugMode) AutoUpdaterWidget(),
+          // if (kDebugMode) AutoUpdaterWidget(),
           Expanded(child: CustomersViewWidget()),
         ],
       ),
