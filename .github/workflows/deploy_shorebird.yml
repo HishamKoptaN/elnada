@@ -69,14 +69,10 @@ jobs:
           (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
           Write-Host "✅ App ID Switched to: $TARGET_ID" -ForegroundColor Green
 
-          # Get releases
+          # Get releases using CLI
           Write-Host "🔍 Checking releases for version $version..." -ForegroundColor Cyan
-          $headers = @{
-            "Authorization" = "Bearer $env:SHOREBIRD_TOKEN"
-            "x-version" = "1.0.0"
-          }
-          $releasesResponse = Invoke-RestMethod -Uri "https://api.shorebird.dev/api/v1/apps/$TARGET_ID/releases" -Headers $headers -Method GET
-          $release = $releasesResponse.releases | Where-Object { $_.version -eq $version } | Select-Object -First 1
+          $releasesJson = shorebird release list --output=json | ConvertFrom-Json
+          $release = $releasesJson | Where-Object { $_.version -eq $version } | Select-Object -First 1
 
           $versionChanged = $false
 
@@ -98,8 +94,8 @@ jobs:
           }
 
           # 🔁 Refresh release data after Android step
-          $releasesResponse = Invoke-RestMethod -Uri "https://api.shorebird.dev/api/v1/apps/$TARGET_ID/releases" -Headers $headers -Method GET
-          $release = $releasesResponse.releases | Where-Object { $_.version -eq $version } | Select-Object -First 1
+          $releasesJson = shorebird release list --output=json | ConvertFrom-Json
+          $release = $releasesJson | Where-Object { $_.version -eq $version } | Select-Object -First 1
 
           # ---------------- WINDOWS ----------------
           Write-Host "🖥️ Processing WINDOWS..." -ForegroundColor Cyan
