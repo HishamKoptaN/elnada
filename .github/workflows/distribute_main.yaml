@@ -6,7 +6,7 @@ on:
 
 jobs:
     deploy_shorebird:
-        uses: ./.github/workflows/deploy_shorebird.yml
+        uses: ./.github/workflows/deploy/deploy_shorebird.yml
         with:
             flavor: ${{ github.ref_name }}
         secrets:
@@ -14,14 +14,14 @@ jobs:
 
     build_installer:
         needs: deploy_shorebird
-        uses: ./.github/workflows/build_installer.yml
+        uses: ./.github/workflows/deploy/build_installer.yml
         with:
             flavor: ${{ github.ref_name }}
             full_version: ${{ needs.deploy_shorebird.outputs.full_version }}
 
     github_release:
         needs: [deploy_shorebird, build_installer]
-        uses: ./.github/workflows/github_release.yml
+        uses: ./.github/workflows/deploy/github_release.yml
         secrets: inherit
         with:
             flavor: ${{ github.ref_name }}
@@ -31,7 +31,7 @@ jobs:
 
     cleanup_releases:
         needs: github_release
-        uses: ./.github/workflows/cleanup_releases.yml
+        uses: ./.github/workflows/cleanup/cleanup_releases.yml
         secrets:
             FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
             FIREBASE_ADMIN_SDK: ${{ secrets.FIREBASE_ADMIN_SDK }}
