@@ -1,0 +1,8 @@
+name: Test Folder Workflow
+
+on:
+  push:
+
+jobs:
+  call:
+    uses: ./.github/workflows/shorebird/deploy.yml

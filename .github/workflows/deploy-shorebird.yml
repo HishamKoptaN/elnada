@@ -10,180 +10,47 @@ on:
       full_version:
         value: ${{ jobs.version.outputs.full_version }}
       version_changed:
-        value: ${{ jobs.combine.outputs.version_changed }}
+        value: ${{ jobs.combine.outputs.changed }}
     secrets:
       SHOREBIRD_TOKEN:
         required: true
 
 jobs:
-  # ==================== EXTRACT VERSION ====================
   version:
-    runs-on: ubuntu-latest
-    outputs:
-      full_version: ${{ steps.get_version.outputs.full_version }}
-      base_version: ${{ steps.get_version.outputs.base_version }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
+    uses: ./.github/workflows/get-version.yml
 
-      - id: get_version
-        shell: bash
-        run: |
-          version=$(grep -E '^version:' pubspec.yaml | head -1 | awk '{print $2}' | tr -d '"')
-          baseVersion=$(echo "$version" | cut -d'+' -f1)
-          echo "full_version=$version" >> $GITHUB_OUTPUT
-          echo "base_version=$baseVersion" >> $GITHUB_OUTPUT
-          echo "🔍 Version: $version, Base: $baseVersion"
-
-  # ==================== ANDROID (Ubuntu - سريع) ====================
-  deploy_android:
+  android:
     needs: version
-    runs-on: ubuntu-latest
-    environment: ${{ inputs.flavor }}
-    outputs:
-      android_changed: ${{ steps.deploy.outputs.android_changed }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
+    uses: ./.github/workflows/deploy-android-shorebird.yml
+    with:
+      flavor: ${{ inputs.flavor }}
+      full_version: ${{ needs.version.outputs.full_version }}
+      base_version: ${{ needs.version.outputs.base_version }}
+    secrets:
+      SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 
-      - uses: shorebirdtech/setup-shorebird@v1
-        with:
-          cache: true
-
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: true
-
-      # Cache Gradle
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - id: deploy
-        shell: bash
-        env:
-          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-        run: |
-          version="${{ needs.version.outputs.full_version }}"
-          baseVersion="${{ needs.version.outputs.base_version }}"
-          flavor="${{ inputs.flavor }}"
-
-          TARGET_ID="e962126d-ee7a-48f2-b89d-fb0349f4a05f"
-          if [ "$flavor" = "prod" ]; then
-            TARGET_ID="ed427ccb-5edb-4594-a376-2ee9636bef4e"
-          fi
-
-          sed -i "s/^app_id:.*/app_id: $TARGET_ID/" shorebird.yaml
-          echo "✅ App ID: $TARGET_ID"
-
-          # Convert version for Android (1.0.0+1 → 1.0.0-dev+1)
-          androidReleaseVersion="$version"
-          if [ "$flavor" != "prod" ]; then
-            androidReleaseVersion=$(echo "$version" | sed "s/+/-$flavor+/")
-          fi
-
-          echo "� Android version: $androidReleaseVersion"
-          versionChanged=false
-
-          # Try patch
-          if shorebird patch android --flavor=$flavor --build-name="$baseVersion" --release-version="$androidReleaseVersion" --dart-define=ENV=$flavor 2>&1 | tee /tmp/patch_output; then
-            echo "✅ Android patch succeeded"
-          else
-            if grep -q "Release not found\|No release exists" /tmp/patch_output; then
-              echo "🚀 Creating release..."
-              shorebird release android --flavor=$flavor --build-name="$baseVersion" --dart-define=ENV=$flavor || exit 1
-              versionChanged=true
-            else
-              echo "❌ Android failed"
-              exit 1
-            fi
-          fi
-
-          echo "android_changed=$versionChanged" >> $GITHUB_OUTPUT
-
-  # ==================== WINDOWS (Windows) ====================
-  deploy_windows:
+  windows:
     needs: version
-    runs-on: windows-latest
-    environment: ${{ inputs.flavor }}
-    outputs:
-      windows_changed: ${{ steps.deploy.outputs.windows_changed }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
+    uses: ./.github/workflows/deploy-windows-shorebird.yml
+    with:
+      flavor: ${{ inputs.flavor }}
+      full_version: ${{ needs.version.outputs.full_version }}
+    secrets:
+      SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 
-      - uses: shorebirdtech/setup-shorebird@v1
-        with:
-          cache: true
-
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: true
-
-      - run: git config --system core.longpaths true
-
-      - id: deploy
-        shell: pwsh
-        env:
-          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-        run: |
-          $version = "${{ needs.version.outputs.full_version }}"
-          $flavor = "${{ inputs.flavor }}"
-
-          $TARGET_ID = if ($flavor -eq "prod") { "ed427ccb-5edb-4594-a376-2ee9636bef4e" } else { "e962126d-ee7a-48f2-b89d-fb0349f4a05f" }
-
-          (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
-          Write-Host "✅ App ID: $TARGET_ID" -ForegroundColor Green
-
-          Write-Host "�️ Windows version: $version" -ForegroundColor Cyan
-          $versionChanged = $false
-
-          # Try patch
-          shorebird patch windows --release-version=$version --dart-define=ENV=$flavor 2>&1 | Tee-Object -Variable patchOutput
-          $patchExitCode = $LASTEXITCODE
-
-          if ($patchExitCode -ne 0) {
-            if ($patchOutput -match "Release not found|No release exists") {
-              Write-Host "🚀 Creating release..." -ForegroundColor Cyan
-              shorebird release windows --dart-define=ENV=$flavor
-              if ($LASTEXITCODE -ne 0) { exit 1 }
-              $versionChanged = $true
-            } else {
-              Write-Host "❌ Windows failed" -ForegroundColor Red
-              exit 1
-            }
-          } else {
-            Write-Host "✅ Windows patch succeeded" -ForegroundColor Green
-          }
-
-          echo "windows_changed=$versionChanged" >> $env:GITHUB_OUTPUT
-
-  # ==================== COMBINE OUTPUTS ====================
   combine:
-    needs: [version, deploy_android, deploy_windows]
+    needs: [version, android, windows]
     runs-on: ubuntu-latest
     outputs:
       full_version: ${{ needs.version.outputs.full_version }}
-      version_changed: ${{ steps.combine.outputs.version_changed }}
+      changed: ${{ steps.check.outputs.changed }}
     steps:
-      - id: combine
-        shell: bash
+      - id: check
         run: |
-          android_changed="${{ needs.deploy_android.outputs.android_changed }}"
-          windows_changed="${{ needs.deploy_windows.outputs.windows_changed }}"
-
-          if [ "$android_changed" = "true" ] || [ "$windows_changed" = "true" ]; then
-            echo "version_changed=true" >> $GITHUB_OUTPUT
+          a="${{ needs.android.outputs.changed }}"
+          w="${{ needs.windows.outputs.changed }}"
+          if [ "$a" = "true" ] || [ "$w" = "true" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
           else
-            echo "version_changed=false" >> $GITHUB_OUTPUT
+            echo "changed=false" >> $GITHUB_OUTPUT
           fi
