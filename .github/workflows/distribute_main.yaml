@@ -5,8 +5,6 @@ on:
         branches: [dev, prod]
 
 jobs:
-    shorebird_deploy:
-        uses: ./.github/actions/shorebird-deploy
     deploy_shorebird:
         uses: ./.github/workflows/deploy-shorebird.yml
         with:

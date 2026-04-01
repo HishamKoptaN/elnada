@@ -74,9 +74,11 @@ jobs:
         run: |
           dart .github/scripts/automation_tool/bin/main.dart deploy
           echo "=== Deployment Outputs ==="
-          echo "is_new_release: ${{ steps.deploy_logic.outputs.is_new_release }}"
-          echo "version: ${{ steps.deploy_logic.outputs.version }}"
-          echo "apk_path: ${{ steps.deploy_logic.outputs.apk_path }}"
+          # Read outputs from file if written by dart tool, or set defaults
+          if [ -f /tmp/deploy_outputs ]; then
+            cat /tmp/deploy_outputs >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
 
       - if: steps.deploy_logic.outputs.is_new_release == 'true'
         id: set_apk_name

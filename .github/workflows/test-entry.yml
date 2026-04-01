@@ -1,8 +1,0 @@
-name: Test Entry
-
-on:
-  push:
-
-jobs:
-  call-inner:
-    uses: ./.github/workflows/test-folder/test.yml
