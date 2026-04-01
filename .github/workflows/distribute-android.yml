@@ -51,13 +51,6 @@ jobs:
 
       - uses: actions/cache@v4
         with:
-          path: .github/scripts/automation_tool/lib/**/*.g.dart
-          key: ${{ runner.os }}-generated-${{ hashFiles('**/*.dart') }}
-          restore-keys: |
-            ${{ runner.os }}-generated-
-
-      - uses: actions/cache@v4
-        with:
           path: |
             build/app
             build/flutter_assets
@@ -67,7 +60,7 @@ jobs:
 
       - working-directory: .github/scripts/automation_tool
         run: |
-          rm -f lib/**/*.freezed.dart lib/**/*.g.dart
+          rm -rf lib/**/*.freezed.dart lib/**/*.g.dart
           dart pub get
           dart run build_runner build --delete-conflicting-outputs
 
