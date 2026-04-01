@@ -71,19 +71,27 @@ jobs:
           (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
           Write-Host "✅ App ID Switched to: $TARGET_ID" -ForegroundColor Green
 
-          Write-Host "🚀 Attempting Shorebird PATCH for version $version..." -ForegroundColor Cyan
-          shorebird patch windows --release-version=$version --dart-define=ENV=$flavor --verbose
+          # Check if release exists
+          Write-Host "� Checking if release $version exists..." -ForegroundColor Cyan
+          $releasesResponse = Invoke-RestMethod -Uri "https://api.shorebird.dev/api/v1/apps/$TARGET_ID/releases" -Method GET
+          $releaseExists = $releasesResponse.releases | Where-Object { $_.version -eq $version -and $_.platform_statuses.windows }
 
-          if ($LASTEXITCODE -ne 0) {
-            Write-Host "⚠️ Patch failed. Creating new RELEASE..." -ForegroundColor Yellow
+          if ($releaseExists) {
+            Write-Host "✅ Release $version already exists. Creating PATCH..." -ForegroundColor Green
+            shorebird patch windows --release-version=$version --dart-define=ENV=$flavor --verbose --force
+            
+            if ($LASTEXITCODE -ne 0) {
+              Write-Host "❌ Patch failed even with --force" -ForegroundColor Red
+              exit 1
+            }
+            echo "version_changed=false" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Host "🚀 Release $version does not exist. Creating new RELEASE..." -ForegroundColor Cyan
             shorebird release windows --dart-define=ENV=$flavor --verbose
             
             if ($LASTEXITCODE -ne 0) {
-              Write-Host "❌ Failed to Patch or Release." -ForegroundColor Red
+              Write-Host "❌ Release failed" -ForegroundColor Red
               exit 1
             }
             echo "version_changed=true" >> $env:GITHUB_OUTPUT
-          } else {
-            Write-Host "✅ Patch succeeded" -ForegroundColor Green
-            echo "version_changed=false" >> $env:GITHUB_OUTPUT
           }

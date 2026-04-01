@@ -22,6 +22,7 @@ jobs:
     github_release:
         needs: [deploy_shorebird, build_installer]
         uses: ./.github/workflows/github_release.yml
+        secrets: inherit
         with:
             flavor: ${{ github.ref_name }}
             full_version: ${{ needs.deploy_shorebird.outputs.full_version }}
