@@ -2,7 +2,7 @@ name: Build Installer
 
 on:
   workflow_call:
-    inputs:0
+    inputs:
       flavor:
         type: string
         required: true
