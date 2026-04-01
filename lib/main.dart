@@ -18,9 +18,7 @@ import 'package:path_provider/path_provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows) {
-    if (Platform.isWindows) {
-      await setupAutoUpdater();
-    }
+    await setupAutoUpdater();
     await autoUpdater.setScheduledCheckInterval(3600);
   }
   await initLogging();
