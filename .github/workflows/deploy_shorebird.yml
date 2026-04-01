@@ -76,7 +76,7 @@ jobs:
           Write-Host "📱 Processing ANDROID..." -ForegroundColor Cyan
           Write-Host "🚀 Trying PATCH for Android..." -ForegroundColor Cyan
 
-          shorebird patch android --release-version=$version --dart-define=ENV=$flavor --verbose --force 2>&1 | Tee-Object -Variable patchOutput
+          shorebird patch android --release-version=$version --dart-define=ENV=$flavor --verbose 2>&1 | Tee-Object -Variable patchOutput
           $patchExitCode = $LASTEXITCODE
 
           if ($patchExitCode -ne 0) {
@@ -101,7 +101,7 @@ jobs:
           Write-Host "🖥️ Processing WINDOWS..." -ForegroundColor Cyan
           Write-Host "🚀 Trying PATCH for Windows..." -ForegroundColor Cyan
 
-          shorebird patch windows --release-version=$version --dart-define=ENV=$flavor --verbose --force 2>&1 | Tee-Object -Variable patchOutput
+          shorebird patch windows --release-version=$version --dart-define=ENV=$flavor --verbose 2>&1 | Tee-Object -Variable patchOutput
           $patchExitCode = $LASTEXITCODE
 
           if ($patchExitCode -ne 0) {
