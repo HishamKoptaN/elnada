@@ -73,7 +73,7 @@ jobs:
           Write-Host "🔍 Checking releases for version $version..." -ForegroundColor Cyan
           $headers = @{
             "Authorization" = "Bearer $env:SHOREBIRD_TOKEN"
-            "x-version" = "1.0"
+            "x-version" = "1.0.0"
           }
           $releasesResponse = Invoke-RestMethod -Uri "https://api.shorebird.dev/api/v1/apps/$TARGET_ID/releases" -Headers $headers -Method GET
           $release = $releasesResponse.releases | Where-Object { $_.version -eq $version } | Select-Object -First 1
