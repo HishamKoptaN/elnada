@@ -93,7 +93,7 @@ jobs:
           }
 
           # 🔁 Refresh release data after Android step
-          $releasesResponse = Invoke-RestMethod -Uri "https://api.shorebird.dev/api/v1/apps/$TARGET_ID/releases" -Method GET
+          $releasesResponse = Invoke-RestMethod -Uri "https://api.shorebird.dev/api/v1/apps/$TARGET_ID/releases" -Headers $headers -Method GET
           $release = $releasesResponse.releases | Where-Object { $_.version -eq $version } | Select-Object -First 1
 
           # ---------------- WINDOWS ----------------
