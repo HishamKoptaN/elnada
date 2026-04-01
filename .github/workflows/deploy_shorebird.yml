@@ -81,7 +81,7 @@ jobs:
 
           if ($patchExitCode -ne 0) {
             # Check if it's "no release" error or other error
-            if ($patchOutput -match "Could not find release" -or $patchOutput -match "does not exist") {
+            if ($patchOutput -match "Release not found" -or $patchOutput -match "No release exists") {
               Write-Host "🚀 Release not found, creating new RELEASE for Android..." -ForegroundColor Cyan
               shorebird release android --dart-define=ENV=$flavor --verbose
               if ($LASTEXITCODE -ne 0) {
@@ -105,7 +105,7 @@ jobs:
           $patchExitCode = $LASTEXITCODE
 
           if ($patchExitCode -ne 0) {
-            if ($patchOutput -match "Could not find release" -or $patchOutput -match "does not exist") {
+            if ($patchOutput -match "Release not found" -or $patchOutput -match "No release exists") {
               Write-Host "🚀 Release not found, creating new RELEASE for Windows..." -ForegroundColor Cyan
               shorebird release windows --dart-define=ENV=$flavor --verbose
               if ($LASTEXITCODE -ne 0) {
