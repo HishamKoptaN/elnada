@@ -1,7 +1,12 @@
 name: Distribute Android
 on:
-  push:
-    branches: [prod, prod]
+  workflow_call:
+    inputs:
+      flavor:
+        type: string
+        required: true
+  workflow_dispatch:
+
 jobs:
   deploy:
     runs-on: ubuntu-latest

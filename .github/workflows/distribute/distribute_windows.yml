@@ -1,7 +1,10 @@
 name: Distribute Windows
 on:
-  push:
-    branches: [prod, devt]
+  workflow_call:
+    inputs:
+      flavor:
+        type: string
+        required: true
   workflow_dispatch:
 
 jobs:
