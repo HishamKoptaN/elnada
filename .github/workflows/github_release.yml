@@ -30,7 +30,7 @@ jobs:
           name: installer
           path: ./Output
 
-      - name: Update appcast
+      - id: update_appcast
         shell: pwsh
         run: |
           $version = "${{ inputs.full_version }}"

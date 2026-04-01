@@ -39,8 +39,7 @@ jobs:
       - run: git config --system core.longpaths true
       - run: shorebird upgrade
 
-      - name: Extract version
-        id: version
+      - id: version
         shell: pwsh
         run: |
           $pubspec = Get-Content pubspec.yaml | Out-String
@@ -54,8 +53,7 @@ jobs:
             exit 1
           }
 
-      - name: Deploy to Shorebird
-        id: deploy
+      - id: deploy
         shell: pwsh
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
@@ -73,7 +71,7 @@ jobs:
 
           # Get releases
           $releasesResponse = Invoke-RestMethod -Uri "https://api.shorebird.dev/api/v1/apps/$TARGET_ID/releases" -Method GET
-          $release = $releasesResponse.releases | Where-Object { $_.version -eq $version }
+          $release = $releasesResponse.releases | Where-Object { $_.version -eq $version } | Select-Object -First 1
 
           $versionChanged = $false
 
@@ -93,6 +91,10 @@ jobs:
             Write-Host "❌ Android step failed" -ForegroundColor Red
             exit 1
           }
+
+          # 🔁 Refresh release data after Android step
+          $releasesResponse = Invoke-RestMethod -Uri "https://api.shorebird.dev/api/v1/apps/$TARGET_ID/releases" -Method GET
+          $release = $releasesResponse.releases | Where-Object { $_.version -eq $version } | Select-Object -First 1
 
           # ---------------- WINDOWS ----------------
           Write-Host "🖥️ Processing WINDOWS..." -ForegroundColor Cyan
