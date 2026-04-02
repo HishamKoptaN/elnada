@@ -50,13 +50,13 @@ jobs:
           Write-Host "✅ App ID: $TARGET_ID" -ForegroundColor Green
           Write-Host "🖥️ Windows version: $version" -ForegroundColor Cyan
           $versionChanged = $false
-          shorebird patch windows --release-version=$version --dart-define=ENV=$flavor -- --no-tree-shake-icons 2>&1 | Tee-Object -Variable patchOutput
+          shorebird patch windows --release-version=$version --dart-define=ENV=$flavor '--' --no-tree-shake-icons 2>&1 | Tee-Object -Variable patchOutput
           $patchExitCode = $LASTEXITCODE
 
           if ($patchExitCode -ne 0) {
             if ($patchOutput -match "Release not found|No release exists|UnpatchableChangeException|asset changes") {
               Write-Host "🚀 Attempting release (patch not possible)..." -ForegroundColor Cyan
-              shorebird release windows --dart-define=ENV=$flavor -- --no-tree-shake-icons 2>&1 | Tee-Object -Variable releaseOutput
+              shorebird release windows --dart-define=ENV=$flavor '--' --no-tree-shake-icons 2>&1 | Tee-Object -Variable releaseOutput
               $releaseExitCode = $LASTEXITCODE
               if ($releaseExitCode -ne 0) {
                 if ($releaseOutput -match "existing.*release|already exists") {
