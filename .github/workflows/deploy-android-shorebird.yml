@@ -96,3 +96,10 @@ jobs:
           fi
 
           echo "changed=$versionChanged" >> $GITHUB_OUTPUT
+
+      - if: steps.deploy.outputs.changed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk-${{ inputs.flavor }}
+          path: build/app/outputs/flutter-apk/*.apk
+          retention-days: 1

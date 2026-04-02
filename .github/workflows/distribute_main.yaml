@@ -38,10 +38,10 @@ jobs:
 
     distribute_android:
         needs: deploy_shorebird
+        if: needs.deploy_shorebird.outputs.version_changed == 'true'
         uses: ./.github/workflows/distribute-android.yml
         with:
             flavor: ${{ github.ref_name }}
         secrets:
             FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
             FIREBASE_ADMIN_SDK: ${{ secrets.FIREBASE_ADMIN_SDK }}
-            SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
