@@ -76,8 +76,8 @@ jobs:
           if shorebird patch android --flavor=$flavor --build-name="$baseVersion" --release-version="$androidReleaseVersion" --dart-define=ENV=$flavor -- --no-tree-shake-icons 2>&1 | tee /tmp/patch_output; then
             echo "✅ Android patch succeeded"
           else
-            if grep -q "Release not found\|No release exists" /tmp/patch_output; then
-              echo "🚀 Creating release..."
+            if grep -q "Release not found\|No release exists\|UnpatchableChangeException\|asset changes" /tmp/patch_output; then
+              echo "🚀 Creating release (patch not possible)..."
               shorebird release android --flavor=$flavor --build-name="$baseVersion" --dart-define=ENV=$flavor -- --no-tree-shake-icons || exit 1
               versionChanged=true
             else
