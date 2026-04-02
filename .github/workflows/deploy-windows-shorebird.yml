@@ -55,10 +55,20 @@ jobs:
 
           if ($patchExitCode -ne 0) {
             if ($patchOutput -match "Release not found|No release exists|UnpatchableChangeException|asset changes") {
-              Write-Host "🚀 Creating release (patch not possible)..." -ForegroundColor Cyan
-              shorebird release windows --dart-define=ENV=$flavor -- --no-tree-shake-icons
-              if ($LASTEXITCODE -ne 0) { exit 1 }
-              $versionChanged = $true
+              Write-Host "🚀 Attempting release (patch not possible)..." -ForegroundColor Cyan
+              shorebird release windows --dart-define=ENV=$flavor -- --no-tree-shake-icons 2>&1 | Tee-Object -Variable releaseOutput
+              $releaseExitCode = $LASTEXITCODE
+              if ($releaseExitCode -ne 0) {
+                if ($releaseOutput -match "existing.*release|already exists") {
+                  Write-Host "⚠️ Release already exists for this version, skipping..." -ForegroundColor Yellow
+                  $versionChanged = $false
+                } else {
+                  Write-Host "❌ Release failed" -ForegroundColor Red
+                  exit 1
+                }
+              } else {
+                $versionChanged = $true
+              }
             } else {
               Write-Host "❌ Windows failed" -ForegroundColor Red
               exit 1
