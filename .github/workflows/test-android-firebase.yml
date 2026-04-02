@@ -1,0 +1,37 @@
+name: Test Android Build + Firebase
+
+on:
+  workflow_dispatch:
+    inputs:
+      flavor:
+        description: "Flavor to build"
+        required: true
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - prod
+
+jobs:
+  version:
+    uses: ./.github/workflows/get-version.yml
+
+  build_shorebird:
+    needs: version
+    uses: ./.github/workflows/deploy-android-shorebird.yml
+    with:
+      flavor: ${{ inputs.flavor }}
+      full_version: ${{ needs.version.outputs.full_version }}
+      base_version: ${{ needs.version.outputs.base_version }}
+    secrets:
+      SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+
+  distribute_firebase:
+    needs: [version, build_shorebird]
+    if: needs.build_shorebird.outputs.changed == 'true'
+    uses: ./.github/workflows/distribute-android.yml
+    with:
+      flavor: ${{ inputs.flavor }}
+    secrets:
+      FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+      FIREBASE_ADMIN_SDK: ${{ secrets.FIREBASE_ADMIN_SDK }}
