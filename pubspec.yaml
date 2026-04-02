@@ -55,8 +55,6 @@ dependencies:
   blue_thermal_printer_plus: ^0.0.19
   bloc_concurrency: ^0.3.0
 dev_dependencies:
-  abujena_automation:
-    path: .github/scripts/automation_tool
   msix: ^3.16.13
   flutter_bluetooth_printer: ^2.20.0
   retrofit_generator: ^10.0.1
