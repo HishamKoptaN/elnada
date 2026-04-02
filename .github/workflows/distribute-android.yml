@@ -21,12 +21,25 @@ jobs:
           fetch-depth: 1
 
       - name: Download APK Artifact
+        id: download
         uses: actions/download-artifact@v4
         with:
           name: android-apk-${{ inputs.flavor }}
           path: build/app/outputs/flutter-apk/
+        continue-on-error: true
+
+      - name: Check if APK exists
+        id: check_apk
+        run: |
+          if [ -f "build/app/outputs/flutter-apk/app-${{ inputs.flavor }}-release.apk" ]; then
+            echo "found=true" >> $GITHUB_OUTPUT
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+            echo "⚠️ APK not found, skipping distribution"
+          fi
 
       - name: Set APK Name
+        if: steps.check_apk.outputs.found == 'true'
         id: apk_name
         run: |
           if [ "${{ inputs.flavor }}" = "prod" ]; then
@@ -36,6 +49,7 @@ jobs:
           fi
 
       - name: Upload to Artifact (Backup)
+        if: steps.check_apk.outputs.found == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.apk_name.outputs.name }}
@@ -43,6 +57,7 @@ jobs:
           retention-days: 30
 
       - name: Firebase Distribution
+        if: steps.check_apk.outputs.found == 'true'
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
@@ -51,6 +66,7 @@ jobs:
           file: build/app/outputs/flutter-apk/app-${{ inputs.flavor }}-release.apk
 
       - name: Set Release Tag
+        if: steps.check_apk.outputs.found == 'true'
         id: release_tag
         run: |
           if [ "${{ inputs.flavor }}" = "prod" ]; then
@@ -60,6 +76,7 @@ jobs:
           fi
 
       - name: GitHub Release
+        if: steps.check_apk.outputs.found == 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.release_tag.outputs.tag }}

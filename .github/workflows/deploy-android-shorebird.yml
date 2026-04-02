@@ -97,7 +97,8 @@ jobs:
 
           echo "changed=$versionChanged" >> $GITHUB_OUTPUT
 
-      - if: steps.deploy.outputs.changed == 'true'
+      - name: Upload APK Artifact
+        if: hashFiles('build/app/outputs/flutter-apk/*.apk') != ''
         uses: actions/upload-artifact@v4
         with:
           name: android-apk-${{ inputs.flavor }}
