@@ -17,13 +17,10 @@ jobs:
       base_version: ${{ needs.version.outputs.base_version }}
     secrets:
       SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-      FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
-      FIREBASE_ADMIN_SDK: ${{ secrets.FIREBASE_ADMIN_SDK }}
 
-  distribute_firebase:
-    needs: [version, build_shorebird]
-    if: needs.build_shorebird.outputs.changed == 'true'
-    uses: ./.github/workflows/distribute-android.yml
+  build_firebase_apk:
+    needs: version
+    uses: ./.github/workflows/build-firebase-apk.yml
     with:
       flavor: dev
     secrets:

@@ -18,10 +18,6 @@ on:
     secrets:
       SHOREBIRD_TOKEN:
         required: true
-      FIREBASE_APP_ID:
-        required: true
-      FIREBASE_ADMIN_SDK:
-        required: true
 
 jobs:
   deploy:
@@ -101,14 +97,6 @@ jobs:
 
           echo "changed=$versionChanged" >> $GITHUB_OUTPUT
 
-      - name: Build APK with Shorebird for Firebase
-        if: steps.deploy.outputs.changed == 'true'
-        run: |
-          echo "🔨 Building APK with Shorebird..."
-          shorebird build apk --flavor=${{ inputs.flavor }} --dart-define=ENV=${{ inputs.flavor }} '--' --no-tree-shake-icons
-          echo "✅ APK built successfully with Shorebird"
-          ls -la build/app/outputs/flutter-apk/
-
       - name: Upload AAB Artifact
         if: hashFiles('build/app/outputs/bundle/*/*.aab') != ''
         uses: actions/upload-artifact@v4
@@ -116,39 +104,3 @@ jobs:
           name: android-aab-${{ inputs.flavor }}
           path: build/app/outputs/bundle/*/*.aab
           retention-days: 1
-
-      - name: Upload APK Artifact
-        if: hashFiles('build/app/outputs/flutter-apk/*.apk') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: android-apk-${{ inputs.flavor }}
-          path: build/app/outputs/flutter-apk/*.apk
-          retention-days: 1
-
-      - name: Find APK file for Firebase
-        if: steps.deploy.outputs.changed == 'true'
-        id: find_apk
-        run: |
-          echo "🔍 Looking for APK files..."
-          find build/app/outputs -name "*.apk" -type f 2>/dev/null | head -5
-          ls -la build/app/outputs/flutter-apk/ 2>/dev/null || echo "Directory not found"
-
-          APK_PATH=$(find build/app/outputs/flutter-apk -name "*.apk" -type f 2>/dev/null | head -1)
-          if [ -z "$APK_PATH" ]; then
-            echo "❌ No APK file found"
-            exit 1
-          fi
-          echo "found=true" >> $GITHUB_OUTPUT
-          echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
-          echo "✅ Found APK: $APK_PATH"
-
-      - name: Firebase Distribution
-        if: steps.deploy.outputs.changed == 'true' && steps.find_apk.outputs.found == 'true'
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
-        with:
-          appId: ${{ secrets.FIREBASE_APP_ID }}
-          serviceCredentialsFileContent: ${{ secrets.FIREBASE_ADMIN_SDK }}
-          groups: "internal-testers"
-          file: ${{ steps.find_apk.outputs.apk_path }}
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_ADMIN_SDK }}
