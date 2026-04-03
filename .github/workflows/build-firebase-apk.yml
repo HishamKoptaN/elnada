@@ -17,14 +17,12 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.flavor }}
     steps:
-      - name: Download APK Artifact
-        uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4
         with:
           name: android-apk-${{ inputs.flavor }}
           path: build/app/outputs/flutter-apk/
 
-      - name: Find APK file
-        id: find_apk
+      - id: find_apk
         run: |
           echo "🔍 Looking for APK files..."
           ls -la build/app/outputs/flutter-apk/
@@ -37,8 +35,7 @@ jobs:
           echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
           echo "✅ Found APK: $APK_PATH"
 
-      - name: Firebase Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
+      - uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_ADMIN_SDK }}
