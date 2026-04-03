@@ -71,7 +71,7 @@ jobs:
 
       - if: steps.deploy.outputs.changed == 'true' || inputs.flavor == 'dev'
         run: |
-          shorebird build windows '--' --dart-define=ENV=${{ inputs.flavor }} --no-tree-shake-icons
+          flutter build windows --release --dart-define=ENV=${{ inputs.flavor }}
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 
