@@ -42,20 +42,16 @@ jobs:
           $flavor = "${{ inputs.flavor }}"
           $TARGET_ID = if ($flavor -eq "prod") { "ed427ccb-5edb-4594-a376-2ee9636bef4e" } else { "e962126d-ee7a-48f2-b89d-fb0349f4a05f" }
           (Get-Content shorebird.yaml) -replace '^app_id:.*', "app_id: $TARGET_ID" | Set-Content shorebird.yaml
-          Write-Host "✅ App ID: $TARGET_ID" -ForegroundColor Green
-          Write-Host "🖥️ Windows version: $version" -ForegroundColor Cyan
           $versionChanged = $false
           shorebird patch windows --release-version=$version --dart-define=ENV=$flavor '--' --no-tree-shake-icons 2>&1 | Tee-Object -Variable patchOutput
           $patchExitCode = $LASTEXITCODE
 
           if ($patchExitCode -ne 0) {
             if ($patchOutput -match "Release not found|No release exists|UnpatchableChangeException|asset changes") {
-              Write-Host "🚀 Attempting release (patch not possible)..." -ForegroundColor Cyan
               shorebird release windows --dart-define=ENV=$flavor '--' --no-tree-shake-icons 2>&1 | Tee-Object -Variable releaseOutput
               $releaseExitCode = $LASTEXITCODE
               if ($releaseExitCode -ne 0) {
                 if ($releaseOutput -match "existing.*release|already exists") {
-                  Write-Host "⚠️ Release already exists for this version, skipping..." -ForegroundColor Yellow
                   $versionChanged = $false
                 } else {
                   Write-Host "❌ Release failed" -ForegroundColor Red
@@ -75,9 +71,7 @@ jobs:
 
       - if: steps.deploy.outputs.changed == 'true' || inputs.flavor == 'dev'
         run: |
-          echo "🔨 Building Windows executable with Shorebird..."
-          shorebird build windows --dart-define=ENV=${{ inputs.flavor }} '--' --no-tree-shake-icons
-          echo "✅ Windows executable built successfully"
+          shorebird build windows '--' --dart-define=ENV=${{ inputs.flavor }} --no-tree-shake-icons
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 
