@@ -1,4 +1,4 @@
-name: Build APK & Firebase Distribution
+name: Distribute APK to Firebase
 
 on:
   workflow_call:
@@ -13,69 +13,34 @@ on:
         required: true
 
 jobs:
-  build_and_distribute:
+  distribute:
     runs-on: ubuntu-latest
     environment: ${{ inputs.flavor }}
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-
-      - uses: shorebirdtech/setup-shorebird@v1
-        with:
-          cache: true
-
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: true
-
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Build APK with Shorebird
-        run: |
-          echo "🔨 Building APK with Shorebird..."
-          shorebird build apk --flavor=${{ inputs.flavor }} --dart-define=ENV=${{ inputs.flavor }} '--' --no-tree-shake-icons
-          echo "✅ APK built successfully"
-          ls -la build/app/outputs/flutter-apk/
-
-      - name: Upload APK Artifact
-        uses: actions/upload-artifact@v4
+      - name: Download APK Artifact
+        uses: actions/download-artifact@v4
         with:
           name: android-apk-${{ inputs.flavor }}
-          path: build/app/outputs/flutter-apk/*.apk
-          retention-days: 1
+          path: build/app/outputs/flutter-apk/
 
       - name: Find APK file
         id: find_apk
         run: |
           echo "🔍 Looking for APK files..."
-          find build/app/outputs -name "*.apk" -type f 2>/dev/null | head -5
-          ls -la build/app/outputs/flutter-apk/ 2>/dev/null || echo "Directory not found"
-          
+          ls -la build/app/outputs/flutter-apk/
+
           APK_PATH=$(find build/app/outputs/flutter-apk -name "*.apk" -type f 2>/dev/null | head -1)
           if [ -z "$APK_PATH" ]; then
             echo "❌ No APK file found"
             exit 1
           fi
-          echo "found=true" >> $GITHUB_OUTPUT
           echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
           echo "✅ Found APK: $APK_PATH"
 
       - name: Firebase Distribution
-        if: steps.find_apk.outputs.found == 'true'
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_ADMIN_SDK }}
           groups: "internal-testers"
           file: ${{ steps.find_apk.outputs.apk_path }}
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_ADMIN_SDK }}

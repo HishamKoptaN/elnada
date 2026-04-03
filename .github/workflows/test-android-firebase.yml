@@ -1,13 +1,10 @@
 name: Test Android Build + Firebase
-
 on:
   push:
     branches: [dev]
-
 jobs:
   version:
     uses: ./.github/workflows/get-version.yml
-
   build_shorebird:
     needs: version
     uses: ./.github/workflows/deploy-android-shorebird.yml
@@ -17,9 +14,9 @@ jobs:
       base_version: ${{ needs.version.outputs.base_version }}
     secrets:
       SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-
   build_firebase_apk:
-    needs: version
+    needs: build_shorebird
+    if: needs.build_shorebird.outputs.changed == 'true'
     uses: ./.github/workflows/build-firebase-apk.yml
     with:
       flavor: dev
