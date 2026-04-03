@@ -1,0 +1,15 @@
+name: Test Windows Shorebird Build
+on:
+  push:
+    branches: [dev]
+jobs:
+  version:
+    uses: ./.github/workflows/get-version.yml
+  build_shorebird:
+    needs: version
+    uses: ./.github/workflows/deploy-windows-shorebird.yml
+    with:
+      flavor: dev
+      full_version: ${{ needs.version.outputs.full_version }}
+    secrets:
+      SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}

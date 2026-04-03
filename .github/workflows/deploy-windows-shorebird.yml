@@ -72,3 +72,29 @@ jobs:
             Write-Host "✅ Windows patch succeeded" -ForegroundColor Green
           }
           echo "changed=$versionChanged" >> $env:GITHUB_OUTPUT
+
+      - if: steps.deploy.outputs.changed == 'true' || inputs.flavor == 'dev'
+        run: |
+          echo "🔨 Building Windows executable with Shorebird..."
+          shorebird build windows --dart-define=ENV=${{ inputs.flavor }} '--' --no-tree-shake-icons
+          echo "✅ Windows executable built successfully"
+        env:
+          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+
+      - if: steps.deploy.outputs.changed == 'true' || inputs.flavor == 'dev'
+        id: find_build
+        run: |
+          $outputPath = "build\windows\x64\runner\Release"
+          if (Test-Path $outputPath) {
+            echo "path=$outputPath" >> $env:GITHUB_OUTPUT
+          } else {
+            echo "path=build\windows\runner\Release" >> $env:GITHUB_OUTPUT
+          }
+        shell: pwsh
+
+      - if: steps.deploy.outputs.changed == 'true' || inputs.flavor == 'dev'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-desktop-${{ inputs.flavor }}
+          path: ${{ steps.find_build.outputs.path }}
+          retention-days: 5
