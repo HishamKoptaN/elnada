@@ -17,6 +17,8 @@ jobs:
       base_version: ${{ needs.version.outputs.base_version }}
     secrets:
       SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+      FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+      FIREBASE_ADMIN_SDK: ${{ secrets.FIREBASE_ADMIN_SDK }}
 
   distribute_firebase:
     needs: [version, build_shorebird]

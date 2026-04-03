@@ -18,6 +18,10 @@ on:
     secrets:
       SHOREBIRD_TOKEN:
         required: true
+      FIREBASE_APP_ID:
+        required: true
+      FIREBASE_ADMIN_SDK:
+        required: true
 
 jobs:
   deploy:
@@ -104,3 +108,14 @@ jobs:
           name: android-apk-${{ inputs.flavor }}
           path: build/app/outputs/flutter-apk/*.apk
           retention-days: 1
+
+      - name: Firebase Distribution
+        if: steps.deploy.outputs.changed == 'true'
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_ADMIN_SDK }}
+          groups: "internal-testers"
+          file: build/app/outputs/flutter-apk/app-${{ inputs.flavor }}-release.apk
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_ADMIN_SDK }}
