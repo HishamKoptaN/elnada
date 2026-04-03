@@ -105,6 +105,8 @@ jobs:
           retention-days: 1
 
       - if: steps.deploy.outputs.changed == 'true' || inputs.flavor == 'dev'
+        env:
+          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
         run: |
           echo "🔨 Building APK with Shorebird release..."
           shorebird release android --flavor=${{ inputs.flavor }} --artifact=apk --dart-define=ENV=${{ inputs.flavor }} '--' --no-tree-shake-icons || true
