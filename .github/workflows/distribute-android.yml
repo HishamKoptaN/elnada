@@ -20,62 +20,62 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Download AAB Artifact
+      - name: Download APK Artifact
         id: download
         uses: actions/download-artifact@v4
         with:
-          name: android-aab-${{ inputs.flavor }}
-          path: build/app/outputs/bundle/
+          name: android-apk-${{ inputs.flavor }}
+          path: build/app/outputs/flutter-apk/
         continue-on-error: true
 
       - name: Debug - List downloaded files
         run: |
           echo "📁 Listing build outputs..."
-          find build/app/outputs -name "*.aab" -type f 2>/dev/null || echo "No AAB files found"
-          ls -la build/app/outputs/bundle/*/ 2>/dev/null || echo "No bundle directories found"
+          find build/app/outputs -name "*.apk" -type f 2>/dev/null || echo "No APK files found"
+          ls -la build/app/outputs/flutter-apk/ 2>/dev/null || echo "No flutter-apk directory found"
 
-      - name: Find AAB file
-        id: find_aab
+      - name: Find APK file
+        id: find_apk
         run: |
-          AAB_PATH=$(find build/app/outputs -name "*.aab" -type f 2>/dev/null | head -1)
-          if [ -n "$AAB_PATH" ]; then
+          APK_PATH=$(find build/app/outputs/flutter-apk -name "*.apk" -type f 2>/dev/null | head -1)
+          if [ -n "$APK_PATH" ]; then
             echo "found=true" >> $GITHUB_OUTPUT
-            echo "aab_path=$AAB_PATH" >> $GITHUB_OUTPUT
-            echo "✅ Found AAB: $AAB_PATH"
+            echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
+            echo "✅ Found APK: $APK_PATH"
           else
             echo "found=false" >> $GITHUB_OUTPUT
-            echo "⚠️ No AAB found"
+            echo "⚠️ No APK found"
           fi
 
-      - name: Set AAB Name
-        if: steps.find_aab.outputs.found == 'true'
+      - name: Set APK Name
+        if: steps.find_apk.outputs.found == 'true'
         id: apk_name
         run: |
           if [ "${{ inputs.flavor }}" = "prod" ]; then
-            echo "name=android-aab" >> $GITHUB_OUTPUT
+            echo "name=android-apk" >> $GITHUB_OUTPUT
           else
-            echo "name=android-aab_${{ inputs.flavor }}" >> $GITHUB_OUTPUT
+            echo "name=android-apk_${{ inputs.flavor }}" >> $GITHUB_OUTPUT
           fi
 
       - name: Upload to Artifact (Backup)
-        if: steps.find_aab.outputs.found == 'true'
+        if: steps.find_apk.outputs.found == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.apk_name.outputs.name }}
-          path: build/app/outputs/bundle/*/*.aab
+          path: build/app/outputs/flutter-apk/*.apk
           retention-days: 30
 
       - name: Firebase Distribution
-        if: steps.find_aab.outputs.found == 'true'
+        if: steps.find_apk.outputs.found == 'true'
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_ADMIN_SDK }}
           groups: "internal-testers"
-          file: ${{ steps.find_aab.outputs.aab_path }}
+          file: ${{ steps.find_apk.outputs.apk_path }}
 
       - name: Set Release Tag
-        if: steps.find_aab.outputs.found == 'true'
+        if: steps.find_apk.outputs.found == 'true'
         id: release_tag
         run: |
           if [ "${{ inputs.flavor }}" = "prod" ]; then
@@ -85,12 +85,12 @@ jobs:
           fi
 
       - name: GitHub Release
-        if: steps.find_aab.outputs.found == 'true'
+        if: steps.find_apk.outputs.found == 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.release_tag.outputs.tag }}
           name: ${{ inputs.flavor == 'prod' && 'Latest Release' || format('Latest {0}', inputs.flavor) }}
-          files: build/app/outputs/bundle/*/*.aab
+          files: build/app/outputs/flutter-apk/*.apk
           prerelease: ${{ inputs.flavor == 'dev' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
