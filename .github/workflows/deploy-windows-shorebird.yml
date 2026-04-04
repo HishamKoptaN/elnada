@@ -1,5 +1,4 @@
 name: Deploy Windows Shorebird
-
 on:
   workflow_call:
     inputs:
@@ -19,6 +18,8 @@ jobs:
   deploy:
     runs-on: windows-latest
     environment: ${{ inputs.flavor }}
+    permissions:
+      contents: write
     outputs:
       changed: ${{ steps.deploy.outputs.changed }}
     steps:
@@ -33,7 +34,6 @@ jobs:
           channel: stable
           cache: true
       - run: git config --system core.longpaths true
-
       - uses: actions/cache@v4
         with:
           path: build/windows
@@ -52,7 +52,6 @@ jobs:
           $versionChanged = $false
           shorebird patch windows --release-version=$version --dart-define=ENV=$flavor '--' --no-tree-shake-icons 2>&1 | Tee-Object -Variable patchOutput
           $patchExitCode = $LASTEXITCODE
-
           if ($patchExitCode -ne 0) {
             if ($patchOutput -match "Release not found|No release exists|UnpatchableChangeException|asset changes") {
               shorebird release windows --dart-define=ENV=$flavor '--' --no-tree-shake-icons 2>&1 | Tee-Object -Variable releaseOutput
@@ -75,7 +74,6 @@ jobs:
             Write-Host "✅ Windows patch succeeded" -ForegroundColor Green
           }
           echo "changed=$versionChanged" >> $env:GITHUB_OUTPUT
-
       - if: steps.deploy.outputs.changed == 'true' || inputs.flavor == 'dev'
         run: |
           flutter build windows --release --dart-define=ENV=${{ inputs.flavor }}
@@ -84,7 +82,6 @@ jobs:
         shell: pwsh
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-
       - if: steps.deploy.outputs.changed == 'true' || inputs.flavor == 'dev'
         id: find_build
         run: |
@@ -99,10 +96,20 @@ jobs:
           }
           Get-ChildItem $outputPath
         shell: pwsh
-
       - if: steps.deploy.outputs.changed == 'true' || inputs.flavor == 'dev'
         uses: actions/upload-artifact@v4
         with:
           name: windows-desktop-${{ inputs.flavor }}
           path: ${{ steps.find_build.outputs.path }}
           retention-days: 5
+
+      - if: steps.deploy.outputs.changed == 'true' || inputs.flavor == 'dev'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ inputs.full_version }}-${{ inputs.flavor }}
+          name: ${{ inputs.full_version }} (${{ inputs.flavor }})
+          files: build/windows/x64/runner/Release/*.exe
+          prerelease: ${{ inputs.flavor != 'prod' }}
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
