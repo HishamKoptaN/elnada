@@ -33,6 +33,13 @@ jobs:
           channel: stable
           cache: true
       - run: git config --system core.longpaths true
+
+      - uses: actions/cache@v4
+        with:
+          path: build/windows
+          key: ${{ runner.os }}-windows-build-${{ hashFiles('**/pubspec.yaml', '**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-windows-build-
       - id: deploy
         shell: pwsh
         env:
