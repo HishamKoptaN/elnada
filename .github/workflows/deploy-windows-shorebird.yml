@@ -73,7 +73,7 @@ jobs:
         run: |
           flutter build windows --release --dart-define=ENV=${{ inputs.flavor }}
           if ($LASTEXITCODE -ne 0) { exit 1 }
-          ls -la build/windows/x64/runner/Release/ 2>/dev/null || ls -la build/windows/runner/Release/
+          Get-ChildItem -Path "build/windows/x64/runner/Release/" -ErrorAction SilentlyContinue || Get-ChildItem -Path "build/windows/runner/Release/"
         shell: pwsh
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
