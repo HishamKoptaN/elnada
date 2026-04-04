@@ -2,25 +2,10 @@ name: CI/CD Pipeline (Powered by DevOps Core)
 
 on:
     push:
-        branches: [dev, main] # يعمل عند الدفع لفرع التطوير أو الإنتاج
-    workflow_dispatch: # يسمح لك بتشغيل السكريبت يدوياً للتجربة
+        branches: [dev, main]
+    workflow_dispatch:
 
 jobs:
-    # 1. استدعاء محرك الأندرويد (Shorebird + Firebase + Play Store)
-    android-task:
-        uses: HishamKoptaN/flutter-devops-core/.github/workflows/engine-android.yml@main
-        with:
-            # تحديد الـ flavor بناءً على اسم الفرع (dev أو prod)
-            flavor: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
-            # تحديد مسار التوزيع (Firebase لـ dev و Play Store لـ main)
-            distribution_target: ${{ github.ref_name == 'main' && 'playstore' || 'firebase' }}
-        secrets: inherit # يمرر SHOREBIRD_TOKEN و FIREBASE_APP_ID تلقائياً من Secrets المشروع
-
-    # 2. استدعاء محرك الويندوز (Shorebird Windows)
-    windows-task:
-        # يمكنك جعل الويندوز يعمل فقط عند الحاجة لتوفير وقت البناء
-        if: contains(github.event.head_commit.message, 'build-windows') || github.ref_name == 'main'
-        uses: HishamKoptaN/flutter-devops-core/.github/workflows/engine-windows.yml@main
-        with:
-            flavor: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
+    workflows:
+        uses: HishamKoptaN/flutter-devops-core/.github/workflows/main.yml@main
         secrets: inherit
