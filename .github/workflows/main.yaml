@@ -1,4 +1,4 @@
-name: CI/CD Pipeline (Powered by DevOps Core) #1
+name: CI/CD Pipeline (Powered by DevOps Core) #2
 
 on:
     push:
