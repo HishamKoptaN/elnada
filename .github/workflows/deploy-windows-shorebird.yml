@@ -90,7 +90,7 @@ jobs:
             echo "Using fallback path: $outputPath"
             echo "path=$outputPath" >> $env:GITHUB_OUTPUT
           }
-          ls -la $outputPath
+          Get-ChildItem $outputPath
         shell: pwsh
 
       - if: steps.deploy.outputs.changed == 'true' || inputs.flavor == 'dev'
