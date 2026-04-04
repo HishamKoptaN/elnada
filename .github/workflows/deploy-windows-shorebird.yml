@@ -72,6 +72,9 @@ jobs:
       - if: steps.deploy.outputs.changed == 'true' || inputs.flavor == 'dev'
         run: |
           flutter build windows --release --dart-define=ENV=${{ inputs.flavor }}
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+          ls -la build/windows/x64/runner/Release/ 2>/dev/null || ls -la build/windows/runner/Release/
+        shell: pwsh
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 
@@ -80,10 +83,14 @@ jobs:
         run: |
           $outputPath = "build\windows\x64\runner\Release"
           if (Test-Path $outputPath) {
+            echo "Found path: $outputPath"
             echo "path=$outputPath" >> $env:GITHUB_OUTPUT
           } else {
-            echo "path=build\windows\runner\Release" >> $env:GITHUB_OUTPUT
+            $outputPath = "build\windows\runner\Release"
+            echo "Using fallback path: $outputPath"
+            echo "path=$outputPath" >> $env:GITHUB_OUTPUT
           }
+          ls -la $outputPath
         shell: pwsh
 
       - if: steps.deploy.outputs.changed == 'true' || inputs.flavor == 'dev'
